@@ -1,11 +1,13 @@
 import React, { FC } from 'react';
 import { useId } from 'rdk';
 import useDimensions from 'react-cool-dimensions';
+import { usePanZoom } from 'utils/usePanZoom';
 
 export interface Node<T = any> {
   id: string;
   x?: number;
   y?: number;
+  disabled?: boolean;
   label?: any;
   parent?: Node;
   edges?: Edge[];
@@ -18,6 +20,7 @@ export interface Node<T = any> {
 
 export interface Edge<T = any> {
   id: string;
+  disabled?: boolean;
   label?: any;
   from?: Node | Port;
   to?: Node | Port;
@@ -29,6 +32,7 @@ export interface Edge<T = any> {
 
 export interface Port {
   id: string;
+  disabled?: boolean;
 }
 
 export interface EditorCanvasProps {
@@ -84,10 +88,12 @@ export const Canvas: FC<EditorCanvasProps> = ({
 }) => {
   const genId = useId(id);
   const { ref, width: svgWidth, height: svgHeight } = useDimensions<HTMLDivElement>();
+  const [svgRef] = usePanZoom();
 
   return (
     <div ref={ref} style={{ height, width }}>
       <svg
+        ref={svgRef}
         id={genId}
         className={className}
         height={svgHeight}
