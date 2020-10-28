@@ -24,14 +24,5 @@ jobs:
       - name: Build Storybook
         run: yarn build-storybook
 
-      - name: Publish Storybook to GH Pages
-        if: success()
-        uses: crazy-max/ghaction-github-pages@v2
-        with:
-          target_branch: gh-pages
-          build_dir: storybook-static
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
       - name: Publish Chromatic
         run: yarn chromatic
