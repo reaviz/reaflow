@@ -39,6 +39,8 @@
     "d3-shape": "^2.0.0",
     "elkjs": "^0.7.0",
     "ellipsize": "^0.1.0",
+    "rdk": "^4.1.4",
+    "react-cool-dimensions": "^1.1.10",
     "reakeys": "^1.0.1",
     "reaviz": "^9.3.2"
   },
