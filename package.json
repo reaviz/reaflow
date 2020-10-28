@@ -8,7 +8,7 @@
     "prettier": "prettier --loglevel warn --write 'src/**/*.{ts,tsx,js,jsx}'",
     "start": "start-storybook -p 9009 -s public",
     "build-storybook": "build-storybook -s public",
-    "chromatic": "npx chromatic --project-token 15klwb1zctw --auto-accept-changes"
+    "chromatic": "npx chromatic --project-token ugo6c655mvm --auto-accept-changes"
   },
   "source": "src/index.ts",
   "main": "dist/index.cjs.js",

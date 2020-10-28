@@ -24,7 +24,7 @@
 
 ## 🚀 Quick Links
 
-- Checkout the [demos](https://chromatic.com/library?appId=5f64a424915bb90022b5d92a&branch=master)
+- Checkout the [demos](https://chromatic.com/library?appId=5f99ba42fe88ac0022fd1147&branch=master)
 
 ## 📦 Usage
 Install the package via NPM:
