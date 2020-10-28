@@ -4,17 +4,27 @@ import useDimensions from 'react-cool-dimensions';
 
 export interface Node<T = any> {
   id: string;
+  x?: number;
+  y?: number;
+  label?: any;
   parent?: Node;
   edges?: Edge[];
   ports?: Port[];
   data?: T;
+  style?: any;
+  className?: string;
+  hidden?: boolean;
 }
 
 export interface Edge<T = any> {
   id: string;
+  label?: any;
   from?: Node | Port;
   to?: Node | Port;
   data?: T;
+  style?: any;
+  className?: string;
+  arrowHeadType?: any;
 }
 
 export interface Port {
@@ -22,25 +32,51 @@ export interface Port {
 }
 
 export interface EditorCanvasProps {
-  nodes: Node[];
-  edges: Edge[];
-  layout?: 'elk' | 'manual';
   id?: string;
   className?: string;
-  minZoom?: number;
-  maxZoom?: number;
-  zoomStep?: number;
   disabled?: boolean;
   height?: number;
   width?: number;
   maxHeight?: number;
   maxWidth?: number;
+
+  nodes: Node[];
+  edges: Edge[];
+  layout?: 'elk' | 'manual';
+
+  minZoom?: number;
+  maxZoom?: number;
+  zoomStep?: number;
+  zoomable?: boolean;
+  pannable?: boolean;
+
+  snapToGrid?: boolean;
+  snapGrid?: [number, number];
+
+  onCanvasClick?: () => void;
+  onCanvasZoom?: () => void;
+  onCanvasPan?: () => void;
+
+  onNodeDragStart?: (node: Node) => void;
+  onNodeDragStop?: (node: Node) => void;
+  onNodeEnter?: () => void;
+  onNodeLeave?: () => void;
+  onNodeRemove?: (edge: Edge) => void;
+  onNodeClick?: (node: Node) => void;
+
+  onEdgeDrag?: () => void;
+  onEdgeDragStop?: () => void;
+  onEdgeClick?: (edge: Edge) => void;
+  onEdgeConnect?: (edge: Edge) => void;
+  onEdgeRemove?: (edge: Edge) => void;
 }
 
 export const Canvas: FC<EditorCanvasProps> = ({
   id,
   className,
   layout = 'manual',
+  snapToGrid = true,
+  snapGrid = [15, 15],
   height = '100%',
   width = '100%',
   maxHeight = 2000,
