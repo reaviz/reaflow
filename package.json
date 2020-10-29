@@ -6,6 +6,8 @@
     "build": "rollup -c",
     "test": "jest --env=jsdom",
     "prettier": "prettier --loglevel warn --write 'src/**/*.{ts,tsx,js,jsx}'",
+    "lint": "eslint --ext js,ts,tsx",
+    "lint:fix": "eslint --ext js,ts,tsx --fix src",
     "start": "start-storybook -p 9009 -s public",
     "build-storybook": "build-storybook -s public",
     "chromatic": "npx chromatic --project-token ugo6c655mvm --auto-accept-changes"
@@ -45,7 +47,7 @@
     "rdk": "^4.1.4",
     "react-cool-dimensions": "^1.1.10",
     "reakeys": "^1.0.1",
-    "reaviz": "^9.3.2"
+    "reaviz": "^9.3.7"
   },
   "peerDependencies": {
     "framer-motion": "^2.1.2",
@@ -66,6 +68,9 @@
     "@babel/preset-react": "^7.10.4",
     "@babel/preset-typescript": "^7.10.4",
     "@babel/runtime": "^7.10.5",
+    "@storybook/addon-docs": "^6.0.27",
+    "@storybook/addon-knobs": "^6.0.27",
+    "@storybook/addon-storysource": "^6.0.27",
     "@storybook/addons": "^6.0.26",
     "@storybook/preset-scss": "^1.0.2",
     "@storybook/react": "^6.0.26",
@@ -86,6 +91,11 @@
     "node-sass": "^4.14.1",
     "prettier": "^2.0.5",
     "react": "^16.13.1",
+    "@typescript-eslint/eslint-plugin": "^4.6.0",
+    "@typescript-eslint/parser": "^4.6.0",
+    "eslint": "^7.12.0",
+    "eslint-config-prettier": "^6.14.0",
+    "eslint-plugin-react": "^7.21.5",
     "react-dom": "^16.13.1",
     "rollup": "^2.29.0",
     "rollup-plugin-commonjs": "10.1.0",
@@ -137,6 +147,9 @@
     ]
   },
   "lint-staged": {
+    "src/**/*.{js,jsx,ts,tsx}": [
+      "eslint --ext js,ts,tsx --fix"
+    ],
     "src/**/*.{js,jsx,ts,tsx,json,css,scss,md}": [
       "prettier --write",
       "git add"
