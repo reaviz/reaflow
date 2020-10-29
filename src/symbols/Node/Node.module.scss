@@ -1,0 +1,10 @@
+.container {
+  &:focus {
+    outline: none;
+  }
+}
+
+.rect {
+  fill: white;
+  border-radius: 25px;
+}

@@ -1,36 +1,37 @@
-import React, { FC } from 'react';
+import React, { FC, useEffect, useRef } from 'react';
 import { useId } from 'rdk';
-import useDimensions from 'react-cool-dimensions';
-import { usePanZoom } from 'utils/usePanZoom';
+import { Node } from './symbols/Node';
+import { Edge } from './symbols/Edge';
+import css from './Canvas.module.scss';
 
-export interface Node<T = any> {
+export interface NodeData<T = any> {
   id: string;
   x?: number;
   y?: number;
   disabled?: boolean;
   label?: any;
-  parent?: Node;
-  edges?: Edge[];
-  ports?: Port[];
+  parent?: NodeData;
+  edges?: EdgeData[];
+  ports?: PortData[];
   data?: T;
   style?: any;
   className?: string;
   hidden?: boolean;
 }
 
-export interface Edge<T = any> {
+export interface EdgeData<T = any> {
   id: string;
   disabled?: boolean;
   label?: any;
-  from?: Node | Port;
-  to?: Node | Port;
+  from?: NodeData | PortData;
+  to?: NodeData | PortData;
   data?: T;
   style?: any;
   className?: string;
   arrowHeadType?: any;
 }
 
-export interface Port {
+export interface PortData {
   id: string;
   disabled?: boolean;
 }
@@ -44,8 +45,8 @@ export interface EditorCanvasProps {
   maxHeight?: number;
   maxWidth?: number;
 
-  nodes: Node[];
-  edges: Edge[];
+  nodes: NodeData[];
+  edges: EdgeData[];
   layout?: 'elk' | 'manual';
 
   minZoom?: number;
@@ -61,18 +62,16 @@ export interface EditorCanvasProps {
   onCanvasZoom?: () => void;
   onCanvasPan?: () => void;
 
-  onNodeDragStart?: (node: Node) => void;
-  onNodeDragStop?: (node: Node) => void;
-  onNodeEnter?: () => void;
-  onNodeLeave?: () => void;
-  onNodeRemove?: (edge: Edge) => void;
-  onNodeClick?: (node: Node) => void;
+  onNodeDragStart?: (node: NodeData) => void;
+  onNodeDragStop?: (node: NodeData) => void;
+  onNodeEnter?: (node: NodeData) => void;
+  onNodeLeave?: (node: NodeData) => void;
+  onNodeRemove?: (edge: EdgeData) => void;
+  onNodeClick?: (node: NodeData) => void;
 
-  onEdgeDrag?: () => void;
-  onEdgeDragStop?: () => void;
-  onEdgeClick?: (edge: Edge) => void;
-  onEdgeConnect?: (edge: Edge) => void;
-  onEdgeRemove?: (edge: Edge) => void;
+  onEdgeClick?: (edge: EdgeData) => void;
+  onEdgeConnect?: (edge: EdgeData) => void;
+  onEdgeRemove?: (edge: EdgeData) => void;
 }
 
 export const Canvas: FC<EditorCanvasProps> = ({
@@ -84,25 +83,55 @@ export const Canvas: FC<EditorCanvasProps> = ({
   height = '100%',
   width = '100%',
   maxHeight = 2000,
-  maxWidth = 2000
+  maxWidth = 2000,
+  nodes,
+  edges
 }) => {
   const genId = useId(id);
-  const { ref, width: svgWidth, height: svgHeight } = useDimensions<HTMLDivElement>();
-  const [svgRef] = usePanZoom();
+  const containerRef = useRef<HTMLDivElement | null>(null);
+
+  // TODO: Subtract node/edge dims from this
+  const x = maxWidth / 2;
+  const y = maxHeight / 2;
+
+  useEffect(() => {
+    const scroller = containerRef.current;
+    if (scroller) {
+      scroller.scrollTo(
+        maxHeight / 2,
+        maxWidth / 2
+      );
+    }
+  }, [maxHeight, maxWidth, containerRef]);
 
   return (
-    <div ref={ref} style={{ height, width }}>
+    <div style={{ height, width }} className={css.container} ref={containerRef}>
       <svg
-        ref={svgRef}
         id={genId}
         className={className}
-        height={svgHeight}
-        width={svgWidth}
-        style={{ height: maxHeight, width: maxWidth }}
+        height={maxHeight}
+        width={maxWidth}
       >
-        {height > 0 && width > 0 && (
-          <g></g>
-        )}
+        <g transform={`translate(${x}, ${y})`}>
+          {nodes.map(n => (
+            <Node
+              key={n.id}
+              id={n.id}
+              x={n.x}
+              y={n.y}
+              height={50}
+              width={50}
+            />
+          ))}
+          {edges.map(n => (
+            <Edge
+              key={n.id}
+              id={n.id}
+              from={n.from}
+              to={n.to}
+            />
+          ))}
+        </g>
       </svg>
     </div>
   );

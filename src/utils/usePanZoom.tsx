@@ -18,10 +18,18 @@ export const usePanZoom = (props?: PanZoomProps) => {
   useEffect(() => {
     if (elmRef.current) {
       const cur = panzoom(elmRef.current, {
-        maxZoom: props?.maxZoom || 1,
+        maxZoom: props?.maxZoom || 5,
         minZoom: props?.minZoom || 1,
         enableTextSelection: false,
-        zoomDoubleClickSpeed: 1
+        zoomDoubleClickSpeed: 1,
+        bounds: true,
+        boundsPadding: 0.1,
+        beforeMouseDown: (e: any) => {
+          if (e.target.tagName === 'rect') {
+            return true;
+          }
+          return false;
+        }
       });
 
       setInstance(cur);

@@ -1,0 +1,7 @@
+.container {
+  overflow: auto;
+
+  &:focus {
+    outline: none;
+  }
+}
