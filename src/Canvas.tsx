@@ -107,6 +107,7 @@ export const Canvas: FC<EditorCanvasProps> = ({
   return (
     <div style={{ height, width }} className={css.container} ref={containerRef}>
       <svg
+        xmlns="http://www.w3.org/2000/svg"
         id={genId}
         className={className}
         height={maxHeight}
