@@ -1,4 +1,6 @@
-import ELK from 'elkjs/lib/elk.bundled.js';
+import { EdgeData, NodeData } from 'Canvas';
+import ELK, { ElkNode } from 'elkjs/lib/elk.bundled';
+import PCancelable from 'p-cancelable';
 
 const defaultLayoutOptions = {
   'elk.nodeLabels.placement': 'INSIDE V_CENTER H_RIGHT',
@@ -17,14 +19,104 @@ const defaultLayoutOptions = {
   'spacing.nodeNodeBetweenLayers': '70'
 };
 
-export const elkLayout = (layoutOptions = defaultLayoutOptions) => {
+function mapNode(node: NodeData, edges: EdgeData[], layoutOptions) {
+  const isVertical = layoutOptions['elk.direction'] === 'DOWN';
+  const SOURCE_PORT_DIRECTION = isVertical ? 'SOUTH' : 'EAST';
+  const TARGET_PORT_DIRECTION = isVertical ? 'NORTH' : 'WEST';
+
+  return {
+    id: node.id,
+    height: 65,
+    width: 165,
+    ports: [
+      {
+        id: `${node.id}_default`,
+        properties: {
+          width: 10,
+          height: 10,
+          'port.side': SOURCE_PORT_DIRECTION,
+          'port.alignment': 'CENTER',
+          index: 0,
+          type: 'default'
+        }
+      },
+      {
+        id: `${node.id}_target`,
+        properties: {
+          width: 10,
+          height: 10,
+          'port.side': TARGET_PORT_DIRECTION,
+          'port.alignment': 'CENTER'
+        }
+      }
+    ],
+    layoutOptions: {
+      'elk.padding': '[left=50, top=50, right=50, bottom=50]',
+      portConstraints: 'FIXED_ORDER'
+    },
+    properties: {
+      // ...node,
+      portConstraints: 'FIXED_ORDER'
+    },
+    labels: [
+      {
+        text: node.label
+      }
+    ]
+  };
+}
+
+function mapEdge({ id, from, to, ...rest }: EdgeData) {
+  return {
+    id,
+    source: from?.id,
+    target: to?.id,
+    properties: {
+      // ...rest
+    },
+    sourcePort: `${from?.id}_default`,
+    targetPort: `${to?.id}_target`
+  };
+}
+
+function mapInput(nodes: NodeData[], edges: EdgeData[], layoutOptions) {
+  const children = [];
+  for (const node of nodes) {
+    const map = mapNode(node, edges, layoutOptions);
+    if (map !== null) {
+      children.push(map);
+    }
+  }
+
+  const mappedEdges = [];
+  for (const edge of edges) {
+    const map = mapEdge(edge);
+    if (map !== null) {
+      mappedEdges.push(map);
+    }
+  }
+
+  return {
+    children,
+    edges: mappedEdges
+  };
+}
+
+export const elkLayout = (
+  nodes: NodeData[],
+  edges: EdgeData[],
+  layoutOptions = defaultLayoutOptions
+) => {
   const graph = new ELK();
 
-  graph.layout({
-    id: 'root'
-  }, {
-    layoutOptions
+  return new PCancelable<ElkNode>((resolve, reject) => {
+    graph.layout({
+      id: 'root',
+      ...mapInput(nodes, edges, layoutOptions)
+    }, {
+      layoutOptions
+    })
+      .then(result => resolve(result))
+      .catch(reject);
   });
-
-  console.log('here', graph);
 };

@@ -1,7 +1,8 @@
-import React, { FC, useEffect, useRef } from 'react';
+import React, { FC } from 'react';
 import { useId } from 'rdk';
-import { Node } from './symbols/Node';
-import { Edge } from './symbols/Edge';
+import { Node, NodeProps } from './symbols/Node';
+import { Edge, EdgeProps } from './symbols/Edge';
+import { useLayout } from './layout';
 import css from './Canvas.module.scss';
 
 export interface NodeData<T = any> {
@@ -77,7 +78,6 @@ export interface EditorCanvasProps {
 export const Canvas: FC<EditorCanvasProps> = ({
   id,
   className,
-  layout = 'manual',
   snapToGrid = true,
   snapGrid = [15, 15],
   height = '100%',
@@ -88,24 +88,15 @@ export const Canvas: FC<EditorCanvasProps> = ({
   edges
 }) => {
   const genId = useId(id);
-  const containerRef = useRef<HTMLDivElement | null>(null);
-
-  // TODO: Subtract node/edge dims from this
-  const x = maxWidth / 2;
-  const y = maxHeight / 2;
-
-  useEffect(() => {
-    const scroller = containerRef.current;
-    if (scroller) {
-      scroller.scrollTo(
-        maxHeight / 2,
-        maxWidth / 2
-      );
-    }
-  }, [maxHeight, maxWidth, containerRef]);
+  const { layout, x, y, ref } = useLayout({
+    nodes,
+    edges,
+    maxHeight,
+    maxWidth
+  });
 
   return (
-    <div style={{ height, width }} className={css.container} ref={containerRef}>
+    <div style={{ height, width }} className={css.container} ref={ref}>
       <div className={css.background} style={{ height: maxHeight, width: maxWidth }} />
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -115,22 +106,16 @@ export const Canvas: FC<EditorCanvasProps> = ({
         width={maxWidth}
       >
         <g transform={`translate(${x}, ${y})`}>
-          {nodes.map(n => (
+          {layout?.children?.map(n => (
             <Node
               key={n.id}
-              id={n.id}
-              x={n.x}
-              y={n.y}
-              height={50}
-              width={50}
+              {...n as NodeProps}
             />
           ))}
-          {edges.map(n => (
+          {layout?.edges?.map(e => (
             <Edge
-              key={n.id}
-              id={n.id}
-              from={n.from}
-              to={n.to}
+              key={e.id}
+              {...e as EdgeProps}
             />
           ))}
         </g>
