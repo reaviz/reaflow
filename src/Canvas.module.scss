@@ -1,5 +1,17 @@
 .container {
   overflow: auto;
+  position: relative;
+
+  .background {
+    content: " ";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: -webkit-repeating-radial-gradient(top center,rgba(0,0,0,.1),rgba(0,0,0,.1) 1px,transparent 0,transparent 100%);
+    background-size: 20px 20px;
+  }
 
   &:focus {
     outline: none;
