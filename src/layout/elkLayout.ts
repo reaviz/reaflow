@@ -68,11 +68,11 @@ function mapNode(node: NodeData, edges: EdgeData[], layoutOptions) {
 function mapEdge({ id, from, to, ...rest }: EdgeData) {
   return {
     id,
-    source: from?.id,
-    target: to?.id,
+    source: from,
+    target: to,
     properties: {},
-    sourcePort: `${from?.id}_default`,
-    targetPort: `${to?.id}_target`
+    sourcePort: `${from}_default`,
+    targetPort: `${to}_target`
   };
 }
 

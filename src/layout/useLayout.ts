@@ -5,6 +5,8 @@ import { ElkNode } from 'elkjs/lib/elk.bundled';
 export const useLayout = ({ nodes, edges, maxWidth, maxHeight }) => {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const [layout, setLayout] = useState<ElkNode | null>(null);
+  const [x, setX] = useState<number>(0);
+  const [y, setY] = useState<number>(0);
 
   useEffect(() => {
     const promise = elkLayout(nodes, edges);
@@ -19,19 +21,27 @@ export const useLayout = ({ nodes, edges, maxWidth, maxHeight }) => {
     return () => promise.cancel();
   }, [nodes, edges]);
 
-  // TODO: Subtract node/edge dims from this
-  const x = maxWidth / 2;
-  const y = maxHeight / 2;
-
   useLayoutEffect(() => {
     const scroller = containerRef.current;
     if (scroller && layout) {
+      const newX = (maxHeight - layout.height) / 2;
+      const newY = (maxWidth - layout.width) / 2;
       scroller.scrollTo(
-        (maxHeight - layout.height) / 2,
-        (maxWidth - layout.width) / 2
+        newY,
+        newX
       );
     }
   }, [maxHeight, maxWidth, layout, containerRef]);
+
+  useEffect(() => {
+    if (layout) {
+      const newX = (maxHeight - layout.height) / 2;
+      const newY = (maxWidth - layout.width) / 2;
+
+      setX(newX);
+      setY(newY);
+    }
+  }, [maxHeight, maxWidth, layout]);
 
   return {
     x,

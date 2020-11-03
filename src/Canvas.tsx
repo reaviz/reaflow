@@ -25,8 +25,8 @@ export interface EdgeData<T = any> {
   id: string;
   disabled?: boolean;
   label?: any;
-  from?: NodeData | PortData;
-  to?: NodeData | PortData;
+  from?: string;
+  to?: string;
   data?: T;
   style?: any;
   className?: string;
