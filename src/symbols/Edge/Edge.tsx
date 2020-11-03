@@ -53,6 +53,7 @@ export const Edge: FC<EdgeProps> = ({ sections }) => {
       <path
         className={css.path}
         d={d}
+        markerEnd="url(#end-arrow)"
       />
     </g>
   );

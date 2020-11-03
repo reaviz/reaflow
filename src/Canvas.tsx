@@ -3,6 +3,7 @@ import { useId } from 'rdk';
 import { Node, NodeProps } from './symbols/Node';
 import { Edge, EdgeProps } from './symbols/Edge';
 import { useLayout } from './layout';
+import { MarkerArrow } from './symbols/Arrow';
 import css from './Canvas.module.scss';
 
 export interface NodeData<T = any> {
@@ -105,6 +106,9 @@ export const Canvas: FC<EditorCanvasProps> = ({
         height={maxHeight}
         width={maxWidth}
       >
+        <defs>
+          <MarkerArrow />
+        </defs>
         <g transform={`translate(${x}, ${y})`}>
           {layout?.children?.map(n => (
             <Node
