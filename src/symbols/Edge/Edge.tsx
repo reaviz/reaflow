@@ -1,5 +1,5 @@
 import React, { FC, useMemo } from 'react';
-import { line, curveCardinal } from 'd3-shape';
+import { line, curveBundle } from 'd3-shape';
 import css from './Edge.module.scss';
 
 export interface EdgeProps {
@@ -18,7 +18,11 @@ export interface EdgeProps {
     startPoint: {
       x: number;
       y: number;
-    }
+    };
+    bendPoints?: {
+      x: number;
+      y: number;
+    }[];
   }[];
   onEnter?: () => void;
   onLeave?: () => void;
@@ -28,14 +32,20 @@ export interface EdgeProps {
 
 export const Edge: FC<EdgeProps> = ({ sections }) => {
   const d = useMemo(() => {
-    const lineGenerator = line().curve(curveCardinal);
+    const points: any[] = sections
+      ? [
+        sections[0].startPoint,
+        ...(sections[0].bendPoints || []),
+        sections[0].endPoint
+      ]
+      : [];
 
-    const points = [
-      [sections[0].startPoint.x, sections[0].startPoint.y],
-      [sections[0].endPoint.x, sections[0].endPoint.y]
-    ];
+    const pathFn = line()
+      .x((d: any) => d.x)
+      .y((d: any) => d.y)
+      .curve(curveBundle.beta(1));
 
-    return lineGenerator(points as any);
+    return pathFn(points);
   }, [sections]);
 
   return (

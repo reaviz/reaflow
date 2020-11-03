@@ -3,14 +3,13 @@ import { Canvas } from './Canvas';
 
 const nodes = [
   {
-    id: '1',
-    x: 50,
-    y: 50
+    id: '1'
   },
   {
-    id: '2',
-    x: 150,
-    y: 150
+    id: '2'
+  },
+  {
+    id: '3'
   }
 ];
 
@@ -23,6 +22,11 @@ export const Simple = () => (
           id: '1-2',
           from: nodes[0],
           to: nodes[1]
+        },
+        {
+          id: '1-3',
+          from: nodes[0],
+          to: nodes[2]
         }
       ]}
     />
