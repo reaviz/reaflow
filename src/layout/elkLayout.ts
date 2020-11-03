@@ -1,6 +1,7 @@
 import { EdgeData, NodeData } from 'Canvas';
 import ELK, { ElkNode } from 'elkjs/lib/elk.bundled';
 import PCancelable from 'p-cancelable';
+import calculateSize from 'calculate-size';
 
 const defaultLayoutOptions = {
   'elk.nodeLabels.placement': 'INSIDE V_CENTER H_RIGHT',
@@ -19,15 +20,31 @@ const defaultLayoutOptions = {
   'spacing.nodeNodeBetweenLayers': '70'
 };
 
-function mapNode(node: NodeData, edges: EdgeData[], layoutOptions) {
+function measureText(node: NodeData) {
+  const result = { height: 0, width: 0 };
+
+  if (node.text) {
+    const sizes = calculateSize(node.text, {
+      font: 'Arial, sans-serif',
+      fontSize: '14px'
+    });
+
+    // Adding height messes things up
+    result.width = sizes.width;
+  }
+
+  return result;
+}
+
+function mapNode(node: NodeData, layoutOptions) {
   const isVertical = layoutOptions['elk.direction'] === 'DOWN';
   const SOURCE_PORT_DIRECTION = isVertical ? 'SOUTH' : 'EAST';
   const TARGET_PORT_DIRECTION = isVertical ? 'NORTH' : 'WEST';
 
   return {
     id: node.id,
-    height: 65,
-    width: 165,
+    height: node.height || 50,
+    width: node.width || 150,
     ports: [
       {
         id: `${node.id}_default`,
@@ -55,13 +72,19 @@ function mapNode(node: NodeData, edges: EdgeData[], layoutOptions) {
       portConstraints: 'FIXED_ORDER'
     },
     properties: {
-      portConstraints: 'FIXED_ORDER'
+      ...node
     },
-    labels: [
-      {
-        text: node.label
-      }
-    ]
+    labels: node.text
+      ? [
+        {
+          ...measureText(node),
+          text: node.text,
+          layoutOptions: {
+            'elk.nodeLabels.placement': 'INSIDE V_CENTER H_CENTER'
+          }
+        }
+      ]
+      : []
   };
 }
 
@@ -70,7 +93,9 @@ function mapEdge({ id, from, to, ...rest }: EdgeData) {
     id,
     source: from,
     target: to,
-    properties: {},
+    properties: {
+      ...rest
+    },
     sourcePort: `${from}_default`,
     targetPort: `${to}_target`
   };
@@ -79,7 +104,7 @@ function mapEdge({ id, from, to, ...rest }: EdgeData) {
 function mapInput(nodes: NodeData[], edges: EdgeData[], layoutOptions) {
   const children = [];
   for (const node of nodes) {
-    const map = mapNode(node, edges, layoutOptions);
+    const map = mapNode(node, layoutOptions);
     if (map !== null) {
       children.push(map);
     }

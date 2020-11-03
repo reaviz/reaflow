@@ -11,7 +11,9 @@ export interface NodeData<T = any> {
   x?: number;
   y?: number;
   disabled?: boolean;
-  label?: any;
+  text?: any;
+  height?: number;
+  width?: number;
   parent?: NodeData;
   edges?: EdgeData[];
   ports?: PortData[];
@@ -24,7 +26,7 @@ export interface NodeData<T = any> {
 export interface EdgeData<T = any> {
   id: string;
   disabled?: boolean;
-  label?: any;
+  text?: any;
   from?: string;
   to?: string;
   data?: T;

@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 import classNames from 'classnames';
 import css from './Port.module.scss';
 
-export type ElkPortProps = {
+export interface ElkPortProperties {
   index: number;
   width: number;
   height: number;
@@ -11,12 +11,12 @@ export type ElkPortProps = {
   'port.alignment': string;
 };
 
-export type PortProps = {
+export interface PortProps {
   id: string;
   x: number;
   y: number;
-  properties?: ElkPortProps;
-};
+  properties: ElkPortProperties;
+}
 
 export const Port = forwardRef(
   ({ x, y, properties }: PortProps, ref: Ref<SVGRectElement>) => {

@@ -2,7 +2,7 @@ import React from 'react';
 import { Canvas } from './Canvas';
 
 export const Simple = () => (
-  <div style={{ border: 'solid 1px blue', height: 500, width: 500 }}>
+  <div style={{ border: 'solid 1px blue', height: 650, width: 650 }}>
     <Canvas
       nodes={[
         {
@@ -23,8 +23,32 @@ export const Simple = () => (
   </div>
 );
 
+export const Labels = () => (
+  <div style={{ border: 'solid 1px blue', height: 650, width: 650 }}>
+    <Canvas
+      nodes={[
+        {
+          id: '1',
+          text:'Node 1'
+        },
+        {
+          id: '2',
+          text:'Node 2'
+        }
+      ]}
+      edges={[
+        {
+          id: '1-2',
+          from: '1',
+          to: '2'
+        }
+      ]}
+    />
+  </div>
+);
+
 export const Joins = () => (
-  <div style={{ border: 'solid 1px blue', height: 500, width: 500 }}>
+  <div style={{ border: 'solid 1px blue', height: 650, width: 650 }}>
     <Canvas
       nodes={[
         {

@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 import { Arrow } from './Arrow';
 
-type MarkerArrowProps = {
+export interface MarkerArrowProps {
   size?: number;
 };
 

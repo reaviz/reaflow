@@ -1,6 +1,7 @@
 import React, { FC, useEffect } from 'react';
 import { motion, useAnimation } from 'framer-motion';
-import { Port } from '../Port';
+import { Port, PortProps } from '../Port';
+import { Label, LabelProps } from '../Label';
 import css from './Node.module.scss';
 
 export interface NodeProps {
@@ -10,14 +11,15 @@ export interface NodeProps {
   x: number;
   y: number;
   disabled?: boolean;
-  ports: any[];
+  ports?: PortProps[];
+  labels?: LabelProps[];
   onEnter?: () => void;
   onLeave?: () => void;
   onClick?: () => void;
   onKeyDown?: () => void;
 }
 
-export const Node: FC<NodeProps> = ({ x, y, ports, height, width }) => {
+export const Node: FC<NodeProps> = ({ x, y, ports, labels, height, width }) => {
   const controls = useAnimation();
 
   useEffect(() => {
@@ -32,7 +34,7 @@ export const Node: FC<NodeProps> = ({ x, y, ports, height, width }) => {
     <motion.g
       tabIndex={-1}
       className={css.container}
-      drag
+      drag={false}
       dragMomentum={false}
       whileTap={{ cursor: 'grabbing' }}
       initial={{
@@ -54,6 +56,8 @@ export const Node: FC<NodeProps> = ({ x, y, ports, height, width }) => {
           opacity: 1
         }}
       />
+      {labels?.length > 0 &&
+        labels.map((label, index) => <Label key={index} {...label} />)}
       {ports?.length > 0 &&
         ports.map((port) => <Port key={port.id} {...port} />)}
     </motion.g>

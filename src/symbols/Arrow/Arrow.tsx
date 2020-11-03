@@ -2,7 +2,7 @@ import React, { FC } from 'react';
 import classNames from 'classnames';
 import css from './Arrow.module.scss';
 
-type ArrowProps = {
+export interface ArrowProps {
   size?: number;
   x?: number;
   y?: number;
