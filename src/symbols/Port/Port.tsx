@@ -25,12 +25,9 @@ export const Port = forwardRef(
     const isSouth = properties['port.side'] === 'SOUTH';
 
     // Dont render north points
-    // if (isNorth || isEast) {
-    //  return null;
-    // }
-
-    // x = x - 5;
-    // y = y - 5;
+    if (isNorth || isEast) {
+      return null;
+    }
 
     return (
       <g>
@@ -50,6 +47,7 @@ export const Port = forwardRef(
             scale: 1,
             opacity: 1
           }}
+          whileHover={{ scale: 1.3 }}
         />
       </g>
     );
