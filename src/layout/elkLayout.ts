@@ -76,14 +76,14 @@ function mapNode(node: NodeData, layoutOptions) {
     },
     labels: node.text
       ? [
-        {
-          ...measureText(node),
-          text: node.text,
-          layoutOptions: {
-            'elk.nodeLabels.placement': 'INSIDE V_CENTER H_CENTER'
+          {
+            ...measureText(node),
+            text: node.text,
+            layoutOptions: {
+              'elk.nodeLabels.placement': 'INSIDE V_CENTER H_CENTER'
+            }
           }
-        }
-      ]
+        ]
       : []
   };
 }

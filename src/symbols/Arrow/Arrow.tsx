@@ -8,7 +8,7 @@ export interface ArrowProps {
   y?: number;
   angle?: number;
   className?: string;
-};
+}
 
 export const Arrow: FC<ArrowProps> = ({
   size = 8,

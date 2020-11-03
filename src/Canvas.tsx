@@ -85,7 +85,8 @@ export const Canvas: FC<EditorCanvasProps> = ({
   maxHeight = 2000,
   maxWidth = 2000,
   nodes,
-  edges
+  edges,
+  onNodeClick
 }) => {
   const genId = useId(id);
   const { layout, x, y, ref } = useLayout({
@@ -113,7 +114,7 @@ export const Canvas: FC<EditorCanvasProps> = ({
         </defs>
         <g transform={`translate(${x}, ${y})`}>
           {layout?.children?.map((n) => (
-            <Node key={n.id} {...(n as NodeProps)} />
+            <Node key={n.id} {...(n as NodeProps)} onClick={onNodeClick} />
           ))}
           {layout?.edges?.map((e) => (
             <Edge key={e.id} {...(e as EdgeProps)} />

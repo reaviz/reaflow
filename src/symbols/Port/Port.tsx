@@ -9,7 +9,7 @@ export interface ElkPortProperties {
   height: number;
   'port.side': string;
   'port.alignment': string;
-};
+}
 
 export interface PortProps {
   id: string;

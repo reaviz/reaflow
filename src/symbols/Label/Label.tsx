@@ -9,11 +9,7 @@ export interface LabelProps {
   text: string;
 }
 
-export const Label: FC<LabelProps> = ({
-  text,
-  x,
-  y
-}) => {
+export const Label: FC<LabelProps> = ({ text, x, y }) => {
   return (
     <g transform={`translate(${x}, ${y})`}>
       <text className={css.text}>{text}</text>

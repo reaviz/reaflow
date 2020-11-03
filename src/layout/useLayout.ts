@@ -2,12 +2,12 @@ import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { elkLayout } from './elkLayout';
 
 export interface ElkRoot {
-  x?: number
-  y?: number
-  width?: number
-  height?: number
-  children?: any[]
-  edges?: any[]
+  x?: number;
+  y?: number;
+  width?: number;
+  height?: number;
+  children?: any[];
+  edges?: any[];
 }
 
 export const useLayout = ({ nodes, edges, maxWidth, maxHeight }) => {
@@ -34,10 +34,7 @@ export const useLayout = ({ nodes, edges, maxWidth, maxHeight }) => {
     if (scroller && layout) {
       const newX = (maxHeight - layout.height) / 2;
       const newY = (maxWidth - layout.width) / 2;
-      scroller.scrollTo(
-        newY,
-        newX
-      );
+      scroller.scrollTo(newY, newX);
     }
   }, [maxHeight, maxWidth, layout, containerRef]);
 

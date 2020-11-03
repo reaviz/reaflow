@@ -29,11 +29,11 @@ export const Labels = () => (
       nodes={[
         {
           id: '1',
-          text:'Node 1'
+          text: 'Node 1'
         },
         {
           id: '2',
-          text:'Node 2'
+          text: 'Node 2'
         }
       ]}
       edges={[
@@ -92,5 +92,6 @@ export const Joins = () => (
 
 export default {
   title: 'Canvas',
-  component: Canvas
+  component: Canvas,
+  parameters: { actions: { argTypesRegex: '^on.*' } }
 };

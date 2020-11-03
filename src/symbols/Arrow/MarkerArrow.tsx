@@ -3,7 +3,7 @@ import { Arrow } from './Arrow';
 
 export interface MarkerArrowProps {
   size?: number;
-};
+}
 
 export const MarkerArrow: FC<MarkerArrowProps> = ({ size = 8 }) => (
   <marker

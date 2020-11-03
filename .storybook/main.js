@@ -9,7 +9,7 @@ module.exports = {
         }
       }
     },
-    '@storybook/addon-knobs',
+    '@storybook/addon-essentials',
     '@storybook/addon-docs/preset',
     '@storybook/addon-storysource'
   ]

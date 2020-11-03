@@ -2,6 +2,7 @@ import React, { FC, useEffect } from 'react';
 import { motion, useAnimation } from 'framer-motion';
 import { Port, PortProps } from '../Port';
 import { Label, LabelProps } from '../Label';
+import { NodeData } from '../../Canvas';
 import css from './Node.module.scss';
 
 export interface NodeProps {
@@ -13,13 +14,23 @@ export interface NodeProps {
   disabled?: boolean;
   ports?: PortProps[];
   labels?: LabelProps[];
+  properties: any;
   onEnter?: () => void;
   onLeave?: () => void;
-  onClick?: () => void;
+  onClick?: (data: NodeData) => void;
   onKeyDown?: () => void;
 }
 
-export const Node: FC<NodeProps> = ({ x, y, ports, labels, height, width }) => {
+export const Node: FC<NodeProps> = ({
+  x,
+  y,
+  ports,
+  labels,
+  height,
+  width,
+  properties,
+  onClick = () => undefined
+}) => {
   const controls = useAnimation();
 
   useEffect(() => {
@@ -44,6 +55,7 @@ export const Node: FC<NodeProps> = ({ x, y, ports, labels, height, width }) => {
         translateY: y
       }}
       animate={controls}
+      onClick={() => onClick(properties)}
     >
       <motion.rect
         className={css.rect}
