@@ -29,7 +29,7 @@ export const usePanZoom = (props?: PanZoomProps) => {
             return true;
           }
           return false;
-        }
+        },
       });
 
       setInstance(cur);

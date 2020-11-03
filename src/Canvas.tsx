@@ -79,26 +79,27 @@ export interface EditorCanvasProps {
 export const Canvas: FC<EditorCanvasProps> = ({
   id,
   className,
-  snapToGrid = true,
-  snapGrid = [15, 15],
   height = '100%',
   width = '100%',
   maxHeight = 2000,
   maxWidth = 2000,
   nodes,
-  edges
+  edges,
 }) => {
   const genId = useId(id);
   const { layout, x, y, ref } = useLayout({
     nodes,
     edges,
     maxHeight,
-    maxWidth
+    maxWidth,
   });
 
   return (
     <div style={{ height, width }} className={css.container} ref={ref}>
-      <div className={css.background} style={{ height: maxHeight, width: maxWidth }} />
+      <div
+        className={css.background}
+        style={{ height: maxHeight, width: maxWidth }}
+      />
       <svg
         xmlns="http://www.w3.org/2000/svg"
         id={genId}
@@ -110,17 +111,11 @@ export const Canvas: FC<EditorCanvasProps> = ({
           <MarkerArrow />
         </defs>
         <g transform={`translate(${x}, ${y})`}>
-          {layout?.children?.map(n => (
-            <Node
-              key={n.id}
-              {...n as NodeProps}
-            />
+          {layout?.children?.map((n) => (
+            <Node key={n.id} {...(n as NodeProps)} />
           ))}
-          {layout?.edges?.map(e => (
-            <Edge
-              key={e.id}
-              {...e as EdgeProps}
-            />
+          {layout?.edges?.map((e) => (
+            <Edge key={e.id} {...(e as EdgeProps)} />
           ))}
         </g>
       </svg>

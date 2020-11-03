@@ -2,12 +2,7 @@ import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { elkLayout } from './elkLayout';
 import { ElkNode } from 'elkjs/lib/elk.bundled';
 
-export const useLayout = ({
-  nodes,
-  edges,
-  maxWidth,
-  maxHeight
-}) => {
+export const useLayout = ({ nodes, edges, maxWidth, maxHeight }) => {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const [layout, setLayout] = useState<ElkNode | null>(null);
 
@@ -15,7 +10,7 @@ export const useLayout = ({
     const promise = elkLayout(nodes, edges);
 
     promise
-      .then(result => {
+      .then((result) => {
         console.log('layout', result);
         setLayout(result);
       })
@@ -42,6 +37,6 @@ export const useLayout = ({
     x,
     y,
     ref: containerRef,
-    layout
+    layout,
   };
 };

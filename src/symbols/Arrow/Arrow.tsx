@@ -15,7 +15,7 @@ export const Arrow: FC<ArrowProps> = ({
   y = 0,
   x = 0,
   angle = 0,
-  className
+  className,
 }) => (
   <path
     transform={`translate(${x}, ${y}) rotate(${angle})`}

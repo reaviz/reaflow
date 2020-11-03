@@ -15,19 +15,14 @@ export interface NodeProps {
   onKeyDown?: () => void;
 }
 
-export const Node: FC<NodeProps> = ({
-  x,
-  y,
-  height,
-  width
-}) => {
+export const Node: FC<NodeProps> = ({ x, y, height, width }) => {
   const controls = useAnimation();
 
   useEffect(() => {
     controls.set({
       opacity: 1,
       translateX: x,
-      translateY: y
+      translateY: y,
     });
   }, [controls, x, y]);
 
@@ -42,7 +37,7 @@ export const Node: FC<NodeProps> = ({
         cursor: 'initial',
         opacity: 0,
         translateX: x,
-        translateY: y
+        translateY: y,
       }}
       animate={controls}
     >
@@ -51,10 +46,10 @@ export const Node: FC<NodeProps> = ({
         height={height}
         width={width}
         initial={{
-          opacity: 0
+          opacity: 0,
         }}
         animate={{
-          opacity: 1
+          opacity: 1,
         }}
       />
     </motion.g>

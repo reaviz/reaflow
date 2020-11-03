@@ -34,10 +34,10 @@ export const Edge: FC<EdgeProps> = ({ sections }) => {
   const d = useMemo(() => {
     const points: any[] = sections
       ? [
-        sections[0].startPoint,
-        ...(sections[0].bendPoints || []),
-        sections[0].endPoint
-      ]
+          sections[0].startPoint,
+          ...(sections[0].bendPoints || []),
+          sections[0].endPoint,
+        ]
       : [];
 
     const pathFn = line()
@@ -50,11 +50,7 @@ export const Edge: FC<EdgeProps> = ({ sections }) => {
 
   return (
     <g>
-      <path
-        className={css.path}
-        d={d}
-        markerEnd="url(#end-arrow)"
-      />
+      <path className={css.path} d={d} markerEnd="url(#end-arrow)" />
     </g>
   );
 };

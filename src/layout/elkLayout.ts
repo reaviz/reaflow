@@ -16,7 +16,7 @@ const defaultLayoutOptions = {
   separateConnectedComponents: 'false',
   'spacing.componentComponent': '70',
   spacing: '75',
-  'spacing.nodeNodeBetweenLayers': '70'
+  'spacing.nodeNodeBetweenLayers': '70',
 };
 
 function mapNode(node: NodeData, edges: EdgeData[], layoutOptions) {
@@ -37,8 +37,8 @@ function mapNode(node: NodeData, edges: EdgeData[], layoutOptions) {
           'port.side': SOURCE_PORT_DIRECTION,
           'port.alignment': 'CENTER',
           index: 0,
-          type: 'default'
-        }
+          type: 'default',
+        },
       },
       {
         id: `${node.id}_target`,
@@ -46,23 +46,23 @@ function mapNode(node: NodeData, edges: EdgeData[], layoutOptions) {
           width: 10,
           height: 10,
           'port.side': TARGET_PORT_DIRECTION,
-          'port.alignment': 'CENTER'
-        }
-      }
+          'port.alignment': 'CENTER',
+        },
+      },
     ],
     layoutOptions: {
       'elk.padding': '[left=50, top=50, right=50, bottom=50]',
-      portConstraints: 'FIXED_ORDER'
+      portConstraints: 'FIXED_ORDER',
     },
     properties: {
       // ...node,
-      portConstraints: 'FIXED_ORDER'
+      portConstraints: 'FIXED_ORDER',
     },
     labels: [
       {
-        text: node.label
-      }
-    ]
+        text: node.label,
+      },
+    ],
   };
 }
 
@@ -75,7 +75,7 @@ function mapEdge({ id, from, to, ...rest }: EdgeData) {
       // ...rest
     },
     sourcePort: `${from?.id}_default`,
-    targetPort: `${to?.id}_target`
+    targetPort: `${to?.id}_target`,
   };
 }
 
@@ -98,7 +98,7 @@ function mapInput(nodes: NodeData[], edges: EdgeData[], layoutOptions) {
 
   return {
     children,
-    edges: mappedEdges
+    edges: mappedEdges,
   };
 }
 
@@ -110,13 +110,17 @@ export const elkLayout = (
   const graph = new ELK();
 
   return new PCancelable<ElkNode>((resolve, reject) => {
-    graph.layout({
-      id: 'root',
-      ...mapInput(nodes, edges, layoutOptions)
-    }, {
-      layoutOptions
-    })
-      .then(result => resolve(result))
+    graph
+      .layout(
+        {
+          id: 'root',
+          ...mapInput(nodes, edges, layoutOptions),
+        },
+        {
+          layoutOptions,
+        }
+      )
+      .then((result) => resolve(result))
       .catch(reject);
   });
 };
