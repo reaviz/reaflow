@@ -1,6 +1,7 @@
 # https://github.com/prettier/prettier#configuration-file
 semi: true
 singleQuote: true
+trailingComma: none
 overrides:
 - files: ".prettierrc"
   options:

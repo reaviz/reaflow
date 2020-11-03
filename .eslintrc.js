@@ -27,6 +27,7 @@ module.exports = {
       'error',
       2
     ],
+    'react/display-name': [0],
     'react/prop-types': [0],
     'linebreak-style': [
       'error',

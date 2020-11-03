@@ -1,5 +1,6 @@
 import React, { FC, useEffect } from 'react';
 import { motion, useAnimation } from 'framer-motion';
+import { Port } from '../Port';
 import css from './Node.module.scss';
 
 export interface NodeProps {
@@ -9,20 +10,21 @@ export interface NodeProps {
   x: number;
   y: number;
   disabled?: boolean;
+  ports: any[];
   onEnter?: () => void;
   onLeave?: () => void;
   onClick?: () => void;
   onKeyDown?: () => void;
 }
 
-export const Node: FC<NodeProps> = ({ x, y, height, width }) => {
+export const Node: FC<NodeProps> = ({ x, y, ports, height, width }) => {
   const controls = useAnimation();
 
   useEffect(() => {
     controls.set({
       opacity: 1,
       translateX: x,
-      translateY: y,
+      translateY: y
     });
   }, [controls, x, y]);
 
@@ -37,7 +39,7 @@ export const Node: FC<NodeProps> = ({ x, y, height, width }) => {
         cursor: 'initial',
         opacity: 0,
         translateX: x,
-        translateY: y,
+        translateY: y
       }}
       animate={controls}
     >
@@ -46,12 +48,14 @@ export const Node: FC<NodeProps> = ({ x, y, height, width }) => {
         height={height}
         width={width}
         initial={{
-          opacity: 0,
+          opacity: 0
         }}
         animate={{
-          opacity: 1,
+          opacity: 1
         }}
       />
+      {ports?.length > 0 &&
+        ports.map((port) => <Port key={port.id} {...port} />)}
     </motion.g>
   );
 };

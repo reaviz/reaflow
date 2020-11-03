@@ -84,14 +84,14 @@ export const Canvas: FC<EditorCanvasProps> = ({
   maxHeight = 2000,
   maxWidth = 2000,
   nodes,
-  edges,
+  edges
 }) => {
   const genId = useId(id);
   const { layout, x, y, ref } = useLayout({
     nodes,
     edges,
     maxHeight,
-    maxWidth,
+    maxWidth
   });
 
   return (

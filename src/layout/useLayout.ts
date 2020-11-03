@@ -37,6 +37,6 @@ export const useLayout = ({ nodes, edges, maxWidth, maxHeight }) => {
     x,
     y,
     ref: containerRef,
-    layout,
+    layout
   };
 };

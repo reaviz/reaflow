@@ -36,7 +36,7 @@ export const Edge: FC<EdgeProps> = ({ sections }) => {
       ? [
           sections[0].startPoint,
           ...(sections[0].bendPoints || []),
-          sections[0].endPoint,
+          sections[0].endPoint
         ]
       : [];
 
