@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Canvas } from './Canvas';
 
 export const Simple = () => (
@@ -89,6 +89,40 @@ export const Joins = () => (
     />
   </div>
 );
+
+export const Selections = () => {
+  const [selections, setSelections] = useState<any[]>([]);
+
+  return (
+    <div style={{ border: 'solid 1px blue', height: 650, width: 650 }}>
+      <Canvas
+        nodes={[
+          {
+            id: '1'
+          },
+          {
+            id: '2'
+          }
+        ]}
+        edges={[
+          {
+            id: '1-2',
+            from: '1',
+            to: '2'
+          }
+        ]}
+        onCanvasClick={(event) => {
+          console.log('Canvas Clicked', event);
+          setSelections([]);
+        }}
+        onNodeClick={(event, node) => {
+          console.log('Selecting Node', event, node);
+          setSelections([node]);
+        }}
+      />
+    </div>
+  );
+};
 
 export default {
   title: 'Canvas',

@@ -61,7 +61,7 @@ export interface EditorCanvasProps {
   snapToGrid?: boolean;
   snapGrid?: [number, number];
 
-  onCanvasClick?: () => void;
+  onCanvasClick?: (event: React.MouseEvent<SVGGElement, MouseEvent>) => void;
   onCanvasZoom?: () => void;
   onCanvasPan?: () => void;
 
@@ -70,7 +70,7 @@ export interface EditorCanvasProps {
   onNodeEnter?: (node: NodeData) => void;
   onNodeLeave?: (node: NodeData) => void;
   onNodeRemove?: (edge: EdgeData) => void;
-  onNodeClick?: (node: NodeData) => void;
+  onNodeClick?: (event: React.MouseEvent<SVGGElement, MouseEvent>, node: NodeData) => void;
 
   onEdgeClick?: (edge: EdgeData) => void;
   onEdgeConnect?: (edge: EdgeData) => void;
@@ -86,7 +86,8 @@ export const Canvas: FC<EditorCanvasProps> = ({
   maxWidth = 2000,
   nodes,
   edges,
-  onNodeClick
+  onNodeClick,
+  onCanvasClick = () => undefined
 }) => {
   const genId = useId(id);
   const { layout, x, y, ref } = useLayout({
@@ -108,6 +109,7 @@ export const Canvas: FC<EditorCanvasProps> = ({
         className={className}
         height={maxHeight}
         width={maxWidth}
+        onClick={onCanvasClick}
       >
         <defs>
           <MarkerArrow />

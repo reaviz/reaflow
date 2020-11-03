@@ -17,7 +17,7 @@ export interface NodeProps {
   properties: any;
   onEnter?: () => void;
   onLeave?: () => void;
-  onClick?: (data: NodeData) => void;
+  onClick?: (event: React.MouseEvent<SVGGElement, MouseEvent>, data: NodeData) => void;
   onKeyDown?: () => void;
 }
 
@@ -55,7 +55,10 @@ export const Node: FC<NodeProps> = ({
         translateY: y
       }}
       animate={controls}
-      onClick={() => onClick(properties)}
+      onClick={event => {
+        event.stopPropagation();
+        onClick(event, properties);
+      }}
     >
       <motion.rect
         className={css.rect}

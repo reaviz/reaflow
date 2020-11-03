@@ -21,7 +21,7 @@ export const useLayout = ({ nodes, edges, maxWidth, maxHeight }) => {
 
     promise
       .then((result) => {
-        console.log('layout', result);
+        console.log('Layout', result);
         setLayout(result);
       })
       .catch(() => undefined);
@@ -42,7 +42,6 @@ export const useLayout = ({ nodes, edges, maxWidth, maxHeight }) => {
     if (layout) {
       const newX = (maxHeight - layout.height) / 2;
       const newY = (maxWidth - layout.width) / 2;
-
       setX(newX);
       setY(newY);
     }
