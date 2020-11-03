@@ -37,7 +37,6 @@ export interface EdgeData<T = any> {
 
 export interface PortData {
   id: string;
-  disabled?: boolean;
 }
 
 export interface EditorCanvasProps {

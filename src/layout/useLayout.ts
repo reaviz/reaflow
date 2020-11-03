@@ -1,10 +1,18 @@
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { elkLayout } from './elkLayout';
-import { ElkNode } from 'elkjs/lib/elk.bundled';
+
+export interface ElkRoot {
+  x?: number
+  y?: number
+  width?: number
+  height?: number
+  children?: any[]
+  edges?: any[]
+}
 
 export const useLayout = ({ nodes, edges, maxWidth, maxHeight }) => {
   const containerRef = useRef<HTMLDivElement | null>(null);
-  const [layout, setLayout] = useState<ElkNode | null>(null);
+  const [layout, setLayout] = useState<ElkRoot | null>(null);
   const [x, setX] = useState<number>(0);
   const [y, setY] = useState<number>(0);
 
