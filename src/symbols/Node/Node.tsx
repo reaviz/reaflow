@@ -11,6 +11,7 @@ export interface NodeProps {
   width: number;
   x: number;
   y: number;
+  draggable?: boolean;
   disabled?: boolean;
   ports?: PortProps[];
   labels?: LabelProps[];
@@ -29,6 +30,7 @@ export const Node: FC<NodeProps> = ({
   height,
   width,
   properties,
+  draggable = false,
   onClick = () => undefined
 }) => {
   const controls = useAnimation();
@@ -45,7 +47,7 @@ export const Node: FC<NodeProps> = ({
     <motion.g
       tabIndex={-1}
       className={css.container}
-      drag={false}
+      drag={draggable}
       dragMomentum={false}
       whileTap={{ cursor: 'grabbing' }}
       initial={{

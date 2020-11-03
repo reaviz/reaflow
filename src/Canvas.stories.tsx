@@ -127,5 +127,9 @@ export const Selections = () => {
 export default {
   title: 'Canvas',
   component: Canvas,
-  parameters: { actions: { argTypesRegex: '^on.*' } }
+  parameters: {
+    actions: {
+      argTypesRegex: '^on.*'
+    }
+  }
 };

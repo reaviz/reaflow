@@ -116,7 +116,11 @@ export const Canvas: FC<EditorCanvasProps> = ({
         </defs>
         <g transform={`translate(${x}, ${y})`}>
           {layout?.children?.map((n) => (
-            <Node key={n.id} {...(n as NodeProps)} onClick={onNodeClick} />
+            <Node
+              key={n.id}
+              {...(n as NodeProps)}
+              onClick={onNodeClick}
+            />
           ))}
           {layout?.edges?.map((e) => (
             <Edge key={e.id} {...(e as EdgeProps)} />
