@@ -89,7 +89,7 @@ export const Canvas: FC<Partial<EditorCanvasProps>> = ({
   onCanvasClick = () => undefined
 }) => {
   const genId = useId(id);
-  const { layout, x, y, ref } = useLayout({
+  const { layout, ref } = useLayout({
     nodes,
     edges,
     maxHeight,
@@ -116,7 +116,7 @@ export const Canvas: FC<Partial<EditorCanvasProps>> = ({
             {...(arrow as MarkerArrowProps)}
           />
         </defs>
-        <g transform={`translate(${x}, ${y})`}>
+        <g style={{ transform: 'translate(50%, 50%)' }}>
           {layout?.edges?.map((e) => (
             <CloneElement<EdgeProps>
               key={e.id}

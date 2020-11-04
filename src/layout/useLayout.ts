@@ -11,11 +11,11 @@ export interface ElkRoot {
 }
 
 export const useLayout = ({ nodes, edges, maxWidth, maxHeight }) => {
+  const scrolled = useRef<boolean>(false);
   const containerRef = useRef<HTMLDivElement | null>(null);
   const [layout, setLayout] = useState<ElkRoot | null>(null);
-  const [x, setX] = useState<number>(0);
-  const [y, setY] = useState<number>(0);
-  const scrolled = useRef<boolean>(false);
+  // const [x, setX] = useState<number>(0);
+  // const [y, setY] = useState<number>(0);
 
   useEffect(() => {
     const promise = elkLayout(nodes, edges);
@@ -33,11 +33,14 @@ export const useLayout = ({ nodes, edges, maxWidth, maxHeight }) => {
   useLayoutEffect(() => {
     const scroller = containerRef.current;
     if (scroller && !scrolled.current && layout) {
-      const newX = (maxHeight - layout.height) / 2;
-      const newY = (maxWidth - layout.width) / 2;
+      // const newX = (maxHeight - layout.height) / 2;
+      // const newY = (maxWidth - layout.width) / 2;
 
-      setX(newX);
-      setY(newY);
+      const newX = maxHeight / 2;
+      const newY = maxWidth / 2;
+
+      // setX(newX);
+      // setY(newY);
       scroller.scrollTo(newY, newX);
 
       scrolled.current = true;
@@ -45,8 +48,8 @@ export const useLayout = ({ nodes, edges, maxWidth, maxHeight }) => {
   }, [maxHeight, maxWidth, layout, containerRef]);
 
   return {
-    x,
-    y,
+    // x,
+    // y,
     ref: containerRef,
     layout
   };
