@@ -1,3 +1,11 @@
+.edge {
+  cursor: pointer;
+
+  &:focus {
+    outline: none;
+  }
+}
+
 .path {
   fill: none;
 	stroke: #485a74;

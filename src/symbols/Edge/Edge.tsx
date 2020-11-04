@@ -10,6 +10,7 @@ export interface EdgeProps {
   sourcePort: string;
   target: string;
   targetPort: string;
+  properties?: any;
   sections: {
     id: string;
     endPoint: {
@@ -25,14 +26,33 @@ export interface EdgeProps {
       y: number;
     }[];
   }[];
-  onEnter?: () => void;
-  onLeave?: () => void;
-  onClick?: () => void;
-  onKeyDown?: () => void;
+  onClick?: (
+    event: React.MouseEvent<SVGGElement, MouseEvent>,
+    data: EdgeData
+  ) => void;
+  onKeyDown?: (
+    event: React.KeyboardEvent<SVGGElement>,
+    data: EdgeData
+  ) => void;
+  onEnter?: (
+    event: React.MouseEvent<SVGGElement, MouseEvent>,
+    node: EdgeData
+  ) => void;
+  onLeave?: (
+    event: React.MouseEvent<SVGGElement, MouseEvent>,
+    node: EdgeData
+  ) => void;
   onRemove?: (edge: EdgeData) => void;
 }
 
-export const Edge: FC<Partial<EdgeProps>> = ({ sections }) => {
+export const Edge: FC<Partial<EdgeProps>> = ({
+  sections,
+  properties,
+  onClick = () => undefined,
+  onKeyDown = () => undefined,
+  onEnter = () => undefined,
+  onLeave = () => undefined
+}) => {
   const d = useMemo(() => {
     const points: any[] = sections
       ? [
@@ -51,8 +71,31 @@ export const Edge: FC<Partial<EdgeProps>> = ({ sections }) => {
   }, [sections]);
 
   return (
-    <g>
-      <path className={css.path} d={d} markerEnd="url(#end-arrow)" />
+    <g
+      className={css.edge}
+      tabIndex={-1}
+      onClick={event => {
+        event.stopPropagation();
+        onClick(event, properties);
+      }}
+      onKeyDown={event => {
+        event.stopPropagation();
+        onKeyDown(event, properties);
+      }}
+      onMouseEnter={event => {
+        event.stopPropagation();
+        onEnter(event, properties);
+      }}
+      onMouseLeave={event => {
+        event.stopPropagation();
+        onLeave(event, properties);
+      }}
+    >
+      <path
+        className={css.path}
+        d={d}
+        markerEnd="url(#end-arrow)"
+      />
     </g>
   );
 };

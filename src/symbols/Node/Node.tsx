@@ -16,21 +16,25 @@ export interface NodeProps {
   ports?: PortProps[];
   labels?: LabelProps[];
   properties: any;
-  onEnter?: () => void;
-  onLeave?: () => void;
+  dragStart?: (node: NodeData) => void;
+  dragStop?: (node: NodeData) => void;
+  onRemove?: (node: NodeData) => void;
   onClick?: (
     event: React.MouseEvent<SVGGElement, MouseEvent>,
     data: NodeData
   ) => void;
   onKeyDown?: (
-    event: React.MouseEvent<SVGGElement, MouseEvent>,
+    event: React.KeyboardEvent<SVGGElement>,
     data: NodeData
   ) => void;
-  dragStart?: (node: NodeData) => void;
-  dragStop?: (node: NodeData) => void;
-  onNodeEnter?: (node: NodeData) => void;
-  onNodeLeave?: (node: NodeData) => void;
-  onRemove?: (node: NodeData) => void;
+  onEnter?: (
+    event: React.MouseEvent<SVGGElement, MouseEvent>,
+    node: NodeData
+  ) => void;
+  onLeave?: (
+    event: React.MouseEvent<SVGGElement, MouseEvent>,
+    node: NodeData
+  ) => void;
 }
 
 export const Node: FC<Partial<NodeProps>> = ({
@@ -42,7 +46,10 @@ export const Node: FC<Partial<NodeProps>> = ({
   width,
   properties,
   draggable = false,
-  onClick = () => undefined
+  onClick = () => undefined,
+  onKeyDown = () => undefined,
+  onEnter = () => undefined,
+  onLeave = () => undefined
 }) => {
   const controls = useAnimation();
 
@@ -68,9 +75,21 @@ export const Node: FC<Partial<NodeProps>> = ({
         translateY: y
       }}
       animate={controls}
-      onClick={(event) => {
+      onClick={event => {
         event.stopPropagation();
         onClick(event, properties);
+      }}
+      onKeyDown={event => {
+        event.stopPropagation();
+        onKeyDown(event, properties);
+      }}
+      onMouseEnter={event => {
+        event.stopPropagation();
+        onEnter(event, properties);
+      }}
+      onMouseLeave={event => {
+        event.stopPropagation();
+        onLeave(event, properties);
       }}
     >
       <motion.rect
