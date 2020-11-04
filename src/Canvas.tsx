@@ -66,6 +66,8 @@ export interface EditorCanvasProps {
   onCanvasZoom?: () => void;
   onCanvasPan?: () => void;
 
+  selections?: string[];
+
   arrow: ReactElement<MarkerArrowProps, typeof MarkerArrow>;
   node: ReactElement<NodeProps, typeof Node>;
   edge: ReactElement<EdgeProps, typeof Edge>;
@@ -83,6 +85,7 @@ export const Canvas: FC<Partial<EditorCanvasProps>> = ({
   arrow = <MarkerArrow />,
   node = <Node />,
   edge = <Edge />,
+  selections = [],
   onCanvasClick = () => undefined
 }) => {
   const genId = useId(id);
@@ -114,20 +117,22 @@ export const Canvas: FC<Partial<EditorCanvasProps>> = ({
           />
         </defs>
         <g transform={`translate(${x}, ${y})`}>
-          {layout?.children?.map((n) => (
-            <CloneElement<NodeProps>
-              key={n.id}
-              element={node}
-              id={`${id}-node`}
-              {...(n as NodeProps)}
-            />
-          ))}
           {layout?.edges?.map((e) => (
             <CloneElement<EdgeProps>
               key={e.id}
               element={edge}
               id={`${id}-edge`}
+              isActive={selections.length > 0 ? selections.includes(e.id) : null}
               {...(e as EdgeProps)}
+            />
+          ))}
+          {layout?.children?.map((n) => (
+            <CloneElement<NodeProps>
+              key={n.id}
+              element={node}
+              id={`${id}-node`}
+              isActive={selections.length > 0 ? selections.includes(n.id) : null}
+              {...(n as NodeProps)}
             />
           ))}
         </g>

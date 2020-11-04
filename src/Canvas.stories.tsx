@@ -7,10 +7,12 @@ export const Simple = () => (
     <Canvas
       nodes={[
         {
-          id: '1'
+          id: '1',
+          text: 'Node 1'
         },
         {
-          id: '2'
+          id: '2',
+          text: 'Node 2'
         }
       ]}
       edges={[
@@ -53,16 +55,20 @@ export const Joins = () => (
     <Canvas
       nodes={[
         {
-          id: '1'
+          id: '1',
+          text: 'Node 1'
         },
         {
-          id: '2'
+          id: '2',
+          text: 'Node 2'
         },
         {
-          id: '3'
+          id: '3',
+          text: 'Node 3'
         },
         {
-          id: '4'
+          id: '4',
+          text: 'Node 4'
         }
       ]}
       edges={[
@@ -99,10 +105,12 @@ export const Selections = () => {
       <Canvas
         nodes={[
           {
-            id: '1'
+            id: '1',
+            text: 'Node 1'
           },
           {
-            id: '2'
+            id: '2',
+            text: 'Node 2'
           }
         ]}
         edges={[
@@ -112,11 +120,12 @@ export const Selections = () => {
             to: '2'
           }
         ]}
+        selections={selections}
         node={
           <Node
             onClick={(event, node) => {
               console.log('Selecting Node', event, node);
-              setSelections([node]);
+              setSelections([node.id]);
             }}
           />
         }

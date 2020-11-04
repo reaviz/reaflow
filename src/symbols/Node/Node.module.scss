@@ -7,6 +7,10 @@
 }
 
 .rect {
-  fill: white;
-  border-radius: 25px;
+  fill: #12131e;
+  stroke: transparent;
+
+  &.active {
+    stroke: #46FECB;
+  }
 }

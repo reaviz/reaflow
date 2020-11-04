@@ -10,7 +10,7 @@ export interface EdgeProps {
   sourcePort: string;
   target: string;
   targetPort: string;
-  properties?: any;
+  properties?: EdgeData;
   sections: {
     id: string;
     endPoint: {
@@ -26,6 +26,8 @@ export interface EdgeProps {
       y: number;
     }[];
   }[];
+  isActive: boolean | null;
+
   onClick?: (
     event: React.MouseEvent<SVGGElement, MouseEvent>,
     data: EdgeData

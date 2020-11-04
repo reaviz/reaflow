@@ -21,16 +21,13 @@ const defaultLayoutOptions = {
 };
 
 function measureText(node: NodeData) {
-  const result = { height: 0, width: 0 };
+  let result = { height: 0, width: 0 };
 
   if (node.text) {
-    const sizes = calculateSize(node.text, {
+    result = calculateSize(node.text, {
       font: 'Arial, sans-serif',
       fontSize: '14px'
     });
-
-    // Adding height messes things up
-    result.width = sizes.width;
   }
 
   return result;
@@ -40,6 +37,7 @@ function mapNode(node: NodeData, layoutOptions) {
   const isVertical = layoutOptions['elk.direction'] === 'DOWN';
   const SOURCE_PORT_DIRECTION = isVertical ? 'SOUTH' : 'EAST';
   const TARGET_PORT_DIRECTION = isVertical ? 'NORTH' : 'WEST';
+  const labelDim = measureText(node);
 
   return {
     id: node.id,
@@ -75,15 +73,17 @@ function mapNode(node: NodeData, layoutOptions) {
       ...node
     },
     labels: node.text
-      ? [
-          {
-            ...measureText(node),
-            text: node.text,
-            layoutOptions: {
-              'elk.nodeLabels.placement': 'INSIDE V_CENTER H_CENTER'
-            }
+      ?
+      [
+        {
+          ...labelDim,
+          height: -(labelDim.height / 2),
+          text: node.text,
+          layoutOptions: {
+            'elk.nodeLabels.placement': 'INSIDE V_CENTER H_CENTER'
           }
-        ]
+        }
+      ]
       : []
   };
 }

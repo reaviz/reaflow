@@ -5,6 +5,7 @@ import { Label, LabelProps } from '../Label';
 import { NodeData } from '../../Canvas';
 import { CloneElement } from 'rdk';
 import css from './Node.module.scss';
+import classNames from 'classnames';
 
 export interface NodeProps {
   id: string;
@@ -12,11 +13,14 @@ export interface NodeProps {
   width: number;
   x: number;
   y: number;
-  draggable?: boolean;
+  rx: number;
+  ry: number;
   disabled?: boolean;
   ports?: PortProps[];
   labels?: LabelProps[];
   properties: any;
+  isActive: boolean | null;
+  className?: string;
 
   dragStart?: (node: NodeData) => void;
   dragStop?: (node: NodeData) => void;
@@ -50,7 +54,10 @@ export const Node: FC<Partial<NodeProps>> = ({
   height,
   width,
   properties,
-  draggable = false,
+  className,
+  isActive,
+  rx = 2,
+  ry = 2,
   port = <Port />,
   label = <Label />,
   onClick = () => undefined,
@@ -72,9 +79,6 @@ export const Node: FC<Partial<NodeProps>> = ({
     <motion.g
       tabIndex={-1}
       className={css.container}
-      drag={draggable}
-      dragMomentum={false}
-      whileTap={{ cursor: 'grabbing' }}
       initial={{
         cursor: 'initial',
         opacity: 0,
@@ -100,9 +104,13 @@ export const Node: FC<Partial<NodeProps>> = ({
       }}
     >
       <motion.rect
-        className={css.rect}
+        className={classNames(css.rect, className, {
+          [css.active]: isActive
+        })}
         height={height}
         width={width}
+        rx={rx}
+        ry={ry}
         initial={{
           opacity: 0
         }}
