@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Canvas } from './Canvas';
-import { Node } from './symbols';
+import { Node, Edge, MarkerArrow } from './symbols';
 
 export const Simple = () => (
   <div style={{ border: 'solid 1px blue', height: 650, width: 650 }}>
@@ -136,5 +136,10 @@ export default {
     actions: {
       argTypesRegex: '^on.*'
     }
+  },
+  subcomponents: {
+    Node,
+    Edge,
+    MarkerArrow
   }
 };
