@@ -26,8 +26,8 @@
 ---
 
 ## 🚀 Quick Links
-
-- Checkout the [demos](https://chromatic.com/library?appId=5f99ba42fe88ac0022fd1147&branch=master)
+- Checkout the [demos](https://reaflow.dev)
+- Explore the library on [Chroma](https://www.chromatic.com/library?appId=5f99ba42fe88ac0022fd1147)
 - Learn about updates from the [changelog](CHANGELOG.md)
 
 ## 📦 Usage
