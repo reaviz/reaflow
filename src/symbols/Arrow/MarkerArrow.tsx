@@ -3,9 +3,10 @@ import { Arrow } from './Arrow';
 
 export interface MarkerArrowProps {
   size?: number;
+  style?: any;
 }
 
-export const MarkerArrow: FC<Partial<MarkerArrowProps>> = ({ size = 8 }) => (
+export const MarkerArrow: FC<Partial<MarkerArrowProps>> = ({ size = 8, style }) => (
   <marker
     id="end-arrow"
     key="end-arrow"
@@ -15,6 +16,6 @@ export const MarkerArrow: FC<Partial<MarkerArrowProps>> = ({ size = 8 }) => (
     markerHeight={`${size}`}
     orient="auto"
   >
-    <Arrow size={size} />
+    <Arrow size={size} style={style} />
   </marker>
 );

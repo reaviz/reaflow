@@ -23,6 +23,7 @@ export interface NodeProps {
   properties: any;
   isActive: boolean | null;
   className?: string;
+  style?: any;
 
   onRemove?: (node: NodeData) => void;
 
@@ -66,6 +67,7 @@ export const Node: FC<Partial<NodeProps>> = ({
   ry = 2,
   icon,
   disabled,
+  style,
   port = <Port />,
   label = <Label />,
   onDrag = () => undefined,
@@ -139,6 +141,7 @@ export const Node: FC<Partial<NodeProps>> = ({
           [css.active]: isActive,
           [css.disabled]: disabled
         })}
+        style={style}
         height={height}
         width={width}
         rx={rx}

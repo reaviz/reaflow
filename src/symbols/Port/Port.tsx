@@ -18,6 +18,7 @@ export interface PortProps {
   y: number;
   disabled?: boolean;
   properties: ElkPortProperties & PortData;
+  style?: any;
   onEnter?: (
     event: React.MouseEvent<SVGGElement, MouseEvent>,
     port: PortData
@@ -33,6 +34,7 @@ export const Port = forwardRef(
     x,
     y,
     disabled,
+    style,
     properties,
     onEnter = () => undefined,
     onLeave = () => undefined
@@ -52,6 +54,7 @@ export const Port = forwardRef(
         <motion.rect
           ref={ref}
           key={`${x}-${y}`}
+          style={style}
           className={classNames(css.port, {
             [css.nortPort]: isNorth,
             [css.southPort]: isSouth

@@ -7,12 +7,13 @@ export interface LabelProps {
   height: number;
   width: number;
   text: string;
+  style?: any;
 }
 
-export const Label: FC<Partial<LabelProps>> = ({ text, x, y }) => {
+export const Label: FC<Partial<LabelProps>> = ({ text, x, y, style }) => {
   return (
     <g transform={`translate(${x}, ${y})`}>
-      <text className={css.text}>{text}</text>
+      <text className={css.text} style={style}>{text}</text>
     </g>
   );
 };

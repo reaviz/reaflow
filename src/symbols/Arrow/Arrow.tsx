@@ -8,6 +8,7 @@ export interface ArrowProps {
   y?: number;
   angle?: number;
   className?: string;
+  style?: any;
 }
 
 export const Arrow: FC<ArrowProps> = ({
@@ -15,9 +16,11 @@ export const Arrow: FC<ArrowProps> = ({
   y = 0,
   x = 0,
   angle = 0,
-  className
+  className,
+  style
 }) => (
   <path
+    style={style}
     transform={`translate(${x}, ${y}) rotate(${angle})`}
     className={classNames(css.arrow, className)}
     d={`M0,-${size / 2}L${size},0L0,${size / 2}`}

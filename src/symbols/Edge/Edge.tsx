@@ -14,6 +14,7 @@ export interface EdgeProps {
   target: string;
   targetPort: string;
   properties?: EdgeData;
+  style?: any;
   sections: {
     id: string;
     endPoint: {
@@ -61,6 +62,7 @@ export const Edge: FC<Partial<EdgeProps>> = ({
   className,
   id,
   isActive,
+  style,
   label = <Label />,
   onClick = () => undefined,
   onKeyDown = () => undefined,
@@ -106,6 +108,7 @@ export const Edge: FC<Partial<EdgeProps>> = ({
       }}
     >
       <path
+        style={style}
         className={classNames(className, css.path, { [css.active]: isActive })}
         d={d}
         markerEnd="url(#end-arrow)"
