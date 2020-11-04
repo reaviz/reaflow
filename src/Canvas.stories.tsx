@@ -3,7 +3,7 @@ import { Canvas } from './Canvas';
 import { Node, Edge, MarkerArrow, Port, Icon } from './symbols';
 
 export const Simple = () => (
-  <div style={{ border: 'solid 1px blue', height: 650, width: 650 }}>
+  <div style={{ border: 'solid 1px #12131e', height: 650, width: 650 }}>
     <Canvas
       nodes={[
         {
@@ -28,7 +28,7 @@ export const Simple = () => (
 );
 
 export const Icons = () => (
-  <div style={{ border: 'solid 1px blue', height: 650, width: 650 }}>
+  <div style={{ border: 'solid 1px #12131e', height: 650, width: 650 }}>
     <Canvas
       nodes={[
         {
@@ -82,7 +82,7 @@ export const Icons = () => (
 );
 
 export const NoEdges = () => (
-  <div style={{ border: 'solid 1px blue', height: 650, width: 650 }}>
+  <div style={{ border: 'solid 1px #12131e', height: 650, width: 650 }}>
     <Canvas
       nodes={[
         {
@@ -101,7 +101,7 @@ export const NoEdges = () => (
 );
 
 export const Labels = () => (
-  <div style={{ border: 'solid 1px blue', height: 650, width: 650 }}>
+  <div style={{ border: 'solid 1px #12131e', height: 650, width: 650 }}>
     <Canvas
       nodes={[
         {
@@ -127,7 +127,7 @@ export const Labels = () => (
 );
 
 export const Joins = () => (
-  <div style={{ border: 'solid 1px blue', height: 650, width: 650 }}>
+  <div style={{ border: 'solid 1px #12131e', height: 650, width: 650 }}>
     <Canvas
       nodes={[
         {
@@ -178,7 +178,7 @@ export const Selections = () => {
   const [selections, setSelections] = useState<any[]>([]);
 
   return (
-    <div style={{ border: 'solid 1px blue', height: 650, width: 650 }}>
+    <div style={{ border: 'solid 1px #12131e', height: 650, width: 650 }}>
       <Canvas
         nodes={[
           {
@@ -217,7 +217,7 @@ export const Selections = () => {
 };
 
 export const Events = () => (
-  <div style={{ border: 'solid 1px blue', height: 650, width: 650 }}>
+  <div style={{ border: 'solid 1px #12131e', height: 650, width: 650 }}>
     <Canvas
       nodes={[
         {
