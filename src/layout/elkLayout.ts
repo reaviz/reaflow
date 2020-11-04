@@ -20,11 +20,11 @@ const defaultLayoutOptions = {
   'spacing.nodeNodeBetweenLayers': '70'
 };
 
-function measureText(node: NodeData) {
+function measureText(text: string) {
   let result = { height: 0, width: 0 };
 
-  if (node.text) {
-    result = calculateSize(node.text, {
+  if (text) {
+    result = calculateSize(text, {
       font: 'Arial, sans-serif',
       fontSize: '14px'
     });
@@ -37,7 +37,7 @@ function mapNode(node: NodeData, layoutOptions) {
   const isVertical = layoutOptions['elk.direction'] === 'DOWN';
   const SOURCE_PORT_DIRECTION = isVertical ? 'SOUTH' : 'EAST';
   const TARGET_PORT_DIRECTION = isVertical ? 'NORTH' : 'WEST';
-  const labelDim = measureText(node);
+  const labelDim = measureText(node.text);
 
   return {
     id: node.id,
@@ -89,6 +89,8 @@ function mapNode(node: NodeData, layoutOptions) {
 }
 
 function mapEdge({ id, from, to, ...rest }: EdgeData) {
+  const labelDim = measureText(rest.text);
+
   return {
     id,
     source: from,
@@ -97,7 +99,20 @@ function mapEdge({ id, from, to, ...rest }: EdgeData) {
       ...rest
     },
     sourcePort: `${from}_default`,
-    targetPort: `${to}_target`
+    targetPort: `${to}_target`,
+    labels: rest.text
+      ?
+      [
+        {
+          width: (labelDim.width / 2),
+          height: -(labelDim.height / 2),
+          text: rest.text,
+          layoutOptions: {
+            'elk.edgeLabels.placement': 'INSIDE V_CENTER H_CENTER'
+          }
+        }
+      ]
+      : []
   };
 }
 

@@ -43,7 +43,8 @@ export const Labels = () => (
         {
           id: '1-2',
           from: '1',
-          to: '2'
+          to: '2',
+          text: 'Label 1-2'
         }
       ]}
     />
@@ -143,10 +144,12 @@ export const Events = () => (
     <Canvas
       nodes={[
         {
-          id: '1'
+          id: '1',
+          text: 'Node 1'
         },
         {
-          id: '2'
+          id: '2',
+          text: 'Node 2'
         }
       ]}
       edges={[

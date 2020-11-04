@@ -70,7 +70,7 @@ export const Port = forwardRef(
             scale: 1,
             opacity: 1
           }}
-          whileHover={{ scale: 1.3 }}
+          whileHover={{ scale: 1.5 }}
           onMouseEnter={event => {
             event.stopPropagation();
             onEnter(event, properties);

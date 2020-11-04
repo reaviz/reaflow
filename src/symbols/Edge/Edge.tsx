@@ -1,6 +1,8 @@
-import React, { FC, useMemo } from 'react';
+import React, { FC, ReactElement, useMemo } from 'react';
 import { line, curveBundle } from 'd3-shape';
 import { EdgeData } from '../../Canvas';
+import { Label, LabelProps } from '../Label';
+import { CloneElement } from 'rdk';
 import css from './Edge.module.scss';
 
 export interface EdgeProps {
@@ -27,6 +29,9 @@ export interface EdgeProps {
     }[];
   }[];
   isActive: boolean | null;
+  labels?: LabelProps[];
+
+  label: ReactElement<LabelProps, typeof Label>;
 
   onClick?: (
     event: React.MouseEvent<SVGGElement, MouseEvent>,
@@ -50,6 +55,8 @@ export interface EdgeProps {
 export const Edge: FC<Partial<EdgeProps>> = ({
   sections,
   properties,
+  labels,
+  label = <Label />,
   onClick = () => undefined,
   onKeyDown = () => undefined,
   onEnter = () => undefined,
@@ -98,6 +105,13 @@ export const Edge: FC<Partial<EdgeProps>> = ({
         d={d}
         markerEnd="url(#end-arrow)"
       />
+      {labels?.length > 0 && labels.map((l, index) => (
+        <CloneElement<LabelProps>
+          element={label}
+          key={index}
+          {...(l as LabelProps)}
+        />
+      ))}
     </g>
   );
 };

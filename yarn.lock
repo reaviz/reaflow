@@ -10002,11 +10002,6 @@ moment@^2.18.1:
   resolved "https://registry.yarnpkg.com/moment/-/moment-2.29.1.tgz#b2be769fa31940be9eeea6469c075e35006fa3d3"
   integrity sha512-kHmoybcPV8Sqy59DwNDY3Jefr64lK/by/da0ViFcuA4DH0vQg5Q6Ze5VimxkfQNSC+Mls/Kx53s7TjP1RhFEDQ==
 
-mousetrap@^1.6.5:
-  version "1.6.5"
-  resolved "https://registry.yarnpkg.com/mousetrap/-/mousetrap-1.6.5.tgz#8a766d8c272b08393d5f56074e0b5ec183485bf9"
-  integrity sha512-QNo4kEepaIBwiT8CDhP98umTetp+JNfQYBWvC1pc6/OAibuXtRcxZ58Qz8skvEHYvURne/7R8T5VoOI7rDsEUA==
-
 move-concurrently@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/move-concurrently/-/move-concurrently-1.0.1.tgz#be2c005fda32e0b29af1f05d7c4b33214c701f92"
@@ -11959,13 +11954,6 @@ readdirp@~3.5.0:
   integrity sha512-cMhu7c/8rdhkHXWsY+osBhfSy0JikwpHK/5+imo+LpeasTF8ouErHrlYkwT0++njiyuDvc7OFY5T3ukvZ8qmFQ==
   dependencies:
     picomatch "^2.2.1"
-
-reakeys@^1.0.1:
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/reakeys/-/reakeys-1.0.1.tgz#668d76857a0bbe904be6bed87d13958a180fba9b"
-  integrity sha512-gq3XcZK8MLdBSegVuWSsCpKqoP5DXGX50vY60IPT+8Avf9QOdT3KBzJPeVSAYA5GRAFh945J4Votx2HS+Ekvlg==
-  dependencies:
-    mousetrap "^1.6.5"
 
 realpath-native@^2.0.0:
   version "2.0.0"
