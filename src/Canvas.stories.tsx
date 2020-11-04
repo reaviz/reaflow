@@ -22,6 +22,7 @@ export const Simple = () => (
           to: '2'
         }
       ]}
+      onLayoutChange={layout => console.log('Layout', layout)}
     />
   </div>
 );
@@ -75,6 +76,7 @@ export const Icons = () => (
           icon={<Icon />}
         />
       }
+      onLayoutChange={layout => console.log('Layout', layout)}
     />
   </div>
 );
@@ -93,6 +95,7 @@ export const NoEdges = () => (
         }
       ]}
       edges={[]}
+      onLayoutChange={layout => console.log('Layout', layout)}
     />
   </div>
 );
@@ -118,6 +121,7 @@ export const Labels = () => (
           text: 'Label 1-2'
         }
       ]}
+      onLayoutChange={layout => console.log('Layout', layout)}
     />
   </div>
 );
@@ -165,6 +169,7 @@ export const Joins = () => (
           to: '4'
         }
       ]}
+      onLayoutChange={layout => console.log('Layout', layout)}
     />
   </div>
 );
@@ -205,6 +210,7 @@ export const Selections = () => {
           console.log('Canvas Clicked', event);
           setSelections([]);
         }}
+        onLayoutChange={layout => console.log('Layout', layout)}
       />
     </div>
   );
@@ -275,6 +281,7 @@ export const Events = () => (
       onCanvasClick={(event) => {
         console.log('Canvas Clicked', event);
       }}
+      onLayoutChange={layout => console.log('Layout', layout)}
     />
   </div>
 );

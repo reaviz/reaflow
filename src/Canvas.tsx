@@ -2,7 +2,7 @@ import React, { FC, Fragment, ReactElement } from 'react';
 import { useId } from 'rdk';
 import { Node, NodeProps } from './symbols/Node';
 import { Edge, EdgeProps } from './symbols/Edge';
-import { useLayout } from './layout';
+import { ElkRoot, useLayout } from './layout';
 import { MarkerArrow, MarkerArrowProps } from './symbols/Arrow';
 import { CloneElement } from 'rdk';
 import css from './Canvas.module.scss';
@@ -69,6 +69,7 @@ export interface EditorCanvasProps {
   snapToGrid?: boolean;
   snapGrid?: [number, number];
 
+  onLayoutChange: (layout: ElkRoot) => void;
   onCanvasClick?: (event: React.MouseEvent<SVGGElement, MouseEvent>) => void;
   onCanvasZoom?: () => void;
   onCanvasPan?: () => void;
@@ -93,14 +94,16 @@ export const Canvas: FC<Partial<EditorCanvasProps>> = ({
   node = <Node />,
   edge = <Edge />,
   selections = [],
-  onCanvasClick = () => undefined
+  onCanvasClick = () => undefined,
+  onLayoutChange = () => undefined
 }) => {
   const genId = useId(id);
   const { layout, ref } = useLayout({
     nodes,
     edges,
     maxHeight,
-    maxWidth
+    maxWidth,
+    onLayoutChange
   });
 
   return (

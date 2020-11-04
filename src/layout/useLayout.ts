@@ -10,7 +10,13 @@ export interface ElkRoot {
   edges?: any[];
 }
 
-export const useLayout = ({ nodes, edges, maxWidth, maxHeight }) => {
+export const useLayout = ({
+  maxWidth,
+  maxHeight,
+  nodes,
+  edges = [],
+  onLayoutChange
+}) => {
   const scrolled = useRef<boolean>(false);
   const containerRef = useRef<HTMLDivElement | null>(null);
   const [layout, setLayout] = useState<ElkRoot | null>(null);
@@ -22,8 +28,8 @@ export const useLayout = ({ nodes, edges, maxWidth, maxHeight }) => {
 
     promise
       .then((result) => {
-        console.log('Layout', result);
         setLayout(result);
+        onLayoutChange(result);
       })
       .catch(() => undefined);
 
