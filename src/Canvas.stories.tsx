@@ -26,6 +26,24 @@ export const Simple = () => (
   </div>
 );
 
+export const NoEdges = () => (
+  <div style={{ border: 'solid 1px blue', height: 650, width: 650 }}>
+    <Canvas
+      nodes={[
+        {
+          id: '1',
+          text: 'Node 1'
+        },
+        {
+          id: '2',
+          text: 'Node 2'
+        }
+      ]}
+      edges={[]}
+    />
+  </div>
+);
+
 export const Labels = () => (
   <div style={{ border: 'solid 1px blue', height: 650, width: 650 }}>
     <Canvas
