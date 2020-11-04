@@ -2,4 +2,8 @@
   stroke: #0d0e17;
   fill: #3E405A;
   stroke-width: 2px;
+
+  &:hover {
+    cursor: pointer;
+  }
 }
