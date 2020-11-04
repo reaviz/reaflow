@@ -44,7 +44,7 @@
     "elkjs": "^0.7.0",
     "ellipsize": "^0.1.0",
     "p-cancelable": "^2.0.0",
-    "rdk": "^4.1.4",
+    "rdk": "^4.2.0",
     "reakeys": "^1.0.1"
   },
   "peerDependencies": {

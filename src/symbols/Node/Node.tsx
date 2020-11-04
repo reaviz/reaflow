@@ -18,11 +18,22 @@ export interface NodeProps {
   properties: any;
   onEnter?: () => void;
   onLeave?: () => void;
-  onClick?: (event: React.MouseEvent<SVGGElement, MouseEvent>, data: NodeData) => void;
-  onKeyDown?: () => void;
+  onClick?: (
+    event: React.MouseEvent<SVGGElement, MouseEvent>,
+    data: NodeData
+  ) => void;
+  onKeyDown?: (
+    event: React.MouseEvent<SVGGElement, MouseEvent>,
+    data: NodeData
+  ) => void;
+  dragStart?: (node: NodeData) => void;
+  dragStop?: (node: NodeData) => void;
+  onNodeEnter?: (node: NodeData) => void;
+  onNodeLeave?: (node: NodeData) => void;
+  onRemove?: (node: NodeData) => void;
 }
 
-export const Node: FC<NodeProps> = ({
+export const Node: FC<Partial<NodeProps>> = ({
   x,
   y,
   ports,
@@ -57,7 +68,7 @@ export const Node: FC<NodeProps> = ({
         translateY: y
       }}
       animate={controls}
-      onClick={event => {
+      onClick={(event) => {
         event.stopPropagation();
         onClick(event, properties);
       }}

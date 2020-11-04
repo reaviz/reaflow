@@ -11641,10 +11641,10 @@ raw-loader@^4.0.1:
     loader-utils "^2.0.0"
     schema-utils "^3.0.0"
 
-rdk@^4.1.4:
-  version "4.1.4"
-  resolved "https://registry.yarnpkg.com/rdk/-/rdk-4.1.4.tgz#f3cca065b0d87e3d14133381e3620bfc8539eb44"
-  integrity sha512-e9JGE+NdY+IHad7VGKMyPrSjygS8QYSUwxgO3gCp55zPQTXdvwz1QDQSYte0koP/rRkyIuimTTfTkrPXpc7ZXw==
+rdk@^4.2.0:
+  version "4.2.0"
+  resolved "https://registry.yarnpkg.com/rdk/-/rdk-4.2.0.tgz#091eb50dcd66f45b9d223a151bd0128753041282"
+  integrity sha512-qSh4AqAcB377oXdZXHHySF9aCKbris0rQWe9vEYk4Y5dE5t+Hd+tdbw7t8AxHnCZfsQcyaRP84Xv8uQWTlp32g==
   dependencies:
     classnames "^2.2.6"
     framer-motion "^2.7.7"

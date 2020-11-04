@@ -1,5 +1,6 @@
 import React, { FC, useMemo } from 'react';
 import { line, curveBundle } from 'd3-shape';
+import { EdgeData } from '../../Canvas';
 import css from './Edge.module.scss';
 
 export interface EdgeProps {
@@ -28,16 +29,17 @@ export interface EdgeProps {
   onLeave?: () => void;
   onClick?: () => void;
   onKeyDown?: () => void;
+  onRemove?: (edge: EdgeData) => void;
 }
 
-export const Edge: FC<EdgeProps> = ({ sections }) => {
+export const Edge: FC<Partial<EdgeProps>> = ({ sections }) => {
   const d = useMemo(() => {
     const points: any[] = sections
       ? [
-          sections[0].startPoint,
-          ...(sections[0].bendPoints || []),
-          sections[0].endPoint
-        ]
+        sections[0].startPoint,
+        ...(sections[0].bendPoints || []),
+        sections[0].endPoint
+      ]
       : [];
 
     const pathFn = line()

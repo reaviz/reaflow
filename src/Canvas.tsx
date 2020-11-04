@@ -1,9 +1,10 @@
-import React, { FC } from 'react';
+import React, { FC, Fragment, ReactElement } from 'react';
 import { useId } from 'rdk';
 import { Node, NodeProps } from './symbols/Node';
 import { Edge, EdgeProps } from './symbols/Edge';
 import { useLayout } from './layout';
-import { MarkerArrow } from './symbols/Arrow';
+import { MarkerArrow, MarkerArrowProps } from './symbols/Arrow';
+import { CloneElement } from 'rdk';
 import css from './Canvas.module.scss';
 
 export interface NodeData<T = any> {
@@ -65,19 +66,12 @@ export interface EditorCanvasProps {
   onCanvasZoom?: () => void;
   onCanvasPan?: () => void;
 
-  onNodeDragStart?: (node: NodeData) => void;
-  onNodeDragStop?: (node: NodeData) => void;
-  onNodeEnter?: (node: NodeData) => void;
-  onNodeLeave?: (node: NodeData) => void;
-  onNodeRemove?: (edge: EdgeData) => void;
-  onNodeClick?: (event: React.MouseEvent<SVGGElement, MouseEvent>, node: NodeData) => void;
-
-  onEdgeClick?: (edge: EdgeData) => void;
-  onEdgeConnect?: (edge: EdgeData) => void;
-  onEdgeRemove?: (edge: EdgeData) => void;
+  arrow: ReactElement<MarkerArrowProps, typeof MarkerArrow>[];
+  node: ReactElement<NodeProps, typeof Node>;
+  edge: ReactElement<EdgeProps, typeof Edge>;
 }
 
-export const Canvas: FC<EditorCanvasProps> = ({
+export const Canvas: FC<Partial<EditorCanvasProps>> = ({
   id,
   className,
   height = '100%',
@@ -86,7 +80,9 @@ export const Canvas: FC<EditorCanvasProps> = ({
   maxWidth = 2000,
   nodes,
   edges,
-  onNodeClick,
+  arrow = <MarkerArrow />,
+  node = <Node />,
+  edge = <Edge />,
   onCanvasClick = () => undefined
 }) => {
   const genId = useId(id);
@@ -112,18 +108,25 @@ export const Canvas: FC<EditorCanvasProps> = ({
         onClick={onCanvasClick}
       >
         <defs>
-          <MarkerArrow />
+          <CloneElement<MarkerArrowProps>
+            element={arrow}
+            {...(arrow as MarkerArrowProps)}
+          />
         </defs>
         <g transform={`translate(${x}, ${y})`}>
           {layout?.children?.map((n) => (
-            <Node
+            <CloneElement<NodeProps>
               key={n.id}
+              element={node}
               {...(n as NodeProps)}
-              onClick={onNodeClick}
             />
           ))}
           {layout?.edges?.map((e) => (
-            <Edge key={e.id} {...(e as EdgeProps)} />
+            <CloneElement<EdgeProps>
+              key={e.id}
+              element={edge}
+              {...(e as EdgeProps)}
+            />
           ))}
         </g>
       </svg>

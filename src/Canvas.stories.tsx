@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Canvas } from './Canvas';
+import { Node } from './symbols';
 
 export const Simple = () => (
   <div style={{ border: 'solid 1px blue', height: 650, width: 650 }}>
@@ -111,13 +112,17 @@ export const Selections = () => {
             to: '2'
           }
         ]}
+        node={
+          <Node
+            onClick={(event, node) => {
+              console.log('Selecting Node', event, node);
+              setSelections([node]);
+            }}
+          />
+        }
         onCanvasClick={(event) => {
           console.log('Canvas Clicked', event);
           setSelections([]);
-        }}
-        onNodeClick={(event, node) => {
-          console.log('Selecting Node', event, node);
-          setSelections([node]);
         }}
       />
     </div>
