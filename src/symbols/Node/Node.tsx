@@ -1,8 +1,9 @@
-import React, { FC, useEffect } from 'react';
+import React, { FC, ReactElement, useEffect } from 'react';
 import { motion, useAnimation } from 'framer-motion';
 import { Port, PortProps } from '../Port';
 import { Label, LabelProps } from '../Label';
 import { NodeData } from '../../Canvas';
+import { CloneElement } from 'rdk';
 import css from './Node.module.scss';
 
 export interface NodeProps {
@@ -16,6 +17,7 @@ export interface NodeProps {
   ports?: PortProps[];
   labels?: LabelProps[];
   properties: any;
+
   dragStart?: (node: NodeData) => void;
   dragStop?: (node: NodeData) => void;
   onRemove?: (node: NodeData) => void;
@@ -35,6 +37,9 @@ export interface NodeProps {
     event: React.MouseEvent<SVGGElement, MouseEvent>,
     node: NodeData
   ) => void;
+
+  label: ReactElement<LabelProps, typeof Label>;
+  port: ReactElement<PortProps, typeof Port>;
 }
 
 export const Node: FC<Partial<NodeProps>> = ({
@@ -46,6 +51,8 @@ export const Node: FC<Partial<NodeProps>> = ({
   width,
   properties,
   draggable = false,
+  port = <Port />,
+  label = <Label />,
   onClick = () => undefined,
   onKeyDown = () => undefined,
   onEnter = () => undefined,
@@ -103,10 +110,20 @@ export const Node: FC<Partial<NodeProps>> = ({
           opacity: 1
         }}
       />
-      {labels?.length > 0 &&
-        labels.map((label, index) => <Label key={index} {...label} />)}
-      {ports?.length > 0 &&
-        ports.map((port) => <Port key={port.id} {...port} />)}
+      {labels?.length > 0 && labels.map((l, index) => (
+        <CloneElement<LabelProps>
+          element={label}
+          key={index}
+          {...(l as LabelProps)}
+        />
+      ))}
+      {ports?.length > 0 && ports.map(p => (
+        <CloneElement<PortProps>
+          element={port}
+          key={p.id}
+          {...(p as PortProps)}
+        />
+      ))}
     </motion.g>
   );
 };

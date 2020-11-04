@@ -66,7 +66,7 @@ export interface EditorCanvasProps {
   onCanvasZoom?: () => void;
   onCanvasPan?: () => void;
 
-  arrow: ReactElement<MarkerArrowProps, typeof MarkerArrow>[];
+  arrow: ReactElement<MarkerArrowProps, typeof MarkerArrow>;
   node: ReactElement<NodeProps, typeof Node>;
   edge: ReactElement<EdgeProps, typeof Edge>;
 }
@@ -118,6 +118,7 @@ export const Canvas: FC<Partial<EditorCanvasProps>> = ({
             <CloneElement<NodeProps>
               key={n.id}
               element={node}
+              id={`${id}-node`}
               {...(n as NodeProps)}
             />
           ))}
@@ -125,6 +126,7 @@ export const Canvas: FC<Partial<EditorCanvasProps>> = ({
             <CloneElement<EdgeProps>
               key={e.id}
               element={edge}
+              id={`${id}-edge`}
               {...(e as EdgeProps)}
             />
           ))}

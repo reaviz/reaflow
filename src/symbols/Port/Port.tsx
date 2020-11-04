@@ -1,6 +1,7 @@
 import React, { forwardRef, Ref } from 'react';
 import { motion } from 'framer-motion';
 import classNames from 'classnames';
+import { PortData } from '../../Canvas';
 import css from './Port.module.scss';
 
 export interface ElkPortProperties {
@@ -15,11 +16,25 @@ export interface PortProps {
   id: string;
   x: number;
   y: number;
-  properties: ElkPortProperties;
+  properties: ElkPortProperties & PortData;
+  onEnter?: (
+    event: React.MouseEvent<SVGGElement, MouseEvent>,
+    port: PortData
+  ) => void;
+  onLeave?: (
+    event: React.MouseEvent<SVGGElement, MouseEvent>,
+    port: PortData
+  ) => void;
 }
 
 export const Port = forwardRef(
-  ({ x, y, properties }: PortProps, ref: Ref<SVGRectElement>) => {
+  ({
+    x,
+    y,
+    properties,
+    onEnter = () => undefined,
+    onLeave = () => undefined
+  }: Partial<PortProps>, ref: Ref<SVGRectElement>) => {
     const isNorth = properties['port.side'] === 'NORTH';
     const isEast = properties['port.side'] === 'WEST';
     const isSouth = properties['port.side'] === 'SOUTH';
@@ -56,6 +71,14 @@ export const Port = forwardRef(
             opacity: 1
           }}
           whileHover={{ scale: 1.3 }}
+          onMouseEnter={event => {
+            event.stopPropagation();
+            onEnter(event, properties);
+          }}
+          onMouseLeave={event => {
+            event.stopPropagation();
+            onLeave(event, properties);
+          }}
         />
       </g>
     );

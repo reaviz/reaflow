@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Canvas } from './Canvas';
-import { Node, Edge, MarkerArrow } from './symbols';
+import { Node, Edge, MarkerArrow, Port } from './symbols';
 
 export const Simple = () => (
   <div style={{ border: 'solid 1px blue', height: 650, width: 650 }}>
@@ -128,6 +128,73 @@ export const Selections = () => {
     </div>
   );
 };
+
+export const Events = () => (
+  <div style={{ border: 'solid 1px blue', height: 650, width: 650 }}>
+    <Canvas
+      nodes={[
+        {
+          id: '1'
+        },
+        {
+          id: '2'
+        }
+      ]}
+      edges={[
+        {
+          id: '1-2',
+          from: '1',
+          to: '2'
+        }
+      ]}
+      node={
+        <Node
+          port={
+            <Port
+              onEnter={(event, port) => {
+                console.log('Enter Port', event, port);
+              }}
+              onLeave={(event, port) => {
+                console.log('Leave Port', event, port);
+              }}
+            />
+          }
+          onEnter={(event, node) => {
+            console.log('Enter Node', event, node);
+          }}
+          onLeave={(event, node) => {
+            console.log('Leave Node', event, node);
+          }}
+          onKeyDown={(event, node) => {
+            console.log('Keydown Node', event, node);
+          }}
+          onClick={(event, node) => {
+            console.log('Selecting Node', event, node);
+          }}
+        />
+      }
+      edge={
+        <Edge
+          onEnter={(event, edge) => {
+            console.log('Enter Edge', event, edge);
+          }}
+          onLeave={(event, edge) => {
+            console.log('Leave Edge', event, edge);
+          }}
+          onKeyDown={(event, edge) => {
+            console.log('Keydown Edge', event, edge);
+          }}
+          onClick={(event, edge) => {
+            console.log('Selecting Edge', event, edge);
+          }}
+        />
+      }
+      onCanvasClick={(event) => {
+        console.log('Canvas Clicked', event);
+      }}
+    />
+  </div>
+);
 
 export default {
   title: 'Canvas',
