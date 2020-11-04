@@ -27,6 +27,32 @@ export const Simple = () => (
   </div>
 );
 
+export const Disabled = () => (
+  <div style={{ border: 'solid 1px #12131e', height: 650, width: 650 }}>
+    <Canvas
+      disabled={true}
+      nodes={[
+        {
+          id: '1',
+          text: 'Node 1'
+        },
+        {
+          id: '2',
+          text: 'Node 2'
+        }
+      ]}
+      edges={[
+        {
+          id: '1-2',
+          from: '1',
+          to: '2'
+        }
+      ]}
+      onLayoutChange={layout => console.log('Layout', layout)}
+    />
+  </div>
+);
+
 export const Icons = () => (
   <div style={{ border: 'solid 1px #12131e', height: 650, width: 650 }}>
     <Canvas

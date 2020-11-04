@@ -16,6 +16,7 @@ export interface PortProps {
   id: string;
   x: number;
   y: number;
+  disabled?: boolean;
   properties: ElkPortProperties & PortData;
   onEnter?: (
     event: React.MouseEvent<SVGGElement, MouseEvent>,
@@ -31,6 +32,7 @@ export const Port = forwardRef(
   ({
     x,
     y,
+    disabled,
     properties,
     onEnter = () => undefined,
     onLeave = () => undefined
@@ -70,7 +72,7 @@ export const Port = forwardRef(
             scale: 1,
             opacity: 1
           }}
-          whileHover={{ scale: 1.5 }}
+          whileHover={{ scale: disabled ? 1 : 1.5 }}
           onMouseEnter={event => {
             event.stopPropagation();
             onEnter(event, properties);

@@ -1,10 +1,11 @@
-import React, { FC, Fragment, ReactElement } from 'react';
+import React, { FC, Fragment, ReactElement, useCallback, useEffect, useState } from 'react';
 import { useId } from 'rdk';
 import { Node, NodeProps } from './symbols/Node';
 import { Edge, EdgeProps } from './symbols/Edge';
 import { ElkRoot, useLayout } from './layout';
 import { MarkerArrow, MarkerArrowProps } from './symbols/Arrow';
 import { CloneElement } from 'rdk';
+import { useDrag } from './utils/useDrag';
 import css from './Canvas.module.scss';
 
 export interface NodeData<T = any> {
@@ -48,7 +49,6 @@ export interface PortData {
 }
 
 export interface EditorCanvasProps {
-  id?: string;
   className?: string;
   disabled?: boolean;
   height?: number;
@@ -82,7 +82,6 @@ export interface EditorCanvasProps {
 }
 
 export const Canvas: FC<Partial<EditorCanvasProps>> = ({
-  id,
   className,
   height = '100%',
   width = '100%',
@@ -90,6 +89,7 @@ export const Canvas: FC<Partial<EditorCanvasProps>> = ({
   maxWidth = 2000,
   nodes,
   edges,
+  disabled,
   arrow = <MarkerArrow />,
   node = <Node />,
   edge = <Edge />,
@@ -97,7 +97,7 @@ export const Canvas: FC<Partial<EditorCanvasProps>> = ({
   onCanvasClick = () => undefined,
   onLayoutChange = () => undefined
 }) => {
-  const genId = useId(id);
+  const id = useId();
   const { layout, ref } = useLayout({
     nodes,
     edges,
@@ -105,6 +105,7 @@ export const Canvas: FC<Partial<EditorCanvasProps>> = ({
     maxWidth,
     onLayoutChange
   });
+  const { dragCoords, ...dragRest } = useDrag();
 
   return (
     <div style={{ height, width }} className={css.container} ref={ref}>
@@ -114,7 +115,7 @@ export const Canvas: FC<Partial<EditorCanvasProps>> = ({
       />
       <svg
         xmlns="http://www.w3.org/2000/svg"
-        id={genId}
+        id={id}
         className={className}
         height={maxHeight}
         width={maxWidth}
@@ -142,9 +143,18 @@ export const Canvas: FC<Partial<EditorCanvasProps>> = ({
               element={node}
               id={`${id}-node`}
               isActive={selections.length > 0 ? selections.includes(n.id) : null}
+              disabled={disabled}
+              {...dragRest}
               {...(n as NodeProps)}
             />
           ))}
+          {dragCoords !== null && (
+            <CloneElement<EdgeProps>
+              element={edge}
+              id={`${id}-drag`}
+              sections={dragCoords}
+            />
+          )}
         </g>
       </svg>
     </div>

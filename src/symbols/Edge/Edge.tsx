@@ -59,6 +59,7 @@ export const Edge: FC<Partial<EdgeProps>> = ({
   properties,
   labels,
   className,
+  id,
   isActive,
   label = <Label />,
   onClick = () => undefined,

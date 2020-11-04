@@ -1,5 +1,4 @@
 .container {
-  cursor: pointer;
 
   &:focus {
     outline: none;
@@ -11,8 +10,12 @@
   stroke: transparent;
   transition: stroke 100ms ease-in-out;
 
-  &:hover {
-    stroke: #3E405A;
+  &:not(.disabled) {
+    cursor: pointer;
+
+    &:hover {
+      stroke: #3E405A;
+    }
   }
 
   &.active {
