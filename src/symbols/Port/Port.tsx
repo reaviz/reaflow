@@ -29,6 +29,9 @@ export const Port = forwardRef(
       return null;
     }
 
+    const newX = x - (properties.width / 2);
+    const newY = y - (properties.height / 2);
+
     return (
       <g>
         <motion.rect
@@ -40,10 +43,15 @@ export const Port = forwardRef(
           })}
           height={properties.height}
           width={properties.width}
-          initial={{ scale: 0, opacity: 0, x, y }}
+          initial={{
+            scale: 0,
+            opacity: 0,
+            x: newX,
+            y: newY
+          }}
           animate={{
-            x,
-            y,
+            x: newX,
+            y: newY,
             scale: 1,
             opacity: 1
           }}
