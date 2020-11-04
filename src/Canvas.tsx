@@ -18,10 +18,17 @@ export interface NodeData<T = any> {
   parent?: NodeData;
   edges?: EdgeData[];
   ports?: PortData[];
+  icon?: IconData;
   data?: T;
   style?: any;
   className?: string;
   hidden?: boolean;
+}
+
+export interface IconData {
+  url: string;
+  height: number;
+  width: number;
 }
 
 export interface EdgeData<T = any> {

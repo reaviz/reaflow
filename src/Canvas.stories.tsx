@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Canvas } from './Canvas';
-import { Node, Edge, MarkerArrow, Port } from './symbols';
+import { Node, Edge, MarkerArrow, Port, Icon } from './symbols';
 
 export const Simple = () => (
   <div style={{ border: 'solid 1px blue', height: 650, width: 650 }}>
@@ -22,6 +22,59 @@ export const Simple = () => (
           to: '2'
         }
       ]}
+    />
+  </div>
+);
+
+export const Icons = () => (
+  <div style={{ border: 'solid 1px blue', height: 650, width: 650 }}>
+    <Canvas
+      nodes={[
+        {
+          id: '1',
+          text: 'Node 1',
+          icon: {
+            url: 'https://s3.amazonaws.com/img.crft.app/package-slack-logo-bw.svg',
+            height: 25,
+            width: 25
+          }
+        },
+        {
+          id: '2',
+          text: 'Node 2',
+          icon: {
+            url: 'https://s3.amazonaws.com/img.crft.app/package-flashpoint-logo-bw.svg',
+            height: 25,
+            width: 25
+          }
+        },
+        {
+          id: '3',
+          text: 'Node 3',
+          icon: {
+            url: 'https://s3.amazonaws.com/img.crft.app/package-twitter-logo-bw.svg',
+            height: 25,
+            width: 25
+          }
+        }
+      ]}
+      edges={[
+        {
+          id: '1-2',
+          from: '1',
+          to: '2'
+        },
+        {
+          id: '2-3',
+          from: '2',
+          to: '3'
+        }
+      ]}
+      node={
+        <Node
+          icon={<Icon />}
+        />
+      }
     />
   </div>
 );

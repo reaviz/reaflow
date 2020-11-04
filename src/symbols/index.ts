@@ -3,3 +3,4 @@ export * from './Edge';
 export * from './Label';
 export * from './Node';
 export * from './Port';
+export * from './Icon';

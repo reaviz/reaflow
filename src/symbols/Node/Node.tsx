@@ -4,8 +4,9 @@ import { Port, PortProps } from '../Port';
 import { Label, LabelProps } from '../Label';
 import { NodeData } from '../../Canvas';
 import { CloneElement } from 'rdk';
-import css from './Node.module.scss';
+import { Icon, IconProps } from '../Icon';
 import classNames from 'classnames';
+import css from './Node.module.scss';
 
 export interface NodeProps {
   id: string;
@@ -42,6 +43,7 @@ export interface NodeProps {
     node: NodeData
   ) => void;
 
+  icon: ReactElement<IconProps, typeof Icon>;
   label: ReactElement<LabelProps, typeof Label>;
   port: ReactElement<PortProps, typeof Port>;
 }
@@ -58,6 +60,7 @@ export const Node: FC<Partial<NodeProps>> = ({
   isActive,
   rx = 2,
   ry = 2,
+  icon,
   port = <Port />,
   label = <Label />,
   onClick = () => undefined,
@@ -118,6 +121,14 @@ export const Node: FC<Partial<NodeProps>> = ({
           opacity: 1
         }}
       />
+      {icon && (
+        <CloneElement<IconProps>
+          element={icon}
+          {...properties.icon}
+          y={height / 2}
+          x={0}
+        />
+      )}
       {labels?.length > 0 && labels.map((l, index) => (
         <CloneElement<LabelProps>
           element={label}
