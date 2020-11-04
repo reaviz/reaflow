@@ -38,6 +38,8 @@ export interface EdgeData<T = any> {
   text?: any;
   from?: string;
   to?: string;
+  fromPort?: string;
+  toPort?: string;
   data?: T;
   style?: any;
   className?: string;
@@ -46,6 +48,10 @@ export interface EdgeData<T = any> {
 
 export interface PortData {
   id: string;
+  height: number;
+  width: number;
+  alignment?: 'CENTER';
+  side: 'NORTH' | 'SOUTH' | 'EAST' | 'WEST';
 }
 
 export interface EditorCanvasProps {

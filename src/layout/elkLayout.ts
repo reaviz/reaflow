@@ -34,15 +34,24 @@ function measureText(text: string) {
 }
 
 function mapNode(node: NodeData, layoutOptions) {
-  const isVertical = layoutOptions['elk.direction'] === 'DOWN';
-  const SOURCE_PORT_DIRECTION = isVertical ? 'SOUTH' : 'EAST';
-  const TARGET_PORT_DIRECTION = isVertical ? 'NORTH' : 'WEST';
+  // const isVertical = layoutOptions['elk.direction'] === 'DOWN';
+  // const SOURCE_PORT_DIRECTION = isVertical ? 'SOUTH' : 'EAST';
+  // const TARGET_PORT_DIRECTION = isVertical ? 'NORTH' : 'WEST';
   const labelDim = measureText(node.text);
 
   return {
     id: node.id,
     height: node.height || 50,
     width: node.width || 150,
+    ports: node.ports ? node.ports.map(port => ({
+      id: port.id,
+      properties: {
+        ...port,
+        'port.side': port.side,// SOURCE_PORT_DIRECTION,
+        'port.alignment': port.alignment || 'CENTER' // 'CENTER'
+      }
+    })) : [],
+    /*
     ports: [
       {
         id: `${node.id}_default`,
@@ -52,7 +61,7 @@ function mapNode(node: NodeData, layoutOptions) {
           'port.side': SOURCE_PORT_DIRECTION,
           'port.alignment': 'CENTER',
           index: 0,
-          type: 'default'
+          // type: 'default'
         }
       },
       {
@@ -65,6 +74,7 @@ function mapNode(node: NodeData, layoutOptions) {
         }
       }
     ],
+    */
     layoutOptions: {
       'elk.padding': '[left=50, top=50, right=50, bottom=50]',
       portConstraints: 'FIXED_ORDER'
@@ -98,8 +108,10 @@ function mapEdge(edge: EdgeData) {
     properties: {
       ...edge
     },
-    sourcePort: `${edge.from}_default`,
-    targetPort: `${edge.to}_target`,
+    sourcePort: edge.fromPort,
+    targetPort: edge.toPort,
+    // sourcePort: `${edge.from}_default`,
+    // targetPort: `${edge.to}_target`,
     labels: edge.text
       ?
       [
