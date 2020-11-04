@@ -108,6 +108,98 @@ export const Ports = () => (
   </div>
 );
 
+export const ComplexPorts = () => (
+  <div style={{ border: 'solid 1px #12131e', height: 650, width: 650 }}>
+    <Canvas
+      nodes={[
+        {
+          id: '1',
+          text: 'Node 1',
+          ports: [
+            {
+              id: '1-from-1',
+              width: 10,
+              height: 10,
+              side: 'SOUTH'
+            },
+            {
+              id: '1-from-2',
+              width: 10,
+              height: 10,
+              side: 'SOUTH'
+            },
+            {
+              id: '1-from-3',
+              width: 10,
+              height: 10,
+              side: 'SOUTH'
+            },
+            {
+              id: '1-to',
+              width: 10,
+              height: 10,
+              side: 'NORTH'
+            }
+          ]
+        },
+        {
+          id: '2',
+          text: 'Node 2',
+          ports: [
+            {
+              id: '2-from',
+              width: 10,
+              height: 10,
+              side: 'SOUTH'
+            },
+            {
+              id: '2-to',
+              width: 10,
+              height: 10,
+              side: 'NORTH'
+            }
+          ]
+        },
+        {
+          id: '3',
+          text: 'Node 3',
+          ports: [
+            {
+              id: '3-from',
+              width: 10,
+              height: 10,
+              side: 'SOUTH'
+            },
+            {
+              id: '3-to',
+              width: 10,
+              height: 10,
+              side: 'NORTH'
+            }
+          ]
+        }
+      ]}
+      edges={[
+        {
+          id: '1-2',
+          from: '1',
+          to: '2',
+          fromPort: '1-from-1',
+          toPort: '2-to'
+        },
+        {
+          id: '1-3',
+          from: '1',
+          to: '3',
+          fromPort: '1-from-3',
+          toPort: '3-to'
+        }
+      ]}
+      onLayoutChange={layout => console.log('Layout', layout)}
+    />
+  </div>
+);
+
 export const Icons = () => (
   <div style={{ border: 'solid 1px #12131e', height: 650, width: 650 }}>
     <Canvas

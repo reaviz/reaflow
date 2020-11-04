@@ -38,13 +38,13 @@ export const Port = forwardRef(
     onLeave = () => undefined
   }: Partial<PortProps>, ref: Ref<SVGRectElement>) => {
     const isNorth = properties['port.side'] === 'NORTH';
-    const isEast = properties['port.side'] === 'WEST';
+    // const isEast = properties['port.side'] === 'WEST';
     const isSouth = properties['port.side'] === 'SOUTH';
 
     // Dont render north points
-    if (isNorth || isEast) {
-      return null;
-    }
+    // if (isNorth || isEast) {
+    //  return null;
+    // }
 
     const newX = x - (properties.width / 2);
     const newY = y - (properties.height / 2);
