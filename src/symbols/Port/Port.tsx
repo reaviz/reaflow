@@ -1,7 +1,7 @@
 import React, { forwardRef, Ref } from 'react';
 import { motion } from 'framer-motion';
 import classNames from 'classnames';
-import { PortData } from '../../Canvas';
+import { PortData } from '../../types';
 import css from './Port.module.scss';
 
 export interface ElkPortProperties {
@@ -37,14 +37,12 @@ export const Port = forwardRef(
     onEnter = () => undefined,
     onLeave = () => undefined
   }: Partial<PortProps>, ref: Ref<SVGRectElement>) => {
-    const isNorth = properties['port.side'] === 'NORTH';
-    // const isEast = properties['port.side'] === 'WEST';
-    const isSouth = properties['port.side'] === 'SOUTH';
+    if (properties.hidden) {
+      return null;
+    }
 
-    // Dont render north points
-    // if (isNorth || isEast) {
-    //  return null;
-    // }
+    const isNorth = properties['port.side'] === 'NORTH';
+    const isSouth = properties['port.side'] === 'SOUTH';
 
     const newX = x - (properties.width / 2);
     const newY = y - (properties.height / 2);

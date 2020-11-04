@@ -1,6 +1,6 @@
 import React, { FC, ReactElement, useMemo } from 'react';
 import { line, curveBundle } from 'd3-shape';
-import { EdgeData } from '../../Canvas';
+import { EdgeData } from '../../types';
 import { Label, LabelProps } from '../Label';
 import { CloneElement } from 'rdk';
 import css from './Edge.module.scss';

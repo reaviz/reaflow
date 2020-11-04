@@ -1,4 +1,4 @@
-import { EdgeData, NodeData } from 'Canvas';
+import { EdgeData, NodeData } from '../types';
 import ELK, { ElkNode } from 'elkjs/lib/elk.bundled';
 import PCancelable from 'p-cancelable';
 import calculateSize from 'calculate-size';

@@ -138,6 +138,7 @@ export const ComplexPorts = () => (
               id: '1-to',
               width: 10,
               height: 10,
+              hidden: true,
               side: 'NORTH'
             }
           ]
@@ -156,6 +157,7 @@ export const ComplexPorts = () => (
               id: '2-to',
               width: 10,
               height: 10,
+              hidden: true,
               side: 'NORTH'
             }
           ]
@@ -174,6 +176,7 @@ export const ComplexPorts = () => (
               id: '3-to',
               width: 10,
               height: 10,
+              hidden: true,
               side: 'NORTH'
             }
           ]

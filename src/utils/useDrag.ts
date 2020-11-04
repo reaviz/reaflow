@@ -1,5 +1,5 @@
 import { useCallback, useMemo, useState } from 'react';
-import { NodeData } from '../Canvas';
+import { NodeData } from '../types';
 
 export const useDrag = () => {
   const [activeDrag, setActiveDrag] = useState<NodeData | null>(null);

@@ -2,7 +2,7 @@ import React, { FC, ReactElement, useEffect } from 'react';
 import { motion, useAnimation } from 'framer-motion';
 import { Port, PortProps } from '../Port';
 import { Label, LabelProps } from '../Label';
-import { NodeData } from '../../Canvas';
+import { NodeData } from '../../types';
 import { CloneElement } from 'rdk';
 import { Icon, IconProps } from '../Icon';
 import classNames from 'classnames';
