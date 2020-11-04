@@ -4,6 +4,7 @@ import { EdgeData } from '../../Canvas';
 import { Label, LabelProps } from '../Label';
 import { CloneElement } from 'rdk';
 import css from './Edge.module.scss';
+import classNames from 'classnames';
 
 export interface EdgeProps {
   id: string;
@@ -30,6 +31,7 @@ export interface EdgeProps {
   }[];
   isActive: boolean | null;
   labels?: LabelProps[];
+  className?: string;
 
   label: ReactElement<LabelProps, typeof Label>;
 
@@ -56,6 +58,8 @@ export const Edge: FC<Partial<EdgeProps>> = ({
   sections,
   properties,
   labels,
+  className,
+  isActive,
   label = <Label />,
   onClick = () => undefined,
   onKeyDown = () => undefined,
@@ -101,7 +105,7 @@ export const Edge: FC<Partial<EdgeProps>> = ({
       }}
     >
       <path
-        className={css.path}
+        className={classNames(className, css.path, { [css.active]: isActive })}
         d={d}
         markerEnd="url(#end-arrow)"
       />

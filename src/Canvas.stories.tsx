@@ -206,6 +206,14 @@ export const Selections = () => {
             }}
           />
         }
+        edge={
+          <Edge
+            onClick={(event, edge) => {
+              console.log('Selecting Edge', event, edge);
+              setSelections([edge.id]);
+            }}
+          />
+        }
         onCanvasClick={(event) => {
           console.log('Canvas Clicked', event);
           setSelections([]);

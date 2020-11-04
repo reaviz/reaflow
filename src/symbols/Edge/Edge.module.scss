@@ -8,5 +8,9 @@
 
 .path {
   fill: none;
-	stroke: #485a74;
+  stroke: #485a74;
+
+  &.active {
+    stroke: #46FECB;
+  }
 }

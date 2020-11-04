@@ -88,25 +88,25 @@ function mapNode(node: NodeData, layoutOptions) {
   };
 }
 
-function mapEdge({ id, from, to, ...rest }: EdgeData) {
-  const labelDim = measureText(rest.text);
+function mapEdge(edge: EdgeData) {
+  const labelDim = measureText(edge.text);
 
   return {
-    id,
-    source: from,
-    target: to,
+    id: edge.id,
+    source: edge.from,
+    target: edge.to,
     properties: {
-      ...rest
+      ...edge
     },
-    sourcePort: `${from}_default`,
-    targetPort: `${to}_target`,
-    labels: rest.text
+    sourcePort: `${edge.from}_default`,
+    targetPort: `${edge.to}_target`,
+    labels: edge.text
       ?
       [
         {
           width: (labelDim.width / 2),
           height: -(labelDim.height / 2),
-          text: rest.text,
+          text: edge.text,
           layoutOptions: {
             'elk.edgeLabels.placement': 'INSIDE V_CENTER H_CENTER'
           }
