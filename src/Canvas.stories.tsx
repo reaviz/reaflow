@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Canvas } from './Canvas';
-import { Node, Edge, MarkerArrow, Port, Icon } from './symbols';
+import { Node, Edge, MarkerArrow, Port, Icon, Arrow, Label } from './symbols';
 
 export const Simple = () => (
   <div style={{ border: 'solid 1px #12131e', height: 650, width: 650 }}>
@@ -481,6 +481,10 @@ export default {
   subcomponents: {
     Node,
     Edge,
-    MarkerArrow
+    MarkerArrow,
+    Arrow,
+    Icon,
+    Label,
+    Port
   }
 };
