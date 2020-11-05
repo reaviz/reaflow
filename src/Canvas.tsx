@@ -97,6 +97,7 @@ export const Canvas: FC<Partial<EditorCanvasProps>> = ({
               element={edge}
               id={`${id}-edge`}
               isActive={selections.length ? selections.includes(e.id) : null}
+              disabled={disabled}
               {...(e as EdgeProps)}
             />
           ))}

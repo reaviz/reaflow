@@ -529,7 +529,7 @@ export const Selections = () => {
 };
 
 export const Removeable = () => {
-  const [selections, setSelections] = useState<any[]>(['1']);
+  const [selections, setSelections] = useState<any[]>(['1', '1-2']);
   const [nodes, setNodes] = useState<any[]>([
     {
       id: '1',
@@ -561,6 +561,7 @@ export const Removeable = () => {
               setSelections([node.id]);
             }}
             onRemove={(event, node) => {
+              console.log('Removing Node', event, node);
               setEdges(edges.filter(e => e.from !== node.id));
               setNodes(nodes.filter(n => n.id !== node.id));
               setSelections([]);
@@ -572,6 +573,11 @@ export const Removeable = () => {
             onClick={(event, edge) => {
               console.log('Selecting Edge', event, edge);
               setSelections([edge.id]);
+            }}
+            onRemove={(event, edge) => {
+              console.log('Removing Edge', event, edge);
+              setEdges(edges.filter(e => e.id !== edge.id));
+              setSelections([]);
             }}
           />
         }
@@ -647,6 +653,9 @@ export const Events = () => (
           }}
           onClick={(event, edge) => {
             console.log('Selecting Edge', event, edge);
+          }}
+          onRemove={(event, edge) => {
+            console.log('Removing Edge', event, edge);
           }}
         />
       }

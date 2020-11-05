@@ -207,7 +207,7 @@ export const Node: FC<Partial<NodeProps>> = ({
           {...(p as PortProps)}
         />
       ))}
-      {!disabled && isActive && (
+      {!disabled && isActive && remove && (
         <CloneElement<RemoveProps>
           element={remove}
           y={height / 2}

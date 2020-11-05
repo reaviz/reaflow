@@ -1,10 +1,11 @@
-import React, { FC, ReactElement, useMemo, useRef } from 'react';
+import React, { FC, ReactElement, useEffect, useMemo, useRef, useState } from 'react';
 import { EdgeData } from '../../types';
 import { Label, LabelProps } from '../Label';
 import { CloneElement } from 'rdk';
 import classNames from 'classnames';
-import { getBezierPath, getCenter } from './utils';
+import { CenterCoords, getBezierPath, getPathCenter } from './utils';
 import { curveBundle, line } from 'd3-shape';
+import { Remove, RemoveProps } from '../Remove';
 import css from './Edge.module.scss';
 
 export interface EdgeProps {
@@ -36,6 +37,7 @@ export interface EdgeProps {
   className?: string;
 
   label: ReactElement<LabelProps, typeof Label>;
+  remove: ReactElement<RemoveProps, typeof Remove>;
 
   onClick?: (
     event: React.MouseEvent<SVGGElement, MouseEvent>,
@@ -53,7 +55,10 @@ export interface EdgeProps {
     event: React.MouseEvent<SVGGElement, MouseEvent>,
     node: EdgeData
   ) => void;
-  onRemove?: (edge: EdgeData) => void;
+  onRemove?: (
+    event: React.MouseEvent<SVGGElement, MouseEvent>,
+    edge: EdgeData
+  ) => void;
 }
 
 export const Edge: FC<Partial<EdgeProps>> = ({
@@ -61,17 +66,23 @@ export const Edge: FC<Partial<EdgeProps>> = ({
   properties,
   labels,
   className,
-  id,
+  disabled,
   isActive,
   style,
+  remove = <Remove />,
   label = <Label />,
   onClick = () => undefined,
   onKeyDown = () => undefined,
   onEnter = () => undefined,
-  onLeave = () => undefined
+  onLeave = () => undefined,
+  onRemove = () => undefined
 }) => {
+  const pathRef = useRef<SVGPathElement | null>(null);
+  const [center, setCenter] = useState<CenterCoords | null>(null);
+
   const d = useMemo(() => {
-    // Handle bend points that elk gives us seperately from drag points
+    // Handle bend points that elk gives
+    // us seperately from drag points
     if (sections[0].bendPoints) {
       const points: any[] = sections
         ? [
@@ -88,18 +99,22 @@ export const Edge: FC<Partial<EdgeProps>> = ({
 
       return pathFn(points);
     } else {
-      const pos = {
+      return getBezierPath({
         sourceX: sections[0].startPoint.x,
         sourceY: sections[0].startPoint.y,
         targetX: sections[0].endPoint.x,
         targetY: sections[0].endPoint.y
-      };
-
-      const [centerX, centerY] = getCenter(pos);
-
-      return getBezierPath({ ...pos, centerX, centerY });
+      });
     }
   }, [sections]);
+
+  useEffect(() => {
+    setCenter(getPathCenter(
+      pathRef.current,
+      sections[0].startPoint,
+      sections[0].endPoint
+    ));
+  }, [sections, pathRef.current]);
 
   return (
     <g
@@ -123,6 +138,7 @@ export const Edge: FC<Partial<EdgeProps>> = ({
       }}
     >
       <path
+        ref={pathRef}
         style={style}
         className={classNames(className, css.path, { [css.active]: isActive })}
         d={d}
@@ -135,6 +151,13 @@ export const Edge: FC<Partial<EdgeProps>> = ({
           {...(l as LabelProps)}
         />
       ))}
+      {!disabled && isActive && center && remove && (
+        <CloneElement<RemoveProps>
+          element={remove}
+          {...center}
+          onClick={event => onRemove(event, properties)}
+        />
+      )}
     </g>
   );
 };
