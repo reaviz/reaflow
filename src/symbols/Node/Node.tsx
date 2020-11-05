@@ -88,6 +88,9 @@ export const Node: FC<Partial<NodeProps>> = ({
     onMouseDown: (event: any) => {
       onDragStart(event, properties);
     },
+    onMouseUp: (event) => {
+      onDragEnd(event, properties);
+    },
     onDragEnd: (event) => {
       onDragEnd(event, properties);
     }
