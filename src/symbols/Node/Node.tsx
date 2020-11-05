@@ -81,12 +81,17 @@ export const Node: FC<Partial<NodeProps>> = ({
   const controls = useAnimation();
 
   const bind = useGesture({
-    onDrag: (event) => {
-      console.log('drag', event);
-      onDrag(event, properties);
+    onDrag: ({ movement, ...rest }) => {
+      onDrag({
+        ...rest,
+        offset: [movement[0] + x, movement[1] + y]
+      }, properties);
     },
-    onMouseDown: (event: any) => {
-      onDragStart(event, properties);
+    onDragStart: ({ movement, ...rest }) => {
+      onDragStart({
+        ...rest,
+        offset: [x, y]
+      }, properties);
     },
     onMouseUp: (event) => {
       onDragEnd(event, properties);
@@ -97,8 +102,7 @@ export const Node: FC<Partial<NodeProps>> = ({
   }, {
     drag: {
       enabled: !disabled,
-      threshold: 10,
-      initial: [x, y]
+      threshold: 10
     }
   });
 
@@ -112,7 +116,6 @@ export const Node: FC<Partial<NodeProps>> = ({
 
   return (
     <motion.g
-      {...bind()}
       tabIndex={-1}
       className={css.container}
       initial={{
@@ -130,16 +133,17 @@ export const Node: FC<Partial<NodeProps>> = ({
         event.stopPropagation();
         onKeyDown(event, properties);
       }}
-      onMouseEnter={event => {
-        event.stopPropagation();
-        onEnter(event, properties);
-      }}
-      onMouseLeave={event => {
-        event.stopPropagation();
-        onLeave(event, properties);
-      }}
     >
       <motion.rect
+        {...bind()}
+        onMouseEnter={event => {
+          event.stopPropagation();
+          onEnter(event, properties);
+        }}
+        onMouseLeave={event => {
+          event.stopPropagation();
+          onLeave(event, properties);
+        }}
         className={classNames(css.rect, className, {
           [css.active]: isActive,
           [css.disabled]: disabled

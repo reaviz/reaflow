@@ -1,21 +1,32 @@
-import { useCallback, useMemo, useState } from 'react';
+import { useRef, useState } from 'react';
 import { NodeData } from '../types';
 
 export const useDrag = () => {
+  const svgRef = useRef<any>(null);
   const [activeDrag, setActiveDrag] = useState<NodeData | null>(null);
   const [dragCoords, setDragCoords] = useState<any | null>(null);
 
-  const onDragStart = (event, node) => {
+  const onDragStart = ({ offset: [x, y] }, node) => {
+    const startPoint = { x, y };
+    setDragCoords([
+      {
+        startPoint,
+        endPoint: startPoint
+      }
+    ]);
+
     setActiveDrag(node);
   };
 
-  const onDrag = (event) => {
-    const [x, y] = event.offset;
-    const endPoint = { x, y };
+  const onDrag = ({ offset: [x, y] }) => {
+    if (!dragCoords) {
+      return;
+    }
 
+    const endPoint = { x, y };
     setDragCoords([
       {
-        startPoint: dragCoords?.[0]?.startPoint || endPoint,
+        startPoint: dragCoords[0].startPoint,
         endPoint
       }
     ]);
@@ -27,6 +38,7 @@ export const useDrag = () => {
   };
 
   return {
+    svgRef,
     dragCoords,
     activeDrag,
     onDragStart,
