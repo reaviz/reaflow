@@ -18,8 +18,8 @@
   <a href="https://bundlephobia.com/result?p=reaflow">
     <img src="https://badgen.net/bundlephobia/minzip/reaflow">
   </a>
-  <a href="https://join.slack.com/t/reaviz-community/shared_invite/zt-ivv6eh0g-WCrq0MjBlM0iGgBQZM3ESg">
-    <img src="https://img.shields.io/badge/slack-chat-green.svg">
+  <a href="https://discord.gg/Jt4YBq5e">
+    <img src="https://img.shields.io/discord/773948315037073409?label=discord">
   </a>
 </p>
 
