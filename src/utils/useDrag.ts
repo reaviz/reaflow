@@ -1,11 +1,12 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { NodeData } from '../types';
 
 export const useDrag = () => {
-  const [activeDrag, setActiveDrag] = useState<NodeData | null>(null);
+  const [dragNode, setDragNode] = useState<NodeData | null>(null);
+  const [enteredNode, setEnteredNode] = useState<NodeData | null>(null);
   const [dragCoords, setDragCoords] = useState<any | null>(null);
 
-  const onDragStart = ({ offset: [x, y] }, node) => {
+  const onDragStart = ({ offset: [x, y] }, node: NodeData) => {
     const startPoint = { x, y };
     setDragCoords([
       {
@@ -14,7 +15,7 @@ export const useDrag = () => {
       }
     ]);
 
-    setActiveDrag(node);
+    setDragNode(node);
   };
 
   const onDrag = ({ offset: [x, y] }) => {
@@ -31,16 +32,31 @@ export const useDrag = () => {
     ]);
   };
 
-  const onDragEnd = (event) => {
-    setActiveDrag(null);
+  const onDragEnd = () => {
+    setDragNode(null);
+    setEnteredNode(null);
     setDragCoords(null);
+  };
+
+  const onMouseEnter = (
+    _event: React.MouseEvent<SVGGElement,
+    MouseEvent>, node: NodeData
+  ) => {
+    setEnteredNode(node);
+  };
+
+  const onMouseLeave = () => {
+    setEnteredNode(null);
   };
 
   return {
     dragCoords,
-    activeDrag,
+    activeNode: dragNode,
+    enteredNode,
     onDragStart,
     onDrag,
-    onDragEnd
+    onDragEnd,
+    onMouseEnter,
+    onMouseLeave
   };
 };

@@ -1,10 +1,10 @@
-import React, { FC, ReactElement, useMemo } from 'react';
-import { line, curveBundle } from 'd3-shape';
+import React, { FC, ReactElement, useMemo, useRef } from 'react';
 import { EdgeData } from '../../types';
 import { Label, LabelProps } from '../Label';
 import { CloneElement } from 'rdk';
-import css from './Edge.module.scss';
 import classNames from 'classnames';
+import { getBezierPath, getCenter } from './utils';
+import css from './Edge.module.scss';
 
 export interface EdgeProps {
   id: string;
@@ -69,21 +69,20 @@ export const Edge: FC<Partial<EdgeProps>> = ({
   onEnter = () => undefined,
   onLeave = () => undefined
 }) => {
-  const d = useMemo(() => {
-    const points: any[] = sections
-      ? [
-        sections[0].startPoint,
-        ...(sections[0].bendPoints || []),
-        sections[0].endPoint
-      ]
-      : [];
+  const { d, center } = useMemo(() => {
+    const points = {
+      sourceX: sections[0].startPoint.x,
+      sourceY: sections[0].startPoint.y,
+      targetX: sections[0].endPoint.x,
+      targetY: sections[0].endPoint.y
+    };
 
-    const pathFn = line()
-      .x((d: any) => d.x)
-      .y((d: any) => d.y)
-      .curve(curveBundle.beta(1));
+    const [centerX, centerY] = getCenter(points);
 
-    return pathFn(points);
+    return {
+      d: getBezierPath({ ...points, centerX, centerY }),
+      center: [centerX, centerY]
+    };
   }, [sections]);
 
   return (

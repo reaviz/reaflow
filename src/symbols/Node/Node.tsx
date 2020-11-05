@@ -89,7 +89,7 @@ export const Node: FC<Partial<NodeProps>> = ({
         ...rest,
         offset: [x + offsetX, y + offsetY]
       }, properties);
-      document.body.style['cursor'] = 'grabbing';
+      document.body.style['cursor'] = 'crosshair';
       toggleTextSelection(false);
     },
     onDrag: ({ movement, ...rest }) => {
