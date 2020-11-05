@@ -1,8 +1,7 @@
-import { useRef, useState } from 'react';
+import { useState } from 'react';
 import { NodeData } from '../types';
 
 export const useDrag = () => {
-  const svgRef = useRef<any>(null);
   const [activeDrag, setActiveDrag] = useState<NodeData | null>(null);
   const [dragCoords, setDragCoords] = useState<any | null>(null);
 
@@ -38,7 +37,6 @@ export const useDrag = () => {
   };
 
   return {
-    svgRef,
     dragCoords,
     activeDrag,
     onDragStart,

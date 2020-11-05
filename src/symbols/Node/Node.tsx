@@ -7,6 +7,7 @@ import { CloneElement } from 'rdk';
 import { Icon, IconProps } from '../Icon';
 import classNames from 'classnames';
 import { useGesture } from 'react-use-gesture';
+import { toggleTextSelection } from '../../utils/textSelection';
 import css from './Node.module.scss';
 
 export interface NodeProps {
@@ -79,25 +80,33 @@ export const Node: FC<Partial<NodeProps>> = ({
   onLeave = () => undefined,
 }) => {
   const controls = useAnimation();
+  const offsetX = width / 2;
+  const offsetY = height;
 
   const bind = useGesture({
-    onDrag: ({ movement, ...rest }) => {
-      onDrag({
-        ...rest,
-        offset: [movement[0] + x, movement[1] + y]
-      }, properties);
-    },
     onDragStart: ({ movement, ...rest }) => {
       onDragStart({
         ...rest,
-        offset: [x, y]
+        offset: [x + offsetX, y + offsetY]
       }, properties);
+      document.body.style['cursor'] = 'grabbing';
+      toggleTextSelection(false);
     },
-    onMouseUp: (event) => {
-      onDragEnd(event, properties);
+    onDrag: ({ movement, ...rest }) => {
+      onDrag({
+        ...rest,
+        offset: [movement[0] + x + offsetX, movement[1] + y + offsetY]
+      }, properties);
     },
     onDragEnd: (event) => {
       onDragEnd(event, properties);
+      document.body.style['cursor'] = 'inherit';
+      toggleTextSelection(true);
+    },
+    onMouseUp: (event) => {
+      onDragEnd(event, properties);
+      document.body.style['cursor'] = 'inherit';
+      toggleTextSelection(true);
     }
   }, {
     drag: {
