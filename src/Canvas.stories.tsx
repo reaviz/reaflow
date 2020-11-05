@@ -27,6 +27,40 @@ export const Simple = () => (
   </div>
 );
 
+export const FullScreen = () => (
+  <div style={{ position: 'absolute', top: 0, right: 0, bottom: 0, left: 0 }}>
+    <Canvas
+      nodes={[
+        {
+          id: '1',
+          text: 'Node 1'
+        },
+        {
+          id: '2',
+          text: 'Node 2'
+        },
+        {
+          id: '3',
+          text: 'Node 3'
+        }
+      ]}
+      edges={[
+        {
+          id: '1-2',
+          from: '1',
+          to: '2'
+        },
+        {
+          id: '1-3',
+          from: '1',
+          to: '3'
+        }
+      ]}
+      onLayoutChange={layout => console.log('Layout', layout)}
+    />
+  </div>
+);
+
 export const Disabled = () => (
   <div style={{ border: 'solid 1px #12131e', height: 650, width: 650 }}>
     <Canvas

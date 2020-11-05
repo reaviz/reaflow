@@ -21,6 +21,7 @@ export interface EditorCanvasProps {
   nodes: NodeData[];
   edges: EdgeData[];
   layout?: 'elk' | 'manual';
+  selections?: string[];
 
   minZoom?: number;
   maxZoom?: number;
@@ -35,8 +36,6 @@ export interface EditorCanvasProps {
   onCanvasClick?: (event: React.MouseEvent<SVGGElement, MouseEvent>) => void;
   onCanvasZoom?: () => void;
   onCanvasPan?: () => void;
-
-  selections?: string[];
 
   arrow: ReactElement<MarkerArrowProps, typeof MarkerArrow>;
   node: ReactElement<NodeProps, typeof Node>;
@@ -94,7 +93,7 @@ export const Canvas: FC<Partial<EditorCanvasProps>> = ({
               key={e.id}
               element={edge}
               id={`${id}-edge`}
-              isActive={selections.length > 0 ? selections.includes(e.id) : null}
+              isActive={selections.length ? selections.includes(e.id) : null}
               {...(e as EdgeProps)}
             />
           ))}
@@ -103,7 +102,7 @@ export const Canvas: FC<Partial<EditorCanvasProps>> = ({
               key={n.id}
               element={node}
               id={`${id}-node`}
-              isActive={selections.length > 0 ? selections.includes(n.id) : null}
+              isActive={selections.length ? selections.includes(n.id) : null}
               disabled={disabled}
               {...dragRest}
               {...(n as NodeProps)}

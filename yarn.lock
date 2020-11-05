@@ -11659,6 +11659,11 @@ react-color@^2.17.0:
     reactcss "^1.2.0"
     tinycolor2 "^1.4.1"
 
+react-cool-dimensions@^1.1.10:
+  version "1.1.10"
+  resolved "https://registry.yarnpkg.com/react-cool-dimensions/-/react-cool-dimensions-1.1.10.tgz#3daf1b250fa921141dc4fa3211a452d89f46abde"
+  integrity sha512-tVf5sfbETeY5ZZ04WyFPt/GuBY69dlj01V2ujdk+z5vAf6HzEUje1oZ+RgrotSe7bUxMFffDG6QbqqqpIZJgeQ==
+
 react-dev-utils@^10.0.0:
   version "10.2.1"
   resolved "https://registry.yarnpkg.com/react-dev-utils/-/react-dev-utils-10.2.1.tgz#f6de325ae25fa4d546d09df4bb1befdc6dd19c19"
