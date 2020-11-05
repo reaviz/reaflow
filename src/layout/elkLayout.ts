@@ -33,10 +33,7 @@ function measureText(text: string) {
   return result;
 }
 
-function mapNode(node: NodeData, layoutOptions) {
-  // const isVertical = layoutOptions['elk.direction'] === 'DOWN';
-  // const SOURCE_PORT_DIRECTION = isVertical ? 'SOUTH' : 'EAST';
-  // const TARGET_PORT_DIRECTION = isVertical ? 'NORTH' : 'WEST';
+function mapNode(node: NodeData) {
   const labelDim = measureText(node.text);
 
   return {
@@ -47,34 +44,10 @@ function mapNode(node: NodeData, layoutOptions) {
       id: port.id,
       properties: {
         ...port,
-        'port.side': port.side,// SOURCE_PORT_DIRECTION,
-        'port.alignment': port.alignment || 'CENTER' // 'CENTER'
+        'port.side': port.side,
+        'port.alignment': port.alignment || 'CENTER'
       }
     })) : [],
-    /*
-    ports: [
-      {
-        id: `${node.id}_default`,
-        properties: {
-          width: 10,
-          height: 10,
-          'port.side': SOURCE_PORT_DIRECTION,
-          'port.alignment': 'CENTER',
-          index: 0,
-          // type: 'default'
-        }
-      },
-      {
-        id: `${node.id}_target`,
-        properties: {
-          width: 10,
-          height: 10,
-          'port.side': TARGET_PORT_DIRECTION,
-          'port.alignment': 'CENTER'
-        }
-      }
-    ],
-    */
     layoutOptions: {
       'elk.padding': '[left=50, top=50, right=50, bottom=50]',
       portConstraints: 'FIXED_ORDER'
@@ -110,8 +83,6 @@ function mapEdge(edge: EdgeData) {
     },
     sourcePort: edge.fromPort,
     targetPort: edge.toPort,
-    // sourcePort: `${edge.from}_default`,
-    // targetPort: `${edge.to}_target`,
     labels: edge.text
       ?
       [
@@ -128,10 +99,10 @@ function mapEdge(edge: EdgeData) {
   };
 }
 
-function mapInput(nodes: NodeData[], edges: EdgeData[], layoutOptions) {
+function mapInput(nodes: NodeData[], edges: EdgeData[]) {
   const children = [];
   for (const node of nodes) {
-    const map = mapNode(node, layoutOptions);
+    const map = mapNode(node);
     if (map !== null) {
       children.push(map);
     }
@@ -163,13 +134,13 @@ export const elkLayout = (
       .layout(
         {
           id: 'root',
-          ...mapInput(nodes, edges, layoutOptions)
+          ...mapInput(nodes, edges)
         },
         {
           layoutOptions
         }
       )
-      .then((result) => resolve(result))
+      .then(resolve)
       .catch(reject);
   });
 };
