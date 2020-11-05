@@ -6,12 +6,17 @@ export const useDrag = () => {
   const [enteredNode, setEnteredNode] = useState<NodeData | null>(null);
   const [dragCoords, setDragCoords] = useState<any | null>(null);
 
-  const onDragStart = ({ offset: [x, y] }, node: NodeData) => {
-    const startPoint = { x, y };
+  const onDragStart = ({ movement, offset: [x, y] }, node: NodeData) => {
     setDragCoords([
       {
-        startPoint,
-        endPoint: startPoint
+        startPoint: {
+          x,
+          y
+        },
+        endPoint: {
+          x: movement[0] + x,
+          y: movement[1] + y
+        }
       }
     ]);
 

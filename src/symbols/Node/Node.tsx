@@ -87,6 +87,7 @@ export const Node: FC<Partial<NodeProps>> = ({
     onDragStart: ({ movement, ...rest }) => {
       onDragStart({
         ...rest,
+        movement,
         offset: [x + offsetX, y + offsetY]
       }, properties);
       document.body.style['cursor'] = 'crosshair';
@@ -95,6 +96,7 @@ export const Node: FC<Partial<NodeProps>> = ({
     onDrag: ({ movement, ...rest }) => {
       onDrag({
         ...rest,
+        movement,
         offset: [movement[0] + x + offsetX, movement[1] + y + offsetY]
       }, properties);
     },
