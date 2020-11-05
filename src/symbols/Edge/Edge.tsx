@@ -4,6 +4,7 @@ import { Label, LabelProps } from '../Label';
 import { CloneElement } from 'rdk';
 import classNames from 'classnames';
 import { getBezierPath, getCenter } from './utils';
+import { curveBundle, line } from 'd3-shape';
 import css from './Edge.module.scss';
 
 export interface EdgeProps {
@@ -69,20 +70,35 @@ export const Edge: FC<Partial<EdgeProps>> = ({
   onEnter = () => undefined,
   onLeave = () => undefined
 }) => {
-  const { d, center } = useMemo(() => {
-    const points = {
-      sourceX: sections[0].startPoint.x,
-      sourceY: sections[0].startPoint.y,
-      targetX: sections[0].endPoint.x,
-      targetY: sections[0].endPoint.y
-    };
+  const d = useMemo(() => {
+    // Handle bend points that elk gives us seperately from drag points
+    if (sections[0].bendPoints) {
+      const points: any[] = sections
+        ? [
+          sections[0].startPoint,
+          ...(sections[0].bendPoints || []),
+          sections[0].endPoint
+        ]
+        : [];
 
-    const [centerX, centerY] = getCenter(points);
+      const pathFn = line()
+        .x((d: any) => d.x)
+        .y((d: any) => d.y)
+        .curve(curveBundle.beta(1));
 
-    return {
-      d: getBezierPath({ ...points, centerX, centerY }),
-      center: [centerX, centerY]
-    };
+      return pathFn(points);
+    } else {
+      const pos = {
+        sourceX: sections[0].startPoint.x,
+        sourceY: sections[0].startPoint.y,
+        targetX: sections[0].endPoint.x,
+        targetY: sections[0].endPoint.y
+      };
+
+      const [centerX, centerY] = getCenter(pos);
+
+      return getBezierPath({ ...pos, centerX, centerY });
+    }
   }, [sections]);
 
   return (
