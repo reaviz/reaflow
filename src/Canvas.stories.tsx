@@ -780,7 +780,7 @@ export const CustomStyles = () => (
 );
 
 export default {
-  title: 'Canvas',
+  title: 'Demos/Canvas',
   component: Canvas,
   parameters: {
     actions: {
