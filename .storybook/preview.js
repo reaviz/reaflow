@@ -2,6 +2,7 @@ import theme from './theme';
 
 const order = [
   'intro-',
+  'getting-started-',
   'docs-',
   'demos-'
 ];
