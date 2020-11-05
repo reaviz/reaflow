@@ -70,6 +70,57 @@ export const DynamicNodes = () => {
   );
 };
 
+export const LinkingNodes = () => {
+  const [nodes] = useState<any[]>([
+    {
+      id: '1',
+      text: 'Node 1'
+    },
+    {
+      id: '2',
+      text: 'Node 2'
+    },
+    {
+      id: '3',
+      text: 'Node 3'
+    }
+  ]);
+
+  const [edges, setEdges] = useState<any[]>([
+    {
+      id: '1-2',
+      from: '1',
+      to: '2'
+    }
+  ]);
+
+  return (
+    <div style={{ border: 'solid 1px #12131e', height: 650, width: 650 }}>
+      <Canvas
+        nodes={nodes}
+        edges={edges}
+        onNodeLink={(from, to) => {
+          const id = `${from.id}-${to.id}`;
+
+          if (edges.find(e => e.id === id)) {
+            return;
+          }
+
+          setEdges([
+            ...edges,
+            {
+              id,
+              from: from.id,
+              to: to.id
+            }
+          ]);
+        }}
+        onLayoutChange={layout => console.log('Layout', layout)}
+      />
+    </div>
+  );
+};
+
 export const FullScreen = () => (
   <div style={{ position: 'absolute', top: 0, right: 0, bottom: 0, left: 0 }}>
     <Canvas

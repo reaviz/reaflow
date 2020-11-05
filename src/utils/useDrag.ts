@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import { NodeData } from '../types';
 
-export const useDrag = () => {
+export const useDrag = ({
+  onNodeLink
+}) => {
   const [dragNode, setDragNode] = useState<NodeData | null>(null);
   const [enteredNode, setEnteredNode] = useState<NodeData | null>(null);
   const [dragCoords, setDragCoords] = useState<any | null>(null);
@@ -38,19 +40,23 @@ export const useDrag = () => {
   };
 
   const onDragEnd = () => {
+    if (dragNode && enteredNode) {
+      onNodeLink(dragNode, enteredNode);
+    }
+
     setDragNode(null);
     setEnteredNode(null);
     setDragCoords(null);
   };
 
-  const onMouseEnter = (
+  const onEnter = (
     _event: React.MouseEvent<SVGGElement,
     MouseEvent>, node: NodeData
   ) => {
     setEnteredNode(node);
   };
 
-  const onMouseLeave = () => {
+  const onLeave = () => {
     setEnteredNode(null);
   };
 
@@ -61,7 +67,7 @@ export const useDrag = () => {
     onDragStart,
     onDrag,
     onDragEnd,
-    onMouseEnter,
-    onMouseLeave
+    onEnter,
+    onLeave
   };
 };
