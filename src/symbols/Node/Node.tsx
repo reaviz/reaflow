@@ -1,4 +1,4 @@
-import React, { FC, ReactElement, useEffect } from 'react';
+import React, { FC, ReactElement, useEffect, useState } from 'react';
 import { motion, useAnimation } from 'framer-motion';
 import { Port, PortProps } from '../Port';
 import { Label, LabelProps } from '../Label';
@@ -8,6 +8,7 @@ import { Icon, IconProps } from '../Icon';
 import classNames from 'classnames';
 import { useGesture } from 'react-use-gesture';
 import { toggleTextSelection } from '../../utils/textSelection';
+import { Remove, RemoveProps } from '../Remove';
 import css from './Node.module.scss';
 
 export interface NodeProps {
@@ -26,7 +27,10 @@ export interface NodeProps {
   className?: string;
   style?: any;
 
-  onRemove?: (node: NodeData) => void;
+  onRemove?: (
+    event: React.MouseEvent<SVGGElement, MouseEvent>,
+    node: NodeData
+  ) => void;
 
   onClick?: (
     event: React.MouseEvent<SVGGElement, MouseEvent>,
@@ -49,6 +53,7 @@ export interface NodeProps {
   onDragEnd?: (event: any, node: NodeData) => void;
   onDragStart?: (event: any, node: NodeData) => void;
 
+  remove: ReactElement<RemoveProps, typeof Remove>;
   icon: ReactElement<IconProps, typeof Icon>;
   label: ReactElement<LabelProps, typeof Label>;
   port: ReactElement<PortProps, typeof Port>;
@@ -71,6 +76,7 @@ export const Node: FC<Partial<NodeProps>> = ({
   style,
   port = <Port />,
   label = <Label />,
+  remove = <Remove />,
   onDrag = () => undefined,
   onDragStart = () => undefined,
   onDragEnd = () => undefined,
@@ -78,6 +84,7 @@ export const Node: FC<Partial<NodeProps>> = ({
   onKeyDown = () => undefined,
   onEnter = () => undefined,
   onLeave = () => undefined,
+  onRemove = () => undefined
 }) => {
   const controls = useAnimation();
   const offsetX = width / 2;
@@ -88,7 +95,10 @@ export const Node: FC<Partial<NodeProps>> = ({
       onDragStart({
         ...rest,
         movement,
-        offset: [x + offsetX, y + offsetY]
+        offset: [
+          x + offsetX,
+          y + offsetY
+        ]
       }, properties);
       document.body.style['cursor'] = 'crosshair';
       toggleTextSelection(false);
@@ -97,7 +107,10 @@ export const Node: FC<Partial<NodeProps>> = ({
       onDrag({
         ...rest,
         movement,
-        offset: [movement[0] + x + offsetX, movement[1] + y + offsetY]
+        offset: [
+          movement[0] + x + offsetX,
+          movement[1] + y + offsetY
+        ]
       }, properties);
     },
     onDragEnd: (event) => {
@@ -194,6 +207,14 @@ export const Node: FC<Partial<NodeProps>> = ({
           {...(p as PortProps)}
         />
       ))}
+      {!disabled && isActive && (
+        <CloneElement<RemoveProps>
+          element={remove}
+          y={height / 2}
+          x={width}
+          onClick={event => onRemove(event, properties)}
+        />
+      )}
     </motion.g>
   );
 };

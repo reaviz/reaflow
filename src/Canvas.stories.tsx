@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Canvas } from './Canvas';
-import { Node, Edge, MarkerArrow, Port, Icon, Arrow, Label } from './symbols';
+import { Node, Edge, MarkerArrow, Port, Icon, Arrow, Label, Remove } from './symbols';
 
 export const Simple = () => (
   <div style={{ border: 'solid 1px #12131e', height: 650, width: 650 }}>
@@ -528,6 +528,63 @@ export const Selections = () => {
   );
 };
 
+export const Removeable = () => {
+  const [selections, setSelections] = useState<any[]>(['1']);
+  const [nodes, setNodes] = useState<any[]>([
+    {
+      id: '1',
+      text: 'Node 1'
+    },
+    {
+      id: '2',
+      text: 'Node 2'
+    }
+  ]);
+  const [edges, setEdges] = useState<any[]>([
+    {
+      id: '1-2',
+      from: '1',
+      to: '2'
+    }
+  ]);
+
+  return (
+    <div style={{ border: 'solid 1px #12131e', height: 650, width: 650 }}>
+      <Canvas
+        nodes={nodes}
+        edges={edges}
+        selections={selections}
+        node={
+          <Node
+            onClick={(event, node) => {
+              console.log('Selecting Node', event, node);
+              setSelections([node.id]);
+            }}
+            onRemove={(event, node) => {
+              setEdges(edges.filter(e => e.from !== node.id));
+              setNodes(nodes.filter(n => n.id !== node.id));
+              setSelections([]);
+            }}
+          />
+        }
+        edge={
+          <Edge
+            onClick={(event, edge) => {
+              console.log('Selecting Edge', event, edge);
+              setSelections([edge.id]);
+            }}
+          />
+        }
+        onCanvasClick={(event) => {
+          console.log('Canvas Clicked', event);
+          setSelections([]);
+        }}
+        onLayoutChange={layout => console.log('Layout', layout)}
+      />
+    </div>
+  );
+};
+
 export const Events = () => (
   <div style={{ border: 'solid 1px #12131e', height: 650, width: 650 }}>
     <Canvas
@@ -571,6 +628,9 @@ export const Events = () => (
           }}
           onClick={(event, node) => {
             console.log('Selecting Node', event, node);
+          }}
+          onRemove={(event, node) => {
+            console.log('Remove Node', event, node);
           }}
         />
       }
@@ -725,6 +785,7 @@ export default {
     Arrow,
     Icon,
     Label,
-    Port
+    Port,
+    Remove
   }
 };

@@ -1,0 +1,19 @@
+.deleteX {
+  stroke: black;
+  pointer-events: none;
+}
+
+.container {
+  will-change: transform, opacity;
+}
+
+.drop {
+  cursor: pointer;
+  opacity: 0;
+}
+
+.rect {
+  fill: #ff005d;
+  border-radius: 2px;
+  pointer-events: none;
+}
