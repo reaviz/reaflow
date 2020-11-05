@@ -16,6 +16,8 @@ export interface PortProps {
   id: string;
   x: number;
   y: number;
+  rx: number;
+  ry: number;
   disabled?: boolean;
   properties: ElkPortProperties & PortData;
   style?: any;
@@ -33,6 +35,8 @@ export const Port = forwardRef(
   ({
     x,
     y,
+    rx,
+    ry,
     disabled,
     style,
     properties,
@@ -61,6 +65,8 @@ export const Port = forwardRef(
           })}
           height={properties.height}
           width={properties.width}
+          rx={rx}
+          ry={ry}
           initial={{
             scale: 0,
             opacity: 0,

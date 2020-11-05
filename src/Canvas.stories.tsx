@@ -471,33 +471,112 @@ export const Events = () => (
 );
 
 export const CustomStyles = () => (
-  <div style={{ border: 'solid 1px #12131e', height: 650, width: 650 }}>
+  <div style={{ border: 'solid 1px #12131e', height: 650, width: 650, position: 'relative' }}>
+    <style>
+      {`
+        .canvas > div {
+          background: white;
+          background-image: -webkit-repeating-radial-gradient(top center,rgba(0,0,0,.8),rgba(0,0,0,.8) 1px,transparent 0,transparent 100%);
+        }
+        .edge {
+          stroke: #b1b1b7;
+          stroke-dasharray: 5;
+          animation: dashdraw .5s linear infinite;
+          stroke-width: 1;
+        }
+        @keyframes dashdraw {
+          0% { stroke-dashoffset: 10; }
+        }
+      `}
+    </style>
     <Canvas
+      className="canvas"
       nodes={[
         {
           id: '1',
-          text: 'Node 1'
+          text: 'Node 1',
+          ports: [
+            {
+              id: '1-from',
+              width: 10,
+              height: 10,
+              side: 'SOUTH'
+            },
+            {
+              id: '1-to',
+              width: 10,
+              height: 10,
+              side: 'NORTH',
+              hidden: true
+            }
+          ]
         },
         {
           id: '2',
-          text: 'Node 2'
+          text: 'Node 2',
+          ports: [
+            {
+              id: '2-from',
+              width: 10,
+              height: 10,
+              side: 'SOUTH',
+              hidden: true
+            },
+            {
+              id: '2-to',
+              width: 10,
+              height: 10,
+              side: 'NORTH',
+              hidden: true
+            }
+          ]
+        },
+        {
+          id: '3',
+          text: 'Node 3',
+          ports: [
+            {
+              id: '3-from',
+              width: 10,
+              height: 10,
+              side: 'SOUTH',
+              hidden: true
+            },
+            {
+              id: '3-to',
+              width: 10,
+              height: 10,
+              side: 'NORTH',
+              hidden: true
+            }
+          ]
         }
       ]}
       edges={[
         {
           id: '1-2',
           from: '1',
-          to: '2'
+          to: '2',
+          fromPort: '1-from',
+          toPort: '2-to'
+        },
+        {
+          id: '1-3',
+          from: '1',
+          to: '3',
+          fromPort: '1-from',
+          toPort: '3-to'
         }
       ]}
       node={
         <Node
-          style={{ stroke: 'black', fill: 'white' }}
+          style={{ stroke: '#1a192b', fill: 'white', strokeWidth: 1 }}
           label={<Label style={{ fill: 'black' }} />}
+          port={<Port style={{ fill: 'blue', stroke: 'white' }} rx={10} ry={10} />}
         />
       }
-      arrow={<MarkerArrow style={{ fill: 'white' }} />}
-      edge={<Edge style={{ stroke: 'white' }} />}
+      arrow={<MarkerArrow style={{ fill: '#b1b1b7' }} />}
+      edge={<Edge className="edge" />}
       onLayoutChange={layout => console.log('Layout', layout)}
     />
   </div>

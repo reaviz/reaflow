@@ -8,6 +8,7 @@ import { CloneElement } from 'rdk';
 import { useDrag } from './utils/useDrag';
 import { EdgeData, NodeData } from './types';
 import css from './Canvas.module.scss';
+import classNames from 'classnames';
 
 export interface EditorCanvasProps {
   className?: string;
@@ -69,7 +70,7 @@ export const Canvas: FC<Partial<EditorCanvasProps>> = ({
   const { dragCoords, ...dragRest } = useDrag();
 
   return (
-    <div style={{ height, width }} className={css.container} ref={ref}>
+    <div style={{ height, width }} className={classNames(css.container, className)} ref={ref}>
       <div
         className={css.background}
         style={{ height: maxHeight, width: maxWidth }}
@@ -77,7 +78,6 @@ export const Canvas: FC<Partial<EditorCanvasProps>> = ({
       <svg
         xmlns="http://www.w3.org/2000/svg"
         id={id}
-        className={className}
         height={maxHeight}
         width={maxWidth}
         onClick={onCanvasClick}
