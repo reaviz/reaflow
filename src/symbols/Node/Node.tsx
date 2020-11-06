@@ -6,8 +6,7 @@ import { NodeData } from '../../types';
 import { CloneElement } from 'rdk';
 import { Icon, IconProps } from '../Icon';
 import classNames from 'classnames';
-import { useDrag, useGesture } from 'react-use-gesture';
-import { toggleTextSelection } from '../../utils/textSelection';
+import { useDrag } from 'react-use-gesture';
 import css from './Node.module.scss';
 import { State } from 'react-use-gesture/dist/types';
 
@@ -96,14 +95,12 @@ export const Node: FC<Partial<NodeProps>> = ({
     (state) => {
       if (state.first) {
         onDragStart(state, initial, properties);
-        document.body.style['cursor'] = 'crosshair';
-        toggleTextSelection(false);
+        document.body.classList.add('dragging');
       }
       onDrag(state, initial, properties);
       if (state.last) {
         onDragEnd(state, initial, properties);
-        document.body.style['cursor'] = 'inherit';
-        toggleTextSelection(true);
+        document.body.classList.remove('dragging');
       }
     },
     { enabled: !disabled }
