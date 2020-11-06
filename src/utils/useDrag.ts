@@ -1,40 +1,20 @@
 import React, { useState } from 'react';
 import { NodeData } from '../types';
 
-export const useDrag = ({
-  onNodeLink
-}) => {
+export const useDrag = ({ onNodeLink }) => {
   const [dragNode, setDragNode] = useState<NodeData | null>(null);
   const [enteredNode, setEnteredNode] = useState<NodeData | null>(null);
   const [dragCoords, setDragCoords] = useState<any | null>(null);
 
-  const onDragStart = ({ movement, offset: [x, y] }, node: NodeData) => {
-    setDragCoords([
-      {
-        startPoint: {
-          x,
-          y
-        },
-        endPoint: {
-          x: movement[0] + x,
-          y: movement[1] + y
-        }
-      }
-    ]);
-
+  const onDragStart = (state, initial, node: NodeData) => {
     setDragNode(node);
   };
 
-  const onDrag = ({ offset: [x, y] }) => {
-    if (!dragCoords) {
-      return;
-    }
-
-    const endPoint = { x, y };
+  const onDrag = ({ movement: [mx, my], memo: [ox, oy] }, [ix, iy]) => {
     setDragCoords([
       {
-        startPoint: dragCoords[0].startPoint,
-        endPoint
+        startPoint: { x: ix, y: iy },
+        endPoint: { x: ix + mx + ox, y: iy + my + oy }
       }
     ]);
   };
@@ -50,8 +30,8 @@ export const useDrag = ({
   };
 
   const onEnter = (
-    _event: React.MouseEvent<SVGGElement,
-    MouseEvent>, node: NodeData
+    _event: React.MouseEvent<SVGGElement, MouseEvent>,
+    node: NodeData
   ) => {
     setEnteredNode(node);
   };
