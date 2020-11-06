@@ -1,13 +1,13 @@
-import React, { FC, ReactElement, ReactNode, useEffect } from 'react';
+import React, { FC, ReactElement, ReactNode, useEffect, useState } from 'react';
 import { motion, useAnimation } from 'framer-motion';
 import { Port, PortProps } from '../Port';
 import { Label, LabelProps } from '../Label';
-import { NodeData } from '../../types';
+import { NodeData, PortData } from '../../types';
 import { CloneElement } from 'rdk';
 import { Icon, IconProps } from '../Icon';
 import classNames from 'classnames';
 import { Remove, RemoveProps } from '../Remove';
-import { NodeDragEvents, useNodeDrag } from '../../utils/useNodeDrag';
+import { NodeDragEvents, DragEvent, useNodeDrag, Position } from '../../utils/useNodeDrag';
 import css from './Node.module.scss';
 
 export interface NodeChildProps {
@@ -18,7 +18,7 @@ export interface NodeChildProps {
   node: NodeData;
 }
 
-export interface NodeProps extends NodeDragEvents {
+export interface NodeProps extends NodeDragEvents<NodeData, PortData> {
   id: string;
   height: number;
   width: number;
@@ -92,17 +92,24 @@ export const Node: FC<Partial<NodeProps>> = ({
   onLeave = () => undefined
 }) => {
   const controls = useAnimation();
+  const [dragging, setDragging] = useState<boolean>(false);
 
   const bind = useNodeDrag({
     x,
     y,
     height,
     width,
-    disabled,
+    disabled: disabled || ports?.length > 2,
     node: properties,
     onDrag,
-    onDragStart,
-    onDragEnd
+    onDragStart: (event: DragEvent, initial: Position, data: NodeData) => {
+      onDragStart(event, initial, data, null);
+      setDragging(true);
+    },
+    onDragEnd: (event: DragEvent, initial: Position, data: NodeData) => {
+      onDragEnd(event, initial, data, null);
+      setDragging(false);
+    }
   });
 
   useEffect(() => {
@@ -146,7 +153,8 @@ export const Node: FC<Partial<NodeProps>> = ({
         className={classNames(css.rect, className, {
           [css.active]: isActive,
           [css.disabled]: disabled,
-          [css.unlinkable]: isLinkable === false
+          [css.unlinkable]: isLinkable === false,
+          [css.dragging]: dragging
         })}
         style={style}
         height={height}
@@ -195,6 +203,17 @@ export const Node: FC<Partial<NodeProps>> = ({
             element={port}
             key={p.id}
             disabled={disabled}
+            offsetX={x}
+            offsetY={y}
+            onDrag={onDrag}
+            onDragStart={(event: DragEvent, initial: Position, data: PortData) => {
+              onDragStart(event, initial, properties, data);
+              setDragging(true);
+            }}
+            onDragEnd={(event: DragEvent, initial: Position, data: PortData) => {
+              onDragEnd(event, initial, properties, data);
+              setDragging(false);
+            }}
             {...(p as PortProps)}
           />
         ))}

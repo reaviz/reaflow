@@ -2,21 +2,27 @@ import { useDrag } from 'react-use-gesture';
 import { State } from 'react-use-gesture/dist/types';
 import { NodeData } from '../types';
 
-export interface NodeDragEvents {
+export type DragEvent = State['drag'];
+export type Position = [number, number];
+
+export interface NodeDragEvents<T = any, TT = any | undefined> {
   onDrag?: (
-    event: State['drag'],
-    initial: [number, number],
-    node: NodeData
+    event: DragEvent,
+    initial: Position,
+    data: T,
+    extra: TT
   ) => void;
   onDragEnd?: (
-    event: State['drag'],
-    initial: [number, number],
-    node: NodeData
+    event: DragEvent,
+    initial: Position,
+    data: T,
+    extra: TT
   ) => void;
   onDragStart?: (
-    event: State['drag'],
-    initial: [number, number],
-    node: NodeData
+    event: DragEvent,
+    initial: Position,
+    data: T,
+    extra: TT
   ) => void;
 }
 
@@ -30,7 +36,7 @@ export interface NodeDragProps extends NodeDragEvents {
 }
 
 export const useNodeDrag = ({ x, y, height, width, onDrag, onDragEnd, onDragStart, node, disabled }: NodeDragProps) => {
-  const initial: [number, number] = [width / 2 + x, height + y];
+  const initial: Position = [width / 2 + x, height + y];
 
   const bind = useDrag(
     (state) => {

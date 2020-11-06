@@ -1,7 +1,8 @@
-import React, { forwardRef, Ref } from 'react';
+import React, { forwardRef, Ref, useState } from 'react';
 import { motion } from 'framer-motion';
 import classNames from 'classnames';
 import { PortData } from '../../types';
+import { NodeDragEvents, DragEvent, useNodeDrag, Position } from '../../utils/useNodeDrag';
 import css from './Port.module.scss';
 
 export interface ElkPortProperties {
@@ -12,12 +13,14 @@ export interface ElkPortProperties {
   'port.alignment': string;
 }
 
-export interface PortProps {
+export interface PortProps extends NodeDragEvents<PortData> {
   id: string;
   x: number;
   y: number;
   rx: number;
   ry: number;
+  offsetX: number;
+  offsetY: number;
   disabled?: boolean;
   properties: ElkPortProperties & PortData;
   style?: any;
@@ -40,12 +43,15 @@ export const Port = forwardRef(
     disabled,
     style,
     properties,
+    offsetX,
+    offsetY,
+    onDrag = () => undefined,
+    onDragStart = () => undefined,
+    onDragEnd = () => undefined,
     onEnter = () => undefined,
     onLeave = () => undefined
   }: Partial<PortProps>, ref: Ref<SVGRectElement>) => {
-    if (properties.hidden) {
-      return null;
-    }
+    const [dragging, setDragging] = useState<boolean>(false);
 
     const isNorth = properties['port.side'] === 'NORTH';
     const isSouth = properties['port.side'] === 'SOUTH';
@@ -53,9 +59,37 @@ export const Port = forwardRef(
     const newX = x - (properties.width / 2);
     const newY = y - (properties.height / 2);
 
+
+    const onDragStartInternal = (event: DragEvent, initial: Position) => {
+      onDragStart(event, initial, properties);
+      setDragging(true);
+    };
+
+    const onDragEndInternal = (event: DragEvent, initial: Position) => {
+      onDragEnd(event, initial, properties);
+      setDragging(false);
+    };
+
+    const bind = useNodeDrag({
+      x: newX + offsetX,
+      y: newY + offsetY,
+      height: properties.height,
+      width: properties.width,
+      disabled,
+      node: properties,
+      onDrag,
+      onDragStart: onDragStartInternal,
+      onDragEnd: onDragEndInternal
+    });
+
+    if (properties.hidden) {
+      return null;
+    }
+
     return (
       <g>
         <motion.rect
+          {...bind()}
           ref={ref}
           key={`${x}-${y}`}
           style={style}
@@ -76,7 +110,7 @@ export const Port = forwardRef(
           animate={{
             x: newX,
             y: newY,
-            scale: 1,
+            scale: dragging ? 1.5 : 1,
             opacity: 1
           }}
           whileHover={{ scale: disabled ? 1 : 1.5 }}

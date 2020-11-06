@@ -18,6 +18,7 @@
   &:not(.disabled) {
     cursor: pointer;
 
+    &.dragging,
     &:hover {
       stroke: #3e405a;
     }
