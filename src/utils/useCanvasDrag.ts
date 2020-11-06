@@ -26,7 +26,7 @@ export const useCanvasDrag = ({ onNodeLink, onNodeLinkCheck }) => {
 
   const onDragEnd = () => {
     if (dragNode && enteredNode && canLinkNode) {
-      onNodeLink(dragNode, enteredNode);
+      onNodeLink(dragNode, enteredNode, dragPort);
     }
 
     setDragNode(null);
@@ -42,7 +42,7 @@ export const useCanvasDrag = ({ onNodeLink, onNodeLinkCheck }) => {
     setEnteredNode(node);
 
     if (dragNode && node) {
-      const canLink = onNodeLinkCheck(dragNode, node);
+      const canLink = onNodeLinkCheck(dragNode, node, dragPort);
       setCanLinkNode(canLink === undefined || canLink ? true : false);
     }
   };
