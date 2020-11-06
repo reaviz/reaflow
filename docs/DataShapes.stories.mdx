@@ -1,0 +1,71 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Docs/Data Shapes" />
+
+# Data Shapes
+The graph is made up of 3 basic data shape objects you
+can pass to the graph.
+
+- Node - The element block which renders
+- Edge - The link between Nodes
+- Port - A specific enter/exit block to link between Nodes
+
+## Node
+```ts
+export interface NodeData<T = any> {
+  id: string;
+  x?: number;
+  y?: number;
+  disabled?: boolean;
+  text?: any;
+  height?: number;
+  width?: number;
+  parent?: NodeData;
+  edges?: EdgeData[];
+  ports?: PortData[];
+  icon?: IconData;
+  data?: T;
+  style?: any;
+  className?: string;
+  hidden?: boolean;
+}
+``
+
+The node also has a `IconData` shape:
+
+```ts
+export interface IconData {
+  url: string;
+  height: number;
+  width: number;
+}
+```
+
+## Edge
+```ts
+export interface EdgeData<T = any> {
+  id: string;
+  disabled?: boolean;
+  text?: any;
+  from?: string;
+  to?: string;
+  fromPort?: string;
+  toPort?: string;
+  data?: T;
+  style?: any;
+  className?: string;
+  arrowHeadType?: any;
+}
+```
+
+## Port
+```ts
+export interface PortData {
+  id: string;
+  height: number;
+  width: number;
+  hidden?: boolean;
+  alignment?: 'CENTER';
+  side: 'NORTH' | 'SOUTH' | 'EAST' | 'WEST';
+}
+```
