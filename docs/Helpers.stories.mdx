@@ -1,0 +1,23 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Docs/Helpers" />
+
+# Helpers
+
+## Upsert Node
+The `upsertNode` function helps you insert a new
+node between two other nodes.
+
+```js
+import { upsertNode} from 'reaflow';
+
+const id = `node-${Math.random()}`;
+const newNode = {
+  id,
+  text: id
+};
+
+const results = upsertNode(nodes, edges, edge, newNode);
+setNodes(results.nodes);
+setEdges(results.edges);
+```

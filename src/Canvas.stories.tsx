@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { EdgeData, NodeData } from 'types';
+import { upsertNode } from './utils';
 import { Canvas } from './Canvas';
 import { Node, Edge, MarkerArrow, Port, Icon, Arrow, Label, Remove, Add } from './symbols';
 
@@ -58,28 +59,14 @@ export const Adding = () => {
             add={<Add hidden={false} />}
             onAdd={(event, edge) => {
               const id = `node-${Math.random()}`;
+              const newNode = {
+                id,
+                text: id
+              };
 
-              setNodes([
-                ...nodes,
-                {
-                  id,
-                  text: id
-                }
-              ]);
-
-              setEdges([
-                ...edges.filter(e => e.id !== edge.id),
-                {
-                  id: `${edge.from}-${id}`,
-                  from: edge.from,
-                  to: id
-                },
-                {
-                  id: `${id}-${edge.to}`,
-                  from: id,
-                  to: edge.to
-                }
-              ]);
+              const results = upsertNode(nodes, edges, edge, newNode);
+              setNodes(results.nodes);
+              setEdges(results.edges);
             }}
           />
         }

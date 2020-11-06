@@ -6,7 +6,7 @@ export const useDrag = ({ onNodeLink }) => {
   const [enteredNode, setEnteredNode] = useState<NodeData | null>(null);
   const [dragCoords, setDragCoords] = useState<any | null>(null);
 
-  const onDragStart = (state, initial, node: NodeData) => {
+  const onDragStart = (_state, _initial, node: NodeData) => {
     setDragNode(node);
   };
 
