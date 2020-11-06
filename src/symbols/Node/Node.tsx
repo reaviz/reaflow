@@ -23,9 +23,10 @@ export interface NodeProps {
   ports?: PortProps[];
   labels?: LabelProps[];
   properties: any;
-  isActive: boolean | null;
   className?: string;
   style?: any;
+  isLinkable: boolean | null;
+  isActive: boolean | null;
 
   onRemove?: (
     event: React.MouseEvent<SVGGElement, MouseEvent>,
@@ -83,6 +84,7 @@ export const Node: FC<Partial<NodeProps>> = ({
   icon,
   disabled,
   style,
+  isLinkable,
   remove = <Remove />,
   port = <Port />,
   label = <Label />,
@@ -103,13 +105,17 @@ export const Node: FC<Partial<NodeProps>> = ({
       if (state.first) {
         // @ts-ignore
         const { x, bottom } = state.event.currentTarget.getBoundingClientRect();
+
         // memo will hold the difference between the first point of impact and the origin
         const memo = [state.xy[0] - x - width / 2, state.xy[1] - bottom];
         onDragStart({ ...state, memo }, initial, properties);
         document.body.classList.add('dragging');
+
         return memo;
       }
+
       onDrag(state, initial, properties);
+
       if (state.last) {
         onDragEnd(state, initial, properties);
         document.body.classList.remove('dragging');
@@ -158,7 +164,8 @@ export const Node: FC<Partial<NodeProps>> = ({
         }}
         className={classNames(css.rect, className, {
           [css.active]: isActive,
-          [css.disabled]: disabled
+          [css.disabled]: disabled,
+          [css.unlinkable]: isLinkable === false
         })}
         style={style}
         height={height}

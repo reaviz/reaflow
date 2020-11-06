@@ -6,6 +6,7 @@ import { ElkRoot, useLayout } from './layout';
 import { MarkerArrow, MarkerArrowProps } from './symbols/Arrow';
 import { CloneElement } from 'rdk';
 import { useDrag } from './utils/useDrag';
+import { checkNodeLinkable } from './utils/helpers';
 import { EdgeData, NodeData } from './types';
 import css from './Canvas.module.scss';
 import classNames from 'classnames';
@@ -73,7 +74,7 @@ export const Canvas: FC<Partial<EditorCanvasProps>> = ({
     maxWidth,
     onLayoutChange
   });
-  const { dragCoords, ...dragRest } = useDrag({ onNodeLink, onNodeLinkCheck });
+  const { dragCoords, canLinkNode, enteredNode, ...dragRest } = useDrag({ onNodeLink, onNodeLinkCheck });
 
   return (
     <div style={{ height, width }} className={classNames(css.container, className)} ref={ref}>
@@ -111,6 +112,7 @@ export const Canvas: FC<Partial<EditorCanvasProps>> = ({
               element={node}
               id={`${id}-node`}
               isActive={selections.length ? selections.includes(n.id) : null}
+              isLinkable={checkNodeLinkable(n, enteredNode, canLinkNode)}
               disabled={disabled}
               {...dragRest}
               {...(n as NodeProps)}

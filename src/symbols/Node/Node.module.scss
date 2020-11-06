@@ -25,5 +25,9 @@
     &.active {
       stroke: #46fecb;
     }
+
+    &.unlinkable {
+      stroke: #ff005d;
+    }
   }
 }

@@ -6,7 +6,7 @@ export const useDrag = ({ onNodeLink, onNodeLinkCheck }) => {
   const [dragNode, setDragNode] = useState<NodeData | null>(null);
   const [enteredNode, setEnteredNode] = useState<NodeData | null>(null);
   const [dragCoords, setDragCoords] = useState<EdgeSections[] | null>(null);
-  const [canLinkNode, setCanLinkNode] = useState<boolean>(false);
+  const [canLinkNode, setCanLinkNode] = useState<boolean | null>(null);
 
   const onDragStart = (_state, _initial, node: NodeData) => {
     setDragNode(node);
@@ -45,7 +45,7 @@ export const useDrag = ({ onNodeLink, onNodeLinkCheck }) => {
 
   const onLeave = () => {
     setEnteredNode(null);
-    setCanLinkNode(false);
+    setCanLinkNode(null);
   };
 
   return {
