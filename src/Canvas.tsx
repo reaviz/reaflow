@@ -7,7 +7,7 @@ import { MarkerArrow, MarkerArrowProps } from './symbols/Arrow';
 import { CloneElement } from 'rdk';
 import { useCanvasDrag } from './utils/useCanvasDrag';
 import { checkNodeLinkable } from './utils/helpers';
-import { EdgeData, NodeData } from './types';
+import { EdgeData, NodeData, PortData } from './types';
 import classNames from 'classnames';
 import css from './Canvas.module.scss';
 
@@ -39,8 +39,8 @@ export interface EditorCanvasProps {
   onCanvasZoom?: () => void;
   onCanvasPan?: () => void;
 
-  onNodeLink?: (from: NodeData, to: NodeData) => void;
-  onNodeLinkCheck?: (from: NodeData, to: NodeData) => undefined | boolean;
+  onNodeLink?: (from: NodeData, to: NodeData, port?: PortData) => void;
+  onNodeLinkCheck?: (from: NodeData, to: NodeData, port?: PortData) => undefined | boolean;
 
   arrow: ReactElement<MarkerArrowProps, typeof MarkerArrow>;
   node: ReactElement<NodeProps, typeof Node>;

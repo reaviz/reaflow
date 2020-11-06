@@ -57,7 +57,6 @@ export const Icons = () => (
   </div>
 );
 
-
 export const LinkingNodeRestrictions = () => {
   const [nodes] = useState<any[]>([
     {

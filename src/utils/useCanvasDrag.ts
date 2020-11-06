@@ -1,18 +1,21 @@
 import React, { useState } from 'react';
 import { EdgeSections } from '../symbols/Edge';
-import { NodeData } from '../types';
+import { NodeData, PortData } from '../types';
+import { DragEvent, Position } from './useNodeDrag';
 
 export const useCanvasDrag = ({ onNodeLink, onNodeLinkCheck }) => {
   const [dragNode, setDragNode] = useState<NodeData | null>(null);
+  const [dragPort, setDragPort] = useState<NodeData | null>(null);
   const [enteredNode, setEnteredNode] = useState<NodeData | null>(null);
   const [dragCoords, setDragCoords] = useState<EdgeSections[] | null>(null);
   const [canLinkNode, setCanLinkNode] = useState<boolean | null>(null);
 
-  const onDragStart = (_state, _initial, node: NodeData) => {
+  const onDragStart = (_state: DragEvent, _initial: Position, node: NodeData, port?: PortData) => {
     setDragNode(node);
+    setDragPort(port);
   };
 
-  const onDrag = ({ movement: [mx, my], memo: [ox, oy] }, [ix, iy]) => {
+  const onDrag = ({ movement: [mx, my], memo: [ox, oy] }: DragEvent, [ix, iy]: Position) => {
     setDragCoords([
       {
         startPoint: { x: ix, y: iy },
@@ -27,6 +30,7 @@ export const useCanvasDrag = ({ onNodeLink, onNodeLinkCheck }) => {
     }
 
     setDragNode(null);
+    setDragPort(null);
     setEnteredNode(null);
     setDragCoords(null);
   };
@@ -52,6 +56,7 @@ export const useCanvasDrag = ({ onNodeLink, onNodeLinkCheck }) => {
     dragCoords,
     canLinkNode,
     dragNode,
+    dragPort,
     enteredNode,
     onDragStart,
     onDrag,
