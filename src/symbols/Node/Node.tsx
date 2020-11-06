@@ -93,7 +93,6 @@ export const Node: FC<Partial<NodeProps>> = ({
 
   const bind = useDrag(
     (state) => {
-      console.log(state.memo);
       if (state.first) {
         // @ts-ignore
         const { x, bottom } = state.event.currentTarget.getBoundingClientRect();
