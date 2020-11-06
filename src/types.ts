@@ -33,6 +33,7 @@ export interface EdgeData<T = any> {
   style?: any;
   className?: string;
   arrowHeadType?: any;
+  parent?: string;
 }
 
 export interface PortData {

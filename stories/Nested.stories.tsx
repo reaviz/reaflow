@@ -7,10 +7,21 @@ export const Simple = () => (
     <Canvas
       nodes={[
         {
-          id: '1'
+          id: '1',
+          text: '1'
         },
         {
-          id: '2'
+          id: '1 > 2',
+          text: '1 > 2',
+          parent: '1'
+        },
+        {
+          id: '2',
+          text: '2'
+        },
+        {
+          id: '3',
+          text: '3'
         }
       ]}
       edges={[

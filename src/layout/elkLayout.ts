@@ -39,13 +39,23 @@ function measureText(text: string) {
   return result;
 }
 
-function mapNode(node: NodeData) {
+function mapNode(nodes: NodeData[], edges: EdgeData[], node: NodeData) {
   const labelDim = measureText(node.text);
+
+  const children = nodes
+    .filter(n => n.parent === node.id)
+    .map(n => mapNode(nodes, edges, n));
+
+  const childEdges = edges
+    .filter(e => e.parent === node.id)
+    .map(e => mapEdge(e));
 
   return {
     id: node.id,
     height: node.height || 50,
     width: node.width || 150,
+    children,
+    edges: childEdges,
     ports: node.ports
       ? node.ports.map((port) => ({
         id: port.id,
@@ -110,16 +120,20 @@ function mapInput(nodes: NodeData[], edges: EdgeData[]) {
   const mappedEdges = [];
 
   for (const node of nodes) {
-    const mappedNode = mapNode(node);
-    if (mappedNode !== null) {
-      children.push(mappedNode);
+    if (!node.parent) {
+      const mappedNode = mapNode(nodes, edges, node);
+      if (mappedNode !== null) {
+        children.push(mappedNode);
+      }
     }
   }
 
   for (const edge of edges) {
-    const mappedEdge = mapEdge(edge);
-    if (mappedEdge !== null) {
-      mappedEdges.push(mappedEdge);
+    if (!edge.parent) {
+      const mappedEdge = mapEdge(edge);
+      if (mappedEdge !== null) {
+        mappedEdges.push(mappedEdge);
+      }
     }
   }
 

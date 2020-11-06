@@ -41,6 +41,7 @@ export interface NodeProps extends NodeDragEvents<NodeData, PortData> {
   isActive: boolean | null;
   children?: ReactNode | ((node: NodeChildProps) => ReactNode);
   nodes?: NodeData[];
+  parent?: string;
 
   onRemove?: (
     event: React.MouseEvent<SVGGElement, MouseEvent>,
