@@ -1,6 +1,9 @@
 .container {
-  overflow: auto;
   position: relative;
+
+  &.pannable {
+    overflow: auto;
+  }
 
   .background {
     content: " ";

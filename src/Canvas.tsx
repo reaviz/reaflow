@@ -30,13 +30,13 @@ export interface EditorCanvasProps {
   edges: EdgeData[];
   selections?: string[];
   direction?: CanvasDirection;
+  pannable?: boolean;
 
   /*
   minZoom?: number;
   maxZoom?: number;
   zoomStep?: number;
   zoomable?: boolean;
-  pannable?: boolean;
   snapToGrid?: boolean;
   snapGrid?: [number, number];
   */
@@ -68,6 +68,7 @@ export const Canvas: FC<Partial<EditorCanvasProps>> = ({
   nodes,
   edges,
   disabled,
+  pannable = true,
   direction = 'DOWN',
   arrow = <MarkerArrow />,
   node = <Node />,
@@ -80,12 +81,13 @@ export const Canvas: FC<Partial<EditorCanvasProps>> = ({
   onLayoutChange = () => undefined
 }) => {
   const id = useId();
-  const { layout, ref, xy } = useLayout({
+  const { layout, ref, xy, canvasHeight, canvasWidth } = useLayout({
     nodes,
     edges,
     maxHeight,
     maxWidth,
     direction,
+    pannable,
     onLayoutChange
   });
   const { dragCoords, canLinkNode, enteredNode, ...dragRest } = useCanvasDrag({
@@ -96,18 +98,18 @@ export const Canvas: FC<Partial<EditorCanvasProps>> = ({
   return (
     <div
       style={{ height, width }}
-      className={classNames(css.container, className)}
+      className={classNames(css.container, className, { [css.pannable]: pannable })}
       ref={ref}
     >
       <div
         className={css.background}
-        style={{ height: maxHeight, width: maxWidth }}
+        style={{ height: canvasHeight, width: canvasWidth }}
       />
       <svg
         xmlns="http://www.w3.org/2000/svg"
         id={id}
-        height={maxHeight}
-        width={maxWidth}
+        height={canvasHeight}
+        width={canvasWidth}
         onClick={onCanvasClick}
       >
         <defs>

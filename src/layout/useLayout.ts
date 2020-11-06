@@ -18,6 +18,7 @@ export const useLayout = ({
   maxHeight,
   nodes = [],
   edges = [],
+  pannable,
   direction,
   onLayoutChange
 }) => {
@@ -25,6 +26,8 @@ export const useLayout = ({
   const { ref, width, height } = useDimensions<HTMLDivElement>();
   const [layout, setLayout] = useState<ElkRoot | null>(null);
   const [xy, setXY] = useState<[number, number]>([0, 0]);
+  const canvasHeight = pannable ? maxHeight : height;
+  const canvasWidth = pannable ? maxWidth : width;
 
   useEffect(() => {
     const promise = elkLayout(nodes, edges, { direction });
@@ -44,21 +47,25 @@ export const useLayout = ({
   useLayoutEffect(() => {
     const scroller = ref.current;
     if (scroller && !scrolled.current && layout && height && width) {
-      const scrollX = (maxWidth - height) / 2;
-      const scrollY = (maxHeight - width) / 2;
+      const scrollX = (canvasWidth - height) / 2;
+      const scrollY = (canvasHeight - width) / 2;
 
-      const x = maxWidth / 2 - layout.width / 2;
-      const y = maxHeight / 2 - layout.height / 2;
+      const x = canvasWidth / 2 - layout.width / 2;
+      const y = canvasHeight / 2 - layout.height / 2;
 
       setXY([x, y]);
       scroller.scrollTo(scrollY, scrollX);
       scrolled.current = true;
     }
-  }, [maxHeight, maxWidth, layout, height, width]);
+  }, [canvasWidth, canvasHeight, layout, height, width]);
 
   return {
     xy,
     ref,
+    canvasHeight,
+    canvasWidth,
+    containerWidth: width,
+    containerHeight: height,
     layout
   };
 };
