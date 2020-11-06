@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
+import { EdgeSections } from '../symbols/Edge';
 import { NodeData } from '../types';
 
-export const useDrag = ({ onNodeLink }) => {
+export const useDrag = ({ onNodeLink, onNodeLinkCheck }) => {
   const [dragNode, setDragNode] = useState<NodeData | null>(null);
   const [enteredNode, setEnteredNode] = useState<NodeData | null>(null);
-  const [dragCoords, setDragCoords] = useState<any | null>(null);
+  const [dragCoords, setDragCoords] = useState<EdgeSections[] | null>(null);
+  const [canLinkNode, setCanLinkNode] = useState<boolean>(false);
 
   const onDragStart = (_state, _initial, node: NodeData) => {
     setDragNode(node);
@@ -20,7 +22,7 @@ export const useDrag = ({ onNodeLink }) => {
   };
 
   const onDragEnd = () => {
-    if (dragNode && enteredNode) {
+    if (dragNode && enteredNode && canLinkNode) {
       onNodeLink(dragNode, enteredNode);
     }
 
@@ -34,15 +36,22 @@ export const useDrag = ({ onNodeLink }) => {
     node: NodeData
   ) => {
     setEnteredNode(node);
+
+    if (dragNode && node) {
+      const canLink = onNodeLinkCheck(dragNode, node);
+      setCanLinkNode(canLink === undefined || canLink ? true : false);
+    }
   };
 
   const onLeave = () => {
     setEnteredNode(null);
+    setCanLinkNode(false);
   };
 
   return {
     dragCoords,
-    activeNode: dragNode,
+    canLinkNode,
+    dragNode,
     enteredNode,
     onDragStart,
     onDrag,

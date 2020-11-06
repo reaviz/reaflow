@@ -9,6 +9,22 @@ import { Remove, RemoveProps } from '../Remove';
 import { Add, AddProps } from '../Add';
 import css from './Edge.module.scss';
 
+export interface EdgeSections {
+  id?: string;
+  startPoint?: {
+    x: number;
+    y: number;
+  };
+  endPoint?: {
+    x: number;
+    y: number;
+  };
+  bendPoints?: {
+    x: number;
+    y: number;
+  };
+}
+
 export interface EdgeProps {
   id: string;
   disabled?: boolean;
@@ -18,21 +34,7 @@ export interface EdgeProps {
   targetPort: string;
   properties?: EdgeData;
   style?: any;
-  sections: {
-    id: string;
-    endPoint: {
-      x: number;
-      y: number;
-    };
-    startPoint: {
-      x: number;
-      y: number;
-    };
-    bendPoints?: {
-      x: number;
-      y: number;
-    }[];
-  }[];
+  sections: EdgeSections[];
   isActive: boolean | null;
   labels?: LabelProps[];
   className?: string;
@@ -95,7 +97,7 @@ export const Edge: FC<Partial<EdgeProps>> = ({
       const points: any[] = sections
         ? [
           sections[0].startPoint,
-          ...(sections[0].bendPoints || []),
+          ...(sections[0].bendPoints || ([] as any)),
           sections[0].endPoint
         ]
         : [];

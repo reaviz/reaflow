@@ -38,6 +38,7 @@ export interface EditorCanvasProps {
   onCanvasPan?: () => void;
 
   onNodeLink?: (from: NodeData, to: NodeData) => void;
+  onNodeLinkCheck?: (from: NodeData, to: NodeData) => undefined | boolean;
 
   arrow: ReactElement<MarkerArrowProps, typeof MarkerArrow>;
   node: ReactElement<NodeProps, typeof Node>;
@@ -59,6 +60,7 @@ export const Canvas: FC<Partial<EditorCanvasProps>> = ({
   edge = <Edge />,
   dragEdge = <Edge add={null} />,
   selections = [],
+  onNodeLinkCheck = () => undefined,
   onNodeLink = () => undefined,
   onCanvasClick = () => undefined,
   onLayoutChange = () => undefined
@@ -71,7 +73,7 @@ export const Canvas: FC<Partial<EditorCanvasProps>> = ({
     maxWidth,
     onLayoutChange
   });
-  const { dragCoords, ...dragRest } = useDrag({ onNodeLink });
+  const { dragCoords, ...dragRest } = useDrag({ onNodeLink, onNodeLinkCheck });
 
   return (
     <div style={{ height, width }} className={classNames(css.container, className)} ref={ref}>
