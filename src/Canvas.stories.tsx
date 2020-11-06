@@ -27,6 +27,30 @@ export const Simple = () => (
   </div>
 );
 
+export const Direction = () => (
+  <div style={{ border: 'solid 1px #12131e', height: 650, width: 650 }}>
+    <Canvas
+      nodes={[
+        {
+          id: '1'
+        },
+        {
+          id: '2'
+        }
+      ]}
+      edges={[
+        {
+          id: '1-2',
+          from: '1',
+          to: '2'
+        }
+      ]}
+      direction="RIGHT"
+      onLayoutChange={layout => console.log('Layout', layout)}
+    />
+  </div>
+);
+
 export const VariableSizes = () => (
   <div style={{ border: 'solid 1px #12131e', height: 650, width: 650 }}>
     <Canvas

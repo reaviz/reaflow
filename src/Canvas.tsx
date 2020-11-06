@@ -2,14 +2,14 @@ import React, { FC, Fragment, ReactElement, useCallback, useEffect, useState } f
 import { useId } from 'rdk';
 import { Node, NodeProps } from './symbols/Node';
 import { Edge, EdgeProps } from './symbols/Edge';
-import { ElkRoot, useLayout } from './layout';
+import { ElkRoot, CanvasDirection, useLayout } from './layout';
 import { MarkerArrow, MarkerArrowProps } from './symbols/Arrow';
 import { CloneElement } from 'rdk';
 import { useDrag } from './utils/useDrag';
 import { checkNodeLinkable } from './utils/helpers';
 import { EdgeData, NodeData } from './types';
-import css from './Canvas.module.scss';
 import classNames from 'classnames';
+import css from './Canvas.module.scss';
 
 export interface EditorCanvasProps {
   className?: string;
@@ -21,17 +21,18 @@ export interface EditorCanvasProps {
 
   nodes: NodeData[];
   edges: EdgeData[];
-  layout?: 'elk' | 'manual';
   selections?: string[];
+  direction?: CanvasDirection;
 
+  /*
   minZoom?: number;
   maxZoom?: number;
   zoomStep?: number;
   zoomable?: boolean;
   pannable?: boolean;
-
   snapToGrid?: boolean;
   snapGrid?: [number, number];
+  */
 
   onLayoutChange: (layout: ElkRoot) => void;
   onCanvasClick?: (event: React.MouseEvent<SVGGElement, MouseEvent>) => void;
@@ -56,6 +57,7 @@ export const Canvas: FC<Partial<EditorCanvasProps>> = ({
   nodes,
   edges,
   disabled,
+  direction = 'DOWN',
   arrow = <MarkerArrow />,
   node = <Node />,
   edge = <Edge />,
@@ -72,6 +74,7 @@ export const Canvas: FC<Partial<EditorCanvasProps>> = ({
     edges,
     maxHeight,
     maxWidth,
+    direction,
     onLayoutChange
   });
   const { dragCoords, canLinkNode, enteredNode, ...dragRest } = useDrag({ onNodeLink, onNodeLinkCheck });

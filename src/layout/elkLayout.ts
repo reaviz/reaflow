@@ -3,6 +3,12 @@ import ELK, { ElkNode } from 'elkjs/lib/elk.bundled';
 import PCancelable from 'p-cancelable';
 import calculateSize from 'calculate-size';
 
+export type CanvasDirection = 'LEFT' | 'RIGHT' | 'DOWN' | 'UP';
+
+export interface ElkOptions {
+  direction: CanvasDirection;
+}
+
 const defaultLayoutOptions = {
   'elk.nodeLabels.placement': 'INSIDE V_CENTER H_RIGHT',
   'elk.algorithm': 'org.eclipse.elk.layered',
@@ -125,7 +131,7 @@ function mapInput(nodes: NodeData[], edges: EdgeData[]) {
 export const elkLayout = (
   nodes: NodeData[],
   edges: EdgeData[],
-  layoutOptions = defaultLayoutOptions
+  options: ElkOptions
 ) => {
   const graph = new ELK();
 
@@ -137,7 +143,10 @@ export const elkLayout = (
           ...mapInput(nodes, edges)
         },
         {
-          layoutOptions
+          layoutOptions: {
+            ...defaultLayoutOptions,
+            'elk.direction': options.direction
+          }
         }
       )
       .then(resolve)

@@ -1,5 +1,5 @@
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
-import { elkLayout } from './elkLayout';
+import { elkLayout, CanvasDirection } from './elkLayout';
 import useDimensions from 'react-cool-dimensions';
 import isEqual from 'react-fast-compare';
 
@@ -10,13 +10,15 @@ export interface ElkRoot {
   height?: number;
   children?: any[];
   edges?: any[];
+  direction?: CanvasDirection;
 }
 
 export const useLayout = ({
   maxWidth,
   maxHeight,
-  nodes,
+  nodes = [],
   edges = [],
+  direction,
   onLayoutChange
 }) => {
   const scrolled = useRef<boolean>(false);
@@ -25,7 +27,7 @@ export const useLayout = ({
   const [xy, setXY] = useState<[number, number]>([0, 0]);
 
   useEffect(() => {
-    const promise = elkLayout(nodes, edges);
+    const promise = elkLayout(nodes, edges, { direction });
 
     promise
       .then((result) => {
