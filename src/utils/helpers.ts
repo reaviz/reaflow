@@ -24,3 +24,13 @@ export function upsertNode(nodes: NodeData[], edges: EdgeData[], edge: EdgeData,
     ]
   };
 }
+
+/**
+ * Helper function to remove a node and its related edges.
+ */
+export function removeNode(nodes: NodeData[], edges: EdgeData[], node: NodeData) {
+  return {
+    nodes: nodes.filter(n => n.id !== node.id),
+    edges: edges.filter(e => e.from !== node.id && e.to !== node.id)
+  };
+}

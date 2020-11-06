@@ -21,3 +21,15 @@ const results = upsertNode(nodes, edges, edge, newNode);
 setNodes(results.nodes);
 setEdges(results.edges);
 ```
+
+## Remove Node
+The `removeNode` function helps you remove a node
+and all related edges.
+
+```js
+import { removeNode } from 'reaflow';
+
+const results = removeNode(nodes, edges, node);
+setNodes(results.nodes);
+setEdges(results.edges);
+```
