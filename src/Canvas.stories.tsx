@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { EdgeData, NodeData } from 'types';
 import { Canvas } from './Canvas';
 import { Node, Edge, MarkerArrow, Port, Icon, Arrow, Label, Remove, Add } from './symbols';
 
@@ -27,35 +28,66 @@ export const Simple = () => (
   </div>
 );
 
-export const Adding = () => (
-  <div style={{ border: 'solid 1px #12131e', height: 650, width: 650 }}>
-    <Canvas
-      nodes={[
-        {
-          id: '1',
-          text: 'Node 1'
-        },
-        {
-          id: '2',
-          text: 'Node 2'
+export const Adding = () => {
+  const [nodes, setNodes] = useState<NodeData[]>([
+    {
+      id: '1',
+      text: 'Node 1'
+    },
+    {
+      id: '2',
+      text: 'Node 2'
+    }
+  ]);
+
+  const [edges, setEdges] = useState<EdgeData[]>([
+    {
+      id: '1-2',
+      from: '1',
+      to: '2'
+    }
+  ]);
+
+  return (
+    <div style={{ border: 'solid 1px #12131e', height: 650, width: 650 }}>
+      <Canvas
+        nodes={nodes}
+        edges={edges}
+        edge={
+          <Edge
+            add={<Add hidden={false} />}
+            onAdd={(event, edge) => {
+              const id = `node-${Math.random()}`;
+
+              setNodes([
+                ...nodes,
+                {
+                  id,
+                  text: id
+                }
+              ]);
+
+              setEdges([
+                ...edges.filter(e => e.id !== edge.id),
+                {
+                  id: `${edge.from}-${id}`,
+                  from: edge.from,
+                  to: id
+                },
+                {
+                  id: `${id}-${edge.to}`,
+                  from: id,
+                  to: edge.to
+                }
+              ]);
+            }}
+          />
         }
-      ]}
-      edges={[
-        {
-          id: '1-2',
-          from: '1',
-          to: '2'
-        }
-      ]}
-      node={
-        <Node
-          icon={<Icon />}
-        />
-      }
-      onLayoutChange={layout => console.log('Layout', layout)}
-    />
-  </div>
-);
+        onLayoutChange={layout => console.log('Layout', layout)}
+      />
+    </div>
+  );
+};
 
 export const DynamicNodes = () => {
   const [nodes, setNodes] = useState<any[]>([
@@ -509,7 +541,7 @@ export const Joins = () => (
 );
 
 export const Selections = () => {
-  const [selections, setSelections] = useState<any[]>([]);
+  const [selections, setSelections] = useState<string[]>([]);
 
   return (
     <div style={{ border: 'solid 1px #12131e', height: 650, width: 650 }}>
@@ -559,8 +591,8 @@ export const Selections = () => {
 };
 
 export const Removeable = () => {
-  const [selections, setSelections] = useState<any[]>(['1', '1-2']);
-  const [nodes, setNodes] = useState<any[]>([
+  const [selections, setSelections] = useState<string[]>(['1', '1-2']);
+  const [nodes, setNodes] = useState<NodeData[]>([
     {
       id: '1',
       text: 'Node 1'
@@ -570,7 +602,7 @@ export const Removeable = () => {
       text: 'Node 2'
     }
   ]);
-  const [edges, setEdges] = useState<any[]>([
+  const [edges, setEdges] = useState<EdgeData[]>([
     {
       id: '1-2',
       from: '1',
@@ -746,8 +778,7 @@ export const CustomStyles = () => (
               id: '2-from',
               width: 10,
               height: 10,
-              side: 'SOUTH',
-              hidden: true
+              side: 'SOUTH'
             },
             {
               id: '2-to',
@@ -766,8 +797,7 @@ export const CustomStyles = () => (
               id: '3-from',
               width: 10,
               height: 10,
-              side: 'SOUTH',
-              hidden: true
+              side: 'SOUTH'
             },
             {
               id: '3-to',

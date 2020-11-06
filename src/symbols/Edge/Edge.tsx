@@ -61,6 +61,10 @@ export interface EdgeProps {
     event: React.MouseEvent<SVGGElement, MouseEvent>,
     edge: EdgeData
   ) => void;
+  onAdd?: (
+    event: React.MouseEvent<SVGGElement, MouseEvent>,
+    edge: EdgeData
+  ) => void;
 }
 
 export const Edge: FC<Partial<EdgeProps>> = ({
@@ -78,7 +82,8 @@ export const Edge: FC<Partial<EdgeProps>> = ({
   onKeyDown = () => undefined,
   onEnter = () => undefined,
   onLeave = () => undefined,
-  onRemove = () => undefined
+  onRemove = () => undefined,
+  onAdd = () => undefined
 }) => {
   const pathRef = useRef<SVGPathElement | null>(null);
   const [center, setCenter] = useState<CenterCoords | null>(null);
@@ -154,17 +159,19 @@ export const Edge: FC<Partial<EdgeProps>> = ({
           {...(l as LabelProps)}
         />
       ))}
-      {!disabled && isActive && center && remove && (
+      {!disabled && center && remove && (
         <CloneElement<RemoveProps>
           element={remove}
           {...center}
+          hidden={remove.props.hidden !== undefined ? remove.props.hidden : !isActive}
           onClick={event => onRemove(event, properties)}
         />
       )}
-      {!disabled && center && !isActive && add && (
+      {!disabled && center && add && (
         <CloneElement<AddProps>
           element={add}
           {...center}
+          onClick={event => onAdd(event, properties)}
         />
       )}
     </g>

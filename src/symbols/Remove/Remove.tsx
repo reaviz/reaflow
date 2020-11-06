@@ -6,6 +6,7 @@ import { motion } from 'framer-motion';
 export interface RemoveProps {
   x: number;
   y: number;
+  hidden?: boolean;
   size?: number;
   className?: any;
   onClick?: (event: React.MouseEvent<SVGGElement, MouseEvent>) => void;
@@ -14,10 +15,15 @@ export interface RemoveProps {
 export const Remove: FC<Partial<RemoveProps>> = ({
   size = 15,
   className,
+  hidden,
   x,
   y,
   onClick = () => undefined
 }) => {
+  if (hidden) {
+    return null;
+  }
+
   const half = size / 2;
   const translateX = x - half;
   const translateY = y - half;

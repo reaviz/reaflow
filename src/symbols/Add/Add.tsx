@@ -8,6 +8,7 @@ export interface AddProps {
   y: number;
   size?: number;
   className?: any;
+  hidden?: boolean;
   onEnter?: (event: React.MouseEvent<SVGGElement, MouseEvent>) => void;
   onLeave?: (event: React.MouseEvent<SVGGElement, MouseEvent>) => void;
   onClick?: (event: React.MouseEvent<SVGGElement, MouseEvent>) => void;
@@ -18,10 +19,15 @@ export const Add: FC<Partial<AddProps>> = ({
   y,
   className,
   size = 15,
+  hidden = true,
   onEnter = () => undefined,
   onLeave = () => undefined,
   onClick = () => undefined
 }) => {
+  if (hidden) {
+    return null;
+  }
+
   const half = size / 2;
   const translateX = x - half;
   const translateY = y - half;
