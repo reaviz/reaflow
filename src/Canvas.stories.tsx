@@ -730,7 +730,7 @@ export const Events = () => (
 );
 
 export const CustomStyles = () => (
-  <div style={{ border: 'solid 1px #12131e', height: 650, width: 650, position: 'relative' }}>
+  <div style={{ border: 'solid 1px #12131e', height: '80vh', width: '80vw', position: 'relative' }}>
     <style>
       {`
         .canvas > div {
