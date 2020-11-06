@@ -1,6 +1,6 @@
 import React from 'react';
-import { Canvas } from '../Canvas';
-import { Node, Edge, MarkerArrow, Port, Icon, Arrow, Label, Remove, Add } from '../symbols';
+import { Canvas } from '../src/Canvas';
+import { Node, Edge, MarkerArrow, Port, Icon, Arrow, Label, Remove, Add } from '../src/symbols';
 
 export const Ports = () => (
   <div style={{ border: 'solid 1px #12131e', height: '80vh', width: '80vw', position: 'relative' }}>

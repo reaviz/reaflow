@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { NodeData } from '../types';
-import { Canvas } from '../Canvas';
-import { Node, Edge, MarkerArrow, Port, Icon, Arrow, Label, Remove, Add } from '../symbols';
+import { NodeData } from '../src/types';
+import { Canvas } from '../src/Canvas';
+import { Node, Edge, MarkerArrow, Port, Icon, Arrow, Label, Remove, Add } from '../src/symbols';
 
 export const Icons = () => (
   <div style={{ border: 'solid 1px #12131e', height: '80vh', width: '80vw', position: 'relative' }}>

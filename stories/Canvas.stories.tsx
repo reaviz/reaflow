@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import { EdgeData, NodeData } from 'types';
-import { removeNode } from '../utils';
-import { Canvas } from '../Canvas';
-import { Node, Edge, MarkerArrow, Port, Icon, Arrow, Label, Remove, Add } from '../symbols';
+import { EdgeData, NodeData } from '../src/types';
+import { removeNode } from '../src/utils';
+import { Canvas } from '../src/Canvas';
+import { Node, Edge, MarkerArrow, Port, Icon, Arrow, Label, Remove, Add } from '../src/symbols';
 
 export const Simple = () => (
   <div style={{ border: 'solid 1px #12131e', height: '80vh', width: '80vw', position: 'relative' }}>

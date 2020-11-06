@@ -1,8 +1,8 @@
 import React, { useState} from 'react';
-import { Canvas } from '../Canvas';
-import { Node, Edge, MarkerArrow, Port, Icon, Arrow, Label, Remove, Add } from '../symbols';
-import { upsertNode } from '../utils';
-import { EdgeData, NodeData } from 'types';
+import { Canvas } from '../src/Canvas';
+import { Node, Edge, MarkerArrow, Port, Icon, Arrow, Label, Remove, Add } from '../src/symbols';
+import { upsertNode } from '../src/utils';
+import { EdgeData, NodeData } from '../src/types';
 
 export const Adding = () => {
   const [nodes, setNodes] = useState<NodeData[]>([
