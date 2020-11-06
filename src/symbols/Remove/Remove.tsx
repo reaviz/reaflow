@@ -34,7 +34,11 @@ export const Remove: FC<Partial<RemoveProps>> = ({
         height={size * 1.5}
         width={size * 1.5}
         className={css.drop}
-        onClick={onClick}
+        onClick={(event) => {
+          event.preventDefault();
+          event.stopPropagation();
+          onClick(event);
+        }}
       />
       <rect height={size} width={size} className={css.rect} />
       <line

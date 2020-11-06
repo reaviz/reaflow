@@ -38,7 +38,11 @@ export const Add: FC<Partial<AddProps>> = ({
         height={size * 2}
         width={size * 2}
         className={css.drop}
-        onClick={onClick}
+        onClick={(event) => {
+          event.preventDefault();
+          event.stopPropagation();
+          onClick(event);
+        }}
         onMouseEnter={onEnter}
         onMouseLeave={onLeave}
       />

@@ -161,7 +161,7 @@ export const Edge: FC<Partial<EdgeProps>> = ({
           onClick={event => onRemove(event, properties)}
         />
       )}
-      {!disabled && center && add && (
+      {!disabled && center && !isActive && add && (
         <CloneElement<AddProps>
           element={add}
           {...center}
