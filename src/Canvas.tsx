@@ -5,7 +5,7 @@ import { Edge, EdgeProps } from './symbols/Edge';
 import { ElkRoot, CanvasDirection, useLayout } from './layout';
 import { MarkerArrow, MarkerArrowProps } from './symbols/Arrow';
 import { CloneElement } from 'rdk';
-import { useDrag } from './utils/useDrag';
+import { useNodeDrag } from './utils/useNodeDrag';
 import { checkNodeLinkable } from './utils/helpers';
 import { EdgeData, NodeData } from './types';
 import classNames from 'classnames';
@@ -77,7 +77,7 @@ export const Canvas: FC<Partial<EditorCanvasProps>> = ({
     direction,
     onLayoutChange
   });
-  const { dragCoords, canLinkNode, enteredNode, ...dragRest } = useDrag({ onNodeLink, onNodeLinkCheck });
+  const { dragCoords, canLinkNode, enteredNode, ...dragRest } = useNodeDrag({ onNodeLink, onNodeLinkCheck });
 
   return (
     <div style={{ height, width }} className={classNames(css.container, className)} ref={ref}>

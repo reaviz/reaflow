@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { EdgeSections } from '../symbols/Edge';
 import { NodeData } from '../types';
 
-export const useDrag = ({ onNodeLink, onNodeLinkCheck }) => {
+export const useNodeDrag = ({ onNodeLink, onNodeLinkCheck }) => {
   const [dragNode, setDragNode] = useState<NodeData | null>(null);
   const [enteredNode, setEnteredNode] = useState<NodeData | null>(null);
   const [dragCoords, setDragCoords] = useState<EdgeSections[] | null>(null);
