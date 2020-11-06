@@ -29,6 +29,35 @@ export const Simple = () => (
   </div>
 );
 
+export const VariableSizes = () => (
+  <div style={{ border: 'solid 1px #12131e', height: 650, width: 650 }}>
+    <Canvas
+      nodes={[
+        {
+          id: '1',
+          text: 'Node 1',
+          height: 50,
+          width: 50
+        },
+        {
+          id: '2',
+          text: 'Node 2',
+          height: 80,
+          width: 250
+        }
+      ]}
+      edges={[
+        {
+          id: '1-2',
+          from: '1',
+          to: '2'
+        }
+      ]}
+      onLayoutChange={layout => console.log('Layout', layout)}
+    />
+  </div>
+);
+
 export const Adding = () => {
   const [nodes, setNodes] = useState<NodeData[]>([
     {
