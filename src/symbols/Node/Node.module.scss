@@ -1,5 +1,10 @@
-.container {
+:global(.dragging) {
+  cursor: crosshair;
+  -webkit-touch-callout: none;
+  user-select: none;
+}
 
+.container {
   &:focus {
     outline: none;
   }
@@ -14,11 +19,11 @@
     cursor: pointer;
 
     &:hover {
-      stroke: #3E405A;
+      stroke: #3e405a;
     }
 
     &.active {
-      stroke: #46FECB;
+      stroke: #46fecb;
     }
   }
 }
