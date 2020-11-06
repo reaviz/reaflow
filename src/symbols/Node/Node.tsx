@@ -7,8 +7,9 @@ import { CloneElement } from 'rdk';
 import { Icon, IconProps } from '../Icon';
 import classNames from 'classnames';
 import { useDrag } from 'react-use-gesture';
-import css from './Node.module.scss';
 import { State } from 'react-use-gesture/dist/types';
+import { Remove, RemoveProps } from '../Remove';
+import css from './Node.module.scss';
 
 export interface NodeProps {
   id: string;
@@ -26,7 +27,10 @@ export interface NodeProps {
   className?: string;
   style?: any;
 
-  onRemove?: (node: NodeData) => void;
+  onRemove?: (
+    event: React.MouseEvent<SVGGElement, MouseEvent>,
+    node: NodeData
+  ) => void;
 
   onClick?: (
     event: React.MouseEvent<SVGGElement, MouseEvent>,
@@ -58,6 +62,7 @@ export interface NodeProps {
     node: NodeData
   ) => void;
 
+  remove: ReactElement<RemoveProps, typeof Remove>;
   icon: ReactElement<IconProps, typeof Icon>;
   label: ReactElement<LabelProps, typeof Label>;
   port: ReactElement<PortProps, typeof Port>;
@@ -78,8 +83,10 @@ export const Node: FC<Partial<NodeProps>> = ({
   icon,
   disabled,
   style,
+  remove = <Remove />,
   port = <Port />,
   label = <Label />,
+  onRemove = () => undefined,
   onDrag = () => undefined,
   onDragStart = () => undefined,
   onDragEnd = () => undefined,
@@ -190,6 +197,14 @@ export const Node: FC<Partial<NodeProps>> = ({
             {...(p as PortProps)}
           />
         ))}
+      {!disabled && isActive && remove && (
+        <CloneElement<RemoveProps>
+          element={remove}
+          y={height / 2}
+          x={width}
+          onClick={event => onRemove(event, properties)}
+        />
+      )}
     </motion.g>
   );
 };
