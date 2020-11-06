@@ -6,8 +6,7 @@ export interface NodeData<T = any> {
   text?: any;
   height?: number;
   width?: number;
-  parent?: NodeData;
-  edges?: EdgeData[];
+  parent?: string;
   ports?: PortData[];
   icon?: IconData;
   data?: T;

@@ -48,13 +48,13 @@ function mapNode(node: NodeData) {
     width: node.width || 150,
     ports: node.ports
       ? node.ports.map((port) => ({
-          id: port.id,
-          properties: {
-            ...port,
-            'port.side': port.side,
-            'port.alignment': port.alignment || 'CENTER'
-          }
-        }))
+        id: port.id,
+        properties: {
+          ...port,
+          'port.side': port.side,
+          'port.alignment': port.alignment || 'CENTER'
+        }
+      }))
       : [],
     layoutOptions: {
       'elk.padding': '[left=50, top=50, right=50, bottom=50]',
@@ -65,15 +65,15 @@ function mapNode(node: NodeData) {
     },
     labels: node.text
       ? [
-          {
-            ...labelDim,
-            height: -(labelDim.height / 2),
-            text: node.text,
-            layoutOptions: {
-              'elk.nodeLabels.placement': 'INSIDE V_CENTER H_CENTER'
-            }
+        {
+          ...labelDim,
+          height: -(labelDim.height / 2),
+          text: node.text,
+          layoutOptions: {
+            'elk.nodeLabels.placement': 'INSIDE V_CENTER H_CENTER'
           }
-        ]
+        }
+      ]
       : []
   };
 }
@@ -92,33 +92,34 @@ function mapEdge(edge: EdgeData) {
     targetPort: edge.toPort,
     labels: edge.text
       ? [
-          {
-            width: labelDim.width / 2,
-            height: -(labelDim.height / 2),
-            text: edge.text,
-            layoutOptions: {
-              'elk.edgeLabels.placement': 'INSIDE V_CENTER H_CENTER'
-            }
+        {
+          width: labelDim.width / 2,
+          height: -(labelDim.height / 2),
+          text: edge.text,
+          layoutOptions: {
+            'elk.edgeLabels.placement': 'INSIDE V_CENTER H_CENTER'
           }
-        ]
+        }
+      ]
       : []
   };
 }
 
 function mapInput(nodes: NodeData[], edges: EdgeData[]) {
   const children = [];
+  const mappedEdges = [];
+
   for (const node of nodes) {
-    const map = mapNode(node);
-    if (map !== null) {
-      children.push(map);
+    const mappedNode = mapNode(node);
+    if (mappedNode !== null) {
+      children.push(mappedNode);
     }
   }
 
-  const mappedEdges = [];
   for (const edge of edges) {
-    const map = mapEdge(edge);
-    if (map !== null) {
-      mappedEdges.push(map);
+    const mappedEdge = mapEdge(edge);
+    if (mappedEdge !== null) {
+      mappedEdges.push(mappedEdge);
     }
   }
 

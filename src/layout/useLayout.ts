@@ -70,7 +70,7 @@ export const useLayout = ({
         setXY([x, y]);
       }
 
-      if (!pannable) {
+      if (pannable) {
         scroller.scrollTo(scrollY, scrollX);
       }
 
