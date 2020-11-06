@@ -6,18 +6,18 @@ export interface PointCoords {
 export interface CenterCoords {
   angle: number;
   x: number;
-  y: number
+  y: number;
 }
 
 /**
  * Center helper.
  * Ref: https://github.com/wbkd/react-flow/blob/main/src/components/Edges/utils.ts#L18
  */
-function getBezierCenter ({
+function getBezierCenter({
   sourceX,
   sourceY,
   targetX,
-  targetY,
+  targetY
 }): [number, number, number, number] {
   const xOffset = Math.abs(targetX - sourceX) / 2;
   const centerX = targetX < sourceX ? targetX + xOffset : targetX - xOffset;
@@ -26,7 +26,7 @@ function getBezierCenter ({
   const centerY = targetY < sourceY ? targetY + yOffset : targetY - yOffset;
 
   return [centerX, centerY, xOffset, yOffset];
-};
+}
 
 /**
  * Path helper utils.
@@ -41,11 +41,19 @@ export function getBezierPath({
   targetPosition = 'top'
 }): string {
   const leftAndRight = ['left', 'right'];
-  const [centerX, centerY] = getBezierCenter({ sourceX, sourceY, targetX, targetY });
+  const [centerX, centerY] = getBezierCenter({
+    sourceX,
+    sourceY,
+    targetX,
+    targetY
+  });
 
   let path = `M${sourceX},${sourceY} C${sourceX},${centerY} ${targetX},${centerY} ${targetX},${targetY}`;
 
-  if (leftAndRight.includes(sourcePosition) && leftAndRight.includes(targetPosition)) {
+  if (
+    leftAndRight.includes(sourcePosition) &&
+    leftAndRight.includes(targetPosition)
+  ) {
     path = `M${sourceX},${sourceY} C${centerX},${sourceY} ${centerX},${targetY} ${targetX},${targetY}`;
   } else if (leftAndRight.includes(targetPosition)) {
     path = `M${sourceX},${sourceY} C${sourceX},${targetY} ${sourceX},${targetY} ${targetX},${targetY}`;

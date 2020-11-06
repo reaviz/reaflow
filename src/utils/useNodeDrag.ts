@@ -7,12 +7,7 @@ export type DragEvent = State['drag'];
 export type Position = [number, number];
 
 export interface NodeDragEvents<T = any, TT = any | undefined> {
-  onDrag?: (
-    event: DragEvent,
-    initial: Position,
-    data: T,
-    extra?: TT
-  ) => void;
+  onDrag?: (event: DragEvent, initial: Position, data: T, extra?: TT) => void;
   onDragEnd?: (
     event: DragEvent,
     initial: Position,
@@ -36,17 +31,27 @@ export interface NodeDragProps extends NodeDragEvents {
   disabled: boolean;
 }
 
-export const useNodeDrag = ({ x, y, height, width, onDrag, onDragEnd, onDragStart, node, disabled }: NodeDragProps) => {
+export const useNodeDrag = ({
+  x,
+  y,
+  height,
+  width,
+  onDrag,
+  onDragEnd,
+  onDragStart,
+  node,
+  disabled
+}: NodeDragProps) => {
   const initial: Position = [width / 2 + x, height + y];
   const targetRef = useRef<EventTarget>(null);
 
   const bind = useDrag(
     (state) => {
-      if(state.event.type === 'pointerdown') {
+      if (state.event.type === 'pointerdown') {
         targetRef.current = state.event.currentTarget;
       }
 
-      if(!state.intentional || !targetRef.current) {
+      if (!state.intentional || !targetRef.current) {
         return;
       }
 
@@ -79,4 +84,3 @@ export const useNodeDrag = ({ x, y, height, width, onDrag, onDragEnd, onDragStar
 
   return bind;
 };
-

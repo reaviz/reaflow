@@ -6,7 +6,10 @@ export interface MarkerArrowProps {
   style?: any;
 }
 
-export const MarkerArrow: FC<Partial<MarkerArrowProps>> = ({ size = 8, style }) => (
+export const MarkerArrow: FC<Partial<MarkerArrowProps>> = ({
+  size = 8,
+  style
+}) => (
   <marker
     id="end-arrow"
     key="end-arrow"

@@ -1,4 +1,11 @@
-import React, { FC, ReactElement, useEffect, useMemo, useRef, useState } from 'react';
+import React, {
+  FC,
+  ReactElement,
+  useEffect,
+  useMemo,
+  useRef,
+  useState
+} from 'react';
 import { EdgeData } from '../../types';
 import { Label, LabelProps } from '../Label';
 import { CloneElement } from 'rdk';
@@ -47,10 +54,7 @@ export interface EdgeProps {
     event: React.MouseEvent<SVGGElement, MouseEvent>,
     data: EdgeData
   ) => void;
-  onKeyDown?: (
-    event: React.KeyboardEvent<SVGGElement>,
-    data: EdgeData
-  ) => void;
+  onKeyDown?: (event: React.KeyboardEvent<SVGGElement>, data: EdgeData) => void;
   onEnter?: (
     event: React.MouseEvent<SVGGElement, MouseEvent>,
     node: EdgeData
@@ -96,10 +100,10 @@ export const Edge: FC<Partial<EdgeProps>> = ({
     if (sections[0].bendPoints) {
       const points: any[] = sections
         ? [
-          sections[0].startPoint,
-          ...(sections[0].bendPoints || ([] as any)),
-          sections[0].endPoint
-        ]
+            sections[0].startPoint,
+            ...(sections[0].bendPoints || ([] as any)),
+            sections[0].endPoint
+          ]
         : [];
 
       const pathFn = line()
@@ -119,30 +123,32 @@ export const Edge: FC<Partial<EdgeProps>> = ({
   }, [sections]);
 
   useEffect(() => {
-    setCenter(getPathCenter(
-      pathRef.current,
-      sections[0].startPoint,
-      sections[0].endPoint
-    ));
+    setCenter(
+      getPathCenter(
+        pathRef.current,
+        sections[0].startPoint,
+        sections[0].endPoint
+      )
+    );
   }, [sections, pathRef.current]);
 
   return (
     <g
       className={css.edge}
       tabIndex={-1}
-      onClick={event => {
+      onClick={(event) => {
         event.stopPropagation();
         onClick(event, properties);
       }}
-      onKeyDown={event => {
+      onKeyDown={(event) => {
         event.stopPropagation();
         onKeyDown(event, properties);
       }}
-      onMouseEnter={event => {
+      onMouseEnter={(event) => {
         event.stopPropagation();
         onEnter(event, properties);
       }}
-      onMouseLeave={event => {
+      onMouseLeave={(event) => {
         event.stopPropagation();
         onLeave(event, properties);
       }}
@@ -154,26 +160,29 @@ export const Edge: FC<Partial<EdgeProps>> = ({
         d={d}
         markerEnd="url(#end-arrow)"
       />
-      {labels?.length > 0 && labels.map((l, index) => (
-        <CloneElement<LabelProps>
-          element={label}
-          key={index}
-          {...(l as LabelProps)}
-        />
-      ))}
+      {labels?.length > 0 &&
+        labels.map((l, index) => (
+          <CloneElement<LabelProps>
+            element={label}
+            key={index}
+            {...(l as LabelProps)}
+          />
+        ))}
       {!disabled && center && remove && (
         <CloneElement<RemoveProps>
           element={remove}
           {...center}
-          hidden={remove.props.hidden !== undefined ? remove.props.hidden : !isActive}
-          onClick={event => onRemove(event, properties)}
+          hidden={
+            remove.props.hidden !== undefined ? remove.props.hidden : !isActive
+          }
+          onClick={(event) => onRemove(event, properties)}
         />
       )}
       {!disabled && center && add && (
         <CloneElement<AddProps>
           element={add}
           {...center}
-          onClick={event => onAdd(event, properties)}
+          onClick={(event) => onAdd(event, properties)}
         />
       )}
     </g>

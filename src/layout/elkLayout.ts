@@ -46,14 +46,16 @@ function mapNode(node: NodeData) {
     id: node.id,
     height: node.height || 50,
     width: node.width || 150,
-    ports: node.ports ? node.ports.map(port => ({
-      id: port.id,
-      properties: {
-        ...port,
-        'port.side': port.side,
-        'port.alignment': port.alignment || 'CENTER'
-      }
-    })) : [],
+    ports: node.ports
+      ? node.ports.map((port) => ({
+          id: port.id,
+          properties: {
+            ...port,
+            'port.side': port.side,
+            'port.alignment': port.alignment || 'CENTER'
+          }
+        }))
+      : [],
     layoutOptions: {
       'elk.padding': '[left=50, top=50, right=50, bottom=50]',
       portConstraints: 'FIXED_ORDER'
@@ -62,17 +64,16 @@ function mapNode(node: NodeData) {
       ...node
     },
     labels: node.text
-      ?
-      [
-        {
-          ...labelDim,
-          height: -(labelDim.height / 2),
-          text: node.text,
-          layoutOptions: {
-            'elk.nodeLabels.placement': 'INSIDE V_CENTER H_CENTER'
+      ? [
+          {
+            ...labelDim,
+            height: -(labelDim.height / 2),
+            text: node.text,
+            layoutOptions: {
+              'elk.nodeLabels.placement': 'INSIDE V_CENTER H_CENTER'
+            }
           }
-        }
-      ]
+        ]
       : []
   };
 }
@@ -90,17 +91,16 @@ function mapEdge(edge: EdgeData) {
     sourcePort: edge.fromPort,
     targetPort: edge.toPort,
     labels: edge.text
-      ?
-      [
-        {
-          width: (labelDim.width / 2),
-          height: -(labelDim.height / 2),
-          text: edge.text,
-          layoutOptions: {
-            'elk.edgeLabels.placement': 'INSIDE V_CENTER H_CENTER'
+      ? [
+          {
+            width: labelDim.width / 2,
+            height: -(labelDim.height / 2),
+            text: edge.text,
+            layoutOptions: {
+              'elk.edgeLabels.placement': 'INSIDE V_CENTER H_CENTER'
+            }
           }
-        }
-      ]
+        ]
       : []
   };
 }

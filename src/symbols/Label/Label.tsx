@@ -13,7 +13,9 @@ export interface LabelProps {
 export const Label: FC<Partial<LabelProps>> = ({ text, x, y, style }) => {
   return (
     <g transform={`translate(${x}, ${y})`}>
-      <text className={css.text} style={style}>{text}</text>
+      <text className={css.text} style={style}>
+        {text}
+      </text>
     </g>
   );
 };

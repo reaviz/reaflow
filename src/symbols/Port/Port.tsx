@@ -2,7 +2,12 @@ import React, { forwardRef, Ref, useState } from 'react';
 import { motion } from 'framer-motion';
 import classNames from 'classnames';
 import { PortData } from '../../types';
-import { NodeDragEvents, DragEvent, useNodeDrag, Position } from '../../utils/useNodeDrag';
+import {
+  NodeDragEvents,
+  DragEvent,
+  useNodeDrag,
+  Position
+} from '../../utils/useNodeDrag';
 import css from './Port.module.scss';
 
 export interface ElkPortProperties {
@@ -35,30 +40,32 @@ export interface PortProps extends NodeDragEvents<PortData> {
 }
 
 export const Port = forwardRef(
-  ({
-    x,
-    y,
-    rx,
-    ry,
-    disabled,
-    style,
-    properties,
-    offsetX,
-    offsetY,
-    onDrag = () => undefined,
-    onDragStart = () => undefined,
-    onDragEnd = () => undefined,
-    onEnter = () => undefined,
-    onLeave = () => undefined
-  }: Partial<PortProps>, ref: Ref<SVGRectElement>) => {
+  (
+    {
+      x,
+      y,
+      rx,
+      ry,
+      disabled,
+      style,
+      properties,
+      offsetX,
+      offsetY,
+      onDrag = () => undefined,
+      onDragStart = () => undefined,
+      onDragEnd = () => undefined,
+      onEnter = () => undefined,
+      onLeave = () => undefined
+    }: Partial<PortProps>,
+    ref: Ref<SVGRectElement>
+  ) => {
     const [dragging, setDragging] = useState<boolean>(false);
 
     const isNorth = properties['port.side'] === 'NORTH';
     const isSouth = properties['port.side'] === 'SOUTH';
 
-    const newX = x - (properties.width / 2);
-    const newY = y - (properties.height / 2);
-
+    const newX = x - properties.width / 2;
+    const newY = y - properties.height / 2;
 
     const onDragStartInternal = (event: DragEvent, initial: Position) => {
       onDragStart(event, initial, properties);
@@ -114,11 +121,11 @@ export const Port = forwardRef(
             opacity: 1
           }}
           whileHover={{ scale: disabled ? 1 : 1.5 }}
-          onMouseEnter={event => {
+          onMouseEnter={(event) => {
             event.stopPropagation();
             onEnter(event, properties);
           }}
-          onMouseLeave={event => {
+          onMouseLeave={(event) => {
             event.stopPropagation();
             onLeave(event, properties);
           }}

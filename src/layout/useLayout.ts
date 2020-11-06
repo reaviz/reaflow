@@ -36,7 +36,7 @@ export const useLayout = ({
           onLayoutChange(result);
         }
       })
-      .catch(err => console.error('Layout Failed', err));
+      .catch((err) => console.error('Layout Failed', err));
 
     return () => promise.cancel();
   }, [nodes, edges]);

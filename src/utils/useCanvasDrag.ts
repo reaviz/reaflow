@@ -10,12 +10,20 @@ export const useCanvasDrag = ({ onNodeLink, onNodeLinkCheck }) => {
   const [dragCoords, setDragCoords] = useState<EdgeSections[] | null>(null);
   const [canLinkNode, setCanLinkNode] = useState<boolean | null>(null);
 
-  const onDragStart = (_state: DragEvent, _initial: Position, node: NodeData, port?: PortData) => {
+  const onDragStart = (
+    _state: DragEvent,
+    _initial: Position,
+    node: NodeData,
+    port?: PortData
+  ) => {
     setDragNode(node);
     setDragPort(port);
   };
 
-  const onDrag = ({ movement: [mx, my], memo: [ox, oy] }: DragEvent, [ix, iy]: Position) => {
+  const onDrag = (
+    { movement: [mx, my], memo: [ox, oy] }: DragEvent,
+    [ix, iy]: Position
+  ) => {
     setDragCoords([
       {
         startPoint: { x: ix, y: iy },

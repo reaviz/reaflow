@@ -7,7 +7,12 @@ import { CloneElement } from 'rdk';
 import { Icon, IconProps } from '../Icon';
 import classNames from 'classnames';
 import { Remove, RemoveProps } from '../Remove';
-import { NodeDragEvents, DragEvent, useNodeDrag, Position } from '../../utils/useNodeDrag';
+import {
+  NodeDragEvents,
+  DragEvent,
+  useNodeDrag,
+  Position
+} from '../../utils/useNodeDrag';
 import css from './Node.module.scss';
 
 export interface NodeChildProps {
@@ -169,16 +174,10 @@ export const Node: FC<Partial<NodeProps>> = ({
         }}
       />
       {children && (
-        <foreignObject
-          height={height}
-          width={width}
-          x={0}
-          y={0}
-        >
+        <foreignObject height={height} width={width} x={0} y={0}>
           {typeof children === 'function'
             ? (children as any)({ height, width, x, y, node: properties })
-            : children
-          }
+            : children}
         </foreignObject>
       )}
       {icon && (
@@ -206,11 +205,19 @@ export const Node: FC<Partial<NodeProps>> = ({
             offsetX={x}
             offsetY={y}
             onDrag={onDrag}
-            onDragStart={(event: DragEvent, initial: Position, data: PortData) => {
+            onDragStart={(
+              event: DragEvent,
+              initial: Position,
+              data: PortData
+            ) => {
               onDragStart(event, initial, properties, data);
               setDragging(true);
             }}
-            onDragEnd={(event: DragEvent, initial: Position, data: PortData) => {
+            onDragEnd={(
+              event: DragEvent,
+              initial: Position,
+              data: PortData
+            ) => {
               onDragEnd(event, initial, properties, data);
               setDragging(false);
             }}
@@ -222,7 +229,7 @@ export const Node: FC<Partial<NodeProps>> = ({
           element={remove}
           y={height / 2}
           x={width}
-          onClick={event => onRemove(event, properties)}
+          onClick={(event) => onRemove(event, properties)}
         />
       )}
     </motion.g>

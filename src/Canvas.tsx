@@ -1,4 +1,11 @@
-import React, { FC, Fragment, ReactElement, useCallback, useEffect, useState } from 'react';
+import React, {
+  FC,
+  Fragment,
+  ReactElement,
+  useCallback,
+  useEffect,
+  useState
+} from 'react';
 import { useId } from 'rdk';
 import { Node, NodeProps } from './symbols/Node';
 import { Edge, EdgeProps } from './symbols/Edge';
@@ -40,7 +47,11 @@ export interface EditorCanvasProps {
   onCanvasPan?: () => void;
 
   onNodeLink?: (from: NodeData, to: NodeData, port?: PortData) => void;
-  onNodeLinkCheck?: (from: NodeData, to: NodeData, port?: PortData) => undefined | boolean;
+  onNodeLinkCheck?: (
+    from: NodeData,
+    to: NodeData,
+    port?: PortData
+  ) => undefined | boolean;
 
   arrow: ReactElement<MarkerArrowProps, typeof MarkerArrow>;
   node: ReactElement<NodeProps, typeof Node>;
@@ -77,10 +88,17 @@ export const Canvas: FC<Partial<EditorCanvasProps>> = ({
     direction,
     onLayoutChange
   });
-  const { dragCoords, canLinkNode, enteredNode, ...dragRest } = useCanvasDrag({ onNodeLink, onNodeLinkCheck });
+  const { dragCoords, canLinkNode, enteredNode, ...dragRest } = useCanvasDrag({
+    onNodeLink,
+    onNodeLinkCheck
+  });
 
   return (
-    <div style={{ height, width }} className={classNames(css.container, className)} ref={ref}>
+    <div
+      style={{ height, width }}
+      className={classNames(css.container, className)}
+      ref={ref}
+    >
       <div
         className={css.background}
         style={{ height: maxHeight, width: maxWidth }}
