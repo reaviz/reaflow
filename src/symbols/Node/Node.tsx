@@ -6,9 +6,8 @@ import { NodeData } from '../../types';
 import { CloneElement } from 'rdk';
 import { Icon, IconProps } from '../Icon';
 import classNames from 'classnames';
-import { useDrag } from 'react-use-gesture';
-import { State } from 'react-use-gesture/dist/types';
 import { Remove, RemoveProps } from '../Remove';
+import { NodeDragEvents, useNodeDrag } from '../../utils/useNodeDrag';
 import css from './Node.module.scss';
 
 export interface NodeChildProps {
@@ -19,7 +18,7 @@ export interface NodeChildProps {
   node: NodeData;
 }
 
-export interface NodeProps {
+export interface NodeProps extends NodeDragEvents {
   id: string;
   height: number;
   width: number;
@@ -54,22 +53,6 @@ export interface NodeProps {
   ) => void;
   onLeave?: (
     event: React.MouseEvent<SVGGElement, MouseEvent>,
-    node: NodeData
-  ) => void;
-
-  onDrag?: (
-    event: State['drag'],
-    initial: [number, number],
-    node: NodeData
-  ) => void;
-  onDragEnd?: (
-    event: State['drag'],
-    initial: [number, number],
-    node: NodeData
-  ) => void;
-  onDragStart?: (
-    event: State['drag'],
-    initial: [number, number],
     node: NodeData
   ) => void;
 
@@ -109,31 +92,18 @@ export const Node: FC<Partial<NodeProps>> = ({
   onLeave = () => undefined
 }) => {
   const controls = useAnimation();
-  const initial: [number, number] = [width / 2 + x, height + y];
 
-  const bind = useDrag(
-    (state) => {
-      if (state.first) {
-        // @ts-ignore
-        const { x, bottom } = state.event.currentTarget.getBoundingClientRect();
-
-        // memo will hold the difference between the first point of impact and the origin
-        const memo = [state.xy[0] - x - width / 2, state.xy[1] - bottom];
-        onDragStart({ ...state, memo }, initial, properties);
-        document.body.classList.add('dragging');
-
-        return memo;
-      }
-
-      onDrag(state, initial, properties);
-
-      if (state.last) {
-        onDragEnd(state, initial, properties);
-        document.body.classList.remove('dragging');
-      }
-    },
-    { enabled: !disabled }
-  );
+  const bind = useNodeDrag({
+    x,
+    y,
+    height,
+    width,
+    disabled,
+    node: properties,
+    onDrag,
+    onDragStart,
+    onDragEnd
+  });
 
   useEffect(() => {
     controls.set({

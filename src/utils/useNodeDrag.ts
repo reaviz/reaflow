@@ -1,62 +1,61 @@
-import React, { useState } from 'react';
-import { EdgeSections } from '../symbols/Edge';
+import { useDrag } from 'react-use-gesture';
+import { State } from 'react-use-gesture/dist/types';
 import { NodeData } from '../types';
 
-export const useNodeDrag = ({ onNodeLink, onNodeLinkCheck }) => {
-  const [dragNode, setDragNode] = useState<NodeData | null>(null);
-  const [enteredNode, setEnteredNode] = useState<NodeData | null>(null);
-  const [dragCoords, setDragCoords] = useState<EdgeSections[] | null>(null);
-  const [canLinkNode, setCanLinkNode] = useState<boolean | null>(null);
-
-  const onDragStart = (_state, _initial, node: NodeData) => {
-    setDragNode(node);
-  };
-
-  const onDrag = ({ movement: [mx, my], memo: [ox, oy] }, [ix, iy]) => {
-    setDragCoords([
-      {
-        startPoint: { x: ix, y: iy },
-        endPoint: { x: ix + mx + ox, y: iy + my + oy }
-      }
-    ]);
-  };
-
-  const onDragEnd = () => {
-    if (dragNode && enteredNode && canLinkNode) {
-      onNodeLink(dragNode, enteredNode);
-    }
-
-    setDragNode(null);
-    setEnteredNode(null);
-    setDragCoords(null);
-  };
-
-  const onEnter = (
-    _event: React.MouseEvent<SVGGElement, MouseEvent>,
+export interface NodeDragEvents {
+  onDrag?: (
+    event: State['drag'],
+    initial: [number, number],
     node: NodeData
-  ) => {
-    setEnteredNode(node);
+  ) => void;
+  onDragEnd?: (
+    event: State['drag'],
+    initial: [number, number],
+    node: NodeData
+  ) => void;
+  onDragStart?: (
+    event: State['drag'],
+    initial: [number, number],
+    node: NodeData
+  ) => void;
+}
 
-    if (dragNode && node) {
-      const canLink = onNodeLinkCheck(dragNode, node);
-      setCanLinkNode(canLink === undefined || canLink ? true : false);
-    }
-  };
+export interface NodeDragProps extends NodeDragEvents {
+  node: NodeData;
+  height: number;
+  width: number;
+  x: number;
+  y: number;
+  disabled: boolean;
+}
 
-  const onLeave = () => {
-    setEnteredNode(null);
-    setCanLinkNode(null);
-  };
+export const useNodeDrag = ({ x, y, height, width, onDrag, onDragEnd, onDragStart, node, disabled }: NodeDragProps) => {
+  const initial: [number, number] = [width / 2 + x, height + y];
 
-  return {
-    dragCoords,
-    canLinkNode,
-    dragNode,
-    enteredNode,
-    onDragStart,
-    onDrag,
-    onDragEnd,
-    onEnter,
-    onLeave
-  };
+  const bind = useDrag(
+    (state) => {
+      if (state.first) {
+        // @ts-ignore
+        const { x, bottom } = state.event.currentTarget.getBoundingClientRect();
+
+        // memo will hold the difference between the first point of impact and the origin
+        const memo = [state.xy[0] - x - width / 2, state.xy[1] - bottom];
+        onDragStart({ ...state, memo }, initial, node);
+        document.body.classList.add('dragging');
+
+        return memo;
+      }
+
+      onDrag(state, initial, node);
+
+      if (state.last) {
+        onDragEnd(state, initial, node);
+        document.body.classList.remove('dragging');
+      }
+    },
+    { enabled: !disabled }
+  );
+
+  return bind;
 };
+
