@@ -42,6 +42,7 @@ export interface EditorCanvasProps {
   arrow: ReactElement<MarkerArrowProps, typeof MarkerArrow>;
   node: ReactElement<NodeProps, typeof Node>;
   edge: ReactElement<EdgeProps, typeof Edge>;
+  dragEdge: ReactElement<EdgeProps, typeof Edge>;
 }
 
 export const Canvas: FC<Partial<EditorCanvasProps>> = ({
@@ -56,6 +57,7 @@ export const Canvas: FC<Partial<EditorCanvasProps>> = ({
   arrow = <MarkerArrow />,
   node = <Node />,
   edge = <Edge />,
+  dragEdge = <Edge add={null} />,
   selections = [],
   onNodeLink = () => undefined,
   onCanvasClick = () => undefined,
@@ -114,9 +116,10 @@ export const Canvas: FC<Partial<EditorCanvasProps>> = ({
           ))}
           {dragCoords !== null && (
             <CloneElement<EdgeProps>
-              element={edge}
+              element={dragEdge}
               id={`${id}-drag`}
               sections={dragCoords}
+              style={{ pointerEvents: 'none' }}
             />
           )}
         </g>
