@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { NodeData } from '../src/types';
 import { Canvas } from '../src/Canvas';
 import { Node, Edge, MarkerArrow, Port, Icon, Arrow, Label, Remove, Add } from '../src/symbols';
+import { hasLink } from '../src/utils';
 
 export const Icons = () => (
   <div style={{ border: 'solid 1px #12131e', height: '80vh', width: '80vw', position: 'relative' }}>
@@ -88,6 +89,10 @@ export const LinkingNodeRestrictions = () => {
         edges={edges}
         onNodeLinkCheck={(from: NodeData, to: NodeData) => {
           if (from.id === to.id || to.id === '1') {
+            return false;
+          }
+
+          if (hasLink(edges, from, to)) {
             return false;
           }
 

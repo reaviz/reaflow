@@ -33,3 +33,16 @@ const results = removeNode(nodes, edges, node);
 setNodes(results.nodes);
 setEdges(results.edges);
 ```
+
+## Has Link
+The `hasLink` function helps you determine if
+the source node already has a link to the target node.
+
+```js
+import { hasLink } from 'reaflow';
+
+const has = hasLink(edges, fromNode, toNode);
+if (!has) {
+  // Do something
+}
+```

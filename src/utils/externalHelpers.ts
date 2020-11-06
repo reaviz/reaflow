@@ -34,3 +34,10 @@ export function removeNode(nodes: NodeData[], edges: EdgeData[], node: NodeData)
     edges: edges.filter(e => e.from !== node.id && e.to !== node.id)
   };
 }
+
+/**
+ * Helper function to determine if edge already has a link.
+ */
+export function hasLink(edges: EdgeData[], from: NodeData, to: NodeData) {
+  return edges.some(e => e.from === from.id && e.to === to.id);
+}
