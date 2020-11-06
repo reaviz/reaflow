@@ -5,7 +5,7 @@ import { Canvas } from './Canvas';
 import { Node, Edge, MarkerArrow, Port, Icon, Arrow, Label, Remove, Add } from './symbols';
 
 export const Simple = () => (
-  <div style={{ border: 'solid 1px #12131e', height: 650, width: 650 }}>
+  <div style={{ border: 'solid 1px #12131e', height: '80vh', width: '80vw', position: 'relative' }}>
     <Canvas
       nodes={[
         {
@@ -28,7 +28,7 @@ export const Simple = () => (
 );
 
 export const Direction = () => (
-  <div style={{ border: 'solid 1px #12131e', height: 650, width: 650 }}>
+  <div style={{ border: 'solid 1px #12131e', height: '80vh', width: '80vw', position: 'relative' }}>
     <Canvas
       nodes={[
         {
@@ -52,7 +52,7 @@ export const Direction = () => (
 );
 
 export const VariableSizes = () => (
-  <div style={{ border: 'solid 1px #12131e', height: 650, width: 650 }}>
+  <div style={{ border: 'solid 1px #12131e', height: '80vh', width: '80vw', position: 'relative' }}>
     <Canvas
       nodes={[
         {
@@ -81,7 +81,7 @@ export const VariableSizes = () => (
 );
 
 export const ForeignObjects = () => (
-  <div style={{ border: 'solid 1px #12131e', height: 650, width: 650 }}>
+  <div style={{ border: 'solid 1px #12131e', height: '80vh', width: '80vw', position: 'relative' }}>
     <Canvas
       nodes={[
         {
@@ -144,7 +144,7 @@ export const Adding = () => {
   ]);
 
   return (
-    <div style={{ border: 'solid 1px #12131e', height: 650, width: 650 }}>
+    <div style={{ border: 'solid 1px #12131e', height: '80vh', width: '80vw', position: 'relative' }}>
       <Canvas
         nodes={nodes}
         edges={edges}
@@ -187,7 +187,7 @@ export const DynamicNodes = () => {
   ]);
 
   return (
-    <div style={{ border: 'solid 1px #12131e', height: 650, width: 650 }}>
+    <div style={{ border: 'solid 1px #12131e', height: '80vh', width: '80vw', position: 'relative' }}>
       <button
         onClick={() => setNodes([...nodes, { id: `a${Math.random()}`, text: `Node ${Math.random()}` }])}
       >
@@ -238,7 +238,7 @@ export const LinkingNodes = () => {
   ]);
 
   return (
-    <div style={{ border: 'solid 1px #12131e', height: 650, width: 650 }}>
+    <div style={{ border: 'solid 1px #12131e', height: '80vh', width: '80vw', position: 'relative' }}>
       <Canvas
         nodes={nodes}
         edges={edges}
@@ -285,7 +285,7 @@ export const LinkingNodeRestrictions = () => {
   ]);
 
   return (
-    <div style={{ border: 'solid 1px #12131e', height: 650, width: 650 }}>
+    <div style={{ border: 'solid 1px #12131e', height: '80vh', width: '80vw', position: 'relative' }}>
       <Canvas
         nodes={nodes}
         edges={edges}
@@ -315,7 +315,7 @@ export const LinkingNodeRestrictions = () => {
 };
 
 export const Disabled = () => (
-  <div style={{ border: 'solid 1px #12131e', height: 650, width: 650 }}>
+  <div style={{ border: 'solid 1px #12131e', height: '80vh', width: '80vw', position: 'relative' }}>
     <Canvas
       disabled={true}
       nodes={[
@@ -341,7 +341,7 @@ export const Disabled = () => (
 );
 
 export const Ports = () => (
-  <div style={{ border: 'solid 1px #12131e', height: 650, width: 650 }}>
+  <div style={{ border: 'solid 1px #12131e', height: '80vh', width: '80vw', position: 'relative' }}>
     <Canvas
       nodes={[
         {
@@ -396,7 +396,7 @@ export const Ports = () => (
 );
 
 export const ComplexPorts = () => (
-  <div style={{ border: 'solid 1px #12131e', height: 650, width: 650 }}>
+  <div style={{ border: 'solid 1px #12131e', height: '80vh', width: '80vw', position: 'relative' }}>
     <Canvas
       nodes={[
         {
@@ -491,7 +491,7 @@ export const ComplexPorts = () => (
 );
 
 export const Icons = () => (
-  <div style={{ border: 'solid 1px #12131e', height: 650, width: 650 }}>
+  <div style={{ border: 'solid 1px #12131e', height: '80vh', width: '80vw', position: 'relative' }}>
     <Canvas
       nodes={[
         {
@@ -545,7 +545,7 @@ export const Icons = () => (
 );
 
 export const NoEdges = () => (
-  <div style={{ border: 'solid 1px #12131e', height: 650, width: 650 }}>
+  <div style={{ border: 'solid 1px #12131e', height: '80vh', width: '80vw', position: 'relative' }}>
     <Canvas
       nodes={[
         {
@@ -564,7 +564,7 @@ export const NoEdges = () => (
 );
 
 export const Labels = () => (
-  <div style={{ border: 'solid 1px #12131e', height: 650, width: 650 }}>
+  <div style={{ border: 'solid 1px #12131e', height: '80vh', width: '80vw', position: 'relative' }}>
     <Canvas
       nodes={[
         {
@@ -590,7 +590,7 @@ export const Labels = () => (
 );
 
 export const Joins = () => (
-  <div style={{ border: 'solid 1px #12131e', height: 650, width: 650 }}>
+  <div style={{ border: 'solid 1px #12131e', height: '80vh', width: '80vw', position: 'relative' }}>
     <Canvas
       nodes={[
         {
@@ -641,7 +641,7 @@ export const Selections = () => {
   const [selections, setSelections] = useState<string[]>([]);
 
   return (
-    <div style={{ border: 'solid 1px #12131e', height: 650, width: 650 }}>
+    <div style={{ border: 'solid 1px #12131e', height: '80vh', width: '80vw', position: 'relative' }}>
       <Canvas
         nodes={[
           {
@@ -708,7 +708,7 @@ export const Removeable = () => {
   ]);
 
   return (
-    <div style={{ border: 'solid 1px #12131e', height: 650, width: 650 }}>
+    <div style={{ border: 'solid 1px #12131e', height: '80vh', width: '80vw', position: 'relative' }}>
       <Canvas
         nodes={nodes}
         edges={edges}
@@ -752,7 +752,7 @@ export const Removeable = () => {
 };
 
 export const Events = () => (
-  <div style={{ border: 'solid 1px #12131e', height: 650, width: 650 }}>
+  <div style={{ border: 'solid 1px #12131e', height: '80vh', width: '80vw', position: 'relative' }}>
     <Canvas
       nodes={[
         {
