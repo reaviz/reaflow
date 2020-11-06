@@ -31,9 +31,3 @@ jobs:
 
       - name: Build Storybook
         run: yarn build-storybook
-
-      - uses: preactjs/compressed-size-action@v2
-        with:
-          repo-token: "${{ secrets.GITHUB_TOKEN }}"
-          pattern: "**/dist/**/*.js"
-
