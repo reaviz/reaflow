@@ -10,19 +10,19 @@ export interface NodeDragEvents<T = any, TT = any | undefined> {
     event: DragEvent,
     initial: Position,
     data: T,
-    extra: TT
+    extra?: TT
   ) => void;
   onDragEnd?: (
     event: DragEvent,
     initial: Position,
     data: T,
-    extra: TT
+    extra?: TT
   ) => void;
   onDragStart?: (
     event: DragEvent,
     initial: Position,
     data: T,
-    extra: TT
+    extra?: TT
   ) => void;
 }
 

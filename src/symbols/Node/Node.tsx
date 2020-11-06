@@ -103,11 +103,11 @@ export const Node: FC<Partial<NodeProps>> = ({
     node: properties,
     onDrag,
     onDragStart: (event: DragEvent, initial: Position, data: NodeData) => {
-      onDragStart(event, initial, data, null);
+      onDragStart(event, initial, data);
       setDragging(true);
     },
     onDragEnd: (event: DragEvent, initial: Position, data: NodeData) => {
-      onDragEnd(event, initial, data, null);
+      onDragEnd(event, initial, data);
       setDragging(false);
     }
   });
