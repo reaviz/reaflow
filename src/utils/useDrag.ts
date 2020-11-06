@@ -10,11 +10,11 @@ export const useDrag = ({ onNodeLink }) => {
     setDragNode(node);
   };
 
-  const onDrag = ({ movement: [mx, my] }, [ix, iy]) => {
+  const onDrag = ({ movement: [mx, my], memo: [ox, oy] }, [ix, iy]) => {
     setDragCoords([
       {
         startPoint: { x: ix, y: iy },
-        endPoint: { x: ix + mx, y: iy + my }
+        endPoint: { x: ix + mx + ox, y: iy + my + oy }
       }
     ]);
   };

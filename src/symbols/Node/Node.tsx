@@ -93,9 +93,15 @@ export const Node: FC<Partial<NodeProps>> = ({
 
   const bind = useDrag(
     (state) => {
+      console.log(state.memo);
       if (state.first) {
-        onDragStart(state, initial, properties);
+        // @ts-ignore
+        const { x, bottom } = state.event.currentTarget.getBoundingClientRect();
+        // memo will hold the difference between the first point of impact and the origin
+        const memo = [state.xy[0] - x - width / 2, state.xy[1] - bottom];
+        onDragStart({ ...state, memo }, initial, properties);
         document.body.classList.add('dragging');
+        return memo;
       }
       onDrag(state, initial, properties);
       if (state.last) {
