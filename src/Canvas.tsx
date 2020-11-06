@@ -100,22 +100,24 @@ export const Canvas: FC<Partial<EditorCanvasProps>> = ({
             <CloneElement<EdgeProps>
               key={e.id}
               element={edge}
-              id={`${id}-edge`}
+              id={`${id}-edge-${e.id}`}
               isActive={selections.length ? selections.includes(e.id) : null}
               disabled={disabled}
               {...(e as EdgeProps)}
             />
           ))}
-          {layout?.children?.map((n) => (
+          {layout?.children?.map(({ children, ...n }) => (
             <CloneElement<NodeProps>
               key={n.id}
               element={node}
-              id={`${id}-node`}
+              id={`${id}-node-${n.id}`}
               isActive={selections.length ? selections.includes(n.id) : null}
               isLinkable={checkNodeLinkable(n, enteredNode, canLinkNode)}
               disabled={disabled}
+              children={node.props.children}
+              nodes={children}
               {...dragRest}
-              {...(n as NodeProps)}
+              {...n}
             />
           ))}
           {dragCoords !== null && (

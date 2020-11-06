@@ -9,12 +9,10 @@ export const Simple = () => (
     <Canvas
       nodes={[
         {
-          id: '1',
-          text: 'Node 1'
+          id: '1'
         },
         {
-          id: '2',
-          text: 'Node 2'
+          id: '2'
         }
       ]}
       edges={[
@@ -53,6 +51,49 @@ export const VariableSizes = () => (
           to: '2'
         }
       ]}
+      onLayoutChange={layout => console.log('Layout', layout)}
+    />
+  </div>
+);
+
+export const ForeignObjects = () => (
+  <div style={{ border: 'solid 1px #12131e', height: 650, width: 650 }}>
+    <Canvas
+      nodes={[
+        {
+          id: '1',
+          height: 125,
+          width: 250,
+          data: {
+            value: 50
+          }
+        },
+        {
+          id: '2',
+          height: 125,
+          width: 250,
+          data: {
+            value: 25
+          }
+        }
+      ]}
+      edges={[
+        {
+          id: '1-2',
+          from: '1',
+          to: '2'
+        }
+      ]}
+      node={
+        <Node>
+          {event => (
+            <div style={{ padding: 10, textAlign: 'center' }}>
+              <h3 style={{ color: 'white' }}>Age</h3>
+              <input type="range" min="1" max="100" value={event.node.data.value} />
+            </div>
+          )}
+        </Node>
+      }
       onLayoutChange={layout => console.log('Layout', layout)}
     />
   </div>

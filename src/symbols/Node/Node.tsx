@@ -1,4 +1,4 @@
-import React, { FC, ReactElement, useEffect } from 'react';
+import React, { FC, ReactElement, ReactNode, useEffect } from 'react';
 import { motion, useAnimation } from 'framer-motion';
 import { Port, PortProps } from '../Port';
 import { Label, LabelProps } from '../Label';
@@ -10,6 +10,14 @@ import { useDrag } from 'react-use-gesture';
 import { State } from 'react-use-gesture/dist/types';
 import { Remove, RemoveProps } from '../Remove';
 import css from './Node.module.scss';
+
+export interface NodeChildProps {
+  height: number;
+  width: number;
+  x: number;
+  y: number;
+  node: NodeData;
+}
 
 export interface NodeProps {
   id: string;
@@ -27,6 +35,8 @@ export interface NodeProps {
   style?: any;
   isLinkable: boolean | null;
   isActive: boolean | null;
+  children?: ReactNode | ((node: NodeChildProps) => ReactNode);
+  nodes?: NodeData[];
 
   onRemove?: (
     event: React.MouseEvent<SVGGElement, MouseEvent>,
@@ -85,6 +95,7 @@ export const Node: FC<Partial<NodeProps>> = ({
   disabled,
   style,
   isLinkable,
+  children,
   remove = <Remove />,
   port = <Port />,
   label = <Label />,
@@ -179,6 +190,19 @@ export const Node: FC<Partial<NodeProps>> = ({
           opacity: 1
         }}
       />
+      {children && (
+        <foreignObject
+          height={height}
+          width={width}
+          x={0}
+          y={0}
+        >
+          {typeof children === 'function'
+            ? (children as any)({ height, width, x, y, node: properties })
+            : children
+          }
+        </foreignObject>
+      )}
       {icon && (
         <CloneElement<IconProps>
           element={icon}
