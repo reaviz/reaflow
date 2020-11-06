@@ -46,3 +46,27 @@ if (!has) {
   // Do something
 }
 ```
+
+## Detecting Circulars
+The `detectCircular` function helps you determine if
+the source node will create a circular link if connected
+to the target node.
+
+```js
+import { detectCircular } from 'reaflow';
+
+const has = detectCircular(nodes, edges, fromNode, toNode);
+if (!has) {
+  // Do something
+}
+```
+
+## Parent Node Traversal
+The `getParentsForNodeId` function helps you find all the
+parent nodes for a given node id.
+
+```js
+import { getParentsForNodeId } from 'reaflow';
+
+const nodes = getParentsForNodeId(nodes, edges, node.id);
+```
