@@ -6,6 +6,7 @@ import classNames from 'classnames';
 import { CenterCoords, getBezierPath, getPathCenter } from './utils';
 import { curveBundle, line } from 'd3-shape';
 import { Remove, RemoveProps } from '../Remove';
+import { Add, AddProps } from '../Add';
 import css from './Edge.module.scss';
 
 export interface EdgeProps {
@@ -36,6 +37,7 @@ export interface EdgeProps {
   labels?: LabelProps[];
   className?: string;
 
+  add: ReactElement<AddProps, typeof Add>;
   label: ReactElement<LabelProps, typeof Label>;
   remove: ReactElement<RemoveProps, typeof Remove>;
 
@@ -69,6 +71,7 @@ export const Edge: FC<Partial<EdgeProps>> = ({
   disabled,
   isActive,
   style,
+  add = <Add />,
   remove = <Remove />,
   label = <Label />,
   onClick = () => undefined,
@@ -156,6 +159,12 @@ export const Edge: FC<Partial<EdgeProps>> = ({
           element={remove}
           {...center}
           onClick={event => onRemove(event, properties)}
+        />
+      )}
+      {!disabled && center && add && (
+        <CloneElement<AddProps>
+          element={add}
+          {...center}
         />
       )}
     </g>

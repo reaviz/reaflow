@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Canvas } from './Canvas';
-import { Node, Edge, MarkerArrow, Port, Icon, Arrow, Label, Remove } from './symbols';
+import { Node, Edge, MarkerArrow, Port, Icon, Arrow, Label, Remove, Add } from './symbols';
 
 export const Simple = () => (
   <div style={{ border: 'solid 1px #12131e', height: 650, width: 650 }}>
@@ -22,6 +22,36 @@ export const Simple = () => (
           to: '2'
         }
       ]}
+      onLayoutChange={layout => console.log('Layout', layout)}
+    />
+  </div>
+);
+
+export const Adding = () => (
+  <div style={{ border: 'solid 1px #12131e', height: 650, width: 650 }}>
+    <Canvas
+      nodes={[
+        {
+          id: '1',
+          text: 'Node 1'
+        },
+        {
+          id: '2',
+          text: 'Node 2'
+        }
+      ]}
+      edges={[
+        {
+          id: '1-2',
+          from: '1',
+          to: '2'
+        }
+      ]}
+      node={
+        <Node
+          icon={<Icon />}
+        />
+      }
       onLayoutChange={layout => console.log('Layout', layout)}
     />
   </div>
@@ -795,6 +825,7 @@ export default {
     Icon,
     Label,
     Port,
-    Remove
+    Remove,
+    Add
   }
 };

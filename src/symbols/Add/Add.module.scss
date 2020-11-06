@@ -1,0 +1,19 @@
+.plus {
+  stroke: black;
+  pointer-events: none;
+}
+
+.container {
+  will-change: transform, opacity;
+}
+
+.drop {
+  cursor: pointer;
+  opacity: 0;
+}
+
+.rect {
+  fill: #46FECB;
+  border-radius: 2px;
+  pointer-events: none;
+}
