@@ -37,6 +37,42 @@ export const FixedPosition = () => (
   </div>
 );
 
+export const NonCentered = () => (
+  <div style={{ border: 'solid 1px #12131e', height: 450, width: 450, position: 'relative' }}>
+    <Canvas
+      pannable={false}
+      center={false}
+      nodes={[
+        {
+          id: '1',
+          text: 'Node 1'
+        },
+        {
+          id: '2',
+          text: 'Node 2'
+        },
+        {
+          id: '3',
+          text: 'Node 3'
+        }
+      ]}
+      edges={[
+        {
+          id: '1-2',
+          from: '1',
+          to: '2'
+        },
+        {
+          id: '1-3',
+          from: '1',
+          to: '3'
+        }
+      ]}
+      onLayoutChange={layout => console.log('Layout', layout)}
+    />
+  </div>
+);
+
 export default {
   title: 'Demos/Controls',
   component: Canvas,

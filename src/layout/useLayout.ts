@@ -2,6 +2,7 @@ import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { elkLayout, CanvasDirection } from './elkLayout';
 import useDimensions from 'react-cool-dimensions';
 import isEqual from 'react-fast-compare';
+import { EdgeData, NodeData } from '../types';
 
 export interface ElkRoot {
   x?: number;
@@ -13,15 +14,27 @@ export interface ElkRoot {
   direction?: CanvasDirection;
 }
 
+export interface LayoutProps {
+  maxHeight: number;
+  maxWidth: number;
+  nodes: NodeData[];
+  edges: EdgeData[];
+  pannable: boolean;
+  center: boolean;
+  direction: CanvasDirection;
+  onLayoutChange: (layout: ElkRoot) => void;
+}
+
 export const useLayout = ({
   maxWidth,
   maxHeight,
   nodes = [],
   edges = [],
   pannable,
+  center,
   direction,
   onLayoutChange
-}) => {
+}: LayoutProps) => {
   const scrolled = useRef<boolean>(false);
   const { ref, width, height } = useDimensions<HTMLDivElement>();
   const [layout, setLayout] = useState<ElkRoot | null>(null);
@@ -53,11 +66,17 @@ export const useLayout = ({
       const x = canvasWidth / 2 - layout.width / 2;
       const y = canvasHeight / 2 - layout.height / 2;
 
-      setXY([x, y]);
-      scroller.scrollTo(scrollY, scrollX);
+      if (center) {
+        setXY([x, y]);
+      }
+
+      if (!pannable) {
+        scroller.scrollTo(scrollY, scrollX);
+      }
+
       scrolled.current = true;
     }
-  }, [canvasWidth, canvasHeight, layout, height, width]);
+  }, [canvasWidth, pannable, canvasHeight, layout, height, width, center]);
 
   return {
     xy,

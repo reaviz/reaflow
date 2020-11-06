@@ -31,6 +31,7 @@ export interface EditorCanvasProps {
   selections?: string[];
   direction?: CanvasDirection;
   pannable?: boolean;
+  center?: boolean;
 
   /*
   minZoom?: number;
@@ -68,6 +69,7 @@ export const Canvas: FC<Partial<EditorCanvasProps>> = ({
   nodes,
   edges,
   disabled,
+  center = true,
   pannable = true,
   direction = 'DOWN',
   arrow = <MarkerArrow />,
@@ -88,6 +90,7 @@ export const Canvas: FC<Partial<EditorCanvasProps>> = ({
     maxWidth,
     direction,
     pannable,
+    center,
     onLayoutChange
   });
   const { dragCoords, canLinkNode, enteredNode, ...dragRest } = useCanvasDrag({
