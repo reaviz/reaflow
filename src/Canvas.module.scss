@@ -21,3 +21,9 @@
     outline: none;
   }
 }
+
+:global(.dragging) {
+  cursor: crosshair;
+  -webkit-touch-callout: none;
+  user-select: none;
+}
