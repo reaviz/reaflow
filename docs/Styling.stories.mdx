@@ -17,13 +17,15 @@ you can achieve.
 <br />
 
 In the above example, we override the `node`, `edge` and `arrow` properties
-in the `Canvas` component as shown below:
+in the `Canvas` component as shown below (abbreviated for demonstration purposes):
 
 ```jsx
 import { Canvas, Node, Edge, Port, MarkerArrow } from 'reaflow';
 
 export const CustomCanvas: FC = () => (
   <Canvas
+    nodes={[]}
+    edges={[]}
     node={
       <Node
         style={{ stroke: '#1a192b', fill: 'white', strokeWidth: 1 }}
