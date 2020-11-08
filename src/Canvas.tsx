@@ -40,13 +40,12 @@ export interface EditorCanvasProps {
   zoomable?: boolean;
   snapToGrid?: boolean;
   snapGrid?: [number, number];
+  onCanvasZoom?: () => void;
+  onCanvasPan?: () => void;
   */
 
   onLayoutChange: (layout: ElkRoot) => void;
   onCanvasClick?: (event: React.MouseEvent<SVGGElement, MouseEvent>) => void;
-  onCanvasZoom?: () => void;
-  onCanvasPan?: () => void;
-
   onNodeLink?: (from: NodeData, to: NodeData, port?: PortData) => void;
   onNodeLinkCheck?: (
     from: NodeData,
@@ -66,9 +65,9 @@ export const Canvas: FC<Partial<EditorCanvasProps>> = ({
   width = '100%',
   maxHeight = 2000,
   maxWidth = 2000,
-  nodes,
-  edges,
-  disabled,
+  nodes = [],
+  edges = [],
+  disabled = false,
   center = true,
   pannable = true,
   direction = 'DOWN',

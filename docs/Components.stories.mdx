@@ -1,0 +1,47 @@
+import { Meta, ArgsTable } from '@storybook/addon-docs/blocks';
+import { Canvas, Node, Edge, Port, MarkerArrow, Add, Remove, Label, Icon } from '../src';
+
+<Meta title="Docs/Components" />
+
+# Components
+The library uses a variety of components internally that you can
+customize.
+
+- Canvas - The root component
+- Node - The node element component
+- Edge - The connector between nodes
+- Port - The exit points of a node
+- Marker Arrow - The shape used to connect show direction on the edges
+- Add - The shape used on edges to show dropping between edges
+- Remove - The shape used on nodes and edges to remove each
+- Label - The component used by nodes and edges to show text
+- Icon - The component used by nodes to show an icon
+
+Below are the props from each component.
+
+## `Canvas`
+<ArgsTable of={Canvas} />
+
+## `Node`
+<ArgsTable of={Node} />
+
+## `Edge`
+<ArgsTable of={Edge} />
+
+## `Port`
+<ArgsTable of={Port} />
+
+## `MarkerArrow`
+<ArgsTable of={MarkerArrow} />
+
+## `Add`
+<ArgsTable of={Add} />
+
+## `Remove`
+<ArgsTable of={Remove} />
+
+## `Label`
+<ArgsTable of={Label} />
+
+## `Icon`
+<ArgsTable of={Icon} />
