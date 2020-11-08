@@ -144,6 +144,8 @@ export const Canvas: FC<Partial<EditorCanvasProps>> = ({
               disabled={disabled}
               children={node.props.children}
               nodes={children}
+              childEdge={edge}
+              childNode={node}
               {...dragRest}
               {...n}
             />

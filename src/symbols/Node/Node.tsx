@@ -246,13 +246,14 @@ export const Node: FC<Partial<NodeProps>> = ({
         />
       )}
       {nodes?.length > 0 &&
-        nodes.map((n) => (
+        nodes.map(({ children, ...n }: any) => (
           <CloneElement<NodeProps>
             key={n.id}
             element={childNode}
             id={`${id}-node-${n.id}`}
             disabled={disabled}
             nodes={children}
+            children={childNode.props.children}
             {...n}
           />
         ))}
