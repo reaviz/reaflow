@@ -5,14 +5,16 @@ import { Canvas } from '../src/Canvas';
 import { Node, Edge, MarkerArrow, Port, Icon, Arrow, Label, Remove, Add } from '../src/symbols';
 
 export const Simple = () => (
-  <div style={{ border: 'solid 1px #12131e', height: '80vh', width: '80vw', position: 'relative' }}>
+  <div style={{ border: 'solid 1px #12131e', position: 'absolute', top: 0, bottom: 0, left: 0, right: 0 }}>
     <Canvas
       nodes={[
         {
-          id: '1'
+          id: '1',
+          text: '1'
         },
         {
-          id: '2'
+          id: '2',
+          text: '2'
         }
       ]}
       edges={[

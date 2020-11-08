@@ -1,0 +1,59 @@
+import { Meta, Story } from '@storybook/addon-docs/blocks';
+
+<Meta title="Docs/Basics" />
+
+# Basics
+
+## Your First Diagram
+Let's build our first diagram by defining some `nodes` and `edges`.
+Nodes are the blocks and edges are the relationships between the blocks.
+
+The data shapes require one property of `id` but you can pass `text`
+or `icon` to them to show some sort of indication what it represents.
+The `id` property can be any `string` but for demonstration purposes
+we are going to use some basic strings.
+
+```js
+const nodes = [
+  {
+    id: '1',
+    text: '1'
+  },
+  {
+    id: '2',
+    text: '2'
+  }
+];
+
+const edges = [
+  {
+    id: '1-2',
+    from: '1',
+    to: '2'
+  }
+];
+```
+
+These shapes above will create two elements `1` and `2` and create
+a relationship between them. Once we have this defined, we can simply
+pass these properties to the `Canvas` and it will do the rest!
+
+```jsx
+import React from 'react';
+import { Canvas } from 'reaflow';
+
+export const MyDiagram = () => (
+  <Canvas
+    nodes={nodes}
+    edges={edges}
+  />
+)
+```
+
+Below is an example of what this basic example will render.
+
+<br />
+<div style={{ height: 500, width: 700, position: 'relative', margin: '0 auto' }}>
+  <Story id="demos-basic--simple" />
+</div>
+<br />
