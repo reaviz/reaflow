@@ -2,7 +2,7 @@ import React, { FC, ReactElement, ReactNode, useEffect, useState } from 'react';
 import { motion, useAnimation } from 'framer-motion';
 import { Port, PortProps } from '../Port';
 import { Label, LabelProps } from '../Label';
-import { NodeData, PortData } from '../../types';
+import { EdgeData, NodeData, PortData } from '../../types';
 import { CloneElement } from 'rdk';
 import { Icon, IconProps } from '../Icon';
 import classNames from 'classnames';
@@ -13,6 +13,7 @@ import {
   useNodeDrag,
   Position
 } from '../../utils/useNodeDrag';
+import { Edge, EdgeProps } from '../Edge';
 import css from './Node.module.scss';
 
 export interface NodeChildProps {
@@ -40,8 +41,10 @@ export interface NodeProps extends NodeDragEvents<NodeData, PortData> {
   isLinkable: boolean | null;
   isActive: boolean | null;
   children?: ReactNode | ((node: NodeChildProps) => ReactNode);
-  nodes?: NodeData[];
   parent?: string;
+
+  nodes?: NodeData[];
+  edges?: EdgeData[];
 
   onRemove?: (
     event: React.MouseEvent<SVGGElement, MouseEvent>,
@@ -62,6 +65,9 @@ export interface NodeProps extends NodeDragEvents<NodeData, PortData> {
     node: NodeData
   ) => void;
 
+  childNode: ReactElement<NodeProps, typeof Node>;
+  childEdge: ReactElement<EdgeProps, typeof Edge>;
+
   remove: ReactElement<RemoveProps, typeof Remove>;
   icon: ReactElement<IconProps, typeof Icon>;
   label: ReactElement<LabelProps, typeof Label>;
@@ -69,6 +75,7 @@ export interface NodeProps extends NodeDragEvents<NodeData, PortData> {
 }
 
 export const Node: FC<Partial<NodeProps>> = ({
+  id,
   x,
   y,
   ports,
@@ -85,6 +92,10 @@ export const Node: FC<Partial<NodeProps>> = ({
   style,
   isLinkable,
   children,
+  nodes,
+  edges,
+  childEdge = <Edge />,
+  childNode = <Node />,
   remove = <Remove />,
   port = <Port />,
   label = <Label />,
@@ -160,7 +171,8 @@ export const Node: FC<Partial<NodeProps>> = ({
           [css.active]: isActive,
           [css.disabled]: disabled,
           [css.unlinkable]: isLinkable === false,
-          [css.dragging]: dragging
+          [css.dragging]: dragging,
+          [css.children]: nodes?.length > 0
         })}
         style={style}
         height={height}
@@ -233,6 +245,27 @@ export const Node: FC<Partial<NodeProps>> = ({
           onClick={(event) => onRemove(event, properties)}
         />
       )}
+      {nodes?.length > 0 &&
+        nodes.map((n) => (
+          <CloneElement<NodeProps>
+            key={n.id}
+            element={childNode}
+            id={`${id}-node-${n.id}`}
+            disabled={disabled}
+            nodes={children}
+            {...n}
+          />
+        ))}
+      {edges?.length > 0 &&
+        edges.map((e) => (
+          <CloneElement<EdgeProps>
+            key={e.id}
+            element={childEdge}
+            id={`${id}-edge-${e.id}`}
+            disabled={disabled}
+            {...e}
+          />
+        ))}
     </motion.g>
   );
 };

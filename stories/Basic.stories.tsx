@@ -428,11 +428,6 @@ export const CustomStyles = () => (
 export default {
   title: 'Demos/Basic',
   component: Canvas,
-  parameters: {
-    actions: {
-      argTypesRegex: '^on.*'
-    }
-  },
   subcomponents: {
     Node,
     Edge,

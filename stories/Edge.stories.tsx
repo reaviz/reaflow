@@ -99,11 +99,6 @@ export const Labels = () => (
 export default {
   title: 'Demos/Edges',
   component: Canvas,
-  parameters: {
-    actions: {
-      argTypesRegex: '^on.*'
-    }
-  },
   subcomponents: {
     Node,
     Edge,

@@ -76,11 +76,6 @@ export const NonCentered = () => (
 export default {
   title: 'Demos/Controls',
   component: Canvas,
-  parameters: {
-    actions: {
-      argTypesRegex: '^on.*'
-    }
-  },
   subcomponents: {
     Node,
     Edge,

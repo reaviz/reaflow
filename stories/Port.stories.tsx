@@ -239,11 +239,6 @@ export const LinkingPortRestrictions = () => {
 export default {
   title: 'Demos/Ports',
   component: Canvas,
-  parameters: {
-    actions: {
-      argTypesRegex: '^on.*'
-    }
-  },
   subcomponents: {
     Node,
     Edge,

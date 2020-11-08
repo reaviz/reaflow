@@ -13,6 +13,10 @@ export const parameters = {
     theme
   },
   options: {
+    showRoots: true
+  },
+  actions: { argTypesRegex: '^on.*' },
+  options: {
     storySort: (a, b) => {
       const aName = a[0];
       const bName = b[0];

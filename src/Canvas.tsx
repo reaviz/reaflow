@@ -101,7 +101,9 @@ export const Canvas: FC<Partial<EditorCanvasProps>> = ({
   return (
     <div
       style={{ height, width }}
-      className={classNames(css.container, className, { [css.pannable]: pannable })}
+      className={classNames(css.container, className, {
+        [css.pannable]: pannable
+      })}
       ref={ref}
     >
       <div

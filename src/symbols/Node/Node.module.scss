@@ -9,6 +9,11 @@
   stroke: transparent;
   transition: stroke 100ms ease-in-out;
 
+  &.children {
+    fill: transparent;
+    stroke: #12131e;
+  }
+
   &:not(.disabled) {
     cursor: pointer;
 

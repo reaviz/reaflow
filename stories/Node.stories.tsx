@@ -286,11 +286,6 @@ export const VariableSizes = () => (
 export default {
   title: 'Demos/Nodes',
   component: Canvas,
-  parameters: {
-    actions: {
-      argTypesRegex: '^on.*'
-    }
-  },
   subcomponents: {
     Node,
     Edge,

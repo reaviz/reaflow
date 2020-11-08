@@ -43,12 +43,12 @@ function mapNode(nodes: NodeData[], edges: EdgeData[], node: NodeData) {
   const labelDim = measureText(node.text);
 
   const children = nodes
-    .filter(n => n.parent === node.id)
-    .map(n => mapNode(nodes, edges, n));
+    .filter((n) => n.parent === node.id)
+    .map((n) => mapNode(nodes, edges, n));
 
   const childEdges = edges
-    .filter(e => e.parent === node.id)
-    .map(e => mapEdge(e));
+    .filter((e) => e.parent === node.id)
+    .map((e) => mapEdge(e));
 
   return {
     id: node.id,
