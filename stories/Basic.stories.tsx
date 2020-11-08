@@ -27,6 +27,39 @@ export const Simple = () => (
   </div>
 );
 
+export const Circular = () => (
+  <div style={{ border: 'solid 1px #12131e', height: '80vh', width: '80vw', position: 'relative' }}>
+    <Canvas
+      nodes={[
+        {
+          id: '1'
+        },
+        {
+          id: '2'
+        }
+      ]}
+      edges={[
+        {
+          id: '1-2',
+          from: '1',
+          to: '2'
+        },
+        {
+          id: '2-2',
+          from: '2',
+          to: '2'
+        },
+        {
+          id: '1-1',
+          from: '1',
+          to: '1'
+        }
+      ]}
+      onLayoutChange={layout => console.log('Layout', layout)}
+    />
+  </div>
+);
+
 export const Direction = () => (
   <div style={{ border: 'solid 1px #12131e', height: '80vh', width: '80vw', position: 'relative' }}>
     <Canvas
