@@ -348,8 +348,8 @@ export const Events = () => (
   </div>
 );
 
-export const CustomStyles = () => (
-  <div style={{ border: 'solid 1px #12131e', height: '80vh', width: '80vw', position: 'relative' }}>
+export const Styling = () => (
+  <div style={{ border: 'solid 1px #12131e', position: 'absolute', top: 0, bottom: 0, left: 0, right: 0 }}>
     <style>
       {`
         .canvas > div {
