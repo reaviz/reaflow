@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { EdgeData, NodeData } from '../src/types';
-import { removeNode } from '../src/utils';
+import { removeAndUpsertNodes, removeNode } from '../src/utils';
 import { Canvas } from '../src/Canvas';
 import { Node, Edge, MarkerArrow, Port, Icon, Arrow, Label, Remove, Add } from '../src/symbols';
 
@@ -220,6 +220,10 @@ export const Removeable = () => {
     {
       id: '2',
       text: 'Node 2'
+    },
+    {
+      id: '3',
+      text: 'Node 3'
     }
   ]);
   const [edges, setEdges] = useState<EdgeData[]>([
@@ -227,6 +231,11 @@ export const Removeable = () => {
       id: '1-2',
       from: '1',
       to: '2'
+    },
+    {
+      id: '2-3',
+      from: '2',
+      to: '3'
     }
   ]);
 
@@ -244,7 +253,7 @@ export const Removeable = () => {
             }}
             onRemove={(event, node) => {
               console.log('Removing Node', event, node);
-              const result = removeNode(nodes, edges, node);
+              const result = removeAndUpsertNodes(nodes, edges, node);
               setEdges(result.edges);
               setNodes(result.nodes);
               setSelections([]);

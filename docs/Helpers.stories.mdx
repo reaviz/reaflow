@@ -70,3 +70,16 @@ import { getParentsForNodeId } from 'reaflow';
 
 const nodes = getParentsForNodeId(nodes, edges, node.id);
 ```
+
+## Node Removal and Upsert
+The `removeAndUpsertNodes` helper allows you to remove a node
+that has existing `to` and `from` edges and link the child
+edges from the node remove to the parent of the node removed.
+
+```js
+import { removeAndUpsertNodes } from 'reaflow';
+
+const result = removeAndUpsertNodes(nodes, edges, node);
+setNodes(results.nodes);
+setEdges(results.edges);
+```
