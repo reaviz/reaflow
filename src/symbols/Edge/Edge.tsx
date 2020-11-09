@@ -141,7 +141,7 @@ export const Edge: FC<Partial<EdgeProps>> = ({
       <path
         ref={pathRef}
         style={style}
-        className={classNames(className, properties.className, css.path, {
+        className={classNames(className, properties?.className, css.path, {
           [css.active]: isActive,
           [css.deleteHovered]: deleteHovered
         })}
