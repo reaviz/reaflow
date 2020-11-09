@@ -1,0 +1,14 @@
+body {
+  font-family: "Lato", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+  font-weight: 400;
+  background: #22272b;
+  color: #fff;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  margin: 25px;
+  text-align: center;
+}
+
+.container {
+  margin: 55px;
+}
