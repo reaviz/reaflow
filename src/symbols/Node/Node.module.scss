@@ -30,5 +30,10 @@
     &.unlinkable {
       stroke: #ff005d;
     }
+
+    &.deleteHovered {
+      stroke: #ff005d;
+      stroke-dasharray: 4 2;
+    }
   }
 }

@@ -112,6 +112,7 @@ export const Node: FC<Partial<NodeProps>> = ({
 }) => {
   const controls = useAnimation();
   const { canLinkNode, enteredNode, selections, ...canvas } = useCanvas();
+  const [deleteHovered, setDeleteHovered] = useState<boolean>(false);
   const [dragging, setDragging] = useState<boolean>(false);
   const isActive = selections?.length
     ? selections.includes(properties.id)
@@ -188,7 +189,8 @@ export const Node: FC<Partial<NodeProps>> = ({
           [css.disabled]: disabled,
           [css.unlinkable]: isLinkable === false,
           [css.dragging]: dragging,
-          [css.children]: nodes?.length > 0
+          [css.children]: nodes?.length > 0,
+          [css.deleteHovered]: deleteHovered
         })}
         style={style}
         height={height}
@@ -263,7 +265,9 @@ export const Node: FC<Partial<NodeProps>> = ({
           element={remove}
           y={height / 2}
           x={width}
-          onClick={(event) => onRemove(event, properties)}
+          onClick={(event: React.MouseEvent<SVGGElement, MouseEvent>) => onRemove(event, properties)}
+          onEnter={() => setDeleteHovered(true)}
+          onLeave={() => setDeleteHovered(false)}
         />
       )}
       {nodes?.length > 0 &&
