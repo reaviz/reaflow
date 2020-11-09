@@ -25,6 +25,10 @@
 
 ---
 
+REAFLOW is a modular diagram engine for build static or interactive editors.
+The library is feature rich and modular allowing for displaying complex visualizations
+with total customizability.
+
 ## 🚀 Quick Links
 - Checkout the [demos](https://reaflow.dev)
 - Explore the library on [Chroma](https://www.chromatic.com/library?appId=5f99ba42fe88ac0022fd1147)
