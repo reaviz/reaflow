@@ -1,6 +1,5 @@
 import React, { forwardRef, Ref, useState } from 'react';
 import { motion } from 'framer-motion';
-import classNames from 'classnames';
 import { PortData } from '../../types';
 import {
   NodeDragEvents,
@@ -60,10 +59,6 @@ export const Port = forwardRef(
     ref: Ref<SVGRectElement>
   ) => {
     const [dragging, setDragging] = useState<boolean>(false);
-
-    const isNorth = properties['port.side'] === 'NORTH';
-    const isSouth = properties['port.side'] === 'SOUTH';
-
     const newX = x - properties.width / 2;
     const newY = y - properties.height / 2;
 
@@ -100,10 +95,7 @@ export const Port = forwardRef(
           ref={ref}
           key={`${x}-${y}`}
           style={style}
-          className={classNames(css.port, {
-            [css.nortPort]: isNorth,
-            [css.southPort]: isSouth
-          })}
+          className={css.port}
           height={properties.height}
           width={properties.width}
           rx={rx}

@@ -14,6 +14,8 @@ import {
   Position
 } from '../../utils/useNodeDrag';
 import { Edge, EdgeProps } from '../Edge';
+import { useCanvas } from '../../utils/CanvasProvider';
+import { checkNodeLinkable } from '../../utils/helpers';
 import css from './Node.module.scss';
 
 export interface NodeChildProps {
@@ -40,10 +42,8 @@ export interface NodeProps extends NodeDragEvents<NodeData, PortData> {
   properties: any;
   className?: string;
   style?: any;
-  isLinkable: boolean | null;
   children?: ReactNode | ((node: NodeChildProps) => ReactNode);
   parent?: string;
-  selections?: string[];
 
   nodes?: NodeData[];
   edges?: EdgeData[];
@@ -86,7 +86,6 @@ export const Node: FC<Partial<NodeProps>> = ({
   width,
   properties,
   className,
-  selections,
   rx = 2,
   ry = 2,
   offsetX = 0,
@@ -94,7 +93,6 @@ export const Node: FC<Partial<NodeProps>> = ({
   icon,
   disabled,
   style,
-  isLinkable,
   children,
   nodes,
   edges,
@@ -113,10 +111,14 @@ export const Node: FC<Partial<NodeProps>> = ({
   onLeave = () => undefined
 }) => {
   const controls = useAnimation();
+  const { canLinkNode, enteredNode, selections, ...canvas } = useCanvas();
   const [dragging, setDragging] = useState<boolean>(false);
-  const isActive = selections?.length ? selections.includes(properties.id) : null;
+  const isActive = selections?.length
+    ? selections.includes(properties.id)
+    : null;
   const newX = x + offsetX;
   const newY = y + offsetY;
+  const isLinkable = checkNodeLinkable(properties, enteredNode, canLinkNode);
 
   const bind = useNodeDrag({
     x: newX,
@@ -125,13 +127,18 @@ export const Node: FC<Partial<NodeProps>> = ({
     width,
     disabled: disabled || ports?.length > 2,
     node: properties,
-    onDrag,
-    onDragStart: (event: DragEvent, initial: Position, data: NodeData) => {
-      onDragStart(event, initial, data);
+    onDrag: (...props) => {
+      canvas.onDrag(...props);
+      onDrag(...props);
+    },
+    onDragStart: (...props) => {
+      canvas.onDragStart(...props);
+      onDragStart(...props);
       setDragging(true);
     },
-    onDragEnd: (event: DragEvent, initial: Position, data: NodeData) => {
-      onDragEnd(event, initial, data);
+    onDragEnd: (...props) => {
+      canvas.onDragEnd(...props);
+      onDragEnd(...props);
       setDragging(false);
     }
   });
@@ -168,10 +175,12 @@ export const Node: FC<Partial<NodeProps>> = ({
         {...bind()}
         onMouseEnter={(event) => {
           event.stopPropagation();
+          canvas.onEnter(event, properties);
           onEnter(event, properties);
         }}
         onMouseLeave={(event) => {
           event.stopPropagation();
+          canvas.onLeave(event, properties);
           onLeave(event, properties);
         }}
         className={classNames(css.rect, className, {
@@ -224,20 +233,25 @@ export const Node: FC<Partial<NodeProps>> = ({
             disabled={disabled}
             offsetX={x}
             offsetY={y}
-            onDrag={onDrag}
             onDragStart={(
               event: DragEvent,
               initial: Position,
               data: PortData
             ) => {
+              canvas.onDragStart(event, initial, properties, data);
               onDragStart(event, initial, properties, data);
               setDragging(true);
+            }}
+            onDrag={(event: DragEvent, initial: Position, data: PortData) => {
+              canvas.onDrag(event, initial, properties, data);
+              onDrag(event, initial, properties, data);
             }}
             onDragEnd={(
               event: DragEvent,
               initial: Position,
               data: PortData
             ) => {
+              canvas.onDragEnd(event, initial, properties, data);
               onDragEnd(event, initial, properties, data);
               setDragging(false);
             }}

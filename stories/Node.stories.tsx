@@ -186,7 +186,7 @@ export const DynamicNodes = () => {
   return (
     <div style={{ position: 'absolute', top: 0, bottom: 0, left: 0, right: 0 }}>
       <button
-        style={{ position: 'absolute', top: 10, left: 10 }}
+        style={{ position: 'absolute', top: 10, left: 10, zIndex: 999 }}
         onClick={() => setNodes([...nodes, { id: `a${Math.random()}`, text: `Node ${Math.random()}` }])}
       >
         Add Nodes

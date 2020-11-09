@@ -1,24 +1,16 @@
-import React, {
-  FC,
-  Fragment,
-  ReactElement,
-  useCallback,
-  useEffect,
-  useState
-} from 'react';
+import React, { FC, ReactElement } from 'react';
 import { useId } from 'rdk';
 import { Node, NodeProps } from './symbols/Node';
 import { Edge, EdgeProps } from './symbols/Edge';
 import { ElkRoot, CanvasDirection, useLayout } from './layout';
 import { MarkerArrow, MarkerArrowProps } from './symbols/Arrow';
 import { CloneElement } from 'rdk';
-import { useCanvasDrag } from './utils/useCanvasDrag';
-import { checkNodeLinkable } from './utils/helpers';
 import { EdgeData, NodeData, PortData } from './types';
 import classNames from 'classnames';
+import { CanvasProvider, useCanvas } from './utils/CanvasProvider';
 import css from './Canvas.module.scss';
 
-export interface EditorCanvasProps {
+export interface CanvasProps {
   className?: string;
   disabled?: boolean;
   height?: number;
@@ -53,13 +45,13 @@ export interface EditorCanvasProps {
     port?: PortData
   ) => undefined | boolean;
 
-  arrow: ReactElement<MarkerArrowProps, typeof MarkerArrow>;
-  node: ReactElement<NodeProps, typeof Node>;
-  edge: ReactElement<EdgeProps, typeof Edge>;
-  dragEdge: ReactElement<EdgeProps, typeof Edge>;
+  arrow?: ReactElement<MarkerArrowProps, typeof MarkerArrow>;
+  node?: ReactElement<NodeProps, typeof Node>;
+  edge?: ReactElement<EdgeProps, typeof Edge>;
+  dragEdge?: ReactElement<EdgeProps, typeof Edge>;
 }
 
-export const Canvas: FC<Partial<EditorCanvasProps>> = ({
+const InternalCanvas: FC<Partial<CanvasProps>> = ({
   className,
   height = '100%',
   width = '100%',
@@ -75,9 +67,6 @@ export const Canvas: FC<Partial<EditorCanvasProps>> = ({
   node = <Node />,
   edge = <Edge />,
   dragEdge = <Edge add={null} />,
-  selections = [],
-  onNodeLinkCheck = () => undefined,
-  onNodeLink = () => undefined,
   onCanvasClick = () => undefined,
   onLayoutChange = () => undefined
 }) => {
@@ -92,10 +81,8 @@ export const Canvas: FC<Partial<EditorCanvasProps>> = ({
     center,
     onLayoutChange
   });
-  const { dragCoords, canLinkNode, enteredNode, ...dragRest } = useCanvasDrag({
-    onNodeLink,
-    onNodeLinkCheck
-  });
+
+  const { dragCoords } = useCanvas();
 
   return (
     <div
@@ -128,7 +115,6 @@ export const Canvas: FC<Partial<EditorCanvasProps>> = ({
               key={e.id}
               element={edge}
               id={`${id}-edge-${e.id}`}
-              selections={selections}
               disabled={disabled}
               {...(e as EdgeProps)}
             />
@@ -138,14 +124,11 @@ export const Canvas: FC<Partial<EditorCanvasProps>> = ({
               key={n.id}
               element={node}
               id={`${id}-node-${n.id}`}
-              isLinkable={checkNodeLinkable(n, enteredNode, canLinkNode)}
               disabled={disabled}
-              selections={selections}
               children={node.props.children}
               nodes={children}
               childEdge={edge}
               childNode={node}
-              {...dragRest}
               {...n}
             />
           ))}
@@ -162,3 +145,18 @@ export const Canvas: FC<Partial<EditorCanvasProps>> = ({
     </div>
   );
 };
+
+export const Canvas: FC<CanvasProps> = ({
+  selections = [],
+  onNodeLink = () => undefined,
+  onNodeLinkCheck = () => undefined,
+  ...rest
+}) => (
+  <CanvasProvider
+    selections={selections}
+    onNodeLink={onNodeLink}
+    onNodeLinkCheck={onNodeLinkCheck}
+  >
+    <InternalCanvas {...rest} />
+  </CanvasProvider>
+);

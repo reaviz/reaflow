@@ -14,6 +14,7 @@ import { CenterCoords, getBezierPath, getPathCenter } from './utils';
 import { curveBundle, line } from 'd3-shape';
 import { Remove, RemoveProps } from '../Remove';
 import { Add, AddProps } from '../Add';
+import { useCanvas } from '../../utils/CanvasProvider';
 import css from './Edge.module.scss';
 
 export interface EdgeSections {
@@ -44,7 +45,6 @@ export interface EdgeProps {
   sections: EdgeSections[];
   labels?: LabelProps[];
   className?: string;
-  selections?: string[];
 
   add: ReactElement<AddProps, typeof Add>;
   label: ReactElement<LabelProps, typeof Label>;
@@ -79,7 +79,6 @@ export const Edge: FC<Partial<EdgeProps>> = ({
   labels,
   className,
   disabled,
-  selections,
   style,
   add = <Add />,
   remove = <Remove />,
@@ -93,7 +92,10 @@ export const Edge: FC<Partial<EdgeProps>> = ({
 }) => {
   const pathRef = useRef<SVGPathElement | null>(null);
   const [center, setCenter] = useState<CenterCoords | null>(null);
-  const isActive = selections?.length ? selections.includes(properties.id) : null;
+  const { selections } = useCanvas();
+  const isActive = selections?.length
+    ? selections.includes(properties.id)
+    : null;
 
   const d = useMemo(() => {
     // Handle bend points that elk gives
