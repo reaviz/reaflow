@@ -128,7 +128,7 @@ export const Canvas: FC<Partial<EditorCanvasProps>> = ({
               key={e.id}
               element={edge}
               id={`${id}-edge-${e.id}`}
-              isActive={selections.length ? selections.includes(e.id) : null}
+              selections={selections}
               disabled={disabled}
               {...(e as EdgeProps)}
             />
@@ -138,9 +138,9 @@ export const Canvas: FC<Partial<EditorCanvasProps>> = ({
               key={n.id}
               element={node}
               id={`${id}-node-${n.id}`}
-              isActive={selections.length ? selections.includes(n.id) : null}
               isLinkable={checkNodeLinkable(n, enteredNode, canLinkNode)}
               disabled={disabled}
+              selections={selections}
               children={node.props.children}
               nodes={children}
               childEdge={edge}

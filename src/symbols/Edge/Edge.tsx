@@ -42,9 +42,9 @@ export interface EdgeProps {
   properties?: EdgeData;
   style?: any;
   sections: EdgeSections[];
-  isActive: boolean | null;
   labels?: LabelProps[];
   className?: string;
+  selections?: string[];
 
   add: ReactElement<AddProps, typeof Add>;
   label: ReactElement<LabelProps, typeof Label>;
@@ -79,7 +79,7 @@ export const Edge: FC<Partial<EdgeProps>> = ({
   labels,
   className,
   disabled,
-  isActive,
+  selections,
   style,
   add = <Add />,
   remove = <Remove />,
@@ -93,6 +93,7 @@ export const Edge: FC<Partial<EdgeProps>> = ({
 }) => {
   const pathRef = useRef<SVGPathElement | null>(null);
   const [center, setCenter] = useState<CenterCoords | null>(null);
+  const isActive = selections?.length ? selections.includes(properties.id) : null;
 
   const d = useMemo(() => {
     // Handle bend points that elk gives

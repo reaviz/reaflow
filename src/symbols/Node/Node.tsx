@@ -39,9 +39,9 @@ export interface NodeProps extends NodeDragEvents<NodeData, PortData> {
   className?: string;
   style?: any;
   isLinkable: boolean | null;
-  isActive: boolean | null;
   children?: ReactNode | ((node: NodeChildProps) => ReactNode);
   parent?: string;
+  selections?: string[];
 
   nodes?: NodeData[];
   edges?: EdgeData[];
@@ -84,7 +84,7 @@ export const Node: FC<Partial<NodeProps>> = ({
   width,
   properties,
   className,
-  isActive,
+  selections,
   rx = 2,
   ry = 2,
   icon,
@@ -110,6 +110,7 @@ export const Node: FC<Partial<NodeProps>> = ({
 }) => {
   const controls = useAnimation();
   const [dragging, setDragging] = useState<boolean>(false);
+  const isActive = selections?.length ? selections.includes(properties.id) : null;
 
   const bind = useNodeDrag({
     x,
@@ -254,6 +255,14 @@ export const Node: FC<Partial<NodeProps>> = ({
             disabled={disabled}
             nodes={children}
             children={childNode.props.children}
+            onDragStart={onDragStart}
+            onDrag={onDrag}
+            onDragEnd={onDragEnd}
+            onClick={onClick}
+            onEnter={onEnter}
+            onLeave={onLeave}
+            onKeyDown={onKeyDown}
+            onRemove={onRemove}
             {...n}
           />
         ))}
