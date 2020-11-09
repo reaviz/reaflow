@@ -32,6 +32,8 @@ export interface NodeProps extends NodeDragEvents<NodeData, PortData> {
   y: number;
   rx: number;
   ry: number;
+  offsetX?: number;
+  offsetY?: number;
   disabled?: boolean;
   ports?: PortProps[];
   labels?: LabelProps[];
@@ -87,6 +89,8 @@ export const Node: FC<Partial<NodeProps>> = ({
   selections,
   rx = 2,
   ry = 2,
+  offsetX = 0,
+  offsetY = 0,
   icon,
   disabled,
   style,
@@ -111,10 +115,12 @@ export const Node: FC<Partial<NodeProps>> = ({
   const controls = useAnimation();
   const [dragging, setDragging] = useState<boolean>(false);
   const isActive = selections?.length ? selections.includes(properties.id) : null;
+  const newX = x + offsetX;
+  const newY = y + offsetY;
 
   const bind = useNodeDrag({
-    x,
-    y,
+    x: newX,
+    y: newY,
     height,
     width,
     disabled: disabled || ports?.length > 2,
@@ -254,6 +260,8 @@ export const Node: FC<Partial<NodeProps>> = ({
             id={`${id}-node-${n.id}`}
             disabled={disabled}
             nodes={children}
+            offsetX={newX}
+            offsetY={newY}
             children={childNode.props.children}
             onDragStart={onDragStart}
             onDrag={onDrag}
