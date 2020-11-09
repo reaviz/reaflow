@@ -5,7 +5,7 @@ import { Node, Edge, MarkerArrow, Port, Icon, Arrow, Label, Remove, Add } from '
 import { detectCircular, hasLink } from '../src/utils';
 
 export const Icons = () => (
-  <div style={{ border: 'solid 1px #12131e', height: '80vh', width: '80vw', position: 'relative' }}>
+  <div style={{ position: 'absolute', top: 0, bottom: 0, left: 0, right: 0 }}>
     <Canvas
       nodes={[
         {
@@ -83,7 +83,7 @@ export const LinkingNodeRestrictions = () => {
   ]);
 
   return (
-    <div style={{ border: 'solid 1px #12131e', height: '80vh', width: '80vw', position: 'relative' }}>
+    <div style={{ position: 'absolute', top: 0, bottom: 0, left: 0, right: 0 }}>
       <Canvas
         nodes={nodes}
         edges={edges}
@@ -145,7 +145,7 @@ export const LinkingNodes = () => {
   ]);
 
   return (
-    <div style={{ border: 'solid 1px #12131e', height: '80vh', width: '80vw', position: 'relative' }}>
+    <div style={{ position: 'absolute', top: 0, bottom: 0, left: 0, right: 0 }}>
       <Canvas
         nodes={nodes}
         edges={edges}
@@ -184,7 +184,7 @@ export const DynamicNodes = () => {
   ]);
 
   return (
-    <div style={{ border: 'solid 1px #12131e', height: '80vh', width: '80vw', position: 'relative' }}>
+    <div style={{ position: 'absolute', top: 0, bottom: 0, left: 0, right: 0 }}>
       <button
         style={{ position: 'absolute', top: 10, left: 10 }}
         onClick={() => setNodes([...nodes, { id: `a${Math.random()}`, text: `Node ${Math.random()}` }])}
@@ -212,7 +212,7 @@ export const DynamicNodes = () => {
 };
 
 export const ForeignObjects = () => (
-  <div style={{ border: 'solid 1px #12131e', height: '80vh', width: '80vw', position: 'relative' }}>
+  <div style={{ position: 'absolute', top: 0, bottom: 0, left: 0, right: 0 }}>
     <Canvas
       nodes={[
         {
@@ -255,7 +255,7 @@ export const ForeignObjects = () => (
 );
 
 export const VariableSizes = () => (
-  <div style={{ border: 'solid 1px #12131e', height: '80vh', width: '80vw', position: 'relative' }}>
+  <div style={{ position: 'absolute', top: 0, bottom: 0, left: 0, right: 0 }}>
     <Canvas
       nodes={[
         {
