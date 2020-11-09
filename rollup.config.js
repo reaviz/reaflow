@@ -46,7 +46,7 @@ export default [
           '*.test.tsx',
           '*.d.ts',
           '**/*.d.ts',
-          '**/*.story.tsx'
+          '**/*.stories.tsx'
         ]
       }),
       resolve(),
