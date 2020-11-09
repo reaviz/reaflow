@@ -58,7 +58,11 @@ export const useLayout = ({
           onLayoutChange(result);
         }
       })
-      .catch(() => undefined);
+      .catch((err) => {
+        if (err.name !== 'CancelError') {
+          console.error('Layout Error:', err);
+        }
+      });
 
     return () => promise.cancel();
   }, [nodes, edges]);
