@@ -10,7 +10,6 @@ export interface NodeData<T = any> {
   ports?: PortData[];
   icon?: IconData;
   data?: T;
-  style?: any;
   className?: string;
 }
 
@@ -29,7 +28,6 @@ export interface EdgeData<T = any> {
   fromPort?: string;
   toPort?: string;
   data?: T;
-  style?: any;
   className?: string;
   arrowHeadType?: any;
   parent?: string;
@@ -40,6 +38,7 @@ export interface PortData {
   height: number;
   width: number;
   hidden?: boolean;
+  className?: string;
   alignment?: 'CENTER';
   side: 'NORTH' | 'SOUTH' | 'EAST' | 'WEST';
 }

@@ -8,6 +8,7 @@ import {
   Position
 } from '../../utils/useNodeDrag';
 import css from './Port.module.scss';
+import classNames from 'classnames';
 
 export interface ElkPortProperties {
   index: number;
@@ -26,6 +27,7 @@ export interface PortProps extends NodeDragEvents<PortData> {
   offsetX: number;
   offsetY: number;
   disabled?: boolean;
+  className?: string;
   properties: ElkPortProperties & PortData;
   style?: any;
   onEnter?: (
@@ -50,6 +52,7 @@ export const Port = forwardRef(
       properties,
       offsetX,
       offsetY,
+      className,
       onDrag = () => undefined,
       onDragStart = () => undefined,
       onDragEnd = () => undefined,
@@ -95,7 +98,7 @@ export const Port = forwardRef(
           ref={ref}
           key={`${x}-${y}`}
           style={style}
-          className={css.port}
+          className={classNames(css.port, className, properties.className)}
           height={properties.height}
           width={properties.width}
           rx={rx}

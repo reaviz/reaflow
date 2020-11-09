@@ -184,7 +184,7 @@ export const Node: FC<Partial<NodeProps>> = ({
           canvas.onLeave(event, properties);
           onLeave(event, properties);
         }}
-        className={classNames(css.rect, className, {
+        className={classNames(css.rect, className, properties.className, {
           [css.active]: isActive,
           [css.disabled]: disabled,
           [css.unlinkable]: isLinkable === false,

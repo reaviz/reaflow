@@ -3,7 +3,7 @@ import { Canvas } from '../src/Canvas';
 import { Node, Edge, MarkerArrow, Port, Icon, Arrow, Label, Remove, Add } from '../src/symbols';
 import { NodeData, PortData } from '../src/types';
 
-export const Ports = () => (
+export const Simple = () => (
   <div style={{ position: 'absolute', top: 0, bottom: 0, left: 0, right: 0 }}>
     <Canvas
       nodes={[
@@ -40,6 +40,73 @@ export const Ports = () => (
               width: 10,
               height: 10,
               side: 'NORTH'
+            }
+          ]
+        }
+      ]}
+      edges={[
+        {
+          id: '1-2',
+          from: '1',
+          to: '2',
+          fromPort: '1-from',
+          toPort: '2-to'
+        }
+      ]}
+      onLayoutChange={layout => console.log('Layout', layout)}
+    />
+  </div>
+);
+
+export const Styled = () => (
+  <div style={{ position: 'absolute', top: 0, bottom: 0, left: 0, right: 0 }}>
+    <style>
+      {`
+        .blue {
+          fill: blue;
+        }
+        .green {
+          fill: green;
+        }
+      `}
+    </style>
+    <Canvas
+      nodes={[
+        {
+          id: '1',
+          text: 'Node 1',
+          ports: [
+            {
+              id: '1-from',
+              width: 10,
+              height: 10,
+              side: 'SOUTH'
+            },
+            {
+              id: '1-to',
+              width: 10,
+              height: 10,
+              side: 'NORTH'
+            }
+          ]
+        },
+        {
+          id: '2',
+          text: 'Node 2',
+          ports: [
+            {
+              id: '2-from',
+              width: 10,
+              height: 10,
+              side: 'SOUTH',
+              className: 'green'
+            },
+            {
+              id: '2-to',
+              width: 10,
+              height: 10,
+              side: 'NORTH',
+              className: 'blue'
             }
           ]
         }
