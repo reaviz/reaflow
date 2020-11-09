@@ -1,4 +1,5 @@
 import React, { FC } from 'react';
+import classNames from 'classnames';
 import css from './Label.module.scss';
 
 export interface LabelProps {
@@ -8,12 +9,13 @@ export interface LabelProps {
   width: number;
   text: string;
   style?: any;
+  className?: string;
 }
 
-export const Label: FC<Partial<LabelProps>> = ({ text, x, y, style }) => {
+export const Label: FC<Partial<LabelProps>> = ({ text, x, y, style, className }) => {
   return (
     <g transform={`translate(${x}, ${y})`}>
-      <text className={css.text} style={style}>
+      <text className={classNames(css.text, className)} style={style}>
         {text}
       </text>
     </g>

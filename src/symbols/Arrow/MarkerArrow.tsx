@@ -4,10 +4,12 @@ import { Arrow } from './Arrow';
 export interface MarkerArrowProps {
   size?: number;
   style?: any;
+  className?: string
 }
 
 export const MarkerArrow: FC<Partial<MarkerArrowProps>> = ({
   size = 8,
+  className,
   style
 }) => (
   <marker
@@ -19,6 +21,6 @@ export const MarkerArrow: FC<Partial<MarkerArrowProps>> = ({
     markerHeight={`${size}`}
     orient="auto"
   >
-    <Arrow size={size} style={style} />
+    <Arrow size={size} style={style} className={className} />
   </marker>
 );

@@ -7,7 +7,7 @@ export interface AddProps {
   x: number;
   y: number;
   size?: number;
-  className?: any;
+  className?: string;
   hidden?: boolean;
   onEnter?: (event: React.MouseEvent<SVGGElement, MouseEvent>) => void;
   onLeave?: (event: React.MouseEvent<SVGGElement, MouseEvent>) => void;

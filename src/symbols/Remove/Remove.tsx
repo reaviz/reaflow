@@ -8,7 +8,7 @@ export interface RemoveProps {
   y: number;
   hidden?: boolean;
   size?: number;
-  className?: any;
+  className?: string;
   onEnter?: (event: React.MouseEvent<SVGGElement, MouseEvent>) => void;
   onLeave?: (event: React.MouseEvent<SVGGElement, MouseEvent>) => void;
   onClick?: (event: React.MouseEvent<SVGGElement, MouseEvent>) => void;
