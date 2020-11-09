@@ -12,7 +12,6 @@ export interface NodeData<T = any> {
   data?: T;
   style?: any;
   className?: string;
-  hidden?: boolean;
 }
 
 export interface IconData {
