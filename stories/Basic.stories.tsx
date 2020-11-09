@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { EdgeData, NodeData } from '../src/types';
 import { removeAndUpsertNodes, removeNode } from '../src/utils';
-import { Canvas } from '../src/Canvas';
+import { Canvas, CanvasRef } from '../src/Canvas';
 import { Node, Edge, MarkerArrow, Port, Icon, Arrow, Label, Remove, Add } from '../src/symbols';
 
 export const Simple = () => (
@@ -116,6 +116,46 @@ export const Disabled = () => (
     />
   </div>
 );
+
+export const Refs = () => {
+  const ref = useRef<CanvasRef | null>(null);
+
+  useEffect(() => {
+    console.log('Reference:', ref);
+  }, [ref]);
+
+  return (
+    <div style={{ position: 'absolute', top: 0, bottom: 0, left: 0, right: 0 }}>
+      <button
+        style={{ position: 'absolute', top: 10, left: 10, zIndex: 999 }}
+        onClick={() => ref.current?.centerCanvas()}
+      >
+        Center
+      </button>
+      <Canvas
+        ref={ref}
+        nodes={[
+          {
+            id: '1',
+            text: 'Node 1'
+          },
+          {
+            id: '2',
+            text: 'Node 2'
+          }
+        ]}
+        edges={[
+          {
+            id: '1-2',
+            from: '1',
+            to: '2'
+          }
+        ]}
+        onLayoutChange={layout => console.log('Layout', layout)}
+      />
+    </div>
+  );
+};
 
 export const Joins = () => (
   <div style={{ position: 'absolute', top: 0, bottom: 0, left: 0, right: 0 }}>

@@ -47,22 +47,27 @@ export function removeAndUpsertNodes(
     removeNodes = [removeNodes];
   }
 
-  const nodeIds = removeNodes.map(n => n.id);
-  const newNodes = nodes.filter(n => !nodeIds.includes(n.id));
+  const nodeIds = removeNodes.map((n) => n.id);
+  const newNodes = nodes.filter((n) => !nodeIds.includes(n.id));
   const newEdges = edges.filter(
-    e => !nodeIds.includes(e.from) && !nodeIds.includes(e.to)
+    (e) => !nodeIds.includes(e.from) && !nodeIds.includes(e.to)
   );
 
   for (const nodeId of nodeIds) {
-    const sourceEdges = edges.filter(e => e.to === nodeId);
-    const targetEdges = edges.filter(e => e.from === nodeId);
+    const sourceEdges = edges.filter((e) => e.to === nodeId);
+    const targetEdges = edges.filter((e) => e.from === nodeId);
 
     for (const sourceEdge of sourceEdges) {
       for (const targetEdge of targetEdges) {
-        const sourceNode = nodes.find(n => n.id === sourceEdge.from);
-        const targetNode = nodes.find(n => n.id === targetEdge.to);
+        const sourceNode = nodes.find((n) => n.id === sourceEdge.from);
+        const targetNode = nodes.find((n) => n.id === targetEdge.to);
         if (sourceNode && targetNode) {
-          const canLink = onNodeLinkCheck?.(newNodes, newEdges, sourceNode, targetNode);
+          const canLink = onNodeLinkCheck?.(
+            newNodes,
+            newEdges,
+            sourceNode,
+            targetNode
+          );
           if (canLink === undefined || canLink) {
             newEdges.push({
               id: `${sourceNode.id}-${targetNode.id}`,
@@ -106,19 +111,18 @@ export function addNodeAndEdge(
   toNode?: NodeData
 ) {
   return {
-    nodes: [
-      ...nodes,
-      node
-    ],
+    nodes: [...nodes, node],
     edges: [
       ...edges,
-      ...(toNode ? [
-        {
-          id: `${toNode.id}-${node.id}`,
-          from: toNode.id,
-          to: node.id
-        }
-      ] : [])
+      ...(toNode
+        ? [
+          {
+            id: `${toNode.id}-${node.id}`,
+            from: toNode.id,
+            to: node.id
+          }
+        ]
+        : [])
     ]
   };
 }

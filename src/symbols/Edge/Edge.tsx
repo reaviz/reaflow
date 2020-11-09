@@ -137,13 +137,14 @@ export const Edge: FC<Partial<EdgeProps>> = ({
   }, [sections, pathRef.current]);
 
   return (
-    <g
-      className={classNames(css.edge, { [css.disabled]: disabled })}
-    >
+    <g className={classNames(css.edge, { [css.disabled]: disabled })}>
       <path
         ref={pathRef}
         style={style}
-        className={classNames(className, css.path, { [css.active]: isActive, [css.deleteHovered]: deleteHovered })}
+        className={classNames(className, css.path, {
+          [css.active]: isActive,
+          [css.deleteHovered]: deleteHovered
+        })}
         d={d}
         markerEnd="url(#end-arrow)"
       />
@@ -183,7 +184,9 @@ export const Edge: FC<Partial<EdgeProps>> = ({
           hidden={
             remove.props.hidden !== undefined ? remove.props.hidden : !isActive
           }
-          onClick={(event: React.MouseEvent<SVGGElement, MouseEvent>) => onRemove(event, properties)}
+          onClick={(event: React.MouseEvent<SVGGElement, MouseEvent>) =>
+            onRemove(event, properties)
+          }
           onEnter={() => setDeleteHovered(true)}
           onLeave={() => setDeleteHovered(false)}
         />

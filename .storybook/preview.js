@@ -5,6 +5,10 @@ const order = [
   'getting-started-',
   'basics-',
   'components-',
+  'data-shapes-',
+  'helpers-',
+  'styling-',
+  'advanced-',
   'docs-',
   'demos-'
 ];

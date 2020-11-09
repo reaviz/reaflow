@@ -1,4 +1,10 @@
-import { useEffect, useLayoutEffect, useRef, useState } from 'react';
+import {
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState
+} from 'react';
 import { elkLayout, CanvasDirection } from './elkLayout';
 import useDimensions from 'react-cool-dimensions';
 import isEqual from 'react-fast-compare';
@@ -57,23 +63,26 @@ export const useLayout = ({
     return () => promise.cancel();
   }, [nodes, edges]);
 
+  const centerCanvas = useCallback(() => {
+    const scrollX = (canvasWidth - height) / 2;
+    const scrollY = (canvasHeight - width) / 2;
+
+    const x = canvasWidth / 2 - layout.width / 2;
+    const y = canvasHeight / 2 - layout.height / 2;
+
+    if (center) {
+      setXY([x, y]);
+    }
+
+    if (pannable) {
+      ref?.current?.scrollTo(scrollY, scrollX);
+    }
+  }, [canvasWidth, canvasHeight, height, width, layout]);
+
   useLayoutEffect(() => {
     const scroller = ref.current;
     if (scroller && !scrolled.current && layout && height && width) {
-      const scrollX = (canvasWidth - height) / 2;
-      const scrollY = (canvasHeight - width) / 2;
-
-      const x = canvasWidth / 2 - layout.width / 2;
-      const y = canvasHeight / 2 - layout.height / 2;
-
-      if (center) {
-        setXY([x, y]);
-      }
-
-      if (pannable) {
-        scroller.scrollTo(scrollY, scrollX);
-      }
-
+      centerCanvas();
       scrolled.current = true;
     }
   }, [canvasWidth, pannable, canvasHeight, layout, height, width, center]);
@@ -85,6 +94,7 @@ export const useLayout = ({
     canvasWidth,
     containerWidth: width,
     containerHeight: height,
-    layout
+    layout,
+    centerCanvas
   };
 };

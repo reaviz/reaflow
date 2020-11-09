@@ -265,7 +265,9 @@ export const Node: FC<Partial<NodeProps>> = ({
           element={remove}
           y={height / 2}
           x={width}
-          onClick={(event: React.MouseEvent<SVGGElement, MouseEvent>) => onRemove(event, properties)}
+          onClick={(event: React.MouseEvent<SVGGElement, MouseEvent>) =>
+            onRemove(event, properties)
+          }
           onEnter={() => setDeleteHovered(true)}
           onLeave={() => setDeleteHovered(false)}
         />
