@@ -1,16 +1,30 @@
 .edge {
-  cursor: pointer;
-
   &:focus {
     outline: none;
+  }
+
+  &.disabled {
+    pointer-events: none;
   }
 }
 
 .path {
   fill: none;
   stroke: #485a74;
+  pointer-events: none;
 
   &.active {
     stroke: #46FECB;
+  }
+}
+
+.clicker {
+  fill: none;
+  stroke: transparent;
+  cursor: pointer;
+  stroke-width: 15px;
+
+  &.disabled {
+    pointer-events: none;
   }
 }

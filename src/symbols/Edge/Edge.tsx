@@ -137,7 +137,7 @@ export const Edge: FC<Partial<EdgeProps>> = ({
 
   return (
     <g
-      className={css.edge}
+      className={classNames(css.edge, { [css.disabled]: disabled })}
       tabIndex={-1}
       onClick={(event) => {
         event.stopPropagation();
@@ -162,6 +162,10 @@ export const Edge: FC<Partial<EdgeProps>> = ({
         className={classNames(className, css.path, { [css.active]: isActive })}
         d={d}
         markerEnd="url(#end-arrow)"
+      />
+      <path
+        className={css.clicker}
+        d={d}
       />
       {labels?.length > 0 &&
         labels.map((l, index) => (
