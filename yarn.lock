@@ -6000,6 +6000,11 @@ elkjs@^0.7.0:
   resolved "https://registry.yarnpkg.com/elkjs/-/elkjs-0.7.0.tgz#c9341af221456979a74c5806ecbddaeaaea305b5"
   integrity sha512-lddP9+t2AR7vzfJI8ccKrjwxWzwfXAqglikw97UYPchQEKZ4GCxye1rhVfst26CrGUxwcabOdXTG3Cnf1tYWKQ==
 
+ellipsize@^0.1.0:
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/ellipsize/-/ellipsize-0.1.0.tgz#9d43682d44b91ad16ebd84268ac103170a6553f8"
+  integrity sha1-nUNoLUS5GtFuvYQmisEDFwplU/g=
+
 elliptic@^6.5.3:
   version "6.5.3"
   resolved "https://registry.yarnpkg.com/elliptic/-/elliptic-6.5.3.tgz#cb59eb2efdaf73a0bd78ccd7015a62ad6e0f93d6"

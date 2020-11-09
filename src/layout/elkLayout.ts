@@ -1,7 +1,7 @@
 import { EdgeData, NodeData } from '../types';
 import ELK, { ElkNode } from 'elkjs/lib/elk.bundled';
 import PCancelable from 'p-cancelable';
-import calculateSize from 'calculate-size';
+import { formatText, measureText } from './utils';
 
 export type CanvasDirection = 'LEFT' | 'RIGHT' | 'DOWN' | 'UP';
 
@@ -26,21 +26,8 @@ const defaultLayoutOptions = {
   'spacing.nodeNodeBetweenLayers': '70'
 };
 
-function measureText(text: string) {
-  let result = { height: 0, width: 0 };
-
-  if (text) {
-    result = calculateSize(text, {
-      font: 'Arial, sans-serif',
-      fontSize: '14px'
-    });
-  }
-
-  return result;
-}
-
 function mapNode(nodes: NodeData[], edges: EdgeData[], node: NodeData) {
-  const labelDim = measureText(node.text);
+  const { text, width, height, labelHeight, labelWidth } = formatText(node);
 
   const children = nodes
     .filter((n) => n.parent === node.id)
@@ -52,8 +39,8 @@ function mapNode(nodes: NodeData[], edges: EdgeData[], node: NodeData) {
 
   return {
     id: node.id,
-    height: node.height || 50,
-    width: node.width || 150,
+    height,
+    width,
     children,
     edges: childEdges,
     ports: node.ports
@@ -73,12 +60,12 @@ function mapNode(nodes: NodeData[], edges: EdgeData[], node: NodeData) {
     properties: {
       ...node
     },
-    labels: node.text
+    labels: text
       ? [
         {
-          ...labelDim,
-          height: -(labelDim.height / 2),
-          text: node.text,
+          width: labelWidth,
+          height: -(labelHeight / 2),
+          text,
           layoutOptions: {
             'elk.nodeLabels.placement': 'INSIDE V_CENTER H_CENTER'
           }
