@@ -6,6 +6,14 @@
   &.disabled {
     pointer-events: none;
   }
+
+  &:not(.disabled) {
+    &:hover {
+      .path {
+        stroke: #a5a9e2;
+      }
+    }
+  }
 }
 
 .path {

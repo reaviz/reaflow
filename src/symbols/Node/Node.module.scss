@@ -5,13 +5,14 @@
 }
 
 .rect {
-  fill: #12131e;
+  fill: #2b2c3e;
   stroke: transparent;
   transition: stroke 100ms ease-in-out;
+  stroke: #475872;
 
   &.children {
     fill: transparent;
-    stroke: #12131e;
+    stroke: #475872;
   }
 
   &:not(.disabled) {
@@ -19,7 +20,7 @@
 
     &.dragging,
     &:hover {
-      stroke: #3e405a;
+      stroke: #a5a9e2;
     }
 
     &.active {

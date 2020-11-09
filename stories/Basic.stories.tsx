@@ -34,10 +34,12 @@ export const Circular = () => (
     <Canvas
       nodes={[
         {
-          id: '1'
+          id: '1',
+          text: '1'
         },
         {
-          id: '2'
+          id: '2',
+          text: '2'
         }
       ]}
       edges={[
@@ -363,9 +365,9 @@ export const Styling = () => (
   <div style={{ border: 'solid 1px #12131e', position: 'absolute', top: 0, bottom: 0, left: 0, right: 0 }}>
     <style>
       {`
-        .canvas > div {
-          background: white;
-          background-image: -webkit-repeating-radial-gradient(top center,rgba(0,0,0,.8),rgba(0,0,0,.8) 1px,transparent 0,transparent 100%);
+        body #root > div {
+          background-color: white;
+          background-image: -webkit-repeating-radial-gradient(top center,rgba(0,0,0,.2),rgba(0,0,0,.2) 1px,transparent 0,transparent 100%);
         }
         .edge {
           stroke: #b1b1b7;

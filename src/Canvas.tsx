@@ -98,10 +98,6 @@ const InternalCanvas: FC<Partial<CanvasProps>> = ({
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
     >
-      <div
-        className={css.background}
-        style={{ height: canvasHeight, width: canvasWidth }}
-      />
       <svg
         xmlns="http://www.w3.org/2000/svg"
         id={id}
