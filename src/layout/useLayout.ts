@@ -85,7 +85,16 @@ export const useLayout = ({
       centerCanvas();
       scrolled.current = true;
     }
-  }, [canvasWidth, pannable, canvasHeight, layout, height, width, center]);
+  }, [
+    canvasWidth,
+    pannable,
+    canvasHeight,
+    layout,
+    height,
+    width,
+    center,
+    centerCanvas
+  ]);
 
   return {
     xy,
