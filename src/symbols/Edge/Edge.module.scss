@@ -1,8 +1,4 @@
 .edge {
-  &:focus {
-    outline: none;
-  }
-
   &.disabled {
     pointer-events: none;
   }
@@ -14,25 +10,30 @@
       }
     }
   }
-}
 
-.path {
-  fill: none;
-  stroke: #485a74;
-  pointer-events: none;
-
-  &.active {
-    stroke: #46FECB;
-  }
-}
-
-.clicker {
-  fill: none;
-  stroke: transparent;
-  cursor: pointer;
-  stroke-width: 15px;
-
-  &.disabled {
+  .path {
+    fill: none;
+    stroke: #485a74;
     pointer-events: none;
+
+    &.active {
+      stroke: #46FECB !important;
+    }
+
+    &.deleteHovered {
+      stroke: #ff005d !important;
+      stroke-dasharray: 4 2;
+    }
+  }
+
+  .clicker {
+    fill: none;
+    stroke: transparent;
+    cursor: pointer;
+    stroke-width: 15px;
+
+    &:focus {
+      outline: none;
+    }
   }
 }

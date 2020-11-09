@@ -9,6 +9,8 @@ export interface RemoveProps {
   hidden?: boolean;
   size?: number;
   className?: any;
+  onEnter?: (event: React.MouseEvent<SVGGElement, MouseEvent>) => void;
+  onLeave?: (event: React.MouseEvent<SVGGElement, MouseEvent>) => void;
   onClick?: (event: React.MouseEvent<SVGGElement, MouseEvent>) => void;
 }
 
@@ -18,7 +20,9 @@ export const Remove: FC<Partial<RemoveProps>> = ({
   hidden,
   x,
   y,
-  onClick = () => undefined
+  onClick = () => undefined,
+  onEnter = () => undefined,
+  onLeave = () => undefined
 }) => {
   if (hidden) {
     return null;
@@ -40,6 +44,8 @@ export const Remove: FC<Partial<RemoveProps>> = ({
         height={size * 1.5}
         width={size * 1.5}
         className={css.drop}
+        onMouseEnter={onEnter}
+        onMouseLeave={onLeave}
         onClick={(event) => {
           event.preventDefault();
           event.stopPropagation();

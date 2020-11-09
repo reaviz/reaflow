@@ -91,6 +91,7 @@ export const Edge: FC<Partial<EdgeProps>> = ({
   onAdd = () => undefined
 }) => {
   const pathRef = useRef<SVGPathElement | null>(null);
+  const [deleteHovered, setDeleteHovered] = useState<boolean>(false);
   const [center, setCenter] = useState<CenterCoords | null>(null);
   const { selections } = useCanvas();
   const isActive = selections?.length
@@ -138,34 +139,34 @@ export const Edge: FC<Partial<EdgeProps>> = ({
   return (
     <g
       className={classNames(css.edge, { [css.disabled]: disabled })}
-      tabIndex={-1}
-      onClick={(event) => {
-        event.stopPropagation();
-        onClick(event, properties);
-      }}
-      onKeyDown={(event) => {
-        event.stopPropagation();
-        onKeyDown(event, properties);
-      }}
-      onMouseEnter={(event) => {
-        event.stopPropagation();
-        onEnter(event, properties);
-      }}
-      onMouseLeave={(event) => {
-        event.stopPropagation();
-        onLeave(event, properties);
-      }}
     >
       <path
         ref={pathRef}
         style={style}
-        className={classNames(className, css.path, { [css.active]: isActive })}
+        className={classNames(className, css.path, { [css.active]: isActive, [css.deleteHovered]: deleteHovered })}
         d={d}
         markerEnd="url(#end-arrow)"
       />
       <path
         className={css.clicker}
         d={d}
+        tabIndex={-1}
+        onClick={(event) => {
+          event.stopPropagation();
+          onClick(event, properties);
+        }}
+        onKeyDown={(event) => {
+          event.stopPropagation();
+          onKeyDown(event, properties);
+        }}
+        onMouseEnter={(event) => {
+          event.stopPropagation();
+          onEnter(event, properties);
+        }}
+        onMouseLeave={(event) => {
+          event.stopPropagation();
+          onLeave(event, properties);
+        }}
       />
       {labels?.length > 0 &&
         labels.map((l, index) => (
@@ -182,7 +183,9 @@ export const Edge: FC<Partial<EdgeProps>> = ({
           hidden={
             remove.props.hidden !== undefined ? remove.props.hidden : !isActive
           }
-          onClick={(event) => onRemove(event, properties)}
+          onClick={(event: React.MouseEvent<SVGGElement, MouseEvent>) => onRemove(event, properties)}
+          onEnter={() => setDeleteHovered(true)}
+          onLeave={() => setDeleteHovered(false)}
         />
       )}
       {!disabled && center && add && (
