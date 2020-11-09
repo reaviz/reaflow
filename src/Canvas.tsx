@@ -162,8 +162,8 @@ const InternalCanvas: FC<CanvasProps & { ref?: Ref<CanvasRef> }> = forwardRef(
               <CloneElement<EdgeProps>
                 element={dragEdge}
                 id={`${id}-drag`}
+                disabled={true}
                 sections={dragCoords}
-                style={{ pointerEvents: 'none' }}
               />
             )}
           </g>
