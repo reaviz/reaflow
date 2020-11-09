@@ -36,6 +36,8 @@ export interface CanvasProps {
   onCanvasPan?: () => void;
   */
 
+  onMouseEnter?: (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
+  onMouseLeave?: (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
   onLayoutChange: (layout: ElkRoot) => void;
   onCanvasClick?: (event: React.MouseEvent<SVGGElement, MouseEvent>) => void;
   onNodeLink?: (from: NodeData, to: NodeData, port?: PortData) => void;
@@ -67,6 +69,8 @@ const InternalCanvas: FC<Partial<CanvasProps>> = ({
   node = <Node />,
   edge = <Edge />,
   dragEdge = <Edge add={null} />,
+  onMouseEnter = () => undefined,
+  onMouseLeave = () => undefined,
   onCanvasClick = () => undefined,
   onLayoutChange = () => undefined
 }) => {
@@ -91,6 +95,8 @@ const InternalCanvas: FC<Partial<CanvasProps>> = ({
         [css.pannable]: pannable
       })}
       ref={ref}
+      onMouseEnter={onMouseEnter}
+      onMouseLeave={onMouseLeave}
     >
       <div
         className={css.background}

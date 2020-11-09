@@ -52,7 +52,7 @@ export const useLayout = ({
           onLayoutChange(result);
         }
       })
-      .catch((err) => console.error('Layout Failed', err));
+      .catch(() => undefined);
 
     return () => promise.cancel();
   }, [nodes, edges]);
