@@ -84,7 +84,10 @@ export const CanvasProvider = ({
 
     if (dragNode && node) {
       const canLink = onNodeLinkCheck(dragNode, node, dragPort);
-      setCanLinkNode(canLink === undefined || canLink ? true : false);
+      const result =
+        (canLink === undefined || canLink) && dragNode.parent === node.parent;
+
+      setCanLinkNode(result);
     }
   };
 
