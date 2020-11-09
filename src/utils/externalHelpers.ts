@@ -97,6 +97,33 @@ export function removeNode(
 }
 
 /**
+ * Add a node and optional edge.
+ */
+export function addNodeAndEdge(
+  nodes: NodeData[],
+  edges: EdgeData[],
+  node: NodeData,
+  toNode?: NodeData
+) {
+  return {
+    nodes: [
+      ...nodes,
+      node
+    ],
+    edges: [
+      ...edges,
+      ...(toNode ? [
+        {
+          id: `${toNode.id}-${node.id}`,
+          from: toNode.id,
+          to: node.id
+        }
+      ] : [])
+    ]
+  };
+}
+
+/**
  * Helper function to determine if edge already has a link.
  */
 export function hasLink(edges: EdgeData[], from: NodeData, to: NodeData) {

@@ -83,3 +83,24 @@ const result = removeAndUpsertNodes(nodes, edges, node);
 setNodes(results.nodes);
 setEdges(results.edges);
 ```
+
+## Add Node and Optional Edge
+The `addNodeAndEdge` helper is a shortcut function to add a
+node to a nodes array and a optional edge.
+
+```js
+import { addNodeAndEdge } from 'reaflow';
+
+const result = addNodeAndEdge(
+  nodes,
+  edges,
+  {
+    id,
+    text: id
+  },
+  enteredNode
+);
+
+setNodes(results.nodes);
+setEdges(results.edges);
+```

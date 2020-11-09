@@ -3,12 +3,21 @@ import { Canvas } from '../src/Canvas';
 import { Node, Edge, MarkerArrow, Port, Icon, Arrow, Label, Remove, Add } from '../src/symbols';
 import { motion, useDragControls } from 'framer-motion';
 import { Portal } from 'rdk';
-import { NodeData } from '../src/types';
+import { EdgeData, NodeData } from '../src/types';
+import { addNodeAndEdge } from '../src/utils/externalHelpers';
 
 export const Simple = () => {
   const dragControls = useDragControls();
+  const [enteredNode, setEnteredNode] = useState<NodeData | null>(null);
   const [activeDrag, setActiveDrag] = useState<string | null>(null);
   const [droppable, setDroppable] = useState<boolean>(false);
+  const [edges, setEdges] = useState<EdgeData[]>([
+    {
+      id: '1-2',
+      from: '1',
+      to: '2'
+    }
+  ]);
   const [nodes, setNodes] = useState<NodeData[]>([
     {
       id: '1',
@@ -28,17 +37,22 @@ export const Simple = () => {
   const onDragEnd = () => {
     if (droppable) {
       const id = `${activeDrag}-${Math.floor(Math.random() * (100 - 1 + 1)) + 1}`;
-      setNodes([
-        ...nodes,
+      const result = addNodeAndEdge(
+        nodes,
+        edges,
         {
           id,
           text: id
-        }
-      ]);
+        },
+        enteredNode
+      );
+      setNodes(result.nodes);
+      setEdges(result.edges);
     }
 
     setDroppable(false);
     setActiveDrag(null);
+    setEnteredNode(null);
   };
 
   return (
@@ -115,13 +129,13 @@ export const Simple = () => {
       <div className="right">
         <Canvas
           nodes={nodes}
-          edges={[
-            {
-              id: '1-2',
-              from: '1',
-              to: '2'
-            }
-          ]}
+          edges={edges}
+          node={
+            <Node
+              onEnter={(event, node) => setEnteredNode(node)}
+              onLeave={(event, node) => setEnteredNode(null)}
+            />
+          }
           onMouseEnter={() => setDroppable(true)}
           onMouseLeave={() => setDroppable(false)}
           onLayoutChange={layout => console.log('Layout', layout)}
