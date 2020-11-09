@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Canvas } from '../src/Canvas';
 import { Node, Edge, MarkerArrow, Port, Icon, Arrow, Label, Remove, Add } from '../src/symbols';
+import { EdgeData, NodeData } from '../src/types';
 
 export const Simple = () => (
   <div style={{ position: 'absolute', top: 0, bottom: 0, left: 0, right: 0 }}>
@@ -39,6 +40,66 @@ export const Simple = () => (
     />
   </div>
 );
+
+export const Linking = () => {
+  const [nodes, setNodes] = useState<NodeData[]>([
+    {
+      id: '1',
+      text: '1'
+    },
+    {
+      id: '2',
+    },
+    {
+      id: '2.1',
+      text: '2 > 2.1',
+      parent: '2'
+    },
+    {
+      id: '2.2',
+      text: '2 > 2.2',
+      parent: '2'
+    },
+    {
+      id: '3',
+      text: '3'
+    }
+  ]);
+  const [edges, setEdges] = useState<EdgeData[]>([
+    {
+      id: '1-2',
+      from: '1',
+      to: '2'
+    },
+    {
+      id: '2-3',
+      from: '2',
+      to: '3'
+    }
+  ]);
+
+  return (
+    <div style={{ position: 'absolute', top: 0, bottom: 0, left: 0, right: 0 }}>
+      <Canvas
+        nodes={nodes}
+        edges={edges}
+        onNodeLink={(from: NodeData, to: NodeData) => {
+          const id = `${from.id}-${to.id}`;
+          setEdges([
+            ...edges,
+            {
+              id,
+              from: from.id,
+              to: to.id,
+              parent: to.parent
+            }
+          ]);
+        }}
+        onLayoutChange={layout => console.log('Layout', layout)}
+      />
+    </div>
+  );
+};
 
 export const Edges = () => (
   <div style={{ position: 'absolute', top: 0, bottom: 0, left: 0, right: 0 }}>
