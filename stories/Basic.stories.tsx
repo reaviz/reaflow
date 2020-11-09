@@ -69,17 +69,20 @@ export const Direction = () => (
     <Canvas
       nodes={[
         {
-          id: '1'
+          id: '1',
+          text: '1'
         },
         {
-          id: '2'
+          id: '2',
+          text: '2'
         }
       ]}
       edges={[
         {
           id: '1-2',
           from: '1',
-          to: '2'
+          to: '2',
+          text: '1-2'
         }
       ]}
       direction="RIGHT"
