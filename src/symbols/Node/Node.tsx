@@ -231,8 +231,8 @@ export const Node: FC<Partial<NodeProps>> = ({
             element={port}
             key={p.id}
             disabled={disabled}
-            offsetX={x}
-            offsetY={y}
+            offsetX={newX}
+            offsetY={newY}
             onDragStart={(
               event: DragEvent,
               initial: Position,
