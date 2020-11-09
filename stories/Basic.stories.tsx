@@ -210,6 +210,12 @@ export const Selections = () => {
 
   return (
     <div style={{ position: 'absolute', top: 0, bottom: 0, left: 0, right: 0 }}>
+      <pre style={{ position: 'absolute', bottom: 15, right: 15, background: 'rgba(0, 0, 0, .5)', padding: 20, color: 'white' }}>
+        <h3 style={{ padding: 0, margin: 0 }}>Selections</h3>
+        <code>
+          {JSON.stringify(selections, null, 2)}
+        </code>
+      </pre>
       <Canvas
         nodes={[
           {
