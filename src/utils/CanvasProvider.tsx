@@ -4,6 +4,7 @@ import { CanvasDragResult, useCanvasDrag } from './useCanvasDrag';
 
 export interface CanvasProviderValue extends CanvasDragResult {
   selections?: string[];
+  readonly?: boolean;
 }
 
 export const CanvasContext = createContext<CanvasProviderValue>({} as any);
@@ -20,6 +21,7 @@ export interface CanvasProviderProps {
 export const CanvasProvider = ({
   selections,
   onNodeLink,
+  readonly,
   onNodeLinkCheck,
   children
 }) => {
@@ -29,6 +31,7 @@ export const CanvasProvider = ({
     <CanvasContext.Provider
       value={{
         selections,
+        readonly,
         ...dragProps
       }}
     >

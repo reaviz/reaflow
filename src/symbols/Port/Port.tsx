@@ -9,6 +9,7 @@ import {
 } from '../../utils/useNodeDrag';
 import css from './Port.module.scss';
 import classNames from 'classnames';
+import { useCanvas } from '../../utils/CanvasProvider';
 
 export interface ElkPortProperties {
   index: number;
@@ -61,6 +62,7 @@ export const Port = forwardRef(
     }: Partial<PortProps>,
     ref: Ref<SVGRectElement>
   ) => {
+    const { readonly } = useCanvas();
     const [dragging, setDragging] = useState<boolean>(false);
     const newX = x - properties.width / 2;
     const newY = y - properties.height / 2;
@@ -80,7 +82,7 @@ export const Port = forwardRef(
       y: newY + offsetY,
       height: properties.height,
       width: properties.width,
-      disabled,
+      disabled: disabled || readonly,
       node: properties,
       onDrag,
       onDragStart: onDragStartInternal,

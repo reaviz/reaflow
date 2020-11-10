@@ -111,7 +111,7 @@ export const Node: FC<Partial<NodeProps>> = ({
   onLeave = () => undefined
 }) => {
   const controls = useAnimation();
-  const { canLinkNode, enteredNode, selections, ...canvas } = useCanvas();
+  const { canLinkNode, enteredNode, selections, readonly, ...canvas } = useCanvas();
   const [deleteHovered, setDeleteHovered] = useState<boolean>(false);
   const [dragging, setDragging] = useState<boolean>(false);
   const isActive = selections?.length
@@ -126,7 +126,7 @@ export const Node: FC<Partial<NodeProps>> = ({
     y: newY,
     height,
     width,
-    disabled: disabled || ports?.length > 2,
+    disabled: disabled || ports?.length > 2 || readonly,
     node: properties,
     onDrag: (...props) => {
       canvas.onDrag(...props);
@@ -262,7 +262,7 @@ export const Node: FC<Partial<NodeProps>> = ({
             {...(p as PortProps)}
           />
         ))}
-      {!disabled && isActive && remove && (
+      {!disabled && isActive && !readonly && remove && (
         <CloneElement<RemoveProps>
           element={remove}
           y={height / 2}

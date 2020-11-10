@@ -23,6 +23,7 @@ export interface CanvasProps {
   width?: number;
   maxHeight?: number;
   maxWidth?: number;
+  readonly?: boolean;
 
   nodes: NodeData[];
   edges: EdgeData[];
@@ -73,6 +74,7 @@ const InternalCanvas: FC<CanvasProps & { ref?: Ref<CanvasRef> }> = forwardRef(
       maxWidth = 2000,
       nodes = [],
       edges = [],
+      readonly,
       disabled = false,
       center = true,
       pannable = true,
@@ -158,7 +160,7 @@ const InternalCanvas: FC<CanvasProps & { ref?: Ref<CanvasRef> }> = forwardRef(
                 {...n}
               />
             ))}
-            {dragCoords !== null && (
+            {dragCoords !== null && !readonly && (
               <CloneElement<EdgeProps>
                 element={dragEdge}
                 id={`${id}-drag`}
@@ -177,6 +179,7 @@ export const Canvas: FC<CanvasProps & { ref?: Ref<CanvasRef> }> = forwardRef(
   (
     {
       selections = [],
+      readonly = false,
       onNodeLink = () => undefined,
       onNodeLinkCheck = () => undefined,
       ...rest
@@ -184,6 +187,7 @@ export const Canvas: FC<CanvasProps & { ref?: Ref<CanvasRef> }> = forwardRef(
     ref: Ref<CanvasRef>
   ) => (
     <CanvasProvider
+      readonly={readonly}
       selections={selections}
       onNodeLink={onNodeLink}
       onNodeLinkCheck={onNodeLinkCheck}

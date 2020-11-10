@@ -93,7 +93,7 @@ export const Edge: FC<Partial<EdgeProps>> = ({
   const pathRef = useRef<SVGPathElement | null>(null);
   const [deleteHovered, setDeleteHovered] = useState<boolean>(false);
   const [center, setCenter] = useState<CenterCoords | null>(null);
-  const { selections } = useCanvas();
+  const { selections, readonly } = useCanvas();
   const isActive = selections?.length
     ? selections.includes(properties.id)
     : null;
@@ -179,7 +179,7 @@ export const Edge: FC<Partial<EdgeProps>> = ({
             {...(l as LabelProps)}
           />
         ))}
-      {!disabled && center && remove && (
+      {!disabled && center && !readonly && remove && (
         <CloneElement<RemoveProps>
           element={remove}
           {...center}
@@ -196,7 +196,7 @@ export const Edge: FC<Partial<EdgeProps>> = ({
           onLeave={() => setDeleteHovered(false)}
         />
       )}
-      {!disabled && center && add && (
+      {!disabled && center && !readonly && add && (
         <CloneElement<AddProps>
           element={add}
           {...center}
