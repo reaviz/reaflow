@@ -54,7 +54,8 @@ module.exports = {
                 content: {
                   ...reaflowCodesandboxTemplatePackageJSON,
                   dependencies: {
-                    ...reaflowCodesandboxTemplatePackageJSON.dependencies
+                    ...reaflowCodesandboxTemplatePackageJSON.dependencies,
+                    'elkjs': 'latest'
                   }
                 }
               }
