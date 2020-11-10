@@ -1,0 +1,145 @@
+import { Meta, Story } from '@storybook/addon-docs/blocks';
+
+<Meta title="Docs/Selection" />
+
+# Selection
+
+---
+
+Out of the box, reaflow supports selection handled either manually or
+semi-automatic with hotkeys using a hook and [reakeys](https://github.com/reaviz/reakeys).
+
+## Selection Hook
+The `useSelection` hooks will automatically manage selection state and hotkeys
+for you. To set it up, simply import the `useSelection` hook and pass the hook
+the `nodes`, `edges` and any default selections you like. Below is a typical
+setup of where you define the selection hook.
+
+```ts
+import { NodeData, EdgeData, useSelection } from 'reaflow';
+
+const [nodes, setNodes] = useState<NodeData[]>([
+  {
+    id: '1',
+    text: 'Node 1'
+  },
+  {
+    id: '2',
+    text: 'Node 2'
+  }
+]);
+
+const [edges, setEdges] = useState<EdgeData[]>([
+  {
+    id: '1-2',
+    from: '1',
+    to: '2'
+  }
+]);
+
+const { selections, setSelections } = useSelection({
+  nodes,
+  edges,
+  onSelection: (n, e, s) => {
+    console.info('Selection', n, e, s);
+    setNodes(n);
+    setEdges(e);
+  }
+});
+```
+
+Once defined you can pass these onto the canvas like:
+
+```jsx
+<Canvas
+  nodes={nodes}
+  edges={edges}
+  selections={selections}
+  node={
+    <Node
+      onClick={(event, node) => {
+        console.log('Selecting Node', event, node);
+        setSelections([node.id]);
+      }}
+    />
+  }
+  edge={
+    <Edge
+      onClick={(event, edge) => {
+        console.log('Selecting Edge', event, edge);
+        setSelections([edge.id]);
+      }}
+    />
+  }
+  onCanvasClick={(event) => {
+    console.log('Canvas Clicked', event);
+    setSelections([]);
+  }}
+  onLayoutChange={layout => console.log('Layout', layout)}
+/>
+```
+
+and the hook will handle setting the rest up for you. In the `onSelection`
+block you can define custom rules for selection as well.
+
+## Manual Selection Management
+If you don't wish to use the `useSelection` hook you can handle the selections
+yourself manually. This is as simple as defining a state for the selections
+and just passing it on.
+
+```jsx
+import { NodeData, EdgeData } from 'reaflow';
+
+const [selections, setSelections] = useState<string[]>([]);
+
+const [nodes] = useState<NodeData[]>([
+  {
+    id: '1',
+    text: 'Node 1'
+  },
+  {
+    id: '2',
+    text: 'Node 2'
+  }
+]);
+
+const [edges] = useState<EdgeData[]>([
+  {
+    id: '1-2',
+    from: '1',
+    to: '2'
+  }
+]);
+```
+
+then similar to how we passed the selections with the hook, we do the same
+thing with the manual selection state.
+
+```jsx
+<Canvas
+  nodes={nodes}
+  edges={edges}
+  selections={selections}
+  node={
+    <Node
+      onClick={(event, node) => {
+        console.log('Selecting Node', event, node);
+        setSelections([node.id]);
+      }}
+    />
+  }
+  edge={
+    <Edge
+      onClick={(event, edge) => {
+        console.log('Selecting Edge', event, edge);
+        setSelections([edge.id]);
+      }}
+    />
+  }
+  onCanvasClick={(event) => {
+    console.log('Canvas Clicked', event);
+    setSelections([]);
+  }}
+  onLayoutChange={layout => console.log('Layout', layout)}
+/>
+```

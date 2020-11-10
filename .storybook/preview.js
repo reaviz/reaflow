@@ -8,6 +8,7 @@ const order = [
   'data-shapes-',
   'helpers-',
   'styling-',
+  'selection-',
   'advanced-',
   'docs-',
   'demos-'

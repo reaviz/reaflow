@@ -1,11 +1,38 @@
 import React, { useState } from 'react';
 import { Canvas } from '../src/Canvas';
+import { useSelection } from '../src/utils/useSelection';
 import { Node, Edge, MarkerArrow, Port, Icon, Arrow, Label, Remove, Add } from '../src/symbols';
-import { useHotkeys } from 'reakeys';
 import { EdgeData, NodeData } from '../src/types';
 
 export const Simple = () => {
-  const [selections, setSelections] = useState<string[]>([]);
+  const [nodes, setNodes] = useState<NodeData[]>([
+    {
+      id: '1',
+      text: 'Node 1'
+    },
+    {
+      id: '2',
+      text: 'Node 2'
+    }
+  ]);
+
+  const [edges, setEdges] = useState<EdgeData[]>([
+    {
+      id: '1-2',
+      from: '1',
+      to: '2'
+    }
+  ]);
+
+  const { selections, setSelections } = useSelection({
+    nodes,
+    edges,
+    onSelection: (n, e, s) => {
+      console.info('Selection', n, e, s);
+      setNodes(n);
+      setEdges(e);
+    }
+  });
 
   return (
     <div style={{ position: 'absolute', top: 0, bottom: 0, left: 0, right: 0 }}>
@@ -16,23 +43,8 @@ export const Simple = () => {
         </code>
       </pre>
       <Canvas
-        nodes={[
-          {
-            id: '1',
-            text: 'Node 1'
-          },
-          {
-            id: '2',
-            text: 'Node 2'
-          }
-        ]}
-        edges={[
-          {
-            id: '1-2',
-            from: '1',
-            to: '2'
-          }
-        ]}
+        nodes={nodes}
+        edges={edges}
         selections={selections}
         node={
           <Node
@@ -61,7 +73,35 @@ export const Simple = () => {
 };
 
 export const Defaults = () => {
-  const [selections, setSelections] = useState<string[]>(['1', '2']);
+  const [nodes, setNodes] = useState<NodeData[]>([
+    {
+      id: '1',
+      text: 'Node 1'
+    },
+    {
+      id: '2',
+      text: 'Node 2'
+    }
+  ]);
+
+  const [edges, setEdges] = useState<EdgeData[]>([
+    {
+      id: '1-2',
+      from: '1',
+      to: '2'
+    }
+  ]);
+
+  const { selections, setSelections } = useSelection({
+    nodes,
+    edges,
+    selections: ['1', '2'],
+    onSelection: (n, e, s) => {
+      console.info('Selection', n, e, s);
+      setNodes(n);
+      setEdges(e);
+    }
+  });
 
   return (
     <div style={{ position: 'absolute', top: 0, bottom: 0, left: 0, right: 0 }}>
@@ -116,11 +156,9 @@ export const Defaults = () => {
   );
 };
 
-
-export const Hotkeys = () => {
+export const ManualSelection = () => {
   const [selections, setSelections] = useState<string[]>([]);
-
-  const [nodes, setNodes] = useState<NodeData[]>([
+  const [nodes] = useState<NodeData[]>([
     {
       id: '1',
       text: 'Node 1'
@@ -131,32 +169,11 @@ export const Hotkeys = () => {
     }
   ]);
 
-  const [edges, setEdges] = useState<EdgeData[]>([
+  const [edges] = useState<EdgeData[]>([
     {
       id: '1-2',
       from: '1',
       to: '2'
-    }
-  ]);
-
-  useHotkeys([
-    {
-      name: 'Select All',
-      keys: 'mod+a',
-      callback: event => {
-        event.preventDefault();
-        setSelections(nodes.map(n => n.id));
-      }
-    },
-    {
-      name: 'Delete Selections',
-      keys: 'backspace',
-      callback: event => {
-        event.preventDefault();
-        setNodes(nodes.filter(n => !selections.includes(n.id)));
-        setEdges(edges.filter(e => !selections.includes(e.from) || !selections.includes(e.to)));
-        setSelections([]);
-      }
     }
   ]);
 

@@ -1,8 +1,8 @@
 import React, { createContext, useContext } from 'react';
 import { NodeData, PortData } from '../types';
-import { CanvasDragProps, useCanvasDrag } from './useCanvasDrag';
+import { CanvasDragResult, useCanvasDrag } from './useCanvasDrag';
 
-export interface CanvasProviderValue extends CanvasDragProps {
+export interface CanvasProviderValue extends CanvasDragResult {
   selections?: string[];
 }
 

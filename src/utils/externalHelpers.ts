@@ -93,11 +93,32 @@ export function removeAndUpsertNodes(
 export function removeNode(
   nodes: NodeData[],
   edges: EdgeData[],
-  node: NodeData
+  removeNodes: string | string[]
 ) {
+  if (!Array.isArray(removeNodes)){
+    removeNodes = [removeNodes];
+  }
+
+  const newNodes = [];
+  const newEdges = [];
+
+  for (const node of nodes) {
+    const has = removeNodes.some(n => n === node.id);
+    if (!has) {
+      newNodes.push(node);
+    }
+  }
+
+  for (const edge of edges) {
+    const has = removeNodes.some(n => n === edge.from || n === edge.to);
+    if (!has) {
+      newEdges.push(edge);
+    }
+  }
+
   return {
-    nodes: nodes.filter((n) => n.id !== node.id),
-    edges: edges.filter((e) => e.from !== node.id && e.to !== node.id)
+    nodes: newNodes,
+    edges: newEdges
   };
 }
 
