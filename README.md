@@ -30,15 +30,43 @@ The library is feature rich and modular allowing for displaying complex visualiz
 with total customizability.
 
 ## 🚀 Quick Links
-- Checkout the [demos](https://reaflow.dev)
+- Checkout the [docs and demos](https://reaflow.dev)
 - Explore the library on [Chroma](https://www.chromatic.com/library?appId=5f99ba42fe88ac0022fd1147)
-- Learn about updates from the [changelog](CHANGELOG.md)
 
 ## 📦 Usage
 Install the package via NPM:
 
 ```
 yarn add reaflow
+```
+
+then add the component with some nodes and edges:
+
+```jsx
+import React from 'react';
+import { Canvas } from 'reaflow';
+
+export default () => (
+  <Canvas
+    nodes={[
+      {
+        id: '1',
+        text: '1'
+      },
+      {
+        id: '2',
+        text: '2'
+      }
+    ]}
+    edges={[
+      {
+        id: '1-2',
+        from: '1',
+        to: '2'
+      }
+    ]}
+  />
+);
 ```
 
 ## 🔭 Developing
