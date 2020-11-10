@@ -3,8 +3,9 @@ import { Canvas } from '../src/Canvas';
 import { useSelection } from '../src/utils/useSelection';
 import { Node, Edge, MarkerArrow, Port, Icon, Arrow, Label, Remove, Add } from '../src/symbols';
 import { EdgeData, NodeData } from '../src/types';
+import { removeAndUpsertNodes } from '../src/utils';
 
-export const Simple = () => {
+export const Defaults = () => {
   const [nodes, setNodes] = useState<NodeData[]>([
     {
       id: '1',
@@ -24,9 +25,10 @@ export const Simple = () => {
     }
   ]);
 
-  const { selections, setSelections } = useSelection({
+  const { selections, onCanvasClick, onClick, onKeyDown, clearSelections } = useSelection({
     nodes,
     edges,
+    selections: ['1'],
     onSelection: (n, e, s) => {
       console.info('Selection', n, e, s);
       setNodes(n);
@@ -50,7 +52,17 @@ export const Simple = () => {
           <Node
             onClick={(event, node) => {
               console.log('Selecting Node', event, node);
-              setSelections([node.id]);
+              onClick(event, node);
+            }}
+            onKeyDown={(event, node) => {
+              console.log('Keydown Event', node, event);
+              onKeyDown(event);
+            }}
+            onRemove={(event, node) => {
+              const result = removeAndUpsertNodes(nodes, edges, node);
+              setEdges(result.edges);
+              setNodes(result.nodes);
+              clearSelections();
             }}
           />
         }
@@ -58,13 +70,13 @@ export const Simple = () => {
           <Edge
             onClick={(event, edge) => {
               console.log('Selecting Edge', event, edge);
-              setSelections([edge.id]);
+              onClick(event, edge);
             }}
           />
         }
         onCanvasClick={(event) => {
           console.log('Canvas Clicked', event);
-          setSelections([]);
+          onCanvasClick();
         }}
         onLayoutChange={layout => console.log('Layout', layout)}
       />
@@ -72,7 +84,7 @@ export const Simple = () => {
   );
 };
 
-export const Defaults = () => {
+export const Simple = () => {
   const [nodes, setNodes] = useState<NodeData[]>([
     {
       id: '1',
@@ -92,10 +104,9 @@ export const Defaults = () => {
     }
   ]);
 
-  const { selections, setSelections } = useSelection({
+  const { selections, onCanvasClick, onClick, onKeyDown, clearSelections } = useSelection({
     nodes,
     edges,
-    selections: ['1', '2'],
     onSelection: (n, e, s) => {
       console.info('Selection', n, e, s);
       setNodes(n);
@@ -134,7 +145,17 @@ export const Defaults = () => {
           <Node
             onClick={(event, node) => {
               console.log('Selecting Node', event, node);
-              setSelections([node.id]);
+              onClick(event, node);
+            }}
+            onKeyDown={(event, node) => {
+              console.log('Keydown Event', node, event);
+              onKeyDown(event);
+            }}
+            onRemove={(event, node) => {
+              const result = removeAndUpsertNodes(nodes, edges, node);
+              setEdges(result.edges);
+              setNodes(result.nodes);
+              clearSelections();
             }}
           />
         }
@@ -142,13 +163,13 @@ export const Defaults = () => {
           <Edge
             onClick={(event, edge) => {
               console.log('Selecting Edge', event, edge);
-              setSelections([edge.id]);
+              onClick(event, edge);
             }}
           />
         }
         onCanvasClick={(event) => {
           console.log('Canvas Clicked', event);
-          setSelections([]);
+          onCanvasClick();
         }}
         onLayoutChange={layout => console.log('Layout', layout)}
       />

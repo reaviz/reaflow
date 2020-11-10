@@ -164,10 +164,12 @@ export const Node: FC<Partial<NodeProps>> = ({
       }}
       animate={controls}
       onClick={(event) => {
+        event.preventDefault();
         event.stopPropagation();
         onClick(event, properties);
       }}
       onKeyDown={(event) => {
+        event.preventDefault();
         event.stopPropagation();
         onKeyDown(event, properties);
       }}
@@ -265,9 +267,12 @@ export const Node: FC<Partial<NodeProps>> = ({
           element={remove}
           y={height / 2}
           x={width}
-          onClick={(event: React.MouseEvent<SVGGElement, MouseEvent>) =>
-            onRemove(event, properties)
-          }
+          onClick={(event: React.MouseEvent<SVGGElement, MouseEvent>) => {
+            event.preventDefault();
+            event.stopPropagation();
+            onRemove(event, properties);
+            setDeleteHovered(false);
+          }}
           onEnter={() => setDeleteHovered(true)}
           onLeave={() => setDeleteHovered(false)}
         />

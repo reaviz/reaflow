@@ -153,10 +153,12 @@ export const Edge: FC<Partial<EdgeProps>> = ({
         d={d}
         tabIndex={-1}
         onClick={(event) => {
+          event.preventDefault();
           event.stopPropagation();
           onClick(event, properties);
         }}
         onKeyDown={(event) => {
+          event.preventDefault();
           event.stopPropagation();
           onKeyDown(event, properties);
         }}
@@ -184,9 +186,12 @@ export const Edge: FC<Partial<EdgeProps>> = ({
           hidden={
             remove.props.hidden !== undefined ? remove.props.hidden : !isActive
           }
-          onClick={(event: React.MouseEvent<SVGGElement, MouseEvent>) =>
-            onRemove(event, properties)
-          }
+          onClick={(event: React.MouseEvent<SVGGElement, MouseEvent>) => {
+            event.preventDefault();
+            event.stopPropagation();
+            onRemove(event, properties);
+            setDeleteHovered(false);
+          }}
           onEnter={() => setDeleteHovered(true)}
           onLeave={() => setDeleteHovered(false)}
         />
@@ -195,7 +200,11 @@ export const Edge: FC<Partial<EdgeProps>> = ({
         <CloneElement<AddProps>
           element={add}
           {...center}
-          onClick={(event) => onAdd(event, properties)}
+          onClick={(event) => {
+            event.preventDefault();
+            event.stopPropagation();
+            onAdd(event, properties);
+          }}
         />
       )}
     </g>

@@ -17,10 +17,77 @@ export const useSelection = ({
   onSelection = () => undefined
 }: SelectionProps) => {
   const [internalSelections, setInternalSelections] = useState<string[]>(selections);
+  const [metaKeyDown, setMetaKeyDown] = useState<boolean>(false);
 
   // Fixes internal reference issue
   const ref = useRef<string[]>(internalSelections);
   ref.current = internalSelections;
+
+  const addSelection = (item: string) => {
+    const has = internalSelections.includes(item);
+    if (!has) {
+      const next = [...internalSelections, item];
+
+      onSelection(
+        nodes,
+        edges,
+        next
+      );
+
+      setInternalSelections(next);
+    }
+  };
+
+  const removeSelection = (item: string) => {
+    const has = internalSelections.includes(item);
+    if (has) {
+      const next = internalSelections.filter(i => i !== item);
+
+      onSelection(
+        nodes,
+        edges,
+        next
+      );
+
+      setInternalSelections(next);
+    }
+  };
+
+  const toggleSelection = (item: string) => {
+    const has = internalSelections.includes(item);
+    if (has) {
+      removeSelection(item);
+    } else {
+      addSelection(item);
+    }
+  };
+
+  const clearSelections = (next = []) => {
+    setInternalSelections(next);
+  };
+
+  const onClick = (event, data) => {
+    event.preventDefault();
+    event.stopPropagation();
+
+    if (!metaKeyDown) {
+      clearSelections([data.id]);
+    } else {
+      toggleSelection(data.id);
+    }
+
+    setMetaKeyDown(false);
+  };
+
+  const onKeyDown = (event) => {
+    event.preventDefault();
+    setMetaKeyDown(event.metaKey || event.ctrlKey);
+  };
+
+  const onCanvasClick = () => {
+    clearSelections();
+    setMetaKeyDown(false);
+  };
 
   useHotkeys([
     {
@@ -60,7 +127,14 @@ export const useSelection = ({
   ]);
 
   return {
+    onClick,
+    onKeyDown,
+    onCanvasClick,
     selections: internalSelections,
+    clearSelections,
+    addSelection,
+    removeSelection,
+    toggleSelection,
     setSelections: setInternalSelections
   };
 };
