@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { useHotkeys } from 'reakeys';
 import { EdgeData, NodeData } from 'types';
 import { removeNode } from './externalHelpers';
@@ -10,18 +10,41 @@ export interface SelectionProps {
   onSelection?: (nodes: NodeData[], edges: EdgeData[], value: string[]) => void;
 }
 
+export interface SelectionResult {
+  onClick?: (
+    event: React.MouseEvent<SVGGElement, MouseEvent>,
+    data: any
+  ) => void;
+  onCanvasClick?: (
+    event?: React.MouseEvent<SVGGElement, MouseEvent>
+  ) => void;
+  onKeyDown?: (event: React.KeyboardEvent<SVGGElement>) => void;
+  selections: string[];
+  clearSelections: (value?: string[]) => void;
+  addSelection: (value: string) => void;
+  removeSelection: (value: string) => void;
+  toggleSelection: (value: string) => void;
+  setSelections: (value: string[]) => void;
+}
+
 export const useSelection = ({
   selections = [],
   nodes = [],
   edges = [],
   onSelection = () => undefined
-}: SelectionProps) => {
+}: SelectionProps): SelectionResult => {
   const [internalSelections, setInternalSelections] = useState<string[]>(selections);
   const [metaKeyDown, setMetaKeyDown] = useState<boolean>(false);
 
-  // Fixes internal reference issue
-  const ref = useRef<string[]>(internalSelections);
-  ref.current = internalSelections;
+  // TODO: Fix this reference issue in reakeys
+  const selectionRef = useRef<string[]>(internalSelections);
+  selectionRef.current = internalSelections;
+
+  const nodesRef = useRef<NodeData[]>(nodes);
+  nodesRef.current = nodes;
+
+  const edgeRef = useRef<EdgeData[]>(edges);
+  edgeRef.current = edges;
 
   const addSelection = (item: string) => {
     const has = internalSelections.includes(item);
@@ -95,8 +118,14 @@ export const useSelection = ({
       keys: 'mod+a',
       callback: event => {
         event.preventDefault();
-        const next = nodes.map(n => n.id);
-        onSelection(nodes, edges, next);
+
+        const next = nodesRef.current.map(n => n.id);
+        onSelection(
+          nodesRef.current,
+          edgeRef.current,
+          next
+        );
+
         setInternalSelections(next);
       }
     },
@@ -105,7 +134,12 @@ export const useSelection = ({
       keys: 'backspace',
       callback: event => {
         event.preventDefault();
-        const result = removeNode(nodes, edges, ref.current);
+
+        const result = removeNode(
+          nodesRef.current,
+          edgeRef.current,
+          selectionRef.current
+        );
 
         onSelection(
           result.nodes,

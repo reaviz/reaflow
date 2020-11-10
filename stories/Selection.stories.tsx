@@ -5,7 +5,7 @@ import { Node, Edge, MarkerArrow, Port, Icon, Arrow, Label, Remove, Add } from '
 import { EdgeData, NodeData } from '../src/types';
 import { removeAndUpsertNodes } from '../src/utils';
 
-export const Defaults = () => {
+export const Simple = () => {
   const [nodes, setNodes] = useState<NodeData[]>([
     {
       id: '1',
@@ -28,7 +28,6 @@ export const Defaults = () => {
   const { selections, onCanvasClick, onClick, onKeyDown, clearSelections } = useSelection({
     nodes,
     edges,
-    selections: ['1'],
     onSelection: (n, e, s) => {
       console.info('Selection', n, e, s);
       setNodes(n);
@@ -84,7 +83,7 @@ export const Defaults = () => {
   );
 };
 
-export const Simple = () => {
+export const Defaults = () => {
   const [nodes, setNodes] = useState<NodeData[]>([
     {
       id: '1',
@@ -107,6 +106,7 @@ export const Simple = () => {
   const { selections, onCanvasClick, onClick, onKeyDown, clearSelections } = useSelection({
     nodes,
     edges,
+    selections: ['1'],
     onSelection: (n, e, s) => {
       console.info('Selection', n, e, s);
       setNodes(n);
@@ -123,23 +123,8 @@ export const Simple = () => {
         </code>
       </pre>
       <Canvas
-        nodes={[
-          {
-            id: '1',
-            text: 'Node 1'
-          },
-          {
-            id: '2',
-            text: 'Node 2'
-          }
-        ]}
-        edges={[
-          {
-            id: '1-2',
-            from: '1',
-            to: '2'
-          }
-        ]}
+        nodes={nodes}
+        edges={edges}
         selections={selections}
         node={
           <Node

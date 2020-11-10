@@ -12,8 +12,48 @@ semi-automatic with hotkeys using a hook and [reakeys](https://github.com/reaviz
 ## Selection Hook
 The `useSelection` hooks will automatically manage selection state and hotkeys
 for you. To set it up, simply import the `useSelection` hook and pass the hook
-the `nodes`, `edges` and any default selections you like. Below is a typical
-setup of where you define the selection hook.
+the `nodes`, `edges` and any default selections you like.
+
+The hook accepts the following:
+
+```ts
+export interface SelectionProps {
+  selections?: string[];
+  nodes?: NodeData[];
+  edges?: EdgeData[];
+  onSelection?: (nodes: NodeData[], edges: EdgeData[], value: string[]) => void;
+}
+```
+
+and returns the following:
+
+```ts
+export interface SelectionResult {
+  onClick?: (
+    event: React.MouseEvent<SVGGElement, MouseEvent>,
+    data: any
+  ) => void;
+  onCanvasClick?: (
+    event?: React.MouseEvent<SVGGElement, MouseEvent>
+  ) => void;
+  onKeyDown?: (event: React.KeyboardEvent<SVGGElement>) => void;
+  selections: string[];
+  clearSelections: (value?: string[]) => void;
+  addSelection: (value: string) => void;
+  removeSelection: (value: string) => void;
+  toggleSelection: (value: string) => void;
+  setSelections: (value: string[]) => void;
+}
+```
+
+The hotkeys that are bound via this hook are:
+
+- `ctrl/meta + a`: Select all nodes
+- `escape`: Defoucs selections
+- `ctrl/meta + click`: Toggle node selection
+- `backspace`: Remove selected nodes
+
+Below is a typical setup of where you define the selection hook.
 
 ```ts
 import { NodeData, EdgeData, useSelection } from 'reaflow';
@@ -37,7 +77,7 @@ const [edges, setEdges] = useState<EdgeData[]>([
   }
 ]);
 
-const { selections, setSelections } = useSelection({
+const { selections, onCanvasClick, onClick, onKeyDown, clearSelections } = useSelection({
   nodes,
   edges,
   onSelection: (n, e, s) => {
@@ -57,25 +97,22 @@ Once defined you can pass these onto the canvas like:
   selections={selections}
   node={
     <Node
-      onClick={(event, node) => {
-        console.log('Selecting Node', event, node);
-        setSelections([node.id]);
+      onClick={onClick}
+      onKeyDown={onKeyDown}
+      onRemove={(event, node) => {
+        const result = removeAndUpsertNodes(nodes, edges, node);
+        setEdges(result.edges);
+        setNodes(result.nodes);
+        clearSelections();
       }}
     />
   }
   edge={
     <Edge
-      onClick={(event, edge) => {
-        console.log('Selecting Edge', event, edge);
-        setSelections([edge.id]);
-      }}
+      onClick={onClick}
     />
   }
-  onCanvasClick={(event) => {
-    console.log('Canvas Clicked', event);
-    setSelections([]);
-  }}
-  onLayoutChange={layout => console.log('Layout', layout)}
+  onCanvasClick={onCanvasClick}
 />
 ```
 
