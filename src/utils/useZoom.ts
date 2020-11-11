@@ -12,7 +12,7 @@ export const useZoom = ({
   defaultZoom = 0
 }) => {
   const [zoom, setZoom] = useState<number>(defaultZoom);
-  const svgRef = useRef<SVGElement | null>(null);
+  const svgRef = useRef<SVGSVGElement | null>(null);
 
   useGesture(
     {
