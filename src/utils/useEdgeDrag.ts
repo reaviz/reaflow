@@ -3,7 +3,7 @@ import { EdgeSections } from '../symbols/Edge';
 import { NodeData, PortData } from '../types';
 import { DragEvent, NodeDragEvents, Position } from './useNodeDrag';
 
-export interface CanvasDragResult extends NodeDragEvents {
+export interface EdgeDragResult extends NodeDragEvents {
   dragCoords: EdgeSections[] | null;
   canLinkNode: boolean | null;
   dragNode: NodeData | null;
@@ -19,10 +19,10 @@ export interface CanvasDragResult extends NodeDragEvents {
   ) => void;
 }
 
-export const useCanvasDrag = ({
+export const useEdgeDrag = ({
   onNodeLink,
   onNodeLinkCheck
-}): CanvasDragResult => {
+}): EdgeDragResult => {
   const [dragNode, setDragNode] = useState<NodeData | null>(null);
   const [dragPort, setDragPort] = useState<PortData | null>(null);
   const [enteredNode, setEnteredNode] = useState<NodeData | null>(null);

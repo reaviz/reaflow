@@ -31,18 +31,8 @@ export interface CanvasProps {
   selections?: string[];
   direction?: CanvasDirection;
   pannable?: boolean;
-  center?: boolean;
-
-  /*
-  minZoom?: number;
-  maxZoom?: number;
-  zoomStep?: number;
   zoomable?: boolean;
-  snapToGrid?: boolean;
-  snapGrid?: [number, number];
-  onCanvasZoom?: () => void;
-  onCanvasPan?: () => void;
-  */
+  center?: boolean;
 
   onMouseEnter?: (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
   onMouseLeave?: (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
@@ -77,6 +67,7 @@ const InternalCanvas: FC<CanvasProps & { ref?: Ref<CanvasRef> }> = forwardRef(
       edges = [],
       readonly,
       disabled = false,
+      zoomable = true,
       center = true,
       pannable = true,
       direction = 'DOWN',
@@ -93,13 +84,16 @@ const InternalCanvas: FC<CanvasProps & { ref?: Ref<CanvasRef> }> = forwardRef(
   ) => {
     const id = useId();
     const { dragCoords } = useCanvas();
+
     const {
       layout,
-      ref: layoutRef,
+      containerRef,
       xy,
       canvasHeight,
       canvasWidth,
-      centerCanvas
+      centerCanvas,
+      svgRef,
+      scale
     } = useLayout({
       nodes,
       edges,
@@ -108,6 +102,7 @@ const InternalCanvas: FC<CanvasProps & { ref?: Ref<CanvasRef> }> = forwardRef(
       direction,
       pannable,
       center,
+      zoomable,
       onLayoutChange
     });
 
@@ -151,13 +146,14 @@ const InternalCanvas: FC<CanvasProps & { ref?: Ref<CanvasRef> }> = forwardRef(
         className={classNames(css.container, className, {
           [css.pannable]: pannable
         })}
-        ref={layoutRef}
+        ref={containerRef}
         onMouseEnter={onMouseEnter}
         onMouseLeave={onMouseLeave}
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
           id={id}
+          ref={svgRef}
           height={canvasHeight}
           width={canvasWidth}
           onClick={onCanvasClick}
@@ -168,7 +164,7 @@ const InternalCanvas: FC<CanvasProps & { ref?: Ref<CanvasRef> }> = forwardRef(
               {...(arrow as MarkerArrowProps)}
             />
           </defs>
-          <g style={{ transform: `translate(${xy[0]}px, ${xy[1]}px)` }}>
+          <g style={{ transform: `translate(${xy[0]}px, ${xy[1]}px) scale(${scale})` }}>
             {layout?.edges?.map(renderEdge)}
             {layout?.children?.map(renderNode)}
             {dragCoords !== null && !readonly && (

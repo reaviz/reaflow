@@ -1,8 +1,8 @@
 import React, { createContext, useContext } from 'react';
 import { NodeData, PortData } from '../types';
-import { CanvasDragResult, useCanvasDrag } from './useCanvasDrag';
+import { EdgeDragResult, useEdgeDrag } from './useEdgeDrag';
 
-export interface CanvasProviderValue extends CanvasDragResult {
+export interface CanvasProviderValue extends EdgeDragResult {
   selections?: string[];
   readonly?: boolean;
 }
@@ -25,7 +25,7 @@ export const CanvasProvider = ({
   onNodeLinkCheck,
   children
 }) => {
-  const dragProps = useCanvasDrag({ onNodeLink, onNodeLinkCheck });
+  const dragProps = useEdgeDrag({ onNodeLink, onNodeLinkCheck });
 
   return (
     <CanvasContext.Provider

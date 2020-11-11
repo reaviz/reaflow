@@ -43,7 +43,7 @@ export const useNodeDrag = ({
   disabled
 }: NodeDragProps) => {
   const initial: Position = [width / 2 + x, height + y];
-  const targetRef = useRef<EventTarget>(null);
+  const targetRef = useRef<EventTarget | null>(null);
 
   const bind = useDrag(
     (state) => {
@@ -61,6 +61,19 @@ export const useNodeDrag = ({
 
         // memo will hold the difference between the first point of impact and the origin
         const memo = [state.xy[0] - x - width / 2, state.xy[1] - bottom];
+
+        /*
+        // TODO: Figure out canvas zoom
+        // @ts-ignore
+        const svgElm = targetRef.current.ownerSVGElement;
+        let point = svgElm.createSVGPoint();
+        point.x = state.xy[0]; // 869
+        point.y = state.xy[1]; // 181
+        point = point.matrixTransform(svgElm.getScreenCTM().inverse());
+        memo[0] = point.x;
+        memo[1] = point.y;
+        */
+
         onDragStart({ ...state, memo }, initial, node);
         document.body.classList.add('dragging');
 
