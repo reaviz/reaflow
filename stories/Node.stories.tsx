@@ -4,7 +4,7 @@ import { Canvas } from '../src/Canvas';
 import { Node, Edge, MarkerArrow, Port, Icon, Arrow, Label, Remove, Add } from '../src/symbols';
 import { detectCircular, hasLink } from '../src/utils';
 
-export const Icons = () => (
+export const LabelsAndIcons = () => (
   <div style={{ position: 'absolute', top: 0, bottom: 0, left: 0, right: 0 }}>
     <Canvas
       nodes={[
@@ -29,6 +29,63 @@ export const Icons = () => (
         {
           id: '3',
           text: 'Node 3',
+          icon: {
+            url: 'https://s3.amazonaws.com/img.crft.app/package-twitter-logo-bw.svg',
+            height: 25,
+            width: 25
+          }
+        }
+      ]}
+      edges={[
+        {
+          id: '1-2',
+          from: '1',
+          to: '2'
+        },
+        {
+          id: '2-3',
+          from: '2',
+          to: '3'
+        }
+      ]}
+      node={
+        <Node
+          icon={<Icon />}
+        />
+      }
+      onLayoutChange={layout => console.log('Layout', layout)}
+    />
+  </div>
+);
+
+export const Icons = () => (
+  <div style={{ position: 'absolute', top: 0, bottom: 0, left: 0, right: 0 }}>
+    <Canvas
+      nodes={[
+        {
+          id: '1',
+          height: 50,
+          width: 50,
+          icon: {
+            url: 'https://s3.amazonaws.com/img.crft.app/package-slack-logo-bw.svg',
+            height: 25,
+            width: 25
+          }
+        },
+        {
+          id: '2',
+          height: 50,
+          width: 50,
+          icon: {
+            url: 'https://s3.amazonaws.com/img.crft.app/package-flashpoint-logo-bw.svg',
+            height: 25,
+            width: 25
+          }
+        },
+        {
+          id: '3',
+          height: 50,
+          width: 50,
           icon: {
             url: 'https://s3.amazonaws.com/img.crft.app/package-twitter-logo-bw.svg',
             height: 25,
@@ -276,6 +333,40 @@ export const VariableSizes = () => (
           id: '1-2',
           from: '1',
           to: '2'
+        }
+      ]}
+      onLayoutChange={layout => console.log('Layout', layout)}
+    />
+  </div>
+);
+
+export const LongLabels = () => (
+  <div style={{ position: 'absolute', top: 0, bottom: 0, left: 0, right: 0 }}>
+    <Canvas
+      nodes={[
+        {
+          id: '1',
+          text: 'A very long label that is fun'
+        },
+        {
+          id: '2',
+          text: 'A even larger label that is long long'
+        },
+        {
+          id: '3',
+          text: 'What kind of a label would have such a long name like this?'
+        }
+      ]}
+      edges={[
+        {
+          id: '1-2',
+          from: '1',
+          to: '2'
+        },
+        {
+          id: '1-3',
+          from: '1',
+          to: '3'
         }
       ]}
       onLayoutChange={layout => console.log('Layout', layout)}

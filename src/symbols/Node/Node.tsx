@@ -218,7 +218,7 @@ export const Node: FC<Partial<NodeProps>> = ({
           element={icon}
           {...properties.icon}
           y={height / 2}
-          x={0}
+          x={labels?.length > 0 ? 0 : newX / 2}
         />
       )}
       {labels?.length > 0 &&
