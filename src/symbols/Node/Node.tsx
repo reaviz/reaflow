@@ -1,4 +1,4 @@
-import React, { FC, ReactElement, ReactNode, useEffect, useState } from 'react';
+import React, { FC, ReactElement, ReactNode, useCallback, useEffect, useState } from 'react';
 import { motion, useAnimation } from 'framer-motion';
 import { Port, PortProps } from '../Port';
 import { Label, LabelProps } from '../Label';
@@ -67,8 +67,8 @@ export interface NodeProps extends NodeDragEvents<NodeData, PortData> {
     node: NodeData
   ) => void;
 
-  childNode: ReactElement<NodeProps, typeof Node>;
-  childEdge: ReactElement<EdgeProps, typeof Edge>;
+  childNode?: ReactElement<NodeProps, typeof Node> | ((node: NodeProps) => ReactElement<NodeProps, typeof Node>);
+  childEdge?: ReactElement<EdgeProps, typeof Edge> | ((edge: EdgeProps) => ReactElement<NodeProps, typeof Edge>);
 
   remove: ReactElement<RemoveProps, typeof Remove>;
   icon: ReactElement<IconProps, typeof Icon>;
@@ -151,6 +151,46 @@ export const Node: FC<Partial<NodeProps>> = ({
       translateY: y
     });
   }, [controls, x, y]);
+
+  const renderNode = useCallback(({ children, ...n }) => {
+    const element = typeof childNode === 'function' ? childNode(n) : childNode;
+    return (
+      <CloneElement<NodeProps>
+        key={n.id}
+        element={element}
+        id={`${id}-node-${n.id}`}
+        disabled={disabled}
+        nodes={children}
+        offsetX={newX}
+        offsetY={newY}
+        children={element.props.children}
+        childNode={childNode}
+        childEdge={childEdge}
+        onDragStart={onDragStart}
+        onDrag={onDrag}
+        onDragEnd={onDragEnd}
+        onClick={onClick}
+        onEnter={onEnter}
+        onLeave={onLeave}
+        onKeyDown={onKeyDown}
+        onRemove={onRemove}
+        {...n}
+      />
+    );
+  }, [childNode, childEdge, disabled, id]);
+
+  const renderEdge = useCallback((e) => {
+    const element = typeof childEdge === 'function' ? childEdge(e) : childEdge;
+    return (
+      <CloneElement<EdgeProps>
+        key={e.id}
+        element={element}
+        id={`${id}-edge-${e.id}`}
+        disabled={disabled}
+        {...e}
+      />
+    );
+  }, [childEdge, disabled, id]);
 
   return (
     <motion.g
@@ -277,38 +317,8 @@ export const Node: FC<Partial<NodeProps>> = ({
           onLeave={() => setDeleteHovered(false)}
         />
       )}
-      {nodes?.length > 0 &&
-        nodes.map(({ children, ...n }: any) => (
-          <CloneElement<NodeProps>
-            key={n.id}
-            element={childNode}
-            id={`${id}-node-${n.id}`}
-            disabled={disabled}
-            nodes={children}
-            offsetX={newX}
-            offsetY={newY}
-            children={childNode.props.children}
-            onDragStart={onDragStart}
-            onDrag={onDrag}
-            onDragEnd={onDragEnd}
-            onClick={onClick}
-            onEnter={onEnter}
-            onLeave={onLeave}
-            onKeyDown={onKeyDown}
-            onRemove={onRemove}
-            {...n}
-          />
-        ))}
-      {edges?.length > 0 &&
-        edges.map((e) => (
-          <CloneElement<EdgeProps>
-            key={e.id}
-            element={childEdge}
-            id={`${id}-edge-${e.id}`}
-            disabled={disabled}
-            {...e}
-          />
-        ))}
+      {nodes?.length > 0 && nodes.map(renderNode)}
+      {edges?.length > 0 && edges.map(renderEdge)}
     </motion.g>
   );
 };

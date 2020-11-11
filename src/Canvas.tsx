@@ -3,7 +3,8 @@ import React, {
   ReactElement,
   Ref,
   useImperativeHandle,
-  forwardRef
+  forwardRef,
+  useCallback
 } from 'react';
 import { useId } from 'rdk';
 import { Node, NodeProps } from './symbols/Node';
@@ -54,10 +55,10 @@ export interface CanvasProps {
     port?: PortData
   ) => undefined | boolean;
 
-  arrow?: ReactElement<MarkerArrowProps, typeof MarkerArrow>;
-  node?: ReactElement<NodeProps, typeof Node>;
-  edge?: ReactElement<EdgeProps, typeof Edge>;
   dragEdge?: ReactElement<EdgeProps, typeof Edge>;
+  arrow?: ReactElement<MarkerArrowProps, typeof MarkerArrow>;
+  node?: ReactElement<NodeProps, typeof Node> | ((node: NodeProps) => ReactElement<NodeProps, typeof Node>);
+  edge?: ReactElement<EdgeProps, typeof Edge> | ((edge: EdgeProps) => ReactElement<NodeProps, typeof Edge>);
 }
 
 export interface CanvasRef {
@@ -114,6 +115,36 @@ const InternalCanvas: FC<CanvasProps & { ref?: Ref<CanvasRef> }> = forwardRef(
       centerCanvas
     }));
 
+    const renderNode = useCallback(({ children, ...n }) => {
+      const element = typeof node === 'function' ? node(n) : node;
+      return (
+        <CloneElement<NodeProps>
+          key={n.id}
+          element={element}
+          id={`${id}-node-${n.id}`}
+          disabled={disabled}
+          children={element.props.children}
+          nodes={children}
+          childEdge={edge}
+          childNode={node}
+          {...n}
+        />
+      );
+    }, [node, edge, disabled, id]);
+
+    const renderEdge = useCallback((e) => {
+      const element = typeof edge === 'function' ? edge(e) : edge;
+      return (
+        <CloneElement<EdgeProps>
+          key={e.id}
+          element={element}
+          id={`${id}-edge-${e.id}`}
+          disabled={disabled}
+          {...(e as EdgeProps)}
+        />
+      );
+    }, [edge, disabled, id]);
+
     return (
       <div
         style={{ height, width }}
@@ -138,28 +169,8 @@ const InternalCanvas: FC<CanvasProps & { ref?: Ref<CanvasRef> }> = forwardRef(
             />
           </defs>
           <g style={{ transform: `translate(${xy[0]}px, ${xy[1]}px)` }}>
-            {layout?.edges?.map((e) => (
-              <CloneElement<EdgeProps>
-                key={e.id}
-                element={edge}
-                id={`${id}-edge-${e.id}`}
-                disabled={disabled}
-                {...(e as EdgeProps)}
-              />
-            ))}
-            {layout?.children?.map(({ children, ...n }) => (
-              <CloneElement<NodeProps>
-                key={n.id}
-                element={node}
-                id={`${id}-node-${n.id}`}
-                disabled={disabled}
-                children={node.props.children}
-                nodes={children}
-                childEdge={edge}
-                childNode={node}
-                {...n}
-              />
-            ))}
+            {layout?.edges?.map(renderEdge)}
+            {layout?.children?.map(renderNode)}
             {dragCoords !== null && !readonly && (
               <CloneElement<EdgeProps>
                 element={dragEdge}

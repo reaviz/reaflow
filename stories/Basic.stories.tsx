@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { EdgeData, NodeData } from '../src/types';
 import { removeAndUpsertNodes, removeNode } from '../src/utils';
 import { Canvas, CanvasRef } from '../src/Canvas';
-import { Node, Edge, MarkerArrow, Port, Icon, Arrow, Label, Remove, Add } from '../src/symbols';
+import { Node, Edge, MarkerArrow, Port, Icon, Arrow, Label, Remove, Add, NodeProps, EdgeProps } from '../src/symbols';
 
 export const Simple = () => (
   <div style={{ position: 'absolute', top: 0, bottom: 0, left: 0, right: 0 }}>
@@ -76,6 +76,43 @@ export const Disabled = () => (
           to: '2'
         }
       ]}
+      onLayoutChange={layout => console.log('Layout', layout)}
+    />
+  </div>
+);
+
+export const CustomElements = () => (
+  <div style={{ position: 'absolute', top: 0, bottom: 0, left: 0, right: 0 }}>
+    <Canvas
+      nodes={[
+        {
+          id: '1',
+          text: 'Node 1'
+        },
+        {
+          id: '2',
+          text: 'Node 2'
+        }
+      ]}
+      edges={[
+        {
+          id: '1-2',
+          from: '1',
+          to: '2'
+        }
+      ]}
+      node={(node: NodeProps) => (
+        <Node
+          {...node}
+          style={{ fill: node.id === '1' ? 'blue' : 'green' }}
+        />
+      )}
+      edge={(edge: EdgeProps) => (
+        <Edge
+          {...edge}
+          style={{ stroke: edge.id === '1-2' ? 'blue' : 'green' }}
+        />
+      )}
       onLayoutChange={layout => console.log('Layout', layout)}
     />
   </div>
