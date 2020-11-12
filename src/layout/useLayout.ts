@@ -71,8 +71,8 @@ export const useLayout = ({
     const scrollX = (canvasWidth - height) / 2;
     const scrollY = (canvasHeight - width) / 2;
 
-    const x = canvasWidth / 2 - layout.width / 2;
-    const y = canvasHeight / 2 - layout.height / 2;
+    const x = (canvasWidth - layout.width) / 2;
+    const y = (canvasHeight - layout.height) / 2;
 
     if (center) {
       setXY([x, y]);
