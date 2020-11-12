@@ -9,7 +9,7 @@ const limit = (scale: number, min = MIN_ZOOM, max = MAX_ZOOM) =>
 
 export const useZoom = ({
   disabled = false,
-  defaultZoom = 0
+  defaultZoom = -0.3
 }) => {
   const [zoom, setZoom] = useState<number>(defaultZoom);
   const svgRef = useRef<SVGSVGElement | null>(null);

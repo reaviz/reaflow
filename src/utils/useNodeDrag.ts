@@ -62,6 +62,9 @@ export const useNodeDrag = ({
         // memo will hold the difference between the first point of impact and the origin
         const memo = [state.xy[0] - x - width / 2, state.xy[1] - bottom];
 
+        memo[0] = memo[0] / -0.7;
+        memo[1] = memo[1] / -0.7;
+
         /*
         // TODO: Figure out canvas zoom
         // @ts-ignore

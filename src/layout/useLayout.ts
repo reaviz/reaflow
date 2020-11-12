@@ -50,7 +50,7 @@ export const useLayout = ({
   const [xy, setXY] = useState<[number, number]>([0, 0]);
   const canvasHeight = pannable ? maxHeight : height;
   const canvasWidth = pannable ? maxWidth : width;
-  const { svgRef, scale } = useZoom({ disabled: true }); // !zoomable });
+  const { svgRef, scale } = useZoom({ disabled: !zoomable });
 
   useEffect(() => {
     const promise = elkLayout(nodes, edges, { direction });
