@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { EdgeSections } from '../symbols/Edge';
 import { NodeData, PortData } from '../types';
 import { DragEvent, NodeDragEvents, Position } from './useNodeDrag';
+import { applyToPoint, inverse, applyToPoints } from 'transformation-matrix';
 
 export interface EdgeDragResult extends NodeDragEvents {
   dragCoords: EdgeSections[] | null;
@@ -41,19 +42,17 @@ export const useEdgeDrag = ({
   };
 
   const onDrag = (
-    { movement: [mx, my], memo: [ox, oy] }: DragEvent,
+    { memo: [matrix], xy: [x, y] }: DragEvent,
     [ix, iy]: Position
   ) => {
+    const endPoint = applyToPoint(inverse(matrix), { x, y });
     setDragCoords([
       {
         startPoint: {
           x: ix,
           y: iy
         },
-        endPoint: {
-          x: (ix + mx + ox) / scale,
-          y: (iy + my + oy) / scale
-        }
+        endPoint
       }
     ]);
   };

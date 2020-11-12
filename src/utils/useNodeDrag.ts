@@ -2,6 +2,8 @@ import { useRef } from 'react';
 import { useDrag } from 'react-use-gesture';
 import { State } from 'react-use-gesture/dist/types';
 import { NodeData } from '../types';
+import { useCanvas } from './CanvasProvider';
+import { fromDefinition, transform } from 'transformation-matrix';
 
 export type DragEvent = State['drag'];
 export type Position = [number, number];
@@ -44,7 +46,7 @@ export const useNodeDrag = ({
 }: NodeDragProps) => {
   const initial: Position = [width / 2 + x, height + y];
   const targetRef = useRef<EventTarget | null>(null);
-  // const { scale, layout } = useCanvas();
+  const { scale, layout, containerWidth, containerRef, containerHeight } = useCanvas();
 
   const bind = useDrag(
     (state) => {
@@ -57,14 +59,20 @@ export const useNodeDrag = ({
       }
 
       if (state.first) {
-        // @ts-ignore
-        const { x: xx, bottom } = targetRef.current.getBoundingClientRect();
+        const { top, left } = containerRef.current.getBoundingClientRect();
+        const tx = ((containerWidth - layout.width) / 2) + left;
+        const ty = ((containerHeight - layout.height) / 2) + top;
 
-        // memo will hold the difference between the first point of impact and the origin
-        const memo = [
-          (state.xy[0] - xx - width / 2), // scale,
-          (state.xy[1] - bottom), // / scale
-        ];
+        const matrix = transform(
+          fromDefinition([
+            { type: 'translate', tx, ty },
+            { type: 'scale', sx: scale, sy: scale }
+          ])
+        );
+
+        // memo will hold the difference between the
+        // first point of impact and the origin
+        const memo = [matrix];
 
         onDragStart({ ...state, memo }, initial, node);
         document.body.classList.add('dragging');

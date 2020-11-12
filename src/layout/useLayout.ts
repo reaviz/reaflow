@@ -68,8 +68,8 @@ export const useLayout = ({
   }, [nodes, edges]);
 
   const centerCanvas = useCallback(() => {
-    const scrollX = (canvasWidth - height) / 2;
-    const scrollY = (canvasHeight - width) / 2;
+    const scrollX = (canvasWidth - width) / 2;
+    const scrollY = (canvasHeight - height) / 2;
 
     const x = (canvasWidth - layout.width) / 2;
     const y = (canvasHeight - layout.height) / 2;
@@ -79,7 +79,7 @@ export const useLayout = ({
     }
 
     if (pannable) {
-      ref?.current?.scrollTo(scrollY, scrollX);
+      ref?.current?.scrollTo(scrollX, scrollY);
     }
   }, [canvasWidth, canvasHeight, height, width, layout]);
 

@@ -14735,6 +14735,11 @@ tr46@^2.0.2:
   dependencies:
     punycode "^2.1.1"
 
+transformation-matrix@^2.5.0:
+  version "2.5.0"
+  resolved "https://registry.yarnpkg.com/transformation-matrix/-/transformation-matrix-2.5.0.tgz#640d4e3be9084b05094b55e65b454a64ab1985d5"
+  integrity sha512-Z9UotSHOWMcqYYKwQUts49CjCH8H51HBbPN4uiQIwNpGMZs70LpugThBmLpUy2LFdrbfXGhdlu4WJ3yILK6kcw==
+
 tree-kill@^1.2.2:
   version "1.2.2"
   resolved "https://registry.yarnpkg.com/tree-kill/-/tree-kill-1.2.2.tgz#4ca09a9092c88b73a7cdc5e8a01b507b0790a0cc"
