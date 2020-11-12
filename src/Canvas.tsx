@@ -17,38 +17,43 @@ import classNames from 'classnames';
 import { CanvasProvider, useCanvas } from './utils/CanvasProvider';
 import css from './Canvas.module.scss';
 
-export interface CanvasProps {
-  className?: string;
-  disabled?: boolean;
-  height?: number;
-  width?: number;
-  maxHeight?: number;
-  maxWidth?: number;
-  readonly?: boolean;
-
-  nodes: NodeData[];
-  edges: EdgeData[];
+export interface CanvasProviderProps extends CanvasProps {
+  nodes?: NodeData[];
+  edges?: EdgeData[];
   selections?: string[];
   direction?: CanvasDirection;
   pannable?: boolean;
   zoomable?: boolean;
   center?: boolean;
+  maxHeight?: number;
+  maxWidth?: number;
+  scale?: number;
 
-  onMouseEnter?: (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
-  onMouseLeave?: (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
-  onLayoutChange: (layout: ElkRoot) => void;
-  onCanvasClick?: (event: React.MouseEvent<SVGGElement, MouseEvent>) => void;
   onNodeLink?: (from: NodeData, to: NodeData, port?: PortData) => void;
   onNodeLinkCheck?: (
     from: NodeData,
     to: NodeData,
     port?: PortData
   ) => undefined | boolean;
+  onZoomChange?: (zoom: number) => void;
+  onLayoutChange?: (layout: ElkRoot) => void;
+}
+
+export interface CanvasProps {
+  className?: string;
+  disabled?: boolean;
+  height?: number;
+  width?: number;
+  readonly?: boolean;
 
   dragEdge?: ReactElement<EdgeProps, typeof Edge>;
   arrow?: ReactElement<MarkerArrowProps, typeof MarkerArrow>;
   node?: ReactElement<NodeProps, typeof Node> | ((node: NodeProps) => ReactElement<NodeProps, typeof Node>);
   edge?: ReactElement<EdgeProps, typeof Edge> | ((edge: EdgeProps) => ReactElement<NodeProps, typeof Edge>);
+
+  onMouseEnter?: (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
+  onMouseLeave?: (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
+  onCanvasClick?: (event: React.MouseEvent<SVGGElement, MouseEvent>) => void;
 }
 
 export interface CanvasRef {
@@ -61,50 +66,32 @@ const InternalCanvas: FC<CanvasProps & { ref?: Ref<CanvasRef> }> = forwardRef(
       className,
       height = '100%',
       width = '100%',
-      maxHeight = 2000,
-      maxWidth = 2000,
-      nodes = [],
-      edges = [],
       readonly,
       disabled = false,
-      zoomable = true,
-      center = true,
-      pannable = true,
-      direction = 'DOWN',
       arrow = <MarkerArrow />,
       node = <Node />,
       edge = <Edge />,
       dragEdge = <Edge add={null} />,
       onMouseEnter = () => undefined,
       onMouseLeave = () => undefined,
-      onCanvasClick = () => undefined,
-      onLayoutChange = () => undefined
+      onCanvasClick = () => undefined
     },
     ref: Ref<CanvasRef>
   ) => {
     const id = useId();
-    const { dragCoords } = useCanvas();
-
     const {
+      pannable,
+      dragCoords,
       layout,
       containerRef,
-      xy,
+      svgRef,
       canvasHeight,
       canvasWidth,
-      centerCanvas,
-      svgRef,
-      scale
-    } = useLayout({
-      nodes,
-      edges,
-      maxHeight,
-      maxWidth,
-      direction,
-      pannable,
-      center,
-      zoomable,
-      onLayoutChange
-    });
+      xy,
+      scale,
+      centerCanvas
+    } = useCanvas();
+
 
     useImperativeHandle(ref, () => ({
       centerCanvas
@@ -182,20 +169,42 @@ const InternalCanvas: FC<CanvasProps & { ref?: Ref<CanvasRef> }> = forwardRef(
   }
 );
 
-export const Canvas: FC<CanvasProps & { ref?: Ref<CanvasRef> }> = forwardRef(
+export const Canvas: FC<CanvasProviderProps & { ref?: Ref<CanvasRef> }> = forwardRef(
   (
     {
       selections = [],
       readonly = false,
+      nodes = [],
+      edges = [],
+      maxHeight = 2000,
+      maxWidth = 2000,
+      direction = 'DOWN',
+      pannable = true,
+      scale = 1,
+      center = true,
+      zoomable = true,
       onNodeLink = () => undefined,
       onNodeLinkCheck = () => undefined,
+      onLayoutChange = () => undefined,
+      onZoomChange = () => undefined,
       ...rest
     },
     ref: Ref<CanvasRef>
   ) => (
     <CanvasProvider
+      nodes={nodes}
+      edges={edges}
+      scale={scale}
+      center={center}
+      maxHeight={maxHeight}
+      maxWidth={maxWidth}
+      direction={direction}
+      pannable={pannable}
+      zoomable={zoomable}
       readonly={readonly}
+      onLayoutChange={onLayoutChange}
       selections={selections}
+      onZoomChange={onZoomChange}
       onNodeLink={onNodeLink}
       onNodeLinkCheck={onNodeLinkCheck}
     >

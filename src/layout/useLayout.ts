@@ -9,7 +9,6 @@ import { elkLayout, CanvasDirection } from './elkLayout';
 import useDimensions from 'react-cool-dimensions';
 import isEqual from 'react-fast-compare';
 import { EdgeData, NodeData } from '../types';
-import { useZoom } from '../utils/useZoom';
 
 export interface ElkRoot {
   x?: number;
@@ -27,7 +26,6 @@ export interface LayoutProps {
   nodes: NodeData[];
   edges: EdgeData[];
   pannable: boolean;
-  zoomable: boolean;
   center: boolean;
   direction: CanvasDirection;
   onLayoutChange: (layout: ElkRoot) => void;
@@ -41,7 +39,6 @@ export const useLayout = ({
   pannable,
   center,
   direction,
-  zoomable,
   onLayoutChange
 }: LayoutProps) => {
   const scrolled = useRef<boolean>(false);
@@ -50,7 +47,6 @@ export const useLayout = ({
   const [xy, setXY] = useState<[number, number]>([0, 0]);
   const canvasHeight = pannable ? maxHeight : height;
   const canvasWidth = pannable ? maxWidth : width;
-  const { svgRef, scale } = useZoom({ disabled: !zoomable });
 
   useEffect(() => {
     const promise = elkLayout(nodes, edges, { direction });
@@ -106,8 +102,6 @@ export const useLayout = ({
 
   return {
     xy,
-    svgRef,
-    scale,
     containerRef: ref,
     canvasHeight,
     canvasWidth,

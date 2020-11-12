@@ -20,6 +20,7 @@ export interface EdgeDragResult extends NodeDragEvents {
 }
 
 export const useEdgeDrag = ({
+  scale = 1,
   onNodeLink,
   onNodeLinkCheck
 }): EdgeDragResult => {
@@ -45,8 +46,14 @@ export const useEdgeDrag = ({
   ) => {
     setDragCoords([
       {
-        startPoint: { x: ix, y: iy },
-        endPoint: { x: ix + mx + ox, y: iy + my + oy }
+        startPoint: {
+          x: ix,
+          y: iy
+        },
+        endPoint: {
+          x: (ix + mx + ox) / scale,
+          y: (iy + my + oy) / scale
+        }
       }
     ]);
   };

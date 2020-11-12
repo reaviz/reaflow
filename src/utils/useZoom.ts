@@ -7,11 +7,18 @@ const MAX_ZOOM = 1;
 const limit = (scale: number, min = MIN_ZOOM, max = MAX_ZOOM) =>
   (scale < max ? (scale > min ? scale : min) : max);
 
+export interface ZoomProps {
+  disabled?: boolean;
+  scale?: number;
+  onZoomChange: (zoom: number) => void;
+}
+
 export const useZoom = ({
   disabled = false,
-  defaultZoom = -0.3
-}) => {
-  const [zoom, setZoom] = useState<number>(defaultZoom);
+  scale = 1,
+  onZoomChange
+}: ZoomProps) => {
+  const [factor, setFactor] = useState<number>(scale - 1);
   const svgRef = useRef<SVGSVGElement | null>(null);
 
   useGesture(
@@ -19,7 +26,9 @@ export const useZoom = ({
       onPinch: ({ offset: [d, a], event }) => {
         event.preventDefault();
         // TODO: Set X/Y on center of zoom
-        setZoom(limit(d / 100, MIN_ZOOM, MAX_ZOOM));
+        const next = limit(d / 100, MIN_ZOOM, MAX_ZOOM);
+        setFactor(next);
+        onZoomChange(next + 1);
       },
     },
     {
@@ -31,6 +40,6 @@ export const useZoom = ({
 
   return {
     svgRef,
-    scale: 1 + zoom
+    scale: factor + 1
   };
 };

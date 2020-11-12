@@ -1,10 +1,21 @@
-import React, { createContext, useContext } from 'react';
+import { ElkRoot, useLayout } from '../layout/useLayout';
+import React, { createContext, Ref, useContext } from 'react';
 import { NodeData, PortData } from '../types';
 import { EdgeDragResult, useEdgeDrag } from './useEdgeDrag';
+import { useZoom } from './useZoom';
 
 export interface CanvasProviderValue extends EdgeDragResult {
   selections?: string[];
   readonly?: boolean;
+  layout?: ElkRoot;
+  centerCanvas: () => void;
+  xy: [number, number];
+  containerRef: Ref<HTMLDivElement>;
+  svgRef: Ref<SVGSVGElement>;
+  canvasHeight: number;
+  canvasWidth: number;
+  scale: number;
+  pannable: boolean;
 }
 
 export const CanvasContext = createContext<CanvasProviderValue>({} as any);
@@ -22,16 +33,51 @@ export const CanvasProvider = ({
   selections,
   onNodeLink,
   readonly,
+  children,
+  nodes,
+  edges,
+  maxHeight,
+  maxWidth,
+  direction,
+  pannable,
+  center,
+  zoomable,
+  scale,
   onNodeLinkCheck,
-  children
+  onLayoutChange,
+  onZoomChange
 }) => {
-  const dragProps = useEdgeDrag({ onNodeLink, onNodeLinkCheck });
+  const zoomProps= useZoom({
+    scale,
+    disabled: !zoomable,
+    onZoomChange
+  });
+
+  const dragProps = useEdgeDrag({
+    scale: zoomProps.scale,
+    onNodeLink,
+    onNodeLinkCheck
+  });
+
+  const layoutProps = useLayout({
+    nodes,
+    edges,
+    maxHeight,
+    maxWidth,
+    direction,
+    pannable,
+    center,
+    onLayoutChange
+  });
 
   return (
     <CanvasContext.Provider
       value={{
         selections,
         readonly,
+        pannable,
+        ...layoutProps,
+        ...zoomProps,
         ...dragProps
       }}
     >
