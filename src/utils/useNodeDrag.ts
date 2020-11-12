@@ -62,10 +62,10 @@ export const useNodeDrag = ({
         const { x, bottom } = targetRef.current.getBoundingClientRect();
 
         // memo will hold the difference between the first point of impact and the origin
-        const memo = [state.xy[0] - x - width / 2, state.xy[1] - bottom];
-
-        memo[0] = memo[0] / scale;
-        memo[1] = memo[1] / scale;
+        const memo = [
+          (state.xy[0] - x - width / 2) / scale,
+          (state.xy[1] - bottom) / scale
+        ];
 
         onDragStart({ ...state, memo }, initial, node);
         document.body.classList.add('dragging');
