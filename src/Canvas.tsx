@@ -17,7 +17,7 @@ import classNames from 'classnames';
 import { CanvasProvider, useCanvas } from './utils/CanvasProvider';
 import css from './Canvas.module.scss';
 
-export interface CanvasProviderProps extends CanvasProps {
+export interface CanvasContainerProps extends CanvasProps {
   nodes?: NodeData[];
   edges?: EdgeData[];
   selections?: string[];
@@ -169,7 +169,7 @@ const InternalCanvas: FC<CanvasProps & { ref?: Ref<CanvasRef> }> = forwardRef(
   }
 );
 
-export const Canvas: FC<CanvasProviderProps & { ref?: Ref<CanvasRef> }> = forwardRef(
+export const Canvas: FC<CanvasContainerProps & { ref?: Ref<CanvasRef> }> = forwardRef(
   (
     {
       selections = [],
