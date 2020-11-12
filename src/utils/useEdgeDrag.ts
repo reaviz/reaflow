@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { EdgeSections } from '../symbols/Edge';
 import { NodeData, PortData } from '../types';
 import { DragEvent, NodeDragEvents, Position } from './useNodeDrag';
-import { applyToPoint, inverse, applyToPoints } from 'transformation-matrix';
+import { applyToPoint, inverse } from 'transformation-matrix';
 
 export interface EdgeDragResult extends NodeDragEvents {
   dragCoords: EdgeSections[] | null;
