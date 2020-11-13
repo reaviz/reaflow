@@ -44,6 +44,7 @@ export const CanvasProvider = ({
   nodes,
   edges,
   maxHeight,
+  fit,
   maxWidth,
   direction,
   pannable,
@@ -68,6 +69,7 @@ export const CanvasProvider = ({
     direction,
     pannable,
     center,
+    fit,
     scale: zoomProps.scale,
     setZoom: zoomProps.setZoom,
     onLayoutChange

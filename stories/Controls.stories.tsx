@@ -73,6 +73,41 @@ export const NonCentered = () => (
   </div>
 );
 
+export const Fit = () => (
+  <div style={{ position: 'absolute', top: 0, bottom: 0, left: 0, right: 0 }}>
+    <Canvas
+      fit={true}
+      nodes={[
+        {
+          id: '1',
+          text: 'Node 1'
+        },
+        {
+          id: '2',
+          text: 'Node 2'
+        },
+        {
+          id: '3',
+          text: 'Node 3'
+        }
+      ]}
+      edges={[
+        {
+          id: '1-2',
+          from: '1',
+          to: '2'
+        },
+        {
+          id: '1-3',
+          from: '1',
+          to: '3'
+        }
+      ]}
+      onLayoutChange={layout => console.log('Layout', layout)}
+    />
+  </div>
+);
+
 export const Zoom = () => {
   const [zoom, setZoom] = useState<number>(0.7);
   const ref = useRef<CanvasRef | null>(null);

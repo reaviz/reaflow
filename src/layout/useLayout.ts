@@ -27,6 +27,7 @@ export interface LayoutProps {
   edges: EdgeData[];
   pannable: boolean;
   center: boolean;
+  fit: boolean;
   scale: number;
   direction: CanvasDirection;
   setZoom: (factor: number) => void;
@@ -38,6 +39,7 @@ export const useLayout = ({
   maxHeight,
   nodes = [],
   edges = [],
+  fit,
   pannable,
   center,
   direction,
@@ -117,7 +119,12 @@ export const useLayout = ({
   useLayoutEffect(() => {
     const scroller = ref.current;
     if (scroller && !scrolled.current && layout && height && width) {
-      centerCanvas();
+      if (fit) {
+        fitCanvas();
+      } else {
+        centerCanvas();
+      }
+
       scrolled.current = true;
     }
   }, [
@@ -126,6 +133,7 @@ export const useLayout = ({
     canvasHeight,
     layout,
     height,
+    fit,
     width,
     center,
     centerCanvas

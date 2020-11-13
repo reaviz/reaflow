@@ -25,6 +25,7 @@ export interface CanvasContainerProps extends CanvasProps {
   pannable?: boolean;
   zoomable?: boolean;
   center?: boolean;
+  fit?: boolean;
   maxHeight?: number;
   maxWidth?: number;
   scale?: number;
@@ -197,6 +198,7 @@ export const Canvas: FC<
     {
       selections = [],
       readonly = false,
+      fit = false,
       nodes = [],
       edges = [],
       maxHeight = 2000,
@@ -219,6 +221,7 @@ export const Canvas: FC<
       edges={edges}
       scale={scale}
       center={center}
+      fit={fit}
       maxHeight={maxHeight}
       maxWidth={maxWidth}
       direction={direction}
