@@ -68,6 +68,7 @@ export const CanvasProvider = ({
     direction,
     pannable,
     center,
+    scale: zoomProps.scale,
     setZoom: zoomProps.setZoom,
     onLayoutChange
   });

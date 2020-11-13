@@ -27,6 +27,7 @@ export interface LayoutProps {
   edges: EdgeData[];
   pannable: boolean;
   center: boolean;
+  scale: boolean;
   direction: CanvasDirection;
   setZoom: (factor: number) => void;
   onLayoutChange: (layout: ElkRoot) => void;
@@ -40,6 +41,7 @@ export const useLayout = ({
   pannable,
   center,
   direction,
+  scale,
   setZoom,
   onLayoutChange
 }: LayoutProps) => {
@@ -70,25 +72,39 @@ export const useLayout = ({
     return () => promise.cancel();
   }, [nodes, edges]);
 
+  const centerVector = useCallback(() => {
+    if (center) {
+      // @ts-ignore
+      const x = (canvasWidth - (layout.width * scale)) / 2;
+      // @ts-ignore
+      const y = (canvasHeight - (layout.height * scale)) / 2;
+
+      setXY([x, y]);
+    }
+  }, [canvasWidth, canvasHeight, layout, scale, center]);
+
+  const centerScroll = useCallback(() => {
+    const scrollX = (canvasWidth - width) / 2;
+    const scrollY = (canvasHeight - height) / 2;
+    if (pannable) {
+      setScrollXY([scrollX, scrollY]);
+    }
+  }, [canvasWidth, canvasHeight, width, height, pannable]);
+
+  const centerCanvas = useCallback(() => {
+    centerVector();
+    centerScroll();
+  }, [centerScroll, centerVector]);
+
   useEffect(() => {
     ref?.current?.scrollTo(scrollXY[0], scrollXY[1]);
   }, [scrollXY]);
 
-  const centerCanvas = useCallback(() => {
-    const scrollX = (canvasWidth - width) / 2;
-    const scrollY = (canvasHeight - height) / 2;
-
-    const x = (canvasWidth - layout.width) / 2;
-    const y = (canvasHeight - layout.height) / 2;
-
-    if (center) {
-      setXY([x, y]);
+  useEffect(() => {
+    if (scrolled.current) {
+      centerVector();
     }
-
-    if (pannable) {
-      setScrollXY([scrollX, scrollY]);
-    }
-  }, [canvasWidth, canvasHeight, height, width, layout]);
+  }, [scale]);
 
   const fitCanvas = useCallback(() => {
     const heightZoom = height / layout.height;
