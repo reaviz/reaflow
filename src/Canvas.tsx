@@ -62,9 +62,10 @@ export interface CanvasProps {
 
 export interface CanvasRef {
   centerCanvas?: () => void;
-  setZoom: (factor: number) => void;
-  zoomIn: () => void;
-  zoomOut: () => void;
+  fitCanvas?: () => void;
+  setZoom?: (factor: number) => void;
+  zoomIn?: () => void;
+  zoomOut?: () => void;
 }
 
 const InternalCanvas: FC<CanvasProps & { ref?: Ref<CanvasRef> }> = forwardRef(
@@ -99,14 +100,16 @@ const InternalCanvas: FC<CanvasProps & { ref?: Ref<CanvasRef> }> = forwardRef(
       setZoom,
       zoomIn,
       zoomOut,
-      centerCanvas
+      centerCanvas,
+      fitCanvas
     } = useCanvas();
 
     useImperativeHandle(ref, () => ({
       centerCanvas,
       setZoom,
       zoomIn,
-      zoomOut
+      zoomOut,
+      fitCanvas
     }));
 
     const renderNode = useCallback(
@@ -169,11 +172,7 @@ const InternalCanvas: FC<CanvasProps & { ref?: Ref<CanvasRef> }> = forwardRef(
               {...(arrow as MarkerArrowProps)}
             />
           </defs>
-          <g
-            style={{
-              transform: `translate(${xy[0]}px, ${xy[1]}px) scale(${scale})`
-            }}
-          >
+          <g transform={`translate(${xy[0]}, ${xy[1]}) scale(${scale})`}>
             {layout?.edges?.map(renderEdge)}
             {layout?.children?.map(renderNode)}
             {dragCoords !== null && !readonly && (

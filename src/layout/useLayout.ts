@@ -28,6 +28,7 @@ export interface LayoutProps {
   pannable: boolean;
   center: boolean;
   direction: CanvasDirection;
+  setZoom: (factor: number) => void;
   onLayoutChange: (layout: ElkRoot) => void;
 }
 
@@ -39,12 +40,14 @@ export const useLayout = ({
   pannable,
   center,
   direction,
+  setZoom,
   onLayoutChange
 }: LayoutProps) => {
   const scrolled = useRef<boolean>(false);
   const { ref, width, height } = useDimensions<HTMLDivElement>();
   const [layout, setLayout] = useState<ElkRoot | null>(null);
   const [xy, setXY] = useState<[number, number]>([0, 0]);
+  const [scrollXY, setScrollXY] = useState<[number, number]>([0, 0]);
   const canvasHeight = pannable ? maxHeight : height;
   const canvasWidth = pannable ? maxWidth : width;
 
@@ -67,6 +70,10 @@ export const useLayout = ({
     return () => promise.cancel();
   }, [nodes, edges]);
 
+  useEffect(() => {
+    ref?.current?.scrollTo(scrollXY[0], scrollXY[1]);
+  }, [scrollXY]);
+
   const centerCanvas = useCallback(() => {
     const scrollX = (canvasWidth - width) / 2;
     const scrollY = (canvasHeight - height) / 2;
@@ -79,9 +86,17 @@ export const useLayout = ({
     }
 
     if (pannable) {
-      ref?.current?.scrollTo(scrollX, scrollY);
+      setScrollXY([scrollX, scrollY]);
     }
   }, [canvasWidth, canvasHeight, height, width, layout]);
+
+  const fitCanvas = useCallback(() => {
+    const heightZoom = height / layout.height;
+    const widthZoom = width / layout.width;
+    const scale = Math.min(heightZoom, widthZoom, 1) - 0.1;
+    setZoom(scale);
+    centerCanvas();
+  }, [layout, height, width, centerCanvas, canvasWidth, canvasHeight]);
 
   useLayoutEffect(() => {
     const scroller = ref.current;
@@ -108,6 +123,8 @@ export const useLayout = ({
     containerWidth: width,
     containerHeight: height,
     layout,
-    centerCanvas
+    scrollXY,
+    centerCanvas,
+    fitCanvas
   };
 };

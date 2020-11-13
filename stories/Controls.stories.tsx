@@ -82,7 +82,8 @@ export const Zoom = () => {
       <pre style={{ zIndex: 9, position: 'absolute', bottom: 15, right: 15, background: 'rgba(0, 0, 0, .5)', padding: 20, color: 'white' }}>
         Zoom: {zoom}<br />
         <button style={{ display: 'block', width: '100%', margin: '5px 0' }} onClick={() => ref.current.zoomIn()}>Zoom In</button>
-        <button style={{ display: 'block', width: '100%' }} onClick={() => ref.current.zoomOut()}>Zoom Out</button>
+        <button style={{ display: 'block', width: '100%', margin: '5px 0' }} onClick={() => ref.current.zoomOut()}>Zoom Out</button>
+        <button style={{ display: 'block', width: '100%' }} onClick={() => ref.current.fitCanvas()}>Fit</button>
       </pre>
       <Canvas
         scale={zoom}

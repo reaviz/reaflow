@@ -48,6 +48,7 @@ export const useNodeDrag = ({
   const targetRef = useRef<EventTarget | null>(null);
   const {
     scale,
+    scrollXY,
     layout,
     containerWidth,
     containerRef,
@@ -66,8 +67,11 @@ export const useNodeDrag = ({
 
       if (state.first) {
         const { top, left } = containerRef.current.getBoundingClientRect();
-        const tx = (containerWidth - layout.width) / 2 + left;
-        const ty = (containerHeight - layout.height) / 2 + top;
+        const offsetX = scrollXY[0] - containerRef.current.scrollLeft;
+        const offsetY = scrollXY[1] - containerRef.current.scrollTop;
+
+        const tx = ((containerWidth - layout.width) / 2) + offsetX + left;
+        const ty = ((containerHeight - layout.height) / 2) + offsetY + top;
 
         const matrix = transform(
           fromDefinition([

@@ -21,7 +21,6 @@ export interface EdgeDragResult extends NodeDragEvents {
 }
 
 export const useEdgeDrag = ({
-  scale = 1,
   onNodeLink,
   onNodeLinkCheck
 }): EdgeDragResult => {

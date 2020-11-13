@@ -9,6 +9,7 @@ export interface CanvasProviderValue extends EdgeDragResult {
   readonly?: boolean;
   layout?: ElkRoot;
   xy: [number, number];
+  scrollXY: [number, number];
   containerRef: RefObject<HTMLDivElement>;
   svgRef: RefObject<SVGSVGElement>;
   canvasHeight: number;
@@ -21,6 +22,7 @@ export interface CanvasProviderValue extends EdgeDragResult {
   zoomIn: () => void;
   zoomOut: () => void;
   centerCanvas: () => void;
+  fitCanvas: () => void;
 }
 
 export const CanvasContext = createContext<CanvasProviderValue>({} as any);
@@ -58,12 +60,6 @@ export const CanvasProvider = ({
     onZoomChange
   });
 
-  const dragProps = useEdgeDrag({
-    scale: zoomProps.scale,
-    onNodeLink,
-    onNodeLinkCheck
-  });
-
   const layoutProps = useLayout({
     nodes,
     edges,
@@ -72,7 +68,13 @@ export const CanvasProvider = ({
     direction,
     pannable,
     center,
+    setZoom: zoomProps.setZoom,
     onLayoutChange
+  });
+
+  const dragProps = useEdgeDrag({
+    onNodeLink,
+    onNodeLinkCheck
   });
 
   return (
