@@ -284,12 +284,7 @@ export const Node: FC<Partial<NodeProps>> = ({
             : children}
         </foreignObject>
       )}
-      {icon && (
-        <CloneElement<IconProps>
-          element={icon}
-          {...properties.icon}
-        />
-      )}
+      {icon && <CloneElement<IconProps> element={icon} {...properties.icon} />}
       {labels?.length > 0 &&
         labels.map((l, index) => (
           <CloneElement<LabelProps>

@@ -77,9 +77,9 @@ export const useLayout = ({
   const centerVector = useCallback(() => {
     if (center) {
       // @ts-ignore
-      const x = (canvasWidth - (layout.width * scale)) / 2;
+      const x = (canvasWidth - layout.width * scale) / 2;
       // @ts-ignore
-      const y = (canvasHeight - (layout.height * scale)) / 2;
+      const y = (canvasHeight - layout.height * scale) / 2;
 
       setXY([x, y]);
     }

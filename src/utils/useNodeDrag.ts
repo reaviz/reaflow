@@ -70,8 +70,9 @@ export const useNodeDrag = ({
         const offsetX = scrollXY[0] - containerRef.current.scrollLeft;
         const offsetY = scrollXY[1] - containerRef.current.scrollTop;
 
-        const tx = ((containerWidth - (layout.width * scale)) / 2) + offsetX + left;
-        const ty = ((containerHeight - (layout.height * scale)) / 2) + offsetY + top;
+        const tx = (containerWidth - layout.width * scale) / 2 + offsetX + left;
+        const ty =
+          (containerHeight - layout.height * scale) / 2 + offsetY + top;
 
         const matrix = transform(
           fromDefinition([
