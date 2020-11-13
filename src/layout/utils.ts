@@ -23,7 +23,7 @@ export function measureText(text: string) {
 
 export function getMaxWidth(
   node: NodeData,
-  labelDim: { width: number; height: number; },
+  labelDim: { width: number; height: number },
   defaultWidth = DEFAULT_NODE_WIDTH,
   maxWidth = MAX_NODE_WIDTH,
   padding = NODE_PADDING
@@ -44,9 +44,7 @@ export function getMaxWidth(
 }
 
 export function formatText(node: NodeData) {
-  const text = node.text
-    ? ellipsize(node.text, MAX_CHAR_COUNT)
-    : node.text;
+  const text = node.text ? ellipsize(node.text, MAX_CHAR_COUNT) : node.text;
 
   const labelDim = measureText(text);
   const width = getMaxWidth(node, labelDim);

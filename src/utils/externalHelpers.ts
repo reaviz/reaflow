@@ -95,7 +95,7 @@ export function removeNode(
   edges: EdgeData[],
   removeNodes: string | string[]
 ) {
-  if (!Array.isArray(removeNodes)){
+  if (!Array.isArray(removeNodes)) {
     removeNodes = [removeNodes];
   }
 
@@ -103,14 +103,14 @@ export function removeNode(
   const newEdges = [];
 
   for (const node of nodes) {
-    const has = removeNodes.some(n => n === node.id);
+    const has = removeNodes.some((n) => n === node.id);
     if (!has) {
       newNodes.push(node);
     }
   }
 
   for (const edge of edges) {
-    const has = removeNodes.some(n => n === edge.from || n === edge.to);
+    const has = removeNodes.some((n) => n === edge.from || n === edge.to);
     if (!has) {
       newEdges.push(edge);
     }

@@ -46,7 +46,13 @@ export const useNodeDrag = ({
 }: NodeDragProps) => {
   const initial: Position = [width / 2 + x, height + y];
   const targetRef = useRef<EventTarget | null>(null);
-  const { scale, layout, containerWidth, containerRef, containerHeight } = useCanvas();
+  const {
+    scale,
+    layout,
+    containerWidth,
+    containerRef,
+    containerHeight
+  } = useCanvas();
 
   const bind = useDrag(
     (state) => {
@@ -60,8 +66,8 @@ export const useNodeDrag = ({
 
       if (state.first) {
         const { top, left } = containerRef.current.getBoundingClientRect();
-        const tx = ((containerWidth - layout.width) / 2) + left;
-        const ty = ((containerHeight - layout.height) / 2) + top;
+        const tx = (containerWidth - layout.width) / 2 + left;
+        const ty = (containerHeight - layout.height) / 2 + top;
 
         const matrix = transform(
           fromDefinition([

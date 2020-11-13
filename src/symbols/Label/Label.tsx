@@ -12,7 +12,13 @@ export interface LabelProps {
   className?: string;
 }
 
-export const Label: FC<Partial<LabelProps>> = ({ text, x, y, style, className }) => {
+export const Label: FC<Partial<LabelProps>> = ({
+  text,
+  x,
+  y,
+  style,
+  className
+}) => {
   return (
     <g transform={`translate(${x}, ${y})`}>
       <text className={classNames(css.text, className)} style={style}>

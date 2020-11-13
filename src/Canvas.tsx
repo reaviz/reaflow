@@ -48,8 +48,12 @@ export interface CanvasProps {
 
   dragEdge?: ReactElement<EdgeProps, typeof Edge>;
   arrow?: ReactElement<MarkerArrowProps, typeof MarkerArrow>;
-  node?: ReactElement<NodeProps, typeof Node> | ((node: NodeProps) => ReactElement<NodeProps, typeof Node>);
-  edge?: ReactElement<EdgeProps, typeof Edge> | ((edge: EdgeProps) => ReactElement<NodeProps, typeof Edge>);
+  node?:
+    | ReactElement<NodeProps, typeof Node>
+    | ((node: NodeProps) => ReactElement<NodeProps, typeof Node>);
+  edge?:
+    | ReactElement<EdgeProps, typeof Edge>
+    | ((edge: EdgeProps) => ReactElement<NodeProps, typeof Edge>);
 
   onMouseEnter?: (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
   onMouseLeave?: (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
@@ -58,6 +62,9 @@ export interface CanvasProps {
 
 export interface CanvasRef {
   centerCanvas?: () => void;
+  setZoom: (factor: number) => void;
+  zoomIn: () => void;
+  zoomOut: () => void;
 }
 
 const InternalCanvas: FC<CanvasProps & { ref?: Ref<CanvasRef> }> = forwardRef(
@@ -89,43 +96,54 @@ const InternalCanvas: FC<CanvasProps & { ref?: Ref<CanvasRef> }> = forwardRef(
       canvasWidth,
       xy,
       scale,
+      setZoom,
+      zoomIn,
+      zoomOut,
       centerCanvas
     } = useCanvas();
 
-
     useImperativeHandle(ref, () => ({
-      centerCanvas
+      centerCanvas,
+      setZoom,
+      zoomIn,
+      zoomOut
     }));
 
-    const renderNode = useCallback(({ children, ...n }) => {
-      const element = typeof node === 'function' ? node(n) : node;
-      return (
-        <CloneElement<NodeProps>
-          key={n.id}
-          element={element}
-          id={`${id}-node-${n.id}`}
-          disabled={disabled}
-          children={element.props.children}
-          nodes={children}
-          childEdge={edge}
-          childNode={node}
-          {...n}
-        />
-      );
-    }, [node, edge, disabled, id]);
+    const renderNode = useCallback(
+      ({ children, ...n }) => {
+        const element = typeof node === 'function' ? node(n) : node;
+        return (
+          <CloneElement<NodeProps>
+            key={n.id}
+            element={element}
+            id={`${id}-node-${n.id}`}
+            disabled={disabled}
+            children={element.props.children}
+            nodes={children}
+            childEdge={edge}
+            childNode={node}
+            {...n}
+          />
+        );
+      },
+      [node, edge, disabled, id]
+    );
 
-    const renderEdge = useCallback((e) => {
-      const element = typeof edge === 'function' ? edge(e) : edge;
-      return (
-        <CloneElement<EdgeProps>
-          key={e.id}
-          element={element}
-          id={`${id}-edge-${e.id}`}
-          disabled={disabled}
-          {...(e as EdgeProps)}
-        />
-      );
-    }, [edge, disabled, id]);
+    const renderEdge = useCallback(
+      (e) => {
+        const element = typeof edge === 'function' ? edge(e) : edge;
+        return (
+          <CloneElement<EdgeProps>
+            key={e.id}
+            element={element}
+            id={`${id}-edge-${e.id}`}
+            disabled={disabled}
+            {...(e as EdgeProps)}
+          />
+        );
+      },
+      [edge, disabled, id]
+    );
 
     return (
       <div
@@ -151,7 +169,11 @@ const InternalCanvas: FC<CanvasProps & { ref?: Ref<CanvasRef> }> = forwardRef(
               {...(arrow as MarkerArrowProps)}
             />
           </defs>
-          <g style={{ transform: `translate(${xy[0]}px, ${xy[1]}px) scale(${scale})` }}>
+          <g
+            style={{
+              transform: `translate(${xy[0]}px, ${xy[1]}px) scale(${scale})`
+            }}
+          >
             {layout?.edges?.map(renderEdge)}
             {layout?.children?.map(renderNode)}
             {dragCoords !== null && !readonly && (
@@ -169,7 +191,9 @@ const InternalCanvas: FC<CanvasProps & { ref?: Ref<CanvasRef> }> = forwardRef(
   }
 );
 
-export const Canvas: FC<CanvasContainerProps & { ref?: Ref<CanvasRef> }> = forwardRef(
+export const Canvas: FC<
+  CanvasContainerProps & { ref?: Ref<CanvasRef> }
+> = forwardRef(
   (
     {
       selections = [],

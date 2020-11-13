@@ -5,7 +5,7 @@ const MIN_ZOOM = -0.5;
 const MAX_ZOOM = 1;
 
 const limit = (scale: number, min = MIN_ZOOM, max = MAX_ZOOM) =>
-  (scale < max ? (scale > min ? scale : min) : max);
+  scale < max ? (scale > min ? scale : min) : max;
 
 export interface ZoomProps {
   disabled?: boolean;
@@ -29,7 +29,7 @@ export const useZoom = ({
         const next = limit(d / 100, MIN_ZOOM, MAX_ZOOM);
         setFactor(next);
         onZoomChange(next + 1);
-      },
+      }
     },
     {
       enabled: !disabled,
@@ -38,8 +38,24 @@ export const useZoom = ({
     }
   );
 
+  const setZoom = (f: number) => {
+    setFactor(f);
+    onZoomChange(f + 1);
+  };
+
+  const zoomIn = () => {
+    setZoom(factor + 0.1);
+  };
+
+  const zoomOut = () => {
+    setZoom(factor - 0.1);
+  };
+
   return {
     svgRef,
-    scale: factor + 1
+    scale: factor + 1,
+    setZoom,
+    zoomIn,
+    zoomOut
   };
 };

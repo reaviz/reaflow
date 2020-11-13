@@ -15,9 +15,7 @@ export interface SelectionResult {
     event: React.MouseEvent<SVGGElement, MouseEvent>,
     data: any
   ) => void;
-  onCanvasClick?: (
-    event?: React.MouseEvent<SVGGElement, MouseEvent>
-  ) => void;
+  onCanvasClick?: (event?: React.MouseEvent<SVGGElement, MouseEvent>) => void;
   onKeyDown?: (event: React.KeyboardEvent<SVGGElement>) => void;
   selections: string[];
   clearSelections: (value?: string[]) => void;
@@ -33,7 +31,9 @@ export const useSelection = ({
   edges = [],
   onSelection = () => undefined
 }: SelectionProps): SelectionResult => {
-  const [internalSelections, setInternalSelections] = useState<string[]>(selections);
+  const [internalSelections, setInternalSelections] = useState<string[]>(
+    selections
+  );
   const [metaKeyDown, setMetaKeyDown] = useState<boolean>(false);
 
   // TODO: Fix this reference issue in reakeys
@@ -51,11 +51,7 @@ export const useSelection = ({
     if (!has) {
       const next = [...internalSelections, item];
 
-      onSelection(
-        nodes,
-        edges,
-        next
-      );
+      onSelection(nodes, edges, next);
 
       setInternalSelections(next);
     }
@@ -64,13 +60,9 @@ export const useSelection = ({
   const removeSelection = (item: string) => {
     const has = internalSelections.includes(item);
     if (has) {
-      const next = internalSelections.filter(i => i !== item);
+      const next = internalSelections.filter((i) => i !== item);
 
-      onSelection(
-        nodes,
-        edges,
-        next
-      );
+      onSelection(nodes, edges, next);
 
       setInternalSelections(next);
     }
@@ -116,15 +108,11 @@ export const useSelection = ({
     {
       name: 'Select All',
       keys: 'mod+a',
-      callback: event => {
+      callback: (event) => {
         event.preventDefault();
 
-        const next = nodesRef.current.map(n => n.id);
-        onSelection(
-          nodesRef.current,
-          edgeRef.current,
-          next
-        );
+        const next = nodesRef.current.map((n) => n.id);
+        onSelection(nodesRef.current, edgeRef.current, next);
 
         setInternalSelections(next);
       }
@@ -132,7 +120,7 @@ export const useSelection = ({
     {
       name: 'Delete Selections',
       keys: 'backspace',
-      callback: event => {
+      callback: (event) => {
         event.preventDefault();
 
         const result = removeNode(
@@ -141,11 +129,7 @@ export const useSelection = ({
           selectionRef.current
         );
 
-        onSelection(
-          result.nodes,
-          result.edges,
-          []
-        );
+        onSelection(result.nodes, result.edges, []);
 
         setInternalSelections([]);
       }
@@ -153,7 +137,7 @@ export const useSelection = ({
     {
       name: 'Deselect Selections',
       keys: 'escape',
-      callback: event => {
+      callback: (event) => {
         event.preventDefault();
         setInternalSelections([]);
       }

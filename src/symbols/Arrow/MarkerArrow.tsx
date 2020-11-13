@@ -4,7 +4,7 @@ import { Arrow } from './Arrow';
 export interface MarkerArrowProps {
   size?: number;
   style?: any;
-  className?: string
+  className?: string;
 }
 
 export const MarkerArrow: FC<Partial<MarkerArrowProps>> = ({
