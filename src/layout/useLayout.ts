@@ -27,7 +27,7 @@ export interface LayoutProps {
   edges: EdgeData[];
   pannable: boolean;
   center: boolean;
-  scale: boolean;
+  scale: number;
   direction: CanvasDirection;
   setZoom: (factor: number) => void;
   onLayoutChange: (layout: ElkRoot) => void;
