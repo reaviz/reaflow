@@ -2,6 +2,7 @@ import { EdgeData, NodeData } from '../types';
 import ELK, { ElkNode } from 'elkjs/lib/elk.bundled';
 import PCancelable from 'p-cancelable';
 import { formatText, measureText } from './utils';
+import ellipsize from 'ellipsize';
 
 export type CanvasDirection = 'LEFT' | 'RIGHT' | 'DOWN' | 'UP';
 
@@ -130,6 +131,33 @@ function mapInput(nodes: NodeData[], edges: EdgeData[]) {
   };
 }
 
+function postProcessNode(nodes: any[]): any[] {
+  for (const node of nodes) {
+    // TODO: Make this less hacky...
+    if (node.properties?.icon) {
+      const hasLabels = node.labels?.length > 0;
+      if (hasLabels) {
+        const [label] = node.labels;
+        const overflow = label.width >= node.width - 10;
+        const offsetIcon = overflow ? 15 : 5;
+        const offsetLabel = overflow ? 15 : -5;
+        const iconX = label.x - node.properties.icon.width - offsetIcon;
+
+        node.properties.icon.x = Math.max(iconX, 0);
+        node.properties.icon.y = node.height / 2;
+
+        label.text = ellipsize(label.text, 20);
+        label.x = node.properties.icon.width + label.x + offsetLabel;
+      } else {
+        node.properties.icon.x = 5;
+        node.properties.icon.y = node.height / 2;
+      }
+    }
+  }
+
+  return nodes;
+}
+
 export const elkLayout = (
   nodes: NodeData[],
   edges: EdgeData[],
@@ -151,7 +179,12 @@ export const elkLayout = (
           }
         }
       )
-      .then(resolve)
+      .then((data) => {
+        resolve({
+          ...data,
+          children: postProcessNode(data.children)
+        });
+      })
       .catch(reject);
   });
 };

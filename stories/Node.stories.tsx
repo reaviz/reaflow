@@ -28,7 +28,7 @@ export const LabelsAndIcons = () => (
         },
         {
           id: '3',
-          text: 'Node 3',
+          text: 'Node 3 with a long label for testing',
           icon: {
             url: 'https://s3.amazonaws.com/img.crft.app/package-twitter-logo-bw.svg',
             height: 25,

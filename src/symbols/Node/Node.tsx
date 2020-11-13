@@ -238,6 +238,12 @@ export const Node: FC<Partial<NodeProps>> = ({
         event.stopPropagation();
         onKeyDown(event, properties);
       }}
+      onTap={(event) => {
+        event.preventDefault();
+        event.stopPropagation();
+        // @ts-ignore
+        onClick(event, properties);
+      }}
     >
       <motion.rect
         {...bind()}
@@ -282,8 +288,6 @@ export const Node: FC<Partial<NodeProps>> = ({
         <CloneElement<IconProps>
           element={icon}
           {...properties.icon}
-          y={height / 2}
-          x={labels?.length > 0 ? 0 : newX / 2}
         />
       )}
       {labels?.length > 0 &&
