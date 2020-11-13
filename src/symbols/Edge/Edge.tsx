@@ -95,7 +95,7 @@ export const Edge: FC<Partial<EdgeProps>> = ({
   const [center, setCenter] = useState<CenterCoords | null>(null);
   const { selections, readonly } = useCanvas();
   const isActive = selections?.length
-    ? selections.includes(properties.id)
+    ? selections.includes(properties?.id)
     : null;
 
   const d = useMemo(() => {
