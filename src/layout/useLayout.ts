@@ -139,6 +139,20 @@ export const useLayout = ({
     centerCanvas
   ]);
 
+  useLayoutEffect(() => {
+    function onResize() {
+      if (fit) {
+        fitCanvas();
+      } else {
+        centerCanvas();
+      }
+    }
+
+    window.addEventListener('resize', onResize);
+
+    return () => window.removeEventListener('resize', onResize);
+  }, [fit, centerCanvas, fitCanvas]);
+
   return {
     xy,
     containerRef: ref,
