@@ -1,6 +1,16 @@
 import React, { useState } from 'react';
 import { Canvas } from '../src/Canvas';
-import { Node, Edge, MarkerArrow, Port, Icon, Arrow, Label, Remove, Add } from '../src/symbols';
+import {
+  Node,
+  Edge,
+  MarkerArrow,
+  Port,
+  Icon,
+  Arrow,
+  Label,
+  Remove,
+  Add
+} from '../src/symbols';
 import { NodeData, PortData } from '../src/types';
 
 export const Simple = () => (
@@ -53,7 +63,27 @@ export const Simple = () => (
           toPort: '2-to'
         }
       ]}
-      onLayoutChange={layout => console.log('Layout', layout)}
+      node={
+        <Node
+          port={
+            <Port
+              onClick={(e, node) => {
+                console.log('onClick port: ', node);
+              }}
+              onEnter={(e, node) => {
+                console.log('onEnter port: ', node);
+              }}
+              onLeave={(e, node) => {
+                console.log('onLeave port: ', node);
+              }}
+              style={{ fill: 'blue', stroke: 'white' }}
+              rx={10}
+              ry={10}
+            />
+          }
+        />
+      }
+      onLayoutChange={(layout) => console.log('Layout', layout)}
     />
   </div>
 );
@@ -120,7 +150,7 @@ export const Styled = () => (
           toPort: '2-to'
         }
       ]}
-      onLayoutChange={layout => console.log('Layout', layout)}
+      onLayoutChange={(layout) => console.log('Layout', layout)}
     />
   </div>
 );
@@ -215,7 +245,7 @@ export const ComplexPorts = () => (
           toPort: '3-to'
         }
       ]}
-      onLayoutChange={layout => console.log('Layout', layout)}
+      onLayoutChange={(layout) => console.log('Layout', layout)}
     />
   </div>
 );
@@ -297,7 +327,7 @@ export const LinkingPortRestrictions = () => {
             }
           ]);
         }}
-        onLayoutChange={layout => console.log('Layout', layout)}
+        onLayoutChange={(layout) => console.log('Layout', layout)}
       />
     </div>
   );

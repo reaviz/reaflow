@@ -39,6 +39,10 @@ export interface PortProps extends NodeDragEvents<PortData> {
     event: React.MouseEvent<SVGGElement, MouseEvent>,
     port: PortData
   ) => void;
+  onClick?: (
+    event: React.MouseEvent<SVGGElement, MouseEvent>,
+    port: PortData
+  ) => void;
 }
 
 export const Port = forwardRef(
@@ -58,7 +62,8 @@ export const Port = forwardRef(
       onDragStart = () => undefined,
       onDragEnd = () => undefined,
       onEnter = () => undefined,
-      onLeave = () => undefined
+      onLeave = () => undefined,
+      onClick = () => undefined
     }: Partial<PortProps>,
     ref: Ref<SVGRectElement>
   ) => {
@@ -125,6 +130,10 @@ export const Port = forwardRef(
           onMouseLeave={(event) => {
             event.stopPropagation();
             onLeave(event, properties);
+          }}
+          onClick={(event) => {
+            event.stopPropagation();
+            onClick(event, properties);
           }}
         />
       </g>
