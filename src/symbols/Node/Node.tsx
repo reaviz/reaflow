@@ -244,6 +244,10 @@ export const Node: FC<Partial<NodeProps>> = ({
         // @ts-ignore
         onClick(event, properties);
       }}
+      onTouchStart={(event) => {
+        event.preventDefault();
+        event.stopPropagation();
+      }}
     >
       <motion.rect
         {...bind()}
