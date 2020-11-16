@@ -18,7 +18,7 @@
   "module": "dist/index.esm.js",
   "browser": "dist/index.js",
   "style": "dist/index.css",
-  "typings": "dist/src/index.d.ts",
+  "typings": "dist/index.d.ts",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/reaviz/reaflow.git"
