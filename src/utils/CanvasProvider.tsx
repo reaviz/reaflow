@@ -51,12 +51,16 @@ export const CanvasProvider = ({
   center,
   zoomable,
   scale,
+  minZoom,
+  maxZoom,
   onNodeLinkCheck,
   onLayoutChange,
   onZoomChange
 }) => {
   const zoomProps = useZoom({
     scale,
+    minZoom,
+    maxZoom,
     disabled: !zoomable,
     onZoomChange
   });

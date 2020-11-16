@@ -29,6 +29,8 @@ export interface CanvasContainerProps extends CanvasProps {
   maxHeight?: number;
   maxWidth?: number;
   scale?: number;
+  minZoom?: number;
+  maxZoom?: number;
 
   onNodeLink?: (from: NodeData, to: NodeData, port?: PortData) => void;
   onNodeLinkCheck?: (
@@ -208,6 +210,8 @@ export const Canvas: FC<
       scale = 1,
       center = true,
       zoomable = true,
+      minZoom = -0.5,
+      maxZoom = 1,
       onNodeLink = () => undefined,
       onNodeLinkCheck = () => undefined,
       onLayoutChange = () => undefined,
@@ -221,6 +225,8 @@ export const Canvas: FC<
       edges={edges}
       scale={scale}
       center={center}
+      minZoom={minZoom}
+      maxZoom={maxZoom}
       fit={fit}
       maxHeight={maxHeight}
       maxWidth={maxWidth}
