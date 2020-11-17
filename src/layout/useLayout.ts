@@ -72,6 +72,7 @@ export const useLayout = ({
       });
 
     return () => promise.cancel();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [nodes, edges]);
 
   const centerVector = useCallback(() => {
@@ -100,13 +101,13 @@ export const useLayout = ({
 
   useEffect(() => {
     ref?.current?.scrollTo(scrollXY[0], scrollXY[1]);
-  }, [scrollXY]);
+  }, [scrollXY, ref]);
 
   useEffect(() => {
     if (scrolled.current) {
       centerVector();
     }
-  }, [scale]);
+  }, [centerVector, scale]);
 
   const fitCanvas = useCallback(() => {
     const heightZoom = height / layout.height;
@@ -114,7 +115,7 @@ export const useLayout = ({
     const scale = Math.min(heightZoom, widthZoom, 1) - 0.1;
     setZoom(scale);
     centerCanvas();
-  }, [layout, height, width, centerCanvas, canvasWidth, canvasHeight]);
+  }, [height, layout, width, setZoom, centerCanvas]);
 
   useLayoutEffect(() => {
     const scroller = ref.current;
@@ -127,17 +128,7 @@ export const useLayout = ({
 
       scrolled.current = true;
     }
-  }, [
-    canvasWidth,
-    pannable,
-    canvasHeight,
-    layout,
-    height,
-    fit,
-    width,
-    center,
-    centerCanvas
-  ]);
+  }, [canvasWidth, pannable, canvasHeight, layout, height, fit, width, center, centerCanvas, fitCanvas, ref]);
 
   useLayoutEffect(() => {
     function onResize() {

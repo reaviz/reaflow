@@ -4,7 +4,9 @@ import React, {
   Ref,
   useImperativeHandle,
   forwardRef,
-  useCallback
+  useCallback,
+  useLayoutEffect,
+  useRef
 } from 'react';
 import { useId } from 'rdk';
 import { Node, NodeProps } from './symbols/Node';
@@ -16,6 +18,7 @@ import { EdgeData, NodeData, PortData } from './types';
 import classNames from 'classnames';
 import { CanvasProvider, useCanvas } from './utils/CanvasProvider';
 import css from './Canvas.module.scss';
+import { motion } from 'framer-motion';
 
 export interface CanvasContainerProps extends CanvasProps {
   nodes?: NodeData[];
@@ -151,6 +154,13 @@ const InternalCanvas: FC<CanvasProps & { ref?: Ref<CanvasRef> }> = forwardRef(
       [edge, disabled, id]
     );
 
+    const mount = useRef<boolean>(false);
+    useLayoutEffect(() => {
+      if (!mount.current && layout !== null && xy[0] > 0 && xy[1] > 0) {
+        mount.current = true;
+      }
+    }, [layout, xy]);
+
     return (
       <div
         style={{ height, width }}
@@ -175,7 +185,29 @@ const InternalCanvas: FC<CanvasProps & { ref?: Ref<CanvasRef> }> = forwardRef(
               {...(arrow as MarkerArrowProps)}
             />
           </defs>
-          <g transform={`translate(${xy[0]}, ${xy[1]}) scale(${scale})`}>
+          <motion.g
+            initial={{
+              opacity: 0,
+              scale: 0,
+              transition: {
+                translateX: false,
+                translateY: false
+              }
+            }}
+            animate={{
+              opacity: 1,
+              translateX: xy[0],
+              translateY: xy[1],
+              scale,
+              transition: {
+                velocity: 100,
+                translateX: { duration: mount.current ? .3 : 0 },
+                translateY: { duration: mount.current ? .3 : 0 },
+                opacity: { duration: .8 },
+                when: 'beforeChildren'
+              }
+            }}
+          >
             {layout?.edges?.map(renderEdge)}
             {layout?.children?.map(renderNode)}
             {dragCoords !== null && !readonly && (
@@ -186,7 +218,7 @@ const InternalCanvas: FC<CanvasProps & { ref?: Ref<CanvasRef> }> = forwardRef(
                 sections={dragCoords}
               />
             )}
-          </g>
+          </motion.g>
         </svg>
       </div>
     );

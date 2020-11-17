@@ -121,6 +121,8 @@ export const Zoom = () => {
         <button style={{ display: 'block', width: '100%' }} onClick={() => ref.current.fitCanvas()}>Fit</button>
       </pre>
       <Canvas
+        maxZoom={0.2}
+        minZoom={-0.9}
         scale={zoom}
         ref={ref}
         nodes={[
