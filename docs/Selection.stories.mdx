@@ -21,7 +21,8 @@ export interface SelectionProps {
   selections?: string[];
   nodes?: NodeData[];
   edges?: EdgeData[];
-  onSelection?: (nodes: NodeData[], edges: EdgeData[], value: string[]) => void;
+  onDataChange?: (nodes: NodeData[], edges: EdgeData[]) => void;
+  onSelection?: (value: string[]) => void;
 }
 ```
 
@@ -80,10 +81,13 @@ const [edges, setEdges] = useState<EdgeData[]>([
 const { selections, onCanvasClick, onClick, onKeyDown, clearSelections } = useSelection({
   nodes,
   edges,
-  onSelection: (n, e, s) => {
-    console.info('Selection', n, e, s);
+  onDataChange: (n, e) => {
+    console.info('Data changed', n, e);
     setNodes(n);
     setEdges(e);
+  },
+  onSelection: (s) => {
+    console.info('Selection', s);
   }
 });
 ```
