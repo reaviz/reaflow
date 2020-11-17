@@ -1,0 +1,63 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Docs/Linking Nodes" />
+
+# Linking Nodes
+reaflow allows users to edit graphs by adding/removing and
+linking nodes together dynamically. There are 2 event handlers
+you can subscribe to for checking if a node can be linked
+and performing the actual link.
+
+- `onNodeLinkCheck` - Function you can implement to return true/false if node can link
+- `onNodeLink` - Function you implement to perform the actual link
+
+Below is a example showing how one might use these two functions together:
+
+```jsx
+import React from 'react';
+import { Canvas, hasLink } from 'reaflow';
+
+const nodes = [
+  {
+    id: '1',
+    text: '1'
+  },
+  {
+    id: '2',
+    text: '2'
+  }
+];
+
+const edges = [];
+
+export default () => (
+  <Canvas
+    nodes={nodes}
+    edges={edges}
+    onNodeLinkCheck={(from: NodeData, to: NodeData) => {
+      return !hasLink(edges, from, to);
+    }}
+    onNodeLink={(from, to) => {
+      const id = `${from.id}-${to.id}`;
+
+      setEdges([
+        ...edges,
+        {
+          id,
+          from: from.id,
+          to: to.id
+        }
+      ]);
+    }}
+  />
+);
+```
+
+In the example, we take advantage of one of the
+helpers in the library called `hasLink` which will
+return if the node is already linked.
+
+In order to actually add the link, you can
+implement the `onNodeLink` which is a function
+that should set a new edge with pointers to the
+source and target node.

@@ -6,6 +6,7 @@ const order = [
   'basics-',
   'components-',
   'data-shapes-',
+  'linking-nodes-',
   'helpers-',
   'styling-',
   'selection-',
