@@ -31,7 +31,7 @@ export interface CanvasContainerProps extends CanvasProps {
   fit?: boolean;
   maxHeight?: number;
   maxWidth?: number;
-  scale?: number;
+  zoom?: number;
   minZoom?: number;
   maxZoom?: number;
 
@@ -102,7 +102,7 @@ const InternalCanvas: FC<CanvasProps & { ref?: Ref<CanvasRef> }> = forwardRef(
       canvasHeight,
       canvasWidth,
       xy,
-      scale,
+      zoom: scale,
       setZoom,
       zoomIn,
       zoomOut,
@@ -201,9 +201,9 @@ const InternalCanvas: FC<CanvasProps & { ref?: Ref<CanvasRef> }> = forwardRef(
               scale,
               transition: {
                 velocity: 100,
-                translateX: { duration: mount.current ? .3 : 0 },
-                translateY: { duration: mount.current ? .3 : 0 },
-                opacity: { duration: .8 },
+                translateX: { duration: mount.current ? 0.3 : 0 },
+                translateY: { duration: mount.current ? 0.3 : 0 },
+                opacity: { duration: 0.8 },
                 when: 'beforeChildren'
               }
             }}
@@ -239,7 +239,7 @@ export const Canvas: FC<
       maxWidth = 2000,
       direction = 'DOWN',
       pannable = true,
-      scale = 1,
+      zoom = 1,
       center = true,
       zoomable = true,
       minZoom = -0.5,
@@ -255,7 +255,7 @@ export const Canvas: FC<
     <CanvasProvider
       nodes={nodes}
       edges={edges}
-      scale={scale}
+      zoom={zoom}
       center={center}
       minZoom={minZoom}
       maxZoom={maxZoom}

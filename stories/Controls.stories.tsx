@@ -123,7 +123,7 @@ export const Zoom = () => {
       <Canvas
         maxZoom={0.2}
         minZoom={-0.9}
-        scale={zoom}
+        zoom={zoom}
         ref={ref}
         nodes={[
           {

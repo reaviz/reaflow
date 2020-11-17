@@ -16,7 +16,7 @@ export interface CanvasProviderValue extends EdgeDragResult {
   canvasWidth: number;
   containerHeight: number;
   containerWidth: number;
-  scale: number;
+  zoom: number;
   pannable: boolean;
   setZoom: (factor: number) => void;
   zoomIn: () => void;
@@ -50,7 +50,7 @@ export const CanvasProvider = ({
   pannable,
   center,
   zoomable,
-  scale,
+  zoom,
   minZoom,
   maxZoom,
   onNodeLinkCheck,
@@ -58,7 +58,7 @@ export const CanvasProvider = ({
   onZoomChange
 }) => {
   const zoomProps = useZoom({
-    scale,
+    zoom,
     minZoom,
     maxZoom,
     disabled: !zoomable,
@@ -74,7 +74,7 @@ export const CanvasProvider = ({
     pannable,
     center,
     fit,
-    scale: zoomProps.scale,
+    zoom: zoomProps.zoom,
     setZoom: zoomProps.setZoom,
     onLayoutChange
   });

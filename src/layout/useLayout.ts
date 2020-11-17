@@ -28,7 +28,7 @@ export interface LayoutProps {
   pannable: boolean;
   center: boolean;
   fit: boolean;
-  scale: number;
+  zoom: number;
   direction: CanvasDirection;
   setZoom: (factor: number) => void;
   onLayoutChange: (layout: ElkRoot) => void;
@@ -43,7 +43,7 @@ export const useLayout = ({
   pannable,
   center,
   direction,
-  scale,
+  zoom,
   setZoom,
   onLayoutChange
 }: LayoutProps) => {
@@ -72,19 +72,19 @@ export const useLayout = ({
       });
 
     return () => promise.cancel();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [nodes, edges]);
 
   const centerVector = useCallback(() => {
     if (center) {
       // @ts-ignore
-      const x = (canvasWidth - layout.width * scale) / 2;
+      const x = (canvasWidth - layout.width * zoom) / 2;
       // @ts-ignore
-      const y = (canvasHeight - layout.height * scale) / 2;
+      const y = (canvasHeight - layout.height * zoom) / 2;
 
       setXY([x, y]);
     }
-  }, [canvasWidth, canvasHeight, layout, scale, center]);
+  }, [canvasWidth, canvasHeight, layout, zoom, center]);
 
   const centerScroll = useCallback(() => {
     const scrollX = (canvasWidth - width) / 2;
@@ -107,7 +107,7 @@ export const useLayout = ({
     if (scrolled.current) {
       centerVector();
     }
-  }, [centerVector, scale]);
+  }, [centerVector, zoom]);
 
   const fitCanvas = useCallback(() => {
     const heightZoom = height / layout.height;
@@ -128,7 +128,19 @@ export const useLayout = ({
 
       scrolled.current = true;
     }
-  }, [canvasWidth, pannable, canvasHeight, layout, height, fit, width, center, centerCanvas, fitCanvas, ref]);
+  }, [
+    canvasWidth,
+    pannable,
+    canvasHeight,
+    layout,
+    height,
+    fit,
+    width,
+    center,
+    centerCanvas,
+    fitCanvas,
+    ref
+  ]);
 
   useLayoutEffect(() => {
     function onResize() {

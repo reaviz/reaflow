@@ -28,10 +28,13 @@ export const Simple = () => {
   const { selections, onCanvasClick, onClick, onKeyDown, clearSelections } = useSelection({
     nodes,
     edges,
-    onSelection: (n, e, s) => {
-      console.info('Selection', n, e, s);
+    onDataChange: (n, e) => {
+      console.info('Data changed', n, e);
       setNodes(n);
       setEdges(e);
+    },
+    onSelection: (s) => {
+      console.info('Selection', s);
     }
   });
 
@@ -107,10 +110,13 @@ export const Defaults = () => {
     nodes,
     edges,
     selections: ['1'],
-    onSelection: (n, e, s) => {
-      console.info('Selection', n, e, s);
+    onDataChange: (n, e) => {
+      console.info('Data changed', n, e);
       setNodes(n);
       setEdges(e);
+    },
+    onSelection: (s) => {
+      console.info('Selection', s);
     }
   });
 

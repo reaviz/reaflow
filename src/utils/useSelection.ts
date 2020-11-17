@@ -7,29 +7,31 @@ export interface SelectionProps {
   selections?: string[];
   nodes?: NodeData[];
   edges?: EdgeData[];
-  onSelection?: (nodes: NodeData[], edges: EdgeData[], value: string[]) => void;
+  onSelection?: (value: string[]) => void;
+  onDataChange?: (nodes: NodeData[], edges: EdgeData[]) => void;
 }
 
 export interface SelectionResult {
-  onClick?: (
-    event: React.MouseEvent<SVGGElement, MouseEvent>,
-    data: any
-  ) => void;
-  onCanvasClick?: (event?: React.MouseEvent<SVGGElement, MouseEvent>) => void;
-  onKeyDown?: (event: React.KeyboardEvent<SVGGElement>) => void;
   selections: string[];
   clearSelections: (value?: string[]) => void;
   addSelection: (value: string) => void;
   removeSelection: (value: string) => void;
   toggleSelection: (value: string) => void;
   setSelections: (value: string[]) => void;
+  onClick?: (
+    event: React.MouseEvent<SVGGElement, MouseEvent>,
+    data: any
+  ) => void;
+  onCanvasClick?: (event?: React.MouseEvent<SVGGElement, MouseEvent>) => void;
+  onKeyDown?: (event: React.KeyboardEvent<SVGGElement>) => void;
 }
 
 export const useSelection = ({
   selections = [],
   nodes = [],
   edges = [],
-  onSelection = () => undefined
+  onSelection = () => undefined,
+  onDataChange = () => undefined
 }: SelectionProps): SelectionResult => {
   const [internalSelections, setInternalSelections] = useState<string[]>(
     selections
@@ -50,9 +52,7 @@ export const useSelection = ({
     const has = internalSelections.includes(item);
     if (!has) {
       const next = [...internalSelections, item];
-
-      onSelection(nodes, edges, next);
-
+      onSelection(next);
       setInternalSelections(next);
     }
   };
@@ -61,9 +61,7 @@ export const useSelection = ({
     const has = internalSelections.includes(item);
     if (has) {
       const next = internalSelections.filter((i) => i !== item);
-
-      onSelection(nodes, edges, next);
-
+      onSelection(next);
       setInternalSelections(next);
     }
   };
@@ -112,8 +110,8 @@ export const useSelection = ({
         event.preventDefault();
 
         const next = nodesRef.current.map((n) => n.id);
-        onSelection(nodesRef.current, edgeRef.current, next);
-
+        onDataChange(nodesRef.current, edgeRef.current);
+        onSelection(next);
         setInternalSelections(next);
       }
     },
@@ -129,7 +127,8 @@ export const useSelection = ({
           selectionRef.current
         );
 
-        onSelection(result.nodes, result.edges, []);
+        onDataChange(result.nodes, result.edges);
+        onSelection([]);
 
         setInternalSelections([]);
       }
@@ -139,6 +138,7 @@ export const useSelection = ({
       keys: 'escape',
       callback: (event) => {
         event.preventDefault();
+        onSelection([]);
         setInternalSelections([]);
       }
     }

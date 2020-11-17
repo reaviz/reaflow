@@ -6,7 +6,7 @@ const limit = (scale: number, min: number, max: number) =>
 
 export interface ZoomProps {
   disabled?: boolean;
-  scale?: number;
+  zoom?: number;
   minZoom?: number;
   maxZoom?: number;
   onZoomChange: (zoom: number) => void;
@@ -14,12 +14,12 @@ export interface ZoomProps {
 
 export const useZoom = ({
   disabled = false,
-  scale = 1,
+  zoom = 1,
   minZoom = -0.5,
   maxZoom = 1,
   onZoomChange
 }: ZoomProps) => {
-  const [factor, setFactor] = useState<number>(scale - 1);
+  const [factor, setFactor] = useState<number>(zoom - 1);
   const svgRef = useRef<SVGSVGElement | null>(null);
 
   useGesture(
@@ -55,7 +55,7 @@ export const useZoom = ({
 
   return {
     svgRef,
-    scale: factor + 1,
+    zoom: factor + 1,
     setZoom,
     zoomIn,
     zoomOut

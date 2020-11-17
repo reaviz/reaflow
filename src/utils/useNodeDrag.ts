@@ -47,7 +47,7 @@ export const useNodeDrag = ({
   const initial: Position = [width / 2 + x, height + y];
   const targetRef = useRef<EventTarget | null>(null);
   const {
-    scale,
+    zoom,
     scrollXY,
     layout,
     containerWidth,
@@ -70,14 +70,13 @@ export const useNodeDrag = ({
         const offsetX = scrollXY[0] - containerRef.current.scrollLeft;
         const offsetY = scrollXY[1] - containerRef.current.scrollTop;
 
-        const tx = (containerWidth - layout.width * scale) / 2 + offsetX + left;
-        const ty =
-          (containerHeight - layout.height * scale) / 2 + offsetY + top;
+        const tx = (containerWidth - layout.width * zoom) / 2 + offsetX + left;
+        const ty = (containerHeight - layout.height * zoom) / 2 + offsetY + top;
 
         const matrix = transform(
           fromDefinition([
             { type: 'translate', tx, ty },
-            { type: 'scale', sx: scale, sy: scale }
+            { type: 'scale', sx: zoom, sy: zoom }
           ])
         );
 
