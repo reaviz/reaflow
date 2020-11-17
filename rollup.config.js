@@ -6,6 +6,7 @@ import postcss from 'rollup-plugin-postcss-modules';
 import autoprefixer from 'autoprefixer';
 import commonjs from 'rollup-plugin-commonjs';
 import pkg from './package.json';
+import bundleSize from 'rollup-plugin-bundle-size';
 
 export default [
   {
@@ -14,12 +15,12 @@ export default [
       {
         file: pkg.browser,
         format: 'umd',
-        name: 'realayers'
+        name: 'reaflow'
       },
       {
         file: pkg.main,
         format: 'cjs',
-        name: 'realayers'
+        name: 'reaflow'
       },
       {
         file: pkg.module,
@@ -51,7 +52,8 @@ export default [
       }),
       resolve(),
       commonjs(),
-      sourceMaps()
+      sourceMaps(),
+      bundleSize()
     ]
   }
 ];
