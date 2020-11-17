@@ -1,6 +1,6 @@
 {
   "name": "reaflow",
-  "version": "2.2.5",
+  "version": "2.2.6",
   "description": "Node-based Visualizations for React",
   "scripts": {
     "build": "rollup -c",
@@ -45,11 +45,11 @@
     "elkjs": "^0.7.0",
     "ellipsize": "^0.1.0",
     "p-cancelable": "^2.0.0",
-    "rdk": "^4.2.0",
+    "rdk": "^4.2.1",
     "react-cool-dimensions": "^1.1.10",
     "react-fast-compare": "^3.2.0",
     "react-use-gesture": "^8.0.1",
-    "reakeys": "^1.0.1",
+    "reakeys": "^1.0.2",
     "transformation-matrix": "^2.5.0"
   },
   "peerDependencies": {
@@ -88,7 +88,7 @@
     "@typescript-eslint/parser": "^4.6.0",
     "autoprefixer": "^9.8.5",
     "babel-loader": "^8.1.0",
-    "chromatic": "^5.2.0",
+    "chromatic": "^5.4.0",
     "css-loader": "^4.3.0",
     "eslint": "^7.12.0",
     "eslint-config-prettier": "^6.14.0",
