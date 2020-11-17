@@ -197,7 +197,22 @@ export const Node: FC<Partial<NodeProps>> = ({
         />
       );
     },
-    [childNode, childEdge, disabled, id]
+    [
+      childNode,
+      id,
+      disabled,
+      newX,
+      newY,
+      childEdge,
+      onDragStart,
+      onDrag,
+      onDragEnd,
+      onClick,
+      onEnter,
+      onLeave,
+      onKeyDown,
+      onRemove
+    ]
   );
 
   const renderEdge = useCallback(
@@ -228,11 +243,6 @@ export const Node: FC<Partial<NodeProps>> = ({
         translateY: y
       }}
       animate={controls}
-      onClick={(event) => {
-        event.preventDefault();
-        event.stopPropagation();
-        onClick(event, properties);
-      }}
       onKeyDown={(event) => {
         event.preventDefault();
         event.stopPropagation();

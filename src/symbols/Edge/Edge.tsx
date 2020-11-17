@@ -134,7 +134,7 @@ export const Edge: FC<Partial<EdgeProps>> = ({
         sections[0].endPoint
       )
     );
-  }, [sections, pathRef.current]);
+  }, [sections]);
 
   return (
     <g className={classNames(css.edge, { [css.disabled]: disabled })}>
