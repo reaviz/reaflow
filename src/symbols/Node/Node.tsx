@@ -248,10 +248,9 @@ export const Node: FC<Partial<NodeProps>> = ({
         event.stopPropagation();
         onKeyDown(event, properties);
       }}
-      onTap={(event) => {
+      onClick={(event) => {
         event.preventDefault();
         event.stopPropagation();
-        // @ts-ignore
         onClick(event, properties);
       }}
       onTouchStart={(event) => {
