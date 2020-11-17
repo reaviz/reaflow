@@ -77,6 +77,7 @@ export const useSelection = ({
 
   const clearSelections = (next = []) => {
     setInternalSelections(next);
+    onSelection(next);
   };
 
   const onClick = (event, data) => {
