@@ -49,38 +49,3 @@ export const MyDiagram = () => (
   />
 );
 ```
-
-Below is an example of what this basic example will render.
-
-```js codesandbox=reaflow
-import React from 'react';
-import { Canvas } from 'reaflow';
-
-const nodes = [
-  {
-    id: '1',
-    text: '1'
-  },
-  {
-    id: '2',
-    text: '2'
-  }
-];
-
-const edges = [
-  {
-    id: '1-2',
-    from: '1',
-    to: '2'
-  }
-];
-
-export default () => (
-  <div style={{ position: 'absolute', top: 0, bottom: 0, left: 0, right: 0 }}>
-    <Canvas
-      nodes={nodes}
-      edges={edges}
-    />
-  </div>
-);
-```
