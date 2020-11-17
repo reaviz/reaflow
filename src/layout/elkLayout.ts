@@ -153,6 +153,10 @@ function postProcessNode(nodes: any[]): any[] {
         node.properties.icon.y = node.height / 2;
       }
     }
+
+    if (node.children) {
+      postProcessNode(node.children);
+    }
   }
 
   return nodes;
