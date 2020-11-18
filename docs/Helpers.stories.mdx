@@ -4,9 +4,32 @@ import { Meta } from '@storybook/addon-docs/blocks';
 
 # Helpers
 
-## Upsert Node
+There a variety of common interactions you want to make
+with the canvas and graph. reaflow has some helpers out of
+the box to help manage those typical operations. Those
+helpers are broken up into two categories:
+
+- CRUD - Dealing with manipulating nodes/edges
+- Graph Dealing with traversing the graph
+
+## CRUD
+
+### Upsert Node
 The `upsertNode` function helps you insert a new
 node between two other nodes.
+
+The signature for this looks like:
+
+```js
+upsertNode(
+  nodes: NodeData[],
+  edges: EdgeData[],
+  edge: EdgeData,
+  newNode: NodeData
+) => { nodes: NodeData[]; edges: EdgeData[]; }
+```
+
+Below is an example usage:
 
 ```js
 import { upsertNode} from 'reaflow';
@@ -22,9 +45,21 @@ setNodes(results.nodes);
 setEdges(results.edges);
 ```
 
-## Remove Node
+### Remove Node
 The `removeNode` function helps you remove a node
 and all related edges.
+
+The signature for this looks like:
+
+```js
+removeNode(
+  nodes: NodeData[],
+  edges: EdgeData[],
+  removeNodes: string | string[]
+) => { nodes: NodeData[]; edges: EdgeData[]; }
+```
+
+Below is an example usage:
 
 ```js
 import { removeNode } from 'reaflow';
@@ -34,47 +69,29 @@ setNodes(results.nodes);
 setEdges(results.edges);
 ```
 
-## Has Link
-The `hasLink` function helps you determine if
-the source node already has a link to the target node.
-
-```js
-import { hasLink } from 'reaflow';
-
-const has = hasLink(edges, fromNode, toNode);
-if (!has) {
-  // Do something
-}
-```
-
-## Detecting Circulars
-The `detectCircular` function helps you determine if
-the source node will create a circular link if connected
-to the target node.
-
-```js
-import { detectCircular } from 'reaflow';
-
-const has = detectCircular(nodes, edges, fromNode, toNode);
-if (!has) {
-  // Do something
-}
-```
-
-## Parent Node Traversal
-The `getParentsForNodeId` function helps you find all the
-parent nodes for a given node id.
-
-```js
-import { getParentsForNodeId } from 'reaflow';
-
-const nodes = getParentsForNodeId(nodes, edges, node.id);
-```
-
-## Node Removal and Upsert
+### Node Removal and Upsert
 The `removeAndUpsertNodes` helper allows you to remove a node
 that has existing `to` and `from` edges and link the child
 edges from the node remove to the parent of the node removed.
+
+The signature for this looks like:
+
+```js
+removeAndUpsertNodes(
+  nodes: NodeData[],
+  edges: EdgeData[],
+  removeNodes: NodeData | NodeData[],
+  onNodeLinkCheck?: (
+    newNodes: NodeData[],
+    newEdges: EdgeData[],
+    from: NodeData,
+    to: NodeData,
+    port?: PortData
+  ) => undefined | boolean
+) => { nodes: NodeData[]; edges: EdgeData[]; }
+```
+
+Below is an example usage:
 
 ```js
 import { removeAndUpsertNodes } from 'reaflow';
@@ -84,9 +101,22 @@ setNodes(results.nodes);
 setEdges(results.edges);
 ```
 
-## Add Node and Optional Edge
+### Add Node and Optional Edge
 The `addNodeAndEdge` helper is a shortcut function to add a
 node to a nodes array and a optional edge.
+
+The signature for this looks like:
+
+```js
+addNodeAndEdge(
+  nodes: NodeData[],
+  edges: EdgeData[],
+  node: NodeData,
+  toNode?: NodeData
+) => { nodes: NodeData[]; edges: EdgeData[]; }
+```
+
+Below is an example usage:
 
 ```js
 import { addNodeAndEdge } from 'reaflow';
@@ -103,4 +133,80 @@ const result = addNodeAndEdge(
 
 setNodes(results.nodes);
 setEdges(results.edges);
+```
+
+## Graph
+
+### Detecting Circulars
+The `detectCircular` function helps you determine if
+the source node will create a circular link if connected
+to the target node.
+
+The signature for this looks like:
+
+```js
+detectCircular(
+  nodes: NodeData[],
+  edges: EdgeData[],
+  fromNode: NodeData,
+  toNode: NodeData
+) => boolean;
+```
+
+Below is an example usage:
+
+```js
+import { detectCircular } from 'reaflow';
+
+const has = detectCircular(nodes, edges, fromNode, toNode);
+if (!has) {
+  // Do something
+}
+```
+
+### Parent Node Traversal
+The `getParentsForNodeId` function helps you find all the
+parent nodes for a given node id.
+
+The signature for this looks like:
+
+```js
+getParentsForNodeId(
+  nodes: NodeData[],
+  edges: EdgeData[],
+  nodeId: string
+) => NodeData[];
+```
+
+Below is an example usage:
+
+```js
+import { getParentsForNodeId } from 'reaflow';
+
+const nodes = getParentsForNodeId(nodes, edges, node.id);
+```
+
+##### Has Link
+The `hasLink` function helps you determine if
+the source node already has a link to the target node.
+
+The signature for this looks like:
+
+```js
+hasLink(
+  edges: EdgeData[],
+  fromNode: NodeData,
+  toNode: NodeData
+) => boolean;
+```
+
+Below is an example usage:
+
+```js
+import { hasLink } from 'reaflow';
+
+const has = hasLink(edges, fromNode, toNode);
+if (!has) {
+  // Do something
+}
 ```
