@@ -179,12 +179,14 @@ const InternalCanvas: FC<CanvasProps & { ref?: Ref<CanvasRef> }> = forwardRef(
           width={canvasWidth}
           onClick={onCanvasClick}
         >
-          <defs>
-            <CloneElement<MarkerArrowProps>
-              element={arrow}
-              {...(arrow as MarkerArrowProps)}
-            />
-          </defs>
+          {arrow !== null && (
+            <defs>
+              <CloneElement<MarkerArrowProps>
+                element={arrow}
+                {...(arrow as MarkerArrowProps)}
+              />
+            </defs>
+          )}
           <motion.g
             initial={{
               opacity: 0,
