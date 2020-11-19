@@ -131,13 +131,15 @@ export const Edge: FC<Partial<EdgeProps>> = ({
   }, [sections]);
 
   useEffect(() => {
-    setCenter(
-      getPathCenter(
-        pathRef.current,
-        sections[0].startPoint,
-        sections[0].endPoint
-      )
-    );
+    if (sections?.length > 0) {
+      setCenter(
+        getPathCenter(
+          pathRef.current,
+          sections[0].startPoint,
+          sections[0].endPoint
+        )
+      );
+    }
   }, [sections]);
 
   return (
