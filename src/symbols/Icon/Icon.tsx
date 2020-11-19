@@ -23,7 +23,7 @@ export const Icon: FC<Partial<IconProps>> = ({
 }) => (
   <g
     className={classNames(css.icon, className)}
-    transform={`translate(${x + width / 2}, ${y - height / 2})`}
+    transform={`translate(${x - width / 2}, ${y - height / 2})`}
   >
     <image style={style} xlinkHref={url} width={width} height={height} />
   </g>

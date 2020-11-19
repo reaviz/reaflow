@@ -137,13 +137,13 @@ function postProcessNode(nodes: any[]): any[] {
     if (hasLabels && node.properties.icon) {
       const [label] = node.labels;
       label.x = node.properties.icon.width + 20;
-      node.properties.icon.x = -2;
+      node.properties.icon.x = 24;
       node.properties.icon.y = node.height / 2;
     } else if (hasLabels) {
       const [label] = node.labels;
       label.x = (node.width - label.width) / 2;
     } else if (node.properties.icon) {
-      node.properties.icon.x = ((node.width - node.properties.icon.width - 20) / 2) - 2;
+      node.properties.icon.x = node.width / 2;
       node.properties.icon.y = node.height / 2;
     }
 

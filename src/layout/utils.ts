@@ -32,14 +32,29 @@ export function formatText(node: NodeData) {
   if (width === undefined) {
     if (text && node.icon) {
       width = labelDim.width + node.icon.width + NODE_PADDING + ICON_PADDING;
-    } else if (text) {
-      width = Math.max(labelDim.width + NODE_PADDING, MIN_NODE_WIDTH);
-    } else if (node.icon) {
-      width = Math.max(node.icon.width + NODE_PADDING, MIN_NODE_WIDTH);
+    } else {
+      if (text) {
+        width = labelDim.width + NODE_PADDING;
+      } else if (node.icon) {
+        width = node.icon.width + NODE_PADDING;
+      }
+
+      width = Math.max(width, MIN_NODE_WIDTH);
     }
   }
 
-  const height = node.height || DEFAULT_NODE_HEIGHT;
+  let height = node.height;
+  if (height === undefined) {
+    if (text && node.icon) {
+      height = labelDim.height + node.icon.height;
+    } else if (text) {
+      height = labelDim.height + NODE_PADDING;
+    } else if (node.icon) {
+      height = node.icon.height + NODE_PADDING;
+    }
+
+    height = Math.max(height, DEFAULT_NODE_HEIGHT);
+  }
 
   return {
     text,

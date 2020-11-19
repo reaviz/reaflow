@@ -389,12 +389,22 @@ export const LongLabels = () => (
         },
         {
           id: '7',
+          height: 70,
+          width: 70,
           icon: {
             url: 'https://s3.amazonaws.com/img.crft.app/package-slack-logo-bw.svg',
-            height: 25,
-            width: 25
+            height: 42,
+            width: 42
           }
         },
+        {
+          id: '8',
+          icon: {
+            url: 'https://s3.amazonaws.com/img.crft.app/package-slack-logo-bw.svg',
+            height: 42,
+            width: 42
+          }
+        }
       ]}
       edges={[
         {
@@ -426,6 +436,11 @@ export const LongLabels = () => (
           id: '4-6',
           from: '4',
           to: '6'
+        },
+        {
+          id: '4-8',
+          from: '4',
+          to: '8'
         }
       ]}
       node={
