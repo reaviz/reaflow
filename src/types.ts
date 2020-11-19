@@ -1,7 +1,5 @@
 export interface NodeData<T = any> {
   id: string;
-  x?: number;
-  y?: number;
   disabled?: boolean;
   text?: any;
   height?: number;
