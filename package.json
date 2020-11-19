@@ -1,6 +1,6 @@
 {
   "name": "reaflow",
-  "version": "2.3.7",
+  "version": "2.3.8",
   "description": "Node-based Visualizations for React",
   "scripts": {
     "build": "rollup -c",
@@ -45,7 +45,7 @@
     "elkjs": "^0.7.0",
     "ellipsize": "^0.1.0",
     "p-cancelable": "^2.0.0",
-    "rdk": "^4.2.1",
+    "rdk": "^4.2.2",
     "react-cool-dimensions": "^1.1.10",
     "react-fast-compare": "^3.2.0",
     "react-use-gesture": "^8.0.1",

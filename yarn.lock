@@ -12522,10 +12522,10 @@ rc@^1.0.1, rc@^1.1.6:
     minimist "^1.2.0"
     strip-json-comments "~2.0.1"
 
-rdk@^4.2.1:
-  version "4.2.1"
-  resolved "https://registry.yarnpkg.com/rdk/-/rdk-4.2.1.tgz#ff91212f0509fafb3be620a41c9b0b9516cb694c"
-  integrity sha512-aeBwuNrJR5iLY8hFYgTfKOA9HxxDYTopxIfBlDUM6Jj07B8deGn3/55DSrwma+41k1Fc0Y70oGcUFrYxYrex4Q==
+rdk@^4.2.2:
+  version "4.2.2"
+  resolved "https://registry.yarnpkg.com/rdk/-/rdk-4.2.2.tgz#b55c3b71fc151993f801090684b93adc92c4c469"
+  integrity sha512-Wacz4afqzKCWq2HEbC6tQZz5op3ajiDs2V4MR9jWw+PDe/D+HJPugk1ren6OcvT6sLGl12z/rYWhjYm6Z4seeg==
   dependencies:
     classnames "^2.2.6"
     framer-motion "^2.7.7"
