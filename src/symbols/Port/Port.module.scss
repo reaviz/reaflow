@@ -2,6 +2,7 @@
   stroke: #0d0e17;
   fill: #3E405A;
   stroke-width: 2px;
+  shape-rendering: geometricPrecision;
 
   &:hover {
     cursor: pointer;

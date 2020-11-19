@@ -15,6 +15,7 @@
     fill: none;
     stroke: #485a74;
     pointer-events: none;
+    shape-rendering: geometricPrecision;
 
     &.active {
       stroke: #46FECB !important;

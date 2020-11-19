@@ -9,6 +9,7 @@
   stroke: transparent;
   transition: stroke 100ms ease-in-out;
   stroke: #475872;
+  shape-rendering: geometricPrecision;
 
   &.children {
     fill: transparent;

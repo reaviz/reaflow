@@ -13,6 +13,7 @@
 }
 
 .rect {
+  shape-rendering: geometricPrecision;
   fill: #46FECB;
   border-radius: 2px;
   pointer-events: none;
