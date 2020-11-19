@@ -5,7 +5,7 @@ import ellipsize from 'ellipsize';
 const MAX_CHAR_COUNT = 35;
 const MIN_NODE_WIDTH = 50;
 const DEFAULT_NODE_HEIGHT = 50;
-const NODE_PADDING = 20;
+const NODE_PADDING = 30;
 const ICON_PADDING = 10;
 
 export function measureText(text: string) {

@@ -2,7 +2,6 @@ import { EdgeData, NodeData } from '../types';
 import ELK, { ElkNode } from 'elkjs/lib/elk.bundled';
 import PCancelable from 'p-cancelable';
 import { formatText, measureText } from './utils';
-import ellipsize from 'ellipsize';
 
 export type CanvasDirection = 'LEFT' | 'RIGHT' | 'DOWN' | 'UP';
 
@@ -137,7 +136,7 @@ function postProcessNode(nodes: any[]): any[] {
     if (hasLabels && node.properties.icon) {
       const [label] = node.labels;
       label.x = node.properties.icon.width + 20;
-      node.properties.icon.x = 24;
+      node.properties.icon.x = 25;
       node.properties.icon.y = node.height / 2;
     } else if (hasLabels) {
       const [label] = node.labels;
