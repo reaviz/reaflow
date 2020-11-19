@@ -99,7 +99,7 @@ export const Edge: FC<Partial<EdgeProps>> = ({
     : null;
 
   const d = useMemo(() => {
-    if (sections?.length === 0) {
+    if (!sections?.length) {
       return null;
     }
 
