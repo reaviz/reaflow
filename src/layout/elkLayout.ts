@@ -135,7 +135,7 @@ function postProcessNode(nodes: any[]): any[] {
 
     if (hasLabels && node.properties.icon) {
       const [label] = node.labels;
-      label.x = node.properties.icon.width + 20;
+      label.x = node.properties.icon.width + 25;
       node.properties.icon.x = 25;
       node.properties.icon.y = node.height / 2;
     } else if (hasLabels) {
