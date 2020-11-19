@@ -28,7 +28,7 @@ const defaultLayoutOptions = {
 };
 
 function mapNode(nodes: NodeData[], edges: EdgeData[], node: NodeData) {
-  const { text, width, height, labelHeight, labelWidth } = formatText(node);
+  const { text, width, height, labelHeight, labelWidth, originalText } = formatText(node);
 
   const children = nodes
     .filter((n) => n.parent === node.id)
@@ -67,9 +67,8 @@ function mapNode(nodes: NodeData[], edges: EdgeData[], node: NodeData) {
           width: labelWidth,
           height: -(labelHeight / 2),
           text,
-          layoutOptions: {
-            'elk.nodeLabels.placement': 'INSIDE V_CENTER H_CENTER'
-          }
+          originalText
+          // layoutOptions: { 'elk.nodeLabels.placement': 'INSIDE V_CENTER H_CENTER' }
         }
       ]
       : []
@@ -133,25 +132,19 @@ function mapInput(nodes: NodeData[], edges: EdgeData[]) {
 
 function postProcessNode(nodes: any[]): any[] {
   for (const node of nodes) {
-    // TODO: Make this less hacky...
-    if (node.properties?.icon) {
-      const hasLabels = node.labels?.length > 0;
-      if (hasLabels) {
-        const [label] = node.labels;
-        const overflow = label.width >= node.width - 10;
-        const offsetIcon = overflow ? 15 : 5;
-        const offsetLabel = overflow ? 15 : -5;
-        const iconX = label.x - node.properties.icon.width - offsetIcon;
+    const hasLabels = node.labels?.length > 0;
 
-        node.properties.icon.x = Math.max(iconX, 0);
-        node.properties.icon.y = node.height / 2;
-
-        label.text = ellipsize(label.text, 20);
-        label.x = node.properties.icon.width + label.x + offsetLabel;
-      } else {
-        node.properties.icon.x = 5;
-        node.properties.icon.y = node.height / 2;
-      }
+    if (hasLabels && node.properties.icon) {
+      const [label] = node.labels;
+      label.x = node.properties.icon.width + 20;
+      node.properties.icon.x = -2;
+      node.properties.icon.y = node.height / 2;
+    } else if (hasLabels) {
+      const [label] = node.labels;
+      label.x = (node.width - label.width) / 2;
+    } else if (node.properties.icon) {
+      node.properties.icon.x = ((node.width - node.properties.icon.width - 20) / 2) - 2;
+      node.properties.icon.y = node.height / 2;
     }
 
     if (node.children) {

@@ -3,10 +3,10 @@ import { NodeData } from '../types';
 import ellipsize from 'ellipsize';
 
 const MAX_CHAR_COUNT = 35;
-const DEFAULT_NODE_WIDTH = 150;
+const MIN_NODE_WIDTH = 50;
 const DEFAULT_NODE_HEIGHT = 50;
-const MAX_NODE_WIDTH = 250;
-const NODE_PADDING = 10;
+const NODE_PADDING = 20;
+const ICON_PADDING = 10;
 
 export function measureText(text: string) {
   let result = { height: 0, width: 0 };
@@ -21,33 +21,24 @@ export function measureText(text: string) {
   return result;
 }
 
-export function getMaxWidth(
-  node: NodeData,
-  labelDim: { width: number; height: number },
-  defaultWidth = DEFAULT_NODE_WIDTH,
-  maxWidth = MAX_NODE_WIDTH,
-  padding = NODE_PADDING
-) {
-  let width = node.width;
-
-  if (width === undefined) {
-    width = defaultWidth;
-  }
-
-  if (labelDim.width) {
-    width = Math.max(labelDim.width, width);
-  }
-
-  width = Math.min(width, maxWidth);
-
-  return width + padding;
-}
-
 export function formatText(node: NodeData) {
-  const text = node.text ? ellipsize(node.text, MAX_CHAR_COUNT) : node.text;
+  const text = node.text
+    ? ellipsize(node.text, MAX_CHAR_COUNT)
+    : node.text;
 
   const labelDim = measureText(text);
-  const width = getMaxWidth(node, labelDim);
+
+  let width = node.width;
+  if (width === undefined) {
+    if (text && node.icon) {
+      width = labelDim.width + node.icon.width + NODE_PADDING + ICON_PADDING;
+    } else if (text) {
+      width = Math.max(labelDim.width + NODE_PADDING, MIN_NODE_WIDTH);
+    } else if (node.icon) {
+      width = Math.max(node.icon.width + NODE_PADDING, MIN_NODE_WIDTH);
+    }
+  }
+
   const height = node.height || DEFAULT_NODE_HEIGHT;
 
   return {

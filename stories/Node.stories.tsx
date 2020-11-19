@@ -28,7 +28,7 @@ export const LabelsAndIcons = () => (
         },
         {
           id: '3',
-          text: 'Node 3 with a long label for testing',
+          text: 'Node 3',
           icon: {
             url: 'https://s3.amazonaws.com/img.crft.app/package-twitter-logo-bw.svg',
             height: 25,
@@ -346,16 +346,55 @@ export const LongLabels = () => (
       nodes={[
         {
           id: '1',
-          text: 'A very long label that is fun'
+          text: 'Node 1',
+          icon: {
+            url: 'https://s3.amazonaws.com/img.crft.app/package-slack-logo-bw.svg',
+            height: 25,
+            width: 25
+          }
         },
         {
           id: '2',
-          text: 'A even larger label that is long long'
+          icon: {
+            url: 'https://s3.amazonaws.com/img.crft.app/package-flashpoint-logo-bw.svg',
+            height: 25,
+            width: 25
+          }
         },
         {
           id: '3',
-          text: 'What kind of a label would have such a long name like this?'
-        }
+          text: 'Node 3 with a long label for testing',
+          icon: {
+            url: 'https://s3.amazonaws.com/img.crft.app/package-twitter-logo-bw.svg',
+            height: 25,
+            width: 25
+          }
+        },
+        {
+          id: '4',
+          text: 'Node4withalongnobreakingspacelabel',
+          icon: {
+            url: 'https://s3.amazonaws.com/img.crft.app/package-twitter-logo-bw.svg',
+            height: 25,
+            width: 25
+          }
+        },
+        {
+          id: '5',
+          text: 'asdf asdf asdfddd dssss asdfdsds sdssd'
+        },
+        {
+          id: '6',
+          text: 'normal label'
+        },
+        {
+          id: '7',
+          icon: {
+            url: 'https://s3.amazonaws.com/img.crft.app/package-slack-logo-bw.svg',
+            height: 25,
+            width: 25
+          }
+        },
       ]}
       edges={[
         {
@@ -364,12 +403,36 @@ export const LongLabels = () => (
           to: '2'
         },
         {
-          id: '1-3',
-          from: '1',
+          id: '2-3',
+          from: '2',
           to: '3'
+        },
+        {
+          id: '2-7',
+          from: '2',
+          to: '7'
+        },
+        {
+          id: '2-4',
+          from: '2',
+          to: '4'
+        },
+        {
+          id: '4-5',
+          from: '4',
+          to: '5'
+        },
+        {
+          id: '4-6',
+          from: '4',
+          to: '6'
         }
       ]}
-      onLayoutChange={layout => console.log('Layout', layout)}
+      node={
+        <Node
+          icon={<Icon />}
+        />
+      }
     />
   </div>
 );
