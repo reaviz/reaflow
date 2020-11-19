@@ -99,6 +99,10 @@ export const Edge: FC<Partial<EdgeProps>> = ({
     : null;
 
   const d = useMemo(() => {
+    if (sections?.length === 0) {
+      return null;
+    }
+
     // Handle bend points that elk gives
     // us seperately from drag points
     if (sections[0].bendPoints) {
