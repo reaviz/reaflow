@@ -1,9 +1,3 @@
-.container {
-  &:focus {
-    outline: none;
-  }
-}
-
 .rect {
   fill: #2b2c3e;
   stroke: transparent;
@@ -11,6 +5,10 @@
   stroke: #475872;
   shape-rendering: geometricPrecision;
   stroke-width: 1pt;
+
+  &:focus {
+    outline: none;
+  }
 
   &.children {
     fill: transparent;

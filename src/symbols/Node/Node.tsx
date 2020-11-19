@@ -235,8 +235,6 @@ export const Node: FC<Partial<NodeProps>> = ({
 
   return (
     <motion.g
-      tabIndex={-1}
-      className={css.container}
       initial={{
         cursor: 'initial',
         opacity: 0,
@@ -244,23 +242,24 @@ export const Node: FC<Partial<NodeProps>> = ({
         translateY: y
       }}
       animate={controls}
-      onKeyDown={(event) => {
-        event.preventDefault();
-        event.stopPropagation();
-        onKeyDown(event, properties);
-      }}
-      onClick={(event) => {
-        event.preventDefault();
-        event.stopPropagation();
-        onClick(event, properties);
-      }}
-      onTouchStart={(event) => {
-        event.preventDefault();
-        event.stopPropagation();
-      }}
     >
       <motion.rect
         {...bind()}
+        tabIndex={-1}
+        onKeyDown={(event) => {
+          event.preventDefault();
+          event.stopPropagation();
+          onKeyDown(event, properties);
+        }}
+        onClick={(event) => {
+          event.preventDefault();
+          event.stopPropagation();
+          onClick(event, properties);
+        }}
+        onTouchStart={(event) => {
+          event.preventDefault();
+          event.stopPropagation();
+        }}
         onMouseEnter={(event) => {
           event.stopPropagation();
           canvas.onEnter(event, properties);
