@@ -356,8 +356,8 @@ export const Node: FC<Partial<NodeProps>> = ({
           onLeave={() => setDeleteHovered(false)}
         />
       )}
-      {nodes?.length > 0 && nodes.map(renderNode)}
       {edges?.length > 0 && edges.map(renderEdge)}
+      {nodes?.length > 0 && nodes.map(renderNode)}
     </motion.g>
   );
 };
