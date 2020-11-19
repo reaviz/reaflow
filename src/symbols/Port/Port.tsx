@@ -71,6 +71,7 @@ export const Port = forwardRef(
   ) => {
     const { readonly } = useCanvas();
     const [dragging, setDragging] = useState<boolean>(false);
+    const [hovered, setHovered] = useState<boolean>(false);
     const newX = x - properties.width / 2;
     const newY = y - properties.height / 2;
 
@@ -102,9 +103,30 @@ export const Port = forwardRef(
 
     return (
       <g>
-        <motion.rect
+        <rect
           {...bind()}
           ref={ref}
+          height={properties.height + 14}
+          width={properties.width + 14}
+          x={newX - 7}
+          y={newY - 7}
+          className={css.clicker}
+          onMouseEnter={(event) => {
+            event.stopPropagation();
+            setHovered(true);
+            onEnter(event, properties);
+          }}
+          onMouseLeave={(event) => {
+            event.stopPropagation();
+            setHovered(false);
+            onLeave(event, properties);
+          }}
+          onClick={(event) => {
+            event.stopPropagation();
+            onClick(event, properties);
+          }}
+        />
+        <motion.rect
           key={`${x}-${y}`}
           style={style}
           className={classNames(css.port, className, properties?.className)}
@@ -121,21 +143,8 @@ export const Port = forwardRef(
           animate={{
             x: newX,
             y: newY,
-            scale: dragging || active ? 1.5 : 1,
+            scale: dragging || active || hovered ? 1.5 : 1,
             opacity: 1
-          }}
-          whileHover={{ scale: disabled ? 1 : 1.5 }}
-          onMouseEnter={(event) => {
-            event.stopPropagation();
-            onEnter(event, properties);
-          }}
-          onMouseLeave={(event) => {
-            event.stopPropagation();
-            onLeave(event, properties);
-          }}
-          onClick={(event) => {
-            event.stopPropagation();
-            onClick(event, properties);
           }}
         />
       </g>

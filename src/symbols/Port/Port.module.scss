@@ -3,8 +3,10 @@
   fill: #3E405A;
   stroke-width: 2px;
   shape-rendering: geometricPrecision;
+  pointer-events: none;
+}
 
-  &:hover {
-    cursor: pointer;
-  }
+.clicker {
+  cursor: pointer;
+  opacity: 0;
 }
