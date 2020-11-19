@@ -137,13 +137,14 @@ export const Node: FC<Partial<NodeProps>> = ({
   const newX = x + offsetX;
   const newY = y + offsetY;
   const isLinkable = checkNodeLinkable(properties, enteredNode, canLinkNode);
+  const isMultiPort = ports?.filter(p => !p.properties?.hidden).length > 1;
 
   const bind = useNodeDrag({
     x: newX,
     y: newY,
     height,
     width,
-    disabled: disabled || ports?.length > 2 || readonly,
+    disabled: disabled || isMultiPort || readonly,
     node: properties,
     onDrag: (...props) => {
       canvas.onDrag(...props);
@@ -313,6 +314,7 @@ export const Node: FC<Partial<NodeProps>> = ({
           <CloneElement<PortProps>
             element={port}
             key={p.id}
+            active={!isMultiPort && dragging}
             disabled={disabled}
             offsetX={newX}
             offsetY={newY}

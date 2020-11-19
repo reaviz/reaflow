@@ -31,6 +31,7 @@ export interface PortProps extends NodeDragEvents<PortData> {
   className?: string;
   properties: ElkPortProperties & PortData;
   style?: any;
+  active?: boolean;
   onEnter?: (
     event: React.MouseEvent<SVGGElement, MouseEvent>,
     port: PortData
@@ -58,6 +59,7 @@ export const Port = forwardRef(
       offsetX,
       offsetY,
       className,
+      active,
       onDrag = () => undefined,
       onDragStart = () => undefined,
       onDragEnd = () => undefined,
@@ -119,7 +121,7 @@ export const Port = forwardRef(
           animate={{
             x: newX,
             y: newY,
-            scale: dragging ? 1.5 : 1,
+            scale: dragging || active ? 1.5 : 1,
             opacity: 1
           }}
           whileHover={{ scale: disabled ? 1 : 1.5 }}
