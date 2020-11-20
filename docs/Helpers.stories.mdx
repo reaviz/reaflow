@@ -135,6 +135,32 @@ setNodes(results.nodes);
 setEdges(results.edges);
 ```
 
+### Remove Edge
+The `removeEdge` function simplifies removing a single
+or array of edges.
+
+The signature for this looks like:
+
+```js
+removeEdge(
+  edges: EdgeData[],
+  edge: EdgeData | EdgeData[]
+) => EdgeData[]
+```
+
+Below is an example usage:
+
+```js
+import { removeEdge } from 'reaflow';
+
+const newEdges = removeEdge(
+  edges,
+  edgesToRemove
+);
+
+setEdges(newEdges);
+```
+
 ## Graph
 
 ### Detecting Circulars

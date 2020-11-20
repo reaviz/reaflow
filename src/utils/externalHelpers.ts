@@ -123,6 +123,15 @@ export function removeNode(
 }
 
 /**
+ * Remove edge(s)
+ */
+export function removeEdge(edges: EdgeData[], edge: EdgeData | EdgeData[]) {
+  const deletions: EdgeData[] = !Array.isArray(edge) ? [edge] : edge;
+  const edgeIds = deletions.map((e) => e.id);
+  return edges.filter((e) => !edgeIds.includes(e.id));
+}
+
+/**
  * Add a node and optional edge.
  */
 export function addNodeAndEdge(
