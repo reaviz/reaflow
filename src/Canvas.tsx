@@ -35,6 +35,11 @@ export interface CanvasContainerProps extends CanvasProps {
   minZoom?: number;
   maxZoom?: number;
 
+  /**
+   * ELKJS Layout Options
+   */
+  layoutOptions?: any;
+
   onNodeLink?: (from: NodeData, to: NodeData, port?: PortData) => void;
   onNodeLinkCheck?: (
     from: NodeData,
@@ -250,11 +255,13 @@ export const Canvas: FC<
       onNodeLinkCheck = () => undefined,
       onLayoutChange = () => undefined,
       onZoomChange = () => undefined,
+      layoutOptions,
       ...rest
     },
     ref: Ref<CanvasRef>
   ) => (
     <CanvasProvider
+      layoutOptions={layoutOptions}
       nodes={nodes}
       edges={edges}
       zoom={zoom}

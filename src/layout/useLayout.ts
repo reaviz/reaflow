@@ -29,6 +29,7 @@ export interface LayoutProps {
   center: boolean;
   fit: boolean;
   zoom: number;
+  layoutOptions?: any;
   direction: CanvasDirection;
   setZoom: (factor: number) => void;
   onLayoutChange: (layout: ElkRoot) => void;
@@ -43,6 +44,7 @@ export const useLayout = ({
   pannable,
   center,
   direction,
+  layoutOptions = {},
   zoom,
   setZoom,
   onLayoutChange
@@ -56,7 +58,7 @@ export const useLayout = ({
   const canvasWidth = pannable ? maxWidth : width;
 
   useEffect(() => {
-    const promise = elkLayout(nodes, edges, { direction });
+    const promise = elkLayout(nodes, edges, { direction, ...layoutOptions });
 
     promise
       .then((result) => {

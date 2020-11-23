@@ -27,7 +27,14 @@ const defaultLayoutOptions = {
 };
 
 function mapNode(nodes: NodeData[], edges: EdgeData[], node: NodeData) {
-  const { text, width, height, labelHeight, labelWidth, originalText } = formatText(node);
+  const {
+    text,
+    width,
+    height,
+    labelHeight,
+    labelWidth,
+    originalText
+  } = formatText(node);
 
   const children = nodes
     .filter((n) => n.parent === node.id)
@@ -171,6 +178,7 @@ export const elkLayout = (
         {
           layoutOptions: {
             ...defaultLayoutOptions,
+            ...options,
             'elk.direction': options.direction
           }
         }
