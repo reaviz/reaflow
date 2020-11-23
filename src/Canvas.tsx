@@ -102,7 +102,7 @@ const InternalCanvas: FC<CanvasProps & { ref?: Ref<CanvasRef> }> = forwardRef(
       canvasHeight,
       canvasWidth,
       xy,
-      zoom: scale,
+      zoom,
       setZoom,
       zoomIn,
       zoomOut,
@@ -139,7 +139,7 @@ const InternalCanvas: FC<CanvasProps & { ref?: Ref<CanvasRef> }> = forwardRef(
     );
 
     const renderEdge = useCallback(
-      (e) => {
+      (e: EdgeProps) => {
         const element = typeof edge === 'function' ? edge(e) : edge;
         return (
           <CloneElement<EdgeProps>
@@ -147,7 +147,7 @@ const InternalCanvas: FC<CanvasProps & { ref?: Ref<CanvasRef> }> = forwardRef(
             element={element}
             id={`${id}-edge-${e.id}`}
             disabled={disabled}
-            {...(e as EdgeProps)}
+            {...e}
           />
         );
       },
@@ -200,7 +200,7 @@ const InternalCanvas: FC<CanvasProps & { ref?: Ref<CanvasRef> }> = forwardRef(
               opacity: 1,
               translateX: xy[0],
               translateY: xy[1],
-              scale,
+              scale: zoom,
               transition: {
                 velocity: 100,
                 translateX: { duration: mount.current ? 0.3 : 0 },

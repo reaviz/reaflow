@@ -112,8 +112,8 @@ export const useLayout = ({
   const fitCanvas = useCallback(() => {
     const heightZoom = height / layout.height;
     const widthZoom = width / layout.width;
-    const scale = Math.min(heightZoom, widthZoom, 1) - 0.1;
-    setZoom(scale);
+    const scale = Math.min(heightZoom, widthZoom, 1);
+    setZoom(scale - 1);
     centerCanvas();
   }, [height, layout, width, setZoom, centerCanvas]);
 

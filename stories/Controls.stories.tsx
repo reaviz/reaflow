@@ -37,6 +37,56 @@ export const FixedPosition = () => (
   </div>
 );
 
+
+export const Small = () => (
+  <div style={{ border: 'solid 1px #12131e', height: 200, width: 200, position: 'relative' }}>
+    <Canvas
+      height={150}
+      width={150}
+      disabled={true}
+      fit={true}
+      pannable={false}
+      arrow={null}
+      nodes={[
+        {
+          id: '1',
+          text: '1'
+        },
+        {
+          id: '2',
+          text: '2'
+        },
+        {
+          id: '3',
+          text: '3'
+        },
+        {
+          id: '4',
+          text: '4'
+        }
+      ]}
+      edges={[
+        {
+          id: '1-2',
+          from: '1',
+          to: '2'
+        },
+        {
+          id: '1-3',
+          from: '1',
+          to: '3'
+        },
+        {
+          id: '1-4',
+          from: '1',
+          to: '4'
+        }
+      ]}
+      onLayoutChange={layout => console.log('Layout', layout)}
+    />
+  </div>
+);
+
 export const NonCentered = () => (
   <div style={{ border: 'solid 1px #12131e', height: 450, width: 450, position: 'relative' }}>
     <Canvas
