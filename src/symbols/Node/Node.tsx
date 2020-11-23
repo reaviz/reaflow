@@ -137,7 +137,7 @@ export const Node: FC<Partial<NodeProps>> = ({
   const newX = x + offsetX;
   const newY = y + offsetY;
   const isLinkable = checkNodeLinkable(properties, enteredNode, canLinkNode);
-  const isMultiPort = ports?.filter(p => !p.properties?.hidden).length > 1;
+  const isMultiPort = ports?.filter((p) => !p.properties?.hidden).length > 1;
 
   const bind = useNodeDrag({
     x: newX,
@@ -300,7 +300,8 @@ export const Node: FC<Partial<NodeProps>> = ({
       {icon && properties.icon && (
         <CloneElement<IconProps> element={icon} {...properties.icon} />
       )}
-      {labels?.length > 0 &&
+      {label &&
+        labels?.length > 0 &&
         labels.map((l, index) => (
           <CloneElement<LabelProps>
             element={label}
@@ -308,7 +309,8 @@ export const Node: FC<Partial<NodeProps>> = ({
             {...(l as LabelProps)}
           />
         ))}
-      {ports?.length > 0 &&
+      {port &&
+        ports?.length > 0 &&
         ports.map((p) => (
           <CloneElement<PortProps>
             element={port}
