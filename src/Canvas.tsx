@@ -21,18 +21,69 @@ import css from './Canvas.module.scss';
 import { motion } from 'framer-motion';
 
 export interface CanvasContainerProps extends CanvasProps {
+  /**
+   * Nodes to render on the canvas.
+   */
   nodes?: NodeData[];
+
+  /**
+   * Edges to render on the canvas.
+   */
   edges?: EdgeData[];
+
+  /**
+   * Key of node/edge ids for selection.
+   */
   selections?: string[];
+
+  /**
+   * Direction of the canvas layout.
+   */
   direction?: CanvasDirection;
+
+  /**
+   * Whether the canvas is pannable or not.
+   */
   pannable?: boolean;
+
+  /**
+   * Whether the canvas is zoomable or not.
+   */
   zoomable?: boolean;
+
+  /**
+   * Center the canvas on load or not.
+   */
   center?: boolean;
+
+  /**
+   * Fit the canvas on load.
+   */
   fit?: boolean;
+
+  /**
+   * Max height of the canvas scrollable area.
+   */
   maxHeight?: number;
+
+  /**
+   * Max width of the canvas scrollable area.
+   */
   maxWidth?: number;
+
+  /**
+   * Zoom factor.
+   */
   zoom?: number;
+
+  /**
+   * Min zoom factor.
+   */
   minZoom?: number;
+
+  /**
+   * Max zoom factor.
+   */
   maxZoom?: number;
 
   /**
@@ -40,42 +91,121 @@ export interface CanvasContainerProps extends CanvasProps {
    */
   layoutOptions?: any;
 
+  /**
+   * Callback to check if a node is linkable or not.
+   */
   onNodeLink?: (from: NodeData, to: NodeData, port?: PortData) => void;
+
+  /**
+   * Callback when a node is linked.
+   */
   onNodeLinkCheck?: (
     from: NodeData,
     to: NodeData,
     port?: PortData
   ) => undefined | boolean;
+
+  /**
+   * When the zoom changes.
+   */
   onZoomChange?: (zoom: number) => void;
+
+  /**
+   * When the layout changes.
+   */
   onLayoutChange?: (layout: ElkRoot) => void;
 }
 
 export interface CanvasProps {
+  /**
+   * CSS classname for the container.
+   */
   className?: string;
+
+  /**
+   * Disable all events or not.
+   */
   disabled?: boolean;
+
+  /**
+   * Static height of the canvas.
+   */
   height?: number;
+
+  /**
+   * Static width of the canvas.
+   */
   width?: number;
+
+  /**
+   * Whether you can drag connections or not.
+   */
   readonly?: boolean;
 
+  /**
+   * Element of the draw edge.
+   */
   dragEdge?: ReactElement<EdgeProps, typeof Edge>;
+
+  /**
+   * Arrow shown on the edges.
+   */
   arrow?: ReactElement<MarkerArrowProps, typeof MarkerArrow>;
+
+  /**
+   * Node or node callback to return element.
+   */
   node?:
     | ReactElement<NodeProps, typeof Node>
     | ((node: NodeProps) => ReactElement<NodeProps, typeof Node>);
+
+  /**
+   * Edge or edge callback to return element.
+   */
   edge?:
     | ReactElement<EdgeProps, typeof Edge>
     | ((edge: EdgeProps) => ReactElement<NodeProps, typeof Edge>);
 
+  /**
+   * When the canvas had a mouse enter.
+   */
   onMouseEnter?: (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
+
+  /**
+   * When the canvas had a mouse leave.
+   */
   onMouseLeave?: (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
+
+  /**
+   * When the canvas was clicked.
+   */
   onCanvasClick?: (event: React.MouseEvent<SVGGElement, MouseEvent>) => void;
 }
 
 export interface CanvasRef {
+  /**
+   * Center the canvas.
+   */
   centerCanvas?: () => void;
+
+  /**
+   * Fit the canvas.
+   */
   fitCanvas?: () => void;
+
+  /**
+   * Set a zoom factor of the canvas.
+   */
   setZoom?: (factor: number) => void;
+
+  /**
+   * Zoom in on the canvas.
+   */
   zoomIn?: () => void;
+
+  /**
+   * Zoom out on the canvas.
+   */
   zoomOut?: () => void;
 }
 
