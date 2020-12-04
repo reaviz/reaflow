@@ -248,7 +248,6 @@ export const Node: FC<Partial<NodeProps>> = ({
         tabIndex={-1}
         onKeyDown={(event) => {
           event.preventDefault();
-          event.stopPropagation();
           onKeyDown(event, properties);
         }}
         onClick={(event) => {
