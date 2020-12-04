@@ -8,17 +8,16 @@ import React, {
   useLayoutEffect,
   useRef
 } from 'react';
-import { useId } from 'rdk';
+import { useId, CloneElement } from 'rdk';
 import { Node, NodeProps } from './symbols/Node';
 import { Edge, EdgeProps } from './symbols/Edge';
 import { ElkRoot, CanvasDirection, useLayout } from './layout';
 import { MarkerArrow, MarkerArrowProps } from './symbols/Arrow';
-import { CloneElement } from 'rdk';
 import { EdgeData, NodeData, PortData } from './types';
 import classNames from 'classnames';
 import { CanvasProvider, useCanvas } from './utils/CanvasProvider';
-import css from './Canvas.module.scss';
 import { motion } from 'framer-motion';
+import css from './Canvas.module.scss';
 
 export interface CanvasContainerProps extends CanvasProps {
   /**
