@@ -112,31 +112,50 @@ export const CustomElements = () => (
     <Canvas
       nodes={[
         {
-          id: '1',
-          text: 'Node 1'
+          id: '2',
+          text: 'Mother',
+          data: {
+            "gender": "female"
+          }
         },
         {
-          id: '2',
-          text: 'Node 2'
-        }
+          id: '3',
+          text: 'Daughter',
+          data: {
+            "gender": "female"
+          }
+        },
+        {
+          id: '4',
+          text: 'Son',
+          data: {
+            "gender": "male"
+          }
+        },
       ]}
       edges={[
         {
-          id: '1-2',
-          from: '1',
-          to: '2'
+          id: '2-3',
+          from: '2',
+          to: '3'
+        },
+        {
+          id: '2-4',
+          from: '2',
+          to: '4'
         }
       ]}
       node={(node: NodeProps) => (
         <Node
           {...node}
-          style={{ fill: node.id === '1' ? 'blue' : 'green' }}
+          onClick={() => console.log(node.properties.data)}
+          style={{ fill: node.properties.data?.gender === 'male' ? 'blue' : 'red' }}
         />
       )}
       edge={(edge: EdgeProps) => (
         <Edge
           {...edge}
-          style={{ stroke: edge.id === '1-2' ? 'blue' : 'green' }}
+          style={{ stroke: edge.id === '2-4' ? 'blue' : 'red' }}
         />
       )}
       onLayoutChange={layout => console.log('Layout', layout)}
