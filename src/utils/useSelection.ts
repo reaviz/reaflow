@@ -97,6 +97,8 @@ export const useSelection = ({
     {
       name: 'Select All',
       keys: 'mod+a',
+      category: 'Canvas',
+      description: 'Select all nodes and edges',
       callback: (event) => {
         event.preventDefault();
 
@@ -108,15 +110,13 @@ export const useSelection = ({
     },
     {
       name: 'Delete Selections',
+      category: 'Canvas',
+      description: 'Delete selected nodes and edges',
       keys: 'backspace',
       callback: (event) => {
         event.preventDefault();
 
-        const result = removeNode(
-          nodes,
-          edges,
-          internalSelections
-        );
+        const result = removeNode(nodes, edges, internalSelections);
 
         onDataChange(result.nodes, result.edges);
         onSelection([]);
@@ -126,6 +126,8 @@ export const useSelection = ({
     },
     {
       name: 'Deselect Selections',
+      category: 'Canvas',
+      description: 'Deselect selected nodes and edges',
       keys: 'escape',
       callback: (event) => {
         event.preventDefault();
