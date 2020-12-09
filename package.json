@@ -1,6 +1,6 @@
 {
   "name": "reaflow",
-  "version": "2.4.1",
+  "version": "2.4.2",
   "description": "Node-based Visualizations for React",
   "scripts": {
     "build": "rollup -c",
@@ -31,7 +31,8 @@
     "reactjs",
     "workflow",
     "node-editor",
-    "diagrams"
+    "diagrams",
+    "elkjs"
   ],
   "license": "Apache-2.0",
   "bugs": {
@@ -49,7 +50,7 @@
     "react-cool-dimensions": "^1.1.10",
     "react-fast-compare": "^3.2.0",
     "react-use-gesture": "^8.0.1",
-    "reakeys": "^1.0.2",
+    "reakeys": "^1.1.0",
     "transformation-matrix": "^2.5.0"
   },
   "peerDependencies": {

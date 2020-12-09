@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useState } from 'react';
 import { useHotkeys } from 'reakeys';
 import { EdgeData, NodeData } from 'types';
 import { removeNode } from './externalHelpers';
@@ -37,16 +37,6 @@ export const useSelection = ({
     selections
   );
   const [metaKeyDown, setMetaKeyDown] = useState<boolean>(false);
-
-  // TODO: Fix this reference issue in reakeys
-  const selectionRef = useRef<string[]>(internalSelections);
-  selectionRef.current = internalSelections;
-
-  const nodesRef = useRef<NodeData[]>(nodes);
-  nodesRef.current = nodes;
-
-  const edgeRef = useRef<EdgeData[]>(edges);
-  edgeRef.current = edges;
 
   const addSelection = (item: string) => {
     const has = internalSelections.includes(item);
@@ -110,8 +100,8 @@ export const useSelection = ({
       callback: (event) => {
         event.preventDefault();
 
-        const next = nodesRef.current.map((n) => n.id);
-        onDataChange(nodesRef.current, edgeRef.current);
+        const next = nodes.map((n) => n.id);
+        onDataChange(nodes, edges);
         onSelection(next);
         setInternalSelections(next);
       }
@@ -123,9 +113,9 @@ export const useSelection = ({
         event.preventDefault();
 
         const result = removeNode(
-          nodesRef.current,
-          edgeRef.current,
-          selectionRef.current
+          nodes,
+          edges,
+          internalSelections
         );
 
         onDataChange(result.nodes, result.edges);
