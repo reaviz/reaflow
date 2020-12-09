@@ -115,21 +115,21 @@ export const CustomElements = () => (
           id: '2',
           text: 'Mother',
           data: {
-            "gender": "female"
+            gender: 'female'
           }
         },
         {
           id: '3',
           text: 'Daughter',
           data: {
-            "gender": "female"
+            gender: 'female'
           }
         },
         {
           id: '4',
           text: 'Son',
           data: {
-            "gender": "male"
+            gender: 'male'
           }
         },
       ]}
