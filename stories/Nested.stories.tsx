@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Canvas } from '../src/Canvas';
-import { Node, Edge, MarkerArrow, Port, Icon, Arrow, Label, Remove, Add } from '../src/symbols';
+import { Node, Edge, MarkerArrow, Port, Icon, Arrow, Label, Remove, Add, NodeProps } from '../src/symbols';
 import { EdgeData, NodeData } from '../src/types';
 
 export const Simple = () => (
@@ -96,6 +96,110 @@ export const Linking = () => {
           ]);
         }}
         onLayoutChange={layout => console.log('Layout', layout)}
+      />
+    </div>
+  );
+};
+
+export const NestedLinking = () => {
+  const nodeDimensions : any = {
+    typeA: {
+      width: 190,
+      height: 150
+    },
+    typeB:{
+      width: 80,
+      height: 80
+    }
+  }
+  const nodes = [
+    { 
+      id: '1', 
+      text: '1',
+    },
+    { 
+      id: '2',
+      label: 'A',
+      name: 'Process XYZ',
+      description: 'Description of XYZ',
+      //describes padding for nested nodes
+      paddingTop: 120,
+      ...nodeDimensions.typeA
+    },
+    { 
+      id: '2.1',
+      parent: '2',
+      label: 'B',
+      name: 'Task 1',
+      ...nodeDimensions.typeB
+    },
+    { 
+      id: '2.2', 
+      parent: '2', 
+      label: 'B',
+      name: 'Task 2',
+      ...nodeDimensions.typeB
+    },
+    { 
+      id: '3',
+      text: '3'
+    }
+  ];
+  const edges = [
+    {
+      id: '1-2.1', 
+      from: '1', 
+      to: '2.1' 
+    }, 
+    { 
+      id: '2.1-2.2', 
+      parent: '2',
+      from: '2.1', 
+      to: '2.2' 
+    }, 
+    { 
+      id: '2.2-3', 
+      from: '2.2', 
+      to: '3' 
+    },
+  ];
+
+  function prepareNode(node){
+    const data = node.properties;
+    switch (data.label){
+      case 'A':
+        return (
+          <Node style={{fill: 'lightgreen', opacity: 0.8}}>
+            <div style={{textAlign: "center"}}>
+              <h4>{data.name}</h4>
+              <p>{data.description}</p>
+            </div>
+          </Node>
+        )
+      case 'B':
+        return (
+          <Node style={{fill: 'lightyellow'}}>
+            <div style={{textAlign: "center"}}>
+              <h4>{data.name}</h4>
+            </div>
+          </Node>
+        )
+      default:
+        return (
+          <Node/>
+        )
+    }
+  }
+
+  return (
+    <div style={{ position: 'absolute', top: 0, bottom: 0, left: 0, right: 0 }}>
+      <Canvas
+        //required to enable edges from/to nested nodes
+        layoutOptions={{'elk.hierarchyHandling':'INCLUDE_CHILDREN'}}
+        direction="RIGHT"
+        nodes={nodes}
+        edges={edges}
+        node={(node: NodeProps) => prepareNode(node)}
       />
     </div>
   );
