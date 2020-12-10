@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useState } from 'react';
 import { useHotkeys } from 'reakeys';
 import { EdgeData, NodeData } from 'types';
 import { removeNode } from './externalHelpers';
@@ -37,16 +37,6 @@ export const useSelection = ({
     selections
   );
   const [metaKeyDown, setMetaKeyDown] = useState<boolean>(false);
-
-  // TODO: Fix this reference issue in reakeys
-  const selectionRef = useRef<string[]>(internalSelections);
-  selectionRef.current = internalSelections;
-
-  const nodesRef = useRef<NodeData[]>(nodes);
-  nodesRef.current = nodes;
-
-  const edgeRef = useRef<EdgeData[]>(edges);
-  edgeRef.current = edges;
 
   const addSelection = (item: string) => {
     const has = internalSelections.includes(item);
@@ -107,26 +97,26 @@ export const useSelection = ({
     {
       name: 'Select All',
       keys: 'mod+a',
+      category: 'Canvas',
+      description: 'Select all nodes and edges',
       callback: (event) => {
         event.preventDefault();
 
-        const next = nodesRef.current.map((n) => n.id);
-        onDataChange(nodesRef.current, edgeRef.current);
+        const next = nodes.map((n) => n.id);
+        onDataChange(nodes, edges);
         onSelection(next);
         setInternalSelections(next);
       }
     },
     {
       name: 'Delete Selections',
+      category: 'Canvas',
+      description: 'Delete selected nodes and edges',
       keys: 'backspace',
       callback: (event) => {
         event.preventDefault();
 
-        const result = removeNode(
-          nodesRef.current,
-          edgeRef.current,
-          selectionRef.current
-        );
+        const result = removeNode(nodes, edges, internalSelections);
 
         onDataChange(result.nodes, result.edges);
         onSelection([]);
@@ -136,6 +126,8 @@ export const useSelection = ({
     },
     {
       name: 'Deselect Selections',
+      category: 'Canvas',
+      description: 'Deselect selected nodes and edges',
       keys: 'escape',
       callback: (event) => {
         event.preventDefault();

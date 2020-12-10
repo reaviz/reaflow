@@ -12851,10 +12851,10 @@ readdirp@~3.5.0:
   dependencies:
     picomatch "^2.2.1"
 
-reakeys@^1.0.2:
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/reakeys/-/reakeys-1.0.2.tgz#73bdb8b6bcef66cb4502ecad6e8a166837925a03"
-  integrity sha512-DkC3nIoOLBkqPeFiGIgKGiZU34W92+jRUhLnFgufKUVUG9dchnm0Ydnpx3kGjC/8A/8VWsEN14qS7OZ4B20Lyw==
+reakeys@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/reakeys/-/reakeys-1.1.0.tgz#cdacdcc1ee478992307b0952e7fc413157296fef"
+  integrity sha512-vNrGkUkIKs+mE4JVtvSTXwi3/c+nFxRoU8A+XLqfbBiXkYOIjnh4v8IEb1c+npzw1peH7ikKLvvR6jLFs97pwg==
   dependencies:
     mousetrap "^1.6.5"
 
