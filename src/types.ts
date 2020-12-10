@@ -7,6 +7,10 @@ export interface NodeData<T = any> {
   parent?: string;
   ports?: PortData[];
   icon?: IconData;
+  paddingTop?: number;
+  paddingLeft?: number;
+  paddingRight?: number;
+  paddingBottom?: number;
   data?: T;
   className?: string;
 }

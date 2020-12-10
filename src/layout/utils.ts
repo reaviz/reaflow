@@ -22,9 +22,7 @@ export function measureText(text: string) {
 }
 
 export function formatText(node: NodeData) {
-  const text = node.text
-    ? ellipsize(node.text, MAX_CHAR_COUNT)
-    : node.text;
+  const text = node.text ? ellipsize(node.text, MAX_CHAR_COUNT) : node.text;
 
   const labelDim = measureText(text);
 
@@ -61,6 +59,10 @@ export function formatText(node: NodeData) {
     originalText: node.text,
     width,
     height,
+    paddingTop: node.paddingTop || 50,
+    paddingRight: node.paddingRight || 50,
+    paddingBottom: node.paddingBottom || 50,
+    paddingLeft: node.paddingLeft || 50,
     labelHeight: labelDim.height,
     labelWidth: labelDim.width
   };
