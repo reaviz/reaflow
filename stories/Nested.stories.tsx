@@ -196,7 +196,7 @@ export const NestedEdges = () => {
       <Canvas
         // required to enable edges from/to nested nodes
         layoutOptions={{'elk.hierarchyHandling':'INCLUDE_CHILDREN'}}
-        direction="RIGHT"
+        direction='RIGHT'
         nodes={nodes}
         edges={edges}
         node={(node: NodeProps) => prepareNode(node)}
