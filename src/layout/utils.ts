@@ -21,10 +21,44 @@ export function measureText(text: string) {
   return result;
 }
 
+function parsePadding(padding?: number[]) {
+  let top = 50;
+  let right = 50;
+  let bottom = 50;
+  let left = 50;
+
+  if (Array.isArray(padding)) {
+    if (padding.length === 2) {
+      top = padding[0];
+      bottom = padding[0];
+      left = padding[1];
+      right = padding[1];
+    } else if (padding.length === 4) {
+      top = padding[0];
+      right = padding[1];
+      bottom = padding[2];
+      left = padding[3];
+    }
+  } else if (padding !== undefined) {
+    top = padding;
+    right = padding;
+    bottom = padding;
+    left = padding;
+  }
+
+  return {
+    top,
+    right,
+    bottom,
+    left
+  };
+}
+
 export function formatText(node: NodeData) {
   const text = node.text ? ellipsize(node.text, MAX_CHAR_COUNT) : node.text;
 
   const labelDim = measureText(text);
+  const nodePadding = parsePadding(node.nodePadding);
 
   let width = node.width;
   if (width === undefined) {
@@ -59,10 +93,7 @@ export function formatText(node: NodeData) {
     originalText: node.text,
     width,
     height,
-    paddingTop: node.paddingTop || 50,
-    paddingRight: node.paddingRight || 50,
-    paddingBottom: node.paddingBottom || 50,
-    paddingLeft: node.paddingLeft || 50,
+    nodePadding,
     labelHeight: labelDim.height,
     labelWidth: labelDim.width
   };

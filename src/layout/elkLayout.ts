@@ -33,10 +33,7 @@ function mapNode(nodes: NodeData[], edges: EdgeData[], node: NodeData) {
     height,
     labelHeight,
     labelWidth,
-    paddingTop,
-    paddingRight,
-    paddingBottom,
-    paddingLeft,
+    nodePadding,
     originalText
   } = formatText(node);
 
@@ -65,7 +62,7 @@ function mapNode(nodes: NodeData[], edges: EdgeData[], node: NodeData) {
       }))
       : [],
     layoutOptions: {
-      'elk.padding': `[left=${paddingLeft}, top=${paddingTop}, right=${paddingRight}, bottom=${paddingBottom}]`,
+      'elk.padding': `[left=${nodePadding.left}, top=${nodePadding.top}, right=${nodePadding.right}, bottom=${nodePadding.bottom}]`,
       portConstraints: 'FIXED_ORDER'
     },
     properties: {
