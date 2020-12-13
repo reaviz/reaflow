@@ -21,7 +21,7 @@ export function measureText(text: string) {
   return result;
 }
 
-function parsePadding(padding?: number[]) {
+function parsePadding(padding: NodeData['nodePadding']) {
   let top = 50;
   let right = 50;
   let bottom = 50;
