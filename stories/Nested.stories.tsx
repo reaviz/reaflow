@@ -101,7 +101,7 @@ export const Linking = () => {
   );
 };
 
-export const NestedLinking = () => {
+export const NestedEdges = () => {
   const nodeDimensions : any = {
     typeA: {
       width: 190,
@@ -112,7 +112,7 @@ export const NestedLinking = () => {
       height: 80
     }
   }
-  const nodes = [
+  const nodes: NodeData[]= [
     { 
       id: '1', 
       text: '1',
@@ -122,8 +122,8 @@ export const NestedLinking = () => {
       label: 'A',
       name: 'Process XYZ',
       description: 'Description of XYZ',
-      //describes padding for nested nodes
-      paddingTop: 120,
+      // describes padding for nested nodes
+      nodePadding: [120, 50, 50, 50],
       ...nodeDimensions.typeA
     },
     { 
@@ -145,7 +145,7 @@ export const NestedLinking = () => {
       text: '3'
     }
   ];
-  const edges = [
+  const edges: EdgeData[] = [
     {
       id: '1-2.1', 
       from: '1', 
@@ -194,7 +194,7 @@ export const NestedLinking = () => {
   return (
     <div style={{ position: 'absolute', top: 0, bottom: 0, left: 0, right: 0 }}>
       <Canvas
-        //required to enable edges from/to nested nodes
+        // required to enable edges from/to nested nodes
         layoutOptions={{'elk.hierarchyHandling':'INCLUDE_CHILDREN'}}
         direction="RIGHT"
         nodes={nodes}
