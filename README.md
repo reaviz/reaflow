@@ -31,6 +31,7 @@ with total customizability.
 
 ## 🚀 Quick Links
 - Checkout the [docs and demos](https://reaflow.dev)
+- Learn about updates from the [Changelog](CHANGELOG.md)
 - Explore the library on [Chroma](https://www.chromatic.com/library?appId=5f99ba42fe88ac0022fd1147)
 
 ## 📦 Usage
