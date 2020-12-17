@@ -1,8 +1,7 @@
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { useHotkeys } from 'reakeys';
 import { EdgeData, NodeData } from '../types';
 import Undoo from 'undoo';
-import { useCallback, useEffect, useRef, useState } from 'react';
-import { useScroll } from 'react-use-gesture';
 
 export interface UndoRedoEvent {
   nodes: NodeData[];
@@ -21,7 +20,7 @@ export interface UndoResult {
   canUndo: boolean;
   canRedo: boolean;
   count: () => number;
-  history: () => { nodes: NodeData[]; edges: EdgeData[]; }[];
+  history: () => { nodes: NodeData[]; edges: EdgeData[] }[];
   redo: () => void;
   undo: () => void;
 }
@@ -35,9 +34,11 @@ export const useUndo = ({
   const [canUndo, setCanUndo] = useState<boolean>(false);
   const [canRedo, setCanRedo] = useState<boolean>(false);
 
-  const manager = useRef<Undoo>(new Undoo({
-    maxLength: maxHistory
-  }));
+  const manager = useRef<Undoo>(
+    new Undoo({
+      maxLength: maxHistory
+    })
+  );
 
   useEffect(() => {
     manager.current.save({
@@ -50,14 +51,14 @@ export const useUndo = ({
   }, [nodes, edges]);
 
   const undo = useCallback(() => {
-    manager.current.undo(state => {
+    manager.current.undo((state) => {
       setCanUndo(manager.current.canUndo());
       onUndoRedo({ ...state, type: 'undo' });
     });
   }, [onUndoRedo]);
 
   const redo = useCallback(() => {
-    manager.current.redo(state => {
+    manager.current.redo((state) => {
       setCanRedo(manager.current.canRedo());
       onUndoRedo({ ...state, type: 'redo' });
     });
