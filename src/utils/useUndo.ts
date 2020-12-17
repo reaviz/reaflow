@@ -7,6 +7,8 @@ export interface UndoRedoEvent {
   nodes: NodeData[];
   edges: EdgeData[];
   type: 'undo' | 'redo';
+  canUndo: boolean;
+  canRedo: boolean;
 }
 
 export interface UndoProps {
@@ -52,15 +54,33 @@ export const useUndo = ({
 
   const undo = useCallback(() => {
     manager.current.undo((state) => {
-      setCanUndo(manager.current.canUndo());
-      onUndoRedo({ ...state, type: 'undo' });
+      const nextUndo = manager.current.canUndo();
+      const nextRedo = manager.current.canRedo();
+      setCanUndo(nextUndo);
+      setCanRedo(nextRedo);
+
+      onUndoRedo({
+        ...state,
+        type: 'undo',
+        canUndo: nextUndo,
+        canRedo: nextRedo
+      });
     });
   }, [onUndoRedo]);
 
   const redo = useCallback(() => {
     manager.current.redo((state) => {
-      setCanRedo(manager.current.canRedo());
-      onUndoRedo({ ...state, type: 'redo' });
+      const nextUndo = manager.current.canUndo();
+      const nextRedo = manager.current.canRedo();
+      setCanUndo(nextUndo);
+      setCanRedo(nextRedo);
+
+      onUndoRedo({
+        ...state,
+        type: 'redo',
+        canUndo: nextUndo,
+        canRedo: nextRedo
+      });
     });
   }, [onUndoRedo]);
 

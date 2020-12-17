@@ -1,3 +1,6 @@
+# 2.5.1 - 12/17/20
+- [Feature] Improve Can Redo Hook Event Args
+
 # 2.5.0 - 12/17/20
 - [Feature] Undo Redo Hook
 
