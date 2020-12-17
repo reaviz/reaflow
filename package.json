@@ -1,6 +1,6 @@
 {
   "name": "reaflow",
-  "version": "2.4.5",
+  "version": "2.5.0",
   "description": "Node-based Visualizations for React",
   "scripts": {
     "build": "rollup -c",
@@ -51,7 +51,8 @@
     "react-fast-compare": "^3.2.0",
     "react-use-gesture": "^8.0.1",
     "reakeys": "^1.1.0",
-    "transformation-matrix": "^2.5.0"
+    "transformation-matrix": "^2.5.0",
+    "undoo": "^0.5.0"
   },
   "peerDependencies": {
     "framer-motion": "^2.1.2",

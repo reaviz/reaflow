@@ -1,0 +1,66 @@
+import { Meta, Story } from '@storybook/addon-docs/blocks';
+
+<Meta title="Docs/Undo Redo" />
+
+# Undo Redo
+
+---
+
+Out of the box, reaflow supports undo and redo functionality. This can be
+done optionally using the `useUndo` hook. It also supports hotkeys using
+[reakeys](https://github.com/reaviz/reakeys).
+
+## Getting Started
+The `useUndo` hooks will automatically manage the history of the
+nodes and edges, all you need to do is manage the current state.
+The hook accepts the following arguments:
+
+```ts
+export interface UndoProps {
+  nodes: NodeData[];
+  edges: EdgeData[];
+  maxHistory?: number;
+  onUndoRedo: (state: UndoRedoEvent) => void;
+}
+```
+
+To implement the hook all you need to do is import it like:
+
+```tsx
+import { useUndo, EdgeData, Canvas, NodeData } from 'reaflow';
+
+const MyApp = () => {
+  const [nodes, setNodes] = useState<NodeData[]>([]);
+  const [edges, setEdges] = useState<EdgeData[]>([]);
+
+  const { undo, redo, canUndo, canRedo } = useUndo({
+    nodes,
+    edges,
+    onUndoRedo: (state: UndoRedoEvent) => {
+      console.log('Undo / Redo', state);
+      // Note: This is where YOUR state comes into play
+      setEdges(state.edges);
+      setNodes(state.nodes);
+    }
+  });
+
+  return <Canvas nodes={nodes} edges={edges} />;
+}
+```
+
+Now anytime you make a change to the `nodes` or `edges` the
+hook will update the internal history and then you can
+call `undo` or `redo` functions to retrieve those states.
+
+The hook returns other properties such as:
+
+```ts
+export interface UndoResult {
+  canUndo: boolean;
+  canRedo: boolean;
+  count: () => number;
+  history: () => { nodes: NodeData[]; edges: EdgeData[]; }[];
+  redo: () => void;
+  undo: () => void;
+}
+```
