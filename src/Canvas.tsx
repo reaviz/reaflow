@@ -17,7 +17,7 @@ import { EdgeData, NodeData, PortData } from './types';
 import classNames from 'classnames';
 import { CanvasProvider, useCanvas } from './utils/CanvasProvider';
 import { motion } from 'framer-motion';
-import css from './Canvas.module.scss';
+import css from './Canvas.module.css';
 
 export interface CanvasContainerProps extends CanvasProps {
   /**

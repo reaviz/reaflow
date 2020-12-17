@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 import classNames from 'classnames';
-import css from './Icon.module.scss';
+import css from './Icon.module.css';
 
 export interface IconProps {
   x: number;

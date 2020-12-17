@@ -1,7 +1,7 @@
 import React, { FC, useState } from 'react';
 import classNames from 'classnames';
-import css from './Remove.module.scss';
 import { motion } from 'framer-motion';
+import css from './Remove.module.css';
 
 export interface RemoveProps {
   x: number;

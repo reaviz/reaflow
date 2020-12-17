@@ -9,14 +9,7 @@ module.exports = {
     '../stories/**/*.stories.tsx',
   ],
   addons: [
-    {
-      name: '@storybook/preset-scss',
-      options: {
-        cssLoaderOptions: {
-          modules: true
-        }
-      }
-    },
+    'storybook-css-modules-preset',
     '@storybook/addon-essentials',
     '@storybook/addon-docs/preset',
     '@storybook/addon-storysource'

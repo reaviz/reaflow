@@ -3,7 +3,6 @@ import sourceMaps from 'rollup-plugin-sourcemaps';
 import typescript from 'rollup-plugin-typescript2';
 import external from 'rollup-plugin-peer-deps-external';
 import postcss from 'rollup-plugin-postcss-modules';
-import autoprefixer from 'autoprefixer';
 import commonjs from 'rollup-plugin-commonjs';
 import pkg from './package.json';
 import bundleSize from 'rollup-plugin-bundle-size';
@@ -35,7 +34,11 @@ export default [
         // extract: true,
         modules: true,
         writeDefinitions: true,
-        plugins: [autoprefixer()]
+        plugins: [
+          require('postcss-nested'),
+          require('postcss-preset-env')({ stage: 1 }),
+          require('autoprefixer')
+        ]
       }),
       typescript({
         clean: true,

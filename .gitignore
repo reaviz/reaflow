@@ -65,3 +65,4 @@ typings/
 .next
 .DS_Store
 src/**/*.scss.d.ts
+src/**/*.css.d.ts

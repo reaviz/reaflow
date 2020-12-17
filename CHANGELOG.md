@@ -1,3 +1,7 @@
+# 2.5.2 - 12/17/20
+- [Chore] Remove scss
+- [Chore] Update rdk
+
 # 2.5.1 - 12/17/20
 - [Feature] Improve Can Redo Hook Event Args
 

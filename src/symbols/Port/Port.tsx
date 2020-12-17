@@ -7,9 +7,9 @@ import {
   useNodeDrag,
   Position
 } from '../../utils/useNodeDrag';
-import css from './Port.module.scss';
 import classNames from 'classnames';
 import { useCanvas } from '../../utils/CanvasProvider';
+import css from './Port.module.css';
 
 export interface ElkPortProperties {
   index: number;

@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 import classNames from 'classnames';
-import css from './Arrow.module.scss';
+import css from './Arrow.module.css';
 
 export interface ArrowProps {
   size?: number;

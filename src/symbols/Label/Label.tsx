@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 import classNames from 'classnames';
-import css from './Label.module.scss';
+import css from './Label.module.css';
 
 export interface LabelProps {
   x: number;
