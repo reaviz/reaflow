@@ -33,7 +33,7 @@ export default [
       postcss({
         // extract: true,
         modules: true,
-        writeDefinitions: true,
+        // writeDefinitions: true,
         plugins: [
           require('postcss-nested'),
           require('postcss-preset-env')({ stage: 1 }),
