@@ -1,3 +1,7 @@
+# 2.5.3 - 12/18/20
+- [Chore] Update deps
+- [Chore] cleanup deps
+
 # 2.5.2 - 12/17/20
 - [Chore] Remove scss
 - [Chore] Update rdk
