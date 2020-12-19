@@ -15,7 +15,7 @@ import { curveBundle, line } from 'd3-shape';
 import { Remove, RemoveProps } from '../Remove';
 import { Add, AddProps } from '../Add';
 import { useCanvas } from '../../utils/CanvasProvider';
-import css from './Edge.module.scss';
+import css from './Edge.module.css';
 
 export interface EdgeSections {
   id?: string;

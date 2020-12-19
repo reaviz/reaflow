@@ -23,7 +23,7 @@ import {
 import { Edge, EdgeProps } from '../Edge';
 import { useCanvas } from '../../utils/CanvasProvider';
 import { checkNodeLinkable } from '../../utils/helpers';
-import css from './Node.module.scss';
+import css from './Node.module.css';
 
 export interface NodeChildProps {
   height: number;
