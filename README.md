@@ -38,7 +38,7 @@ with total customizability.
 Install the package via NPM:
 
 ```
-yarn add reaflow
+npm i reaflow --save
 ```
 
 then add the component with some nodes and edges:
