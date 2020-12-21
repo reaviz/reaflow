@@ -6,8 +6,8 @@ module.exports = {
   ],
   addons: [
     'storybook-css-modules-preset',
-    '@storybook/addon-essentials',
     '@storybook/addon-docs/preset',
+    '@storybook/addon-essentials',
     '@storybook/addon-storysource'
   ]
 };
