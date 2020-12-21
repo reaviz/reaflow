@@ -26,6 +26,8 @@ jobs:
 
       - name: Publish Chromatic
         run: yarn chromatic
+        with:
+          fetch-depth: 0
 
       - name: Copy Domain
         run: yarn copy
