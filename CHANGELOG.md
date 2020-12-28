@@ -1,3 +1,6 @@
+# 2.5.5 - 12/18/20
+- [Feature] Add `clear` to `useUndo` hook
+
 # 2.5.3/4 - 12/18/20
 - [Chore] Update deps
 - [Chore] cleanup deps
