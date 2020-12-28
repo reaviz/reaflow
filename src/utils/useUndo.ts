@@ -22,6 +22,7 @@ export interface UndoResult {
   canUndo: boolean;
   canRedo: boolean;
   count: () => number;
+  clear: () => void;
   history: () => { nodes: NodeData[]; edges: EdgeData[] }[];
   redo: () => void;
   undo: () => void;
@@ -127,5 +128,5 @@ export const useUndo = ({
     clear,
     redo,
     undo
-  };
+  } as UndoResult;
 };
