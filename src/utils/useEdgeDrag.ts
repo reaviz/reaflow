@@ -57,7 +57,7 @@ export const useEdgeDrag = ({
   };
 
   const onDragEnd = () => {
-    if (dragNode && enteredNode && canLinkNode && dragNode.parent !== enteredNode.id) {
+    if (dragNode && enteredNode && canLinkNode) {
       onNodeLink(dragNode, enteredNode, dragPort);
     }
 
@@ -73,7 +73,7 @@ export const useEdgeDrag = ({
   ) => {
     setEnteredNode(node);
 
-    if (dragNode && node && dragNode.parent !== node.id) {
+    if (dragNode && node) {
       const canLink = onNodeLinkCheck(dragNode, node, dragPort);
       const result =
         (canLink === undefined || canLink) && dragNode.parent === node.parent;
