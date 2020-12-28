@@ -7,9 +7,10 @@ const order = [
   'components-',
   'data-shapes-',
   'linking-nodes-',
-  'helpers-',
   'styling-',
   'selection-',
+  'undo-',
+  'helpers-',
   'advanced-',
   'docs-',
   'demos-'
