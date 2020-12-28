@@ -4,7 +4,7 @@ import { NodeData } from '../types';
  * Checks if the node can be linked or not.
  */
 export function checkNodeLinkable(
-  curNode: NodeData,
+  _curNode: NodeData,
   enteredNode: NodeData | null,
   canLinkNode: boolean | null
 ) {
@@ -12,7 +12,7 @@ export function checkNodeLinkable(
     return null;
   }
 
-  if (canLinkNode === false && enteredNode.id === curNode.id) {
+  if (canLinkNode === false) {
     return false;
   }
 
