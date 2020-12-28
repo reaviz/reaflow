@@ -78,7 +78,7 @@ export const useLayout = ({
   }, [nodes, edges]);
 
   const centerVector = useCallback(() => {
-    if (center) {
+    if (center && layout) {
       // @ts-ignore
       const x = (canvasWidth - layout.width * zoom) / 2;
       // @ts-ignore
