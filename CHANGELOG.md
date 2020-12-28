@@ -1,4 +1,7 @@
-# 2.5.5 - 12/18/20
+# 2.5.5 - 12/28/20
+- [Fix] Improve `useUndo` types
+
+# 2.5.5 - 12/28/20
 - [Feature] Add `clear` to `useUndo` hook
 
 # 2.5.3/4 - 12/18/20
