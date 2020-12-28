@@ -4,9 +4,9 @@ import { EdgeData, NodeData } from '../types';
 import Undoo from 'undoo';
 
 export interface UndoRedoEvent {
-  nodes: NodeData[];
-  edges: EdgeData[];
-  type: 'undo' | 'redo';
+  nodes?: NodeData[];
+  edges?: EdgeData[];
+  type: 'undo' | 'redo' | 'clear';
   canUndo: boolean;
   canRedo: boolean;
 }
@@ -84,6 +84,18 @@ export const useUndo = ({
     });
   }, [onUndoRedo]);
 
+  const clear = useCallback(() => {
+    manager.current.clear();
+    setCanUndo(false);
+    setCanRedo(false);
+
+    onUndoRedo({
+      type: 'clear',
+      canUndo: false,
+      canRedo: false
+    });
+  }, [onUndoRedo]);
+
   useHotkeys([
     {
       name: 'Undo',
@@ -112,6 +124,7 @@ export const useUndo = ({
     canRedo,
     count: manager.current.count,
     history: manager.current.history,
+    clear,
     redo,
     undo
   };
