@@ -2,6 +2,7 @@ import theme from './theme';
 
 const order = [
   'introduction-',
+  'installing-',
   'getting-started-',
   'basics-',
   'components-',
@@ -9,6 +10,7 @@ const order = [
   'linking-nodes-',
   'styling-',
   'selection-',
+  'hooks-',
   'undo-',
   'helpers-',
   'advanced-',
