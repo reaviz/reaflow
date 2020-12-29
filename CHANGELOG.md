@@ -1,3 +1,6 @@
+# 2.6.1
+- [Fix] Remove foreign objects being default children
+
 # 2.6.0
 - [Feature] Add proximity hook
 - [Feature] Expand canvas ref options
