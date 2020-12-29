@@ -1,10 +1,27 @@
-import React, { useState } from 'react';
-import { Canvas } from '../src/Canvas';
+import React, { useRef, useState } from 'react';
+import { Canvas, CanvasRef } from '../src/Canvas';
 import { Node, Edge, MarkerArrow, Port, Icon, Arrow, Label, Remove, Add } from '../src/symbols';
 import { motion, useDragControls } from 'framer-motion';
 import { Portal } from 'rdk';
 import { EdgeData, NodeData } from '../src/types';
-import { addNodeAndEdge } from '../src/utils/externalHelpers';
+import { addNodeAndEdge, useProximity } from '../src/helpers';
+import classNames from 'classnames';
+
+export default {
+  title: 'Demos/Editor',
+  component: Canvas,
+  subcomponents: {
+    Node,
+    Edge,
+    MarkerArrow,
+    Arrow,
+    Icon,
+    Label,
+    Port,
+    Remove,
+    Add
+  }
+};
 
 export const Simple = () => {
   const dragControls = useDragControls();
@@ -30,11 +47,14 @@ export const Simple = () => {
   ]);
 
   const onDragStart =  (event, data) => {
+    console.log('Start of Dragging', event, data);
     setActiveDrag(data);
     dragControls.start(event, { snapToCursor: true });
   };
 
-  const onDragEnd = () => {
+  const onDragEnd = (event) => {
+    console.log('End of Dragging', event);
+
     if (droppable) {
       const id = `${activeDrag}-${Math.floor(Math.random() * (100 - 1 + 1)) + 1}`;
       const result = addNodeAndEdge(
@@ -157,20 +177,4 @@ export const Simple = () => {
       </Portal>
     </div>
   );
-};
-
-export default {
-  title: 'Demos/Editor',
-  component: Canvas,
-  subcomponents: {
-    Node,
-    Edge,
-    MarkerArrow,
-    Arrow,
-    Icon,
-    Label,
-    Port,
-    Remove,
-    Add
-  }
 };

@@ -58,6 +58,7 @@ The hook returns other properties such as:
 export interface UndoResult {
   canUndo: boolean;
   canRedo: boolean;
+  clear: () => void;
   count: () => number;
   history: () => { nodes: NodeData[]; edges: EdgeData[]; }[];
   redo: () => void;

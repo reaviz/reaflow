@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Canvas } from '../src/Canvas';
 import { Node, Edge, MarkerArrow, Port, Icon, Arrow, Label, Remove, Add, NodeProps, EdgeProps } from '../src/symbols';
-import { UndoRedoEvent, useUndo } from '../src/utils';
+import { UndoRedoEvent, useUndo } from '../src/helpers';
 
 export default {
   title: 'Demos/Undo Redo',

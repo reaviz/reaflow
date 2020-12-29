@@ -8438,6 +8438,30 @@ klaw@^1.0.0:
   optionalDependencies:
     graceful-fs "^4.1.9"
 
+kld-affine@^2.1.1:
+  version "2.1.1"
+  resolved "https://registry.yarnpkg.com/kld-affine/-/kld-affine-2.1.1.tgz#e28296585f305230eaad3b1e346d3ac5ca4c72b3"
+  integrity sha512-NIS9sph8ZKdnQxZa5TcggaFs/Qr9zX3brFlGwE0+0Z4EzFIvAFuqLSwNeU4GkEpaX8ndh3ggGmWV7BPPcS3vjQ==
+
+kld-intersections@^0.7.0:
+  version "0.7.0"
+  resolved "https://registry.yarnpkg.com/kld-intersections/-/kld-intersections-0.7.0.tgz#a6907c103553654e268c094701c72659b3cafb2f"
+  integrity sha512-/KuBU7Y5bRPGfc0yQ3QIoXPKqOQ6cBWDRl1XVMMa3pm4V6Ydbgy9e2fZoRxlSIU0gZSBt1c6gWLOzSGKbU8I3A==
+  dependencies:
+    kld-affine "^2.1.1"
+    kld-path-parser "^0.2.1"
+    kld-polynomial "^0.3.0"
+
+kld-path-parser@^0.2.1:
+  version "0.2.1"
+  resolved "https://registry.yarnpkg.com/kld-path-parser/-/kld-path-parser-0.2.1.tgz#ad1f7c8ebc9c9d67409413fc4de459293394e86b"
+  integrity sha512-C1EqY6vzqv5tdKeMF31L+JXq97n5zo67LiSEhZf4sPq8YeM+8ytp/qMGSKN8VdSPvFa6h1SR35aF4+T2JtxZww==
+
+kld-polynomial@^0.3.0:
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/kld-polynomial/-/kld-polynomial-0.3.0.tgz#cb7f3f37c679925d895f4cd737ed713a3b379921"
+  integrity sha512-PEfxjQ6tsxL9DHBIhM2UZsSes0GI+OIMjbE0kj60jr80Biq/xXl1eGfnyzmfoackAMdKZtw2060L09HdjkPP5w==
+
 kleur@^3.0.3:
   version "3.0.3"
   resolved "https://registry.yarnpkg.com/kleur/-/kleur-3.0.3.tgz#a79c9ecc86ee1ce3fa6206d1216c501f147fc07e"
@@ -12944,11 +12968,6 @@ tr46@^2.0.2:
   integrity sha512-3n1qG+/5kg+jrbTzwAykB5yRYtQCTqOGKq5U5PE3b0a1/mzo6snDhjGS0zJVJunO0NrT3Dg1MLy5TjWP/UJppg==
   dependencies:
     punycode "^2.1.1"
-
-transformation-matrix@^2.5.0:
-  version "2.5.0"
-  resolved "https://registry.yarnpkg.com/transformation-matrix/-/transformation-matrix-2.5.0.tgz#640d4e3be9084b05094b55e65b454a64ab1985d5"
-  integrity sha512-Z9UotSHOWMcqYYKwQUts49CjCH8H51HBbPN4uiQIwNpGMZs70LpugThBmLpUy2LFdrbfXGhdlu4WJ3yILK6kcw==
 
 tree-kill@^1.2.2:
   version "1.2.2"

@@ -1,28 +1,13 @@
-import { ElkRoot, useLayout } from '../layout/useLayout';
+import { ElkRoot, LayoutResult, useLayout } from '../layout/useLayout';
 import React, { createContext, RefObject, useContext } from 'react';
 import { NodeData, PortData } from '../types';
 import { EdgeDragResult, useEdgeDrag } from './useEdgeDrag';
-import { useZoom } from './useZoom';
+import { useZoom, ZoomResult } from './useZoom';
 
-export interface CanvasProviderValue extends EdgeDragResult {
+export interface CanvasProviderValue extends EdgeDragResult, LayoutResult, ZoomResult {
   selections?: string[];
   readonly?: boolean;
-  layout?: ElkRoot;
-  xy: [number, number];
-  scrollXY: [number, number];
-  containerRef: RefObject<HTMLDivElement>;
-  svgRef: RefObject<SVGSVGElement>;
-  canvasHeight: number;
-  canvasWidth: number;
-  containerHeight: number;
-  containerWidth: number;
-  zoom: number;
   pannable: boolean;
-  setZoom: (factor: number) => void;
-  zoomIn: () => void;
-  zoomOut: () => void;
-  centerCanvas: () => void;
-  fitCanvas: () => void;
 }
 
 export const CanvasContext = createContext<CanvasProviderValue>({} as any);

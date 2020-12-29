@@ -6,18 +6,20 @@ import React, {
   forwardRef,
   useCallback,
   useLayoutEffect,
-  useRef
+  useRef,
+  RefObject
 } from 'react';
 import { useId, CloneElement } from 'rdk';
 import { Node, NodeProps } from './symbols/Node';
 import { Edge, EdgeProps } from './symbols/Edge';
-import { ElkRoot, CanvasDirection, useLayout } from './layout';
+import { ElkRoot, CanvasDirection, useLayout, LayoutResult } from './layout';
 import { MarkerArrow, MarkerArrowProps } from './symbols/Arrow';
 import { EdgeData, NodeData, PortData } from './types';
 import classNames from 'classnames';
 import { CanvasProvider, useCanvas } from './utils/CanvasProvider';
 import { motion } from 'framer-motion';
 import css from './Canvas.module.css';
+import { ZoomResult } from './utils/useZoom';
 
 export interface CanvasContainerProps extends CanvasProps {
   /**
@@ -181,32 +183,7 @@ export interface CanvasProps {
   onCanvasClick?: (event: React.MouseEvent<SVGGElement, MouseEvent>) => void;
 }
 
-export interface CanvasRef {
-  /**
-   * Center the canvas.
-   */
-  centerCanvas?: () => void;
-
-  /**
-   * Fit the canvas.
-   */
-  fitCanvas?: () => void;
-
-  /**
-   * Set a zoom factor of the canvas.
-   */
-  setZoom?: (factor: number) => void;
-
-  /**
-   * Zoom in on the canvas.
-   */
-  zoomIn?: () => void;
-
-  /**
-   * Zoom out on the canvas.
-   */
-  zoomOut?: () => void;
-}
+export type CanvasRef = LayoutResult & ZoomResult;
 
 const InternalCanvas: FC<CanvasProps & { ref?: Ref<CanvasRef> }> = forwardRef(
   (
@@ -241,10 +218,19 @@ const InternalCanvas: FC<CanvasProps & { ref?: Ref<CanvasRef> }> = forwardRef(
       zoomIn,
       zoomOut,
       centerCanvas,
-      fitCanvas
+      fitCanvas,
+      ...rest
     } = useCanvas();
 
     useImperativeHandle(ref, () => ({
+      ...rest,
+      zoom,
+      xy,
+      layout,
+      canvasHeight,
+      containerRef,
+      canvasWidth,
+      svgRef,
       centerCanvas,
       setZoom,
       zoomIn,

@@ -1,4 +1,5 @@
 import {
+  RefObject,
   useCallback,
   useEffect,
   useLayoutEffect,
@@ -33,6 +34,58 @@ export interface LayoutProps {
   direction: CanvasDirection;
   setZoom: (factor: number) => void;
   onLayoutChange: (layout: ElkRoot) => void;
+}
+
+export interface LayoutResult {
+  /**
+   * X/Y offset.
+   */
+  xy: [number, number];
+
+  /**
+   * Scroll offset.
+   */
+  scrollXY: [number, number];
+
+  /**
+   * ELK Layout object.
+   */
+  layout: ElkRoot;
+
+  /**
+   * Ref to container div.
+   */
+  containerRef: RefObject<HTMLDivElement | null>;
+
+  /**
+   * Height of the svg.
+   */
+  canvasHeight?: number;
+
+  /**
+   * Width of the svg.
+   */
+  canvasWidth?: number;
+
+  /**
+   * Width of the container div.
+   */
+  containerWidth?: number;
+
+  /**
+   * Height of the container div.
+   */
+  containerHeight?: number;
+
+  /**
+   * Center the canvas to the viewport.
+   */
+  centerCanvas?: () => void;
+
+  /**
+   * Fit the canvas to the viewport.
+   */
+  fitCanvas?: () => void;
 }
 
 export const useLayout = ({
@@ -171,5 +224,5 @@ export const useLayout = ({
     scrollXY,
     centerCanvas,
     fitCanvas
-  };
+  } as LayoutResult;
 };

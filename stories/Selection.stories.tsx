@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
 import { Canvas } from '../src/Canvas';
-import { useSelection } from '../src/utils/useSelection';
+import { useSelection, removeAndUpsertNodes } from '../src/helpers';
 import { Node, Edge, MarkerArrow, Port, Icon, Arrow, Label, Remove, Add } from '../src/symbols';
 import { EdgeData, NodeData } from '../src/types';
-import { removeAndUpsertNodes } from '../src/utils';
 
 export const Simple = () => {
   const [nodes, setNodes] = useState<NodeData[]>([

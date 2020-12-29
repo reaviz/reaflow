@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { RefObject, useRef, useState } from 'react';
 import { useGesture } from 'react-use-gesture';
 
 const limit = (scale: number, min: number, max: number) =>
@@ -10,6 +10,33 @@ export interface ZoomProps {
   minZoom?: number;
   maxZoom?: number;
   onZoomChange: (zoom: number) => void;
+}
+
+export interface ZoomResult {
+  /**
+   * Factor of zoom.
+   */
+  zoom: number;
+
+  /**
+   * SVG Ref for the Canvas.
+   */
+  svgRef: RefObject<SVGSVGElement | null>;
+
+  /**
+   * Set a zoom factor of the canvas.
+   */
+  setZoom?: (factor: number) => void;
+
+  /**
+   * Zoom in on the canvas.
+   */
+  zoomIn?: () => void;
+
+  /**
+   * Zoom out on the canvas.
+   */
+  zoomOut?: () => void;
 }
 
 export const useZoom = ({
@@ -59,5 +86,5 @@ export const useZoom = ({
     setZoom,
     zoomIn,
     zoomOut
-  };
+  } as ZoomResult;
 };

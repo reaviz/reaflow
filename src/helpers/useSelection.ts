@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useHotkeys } from 'reakeys';
 import { EdgeData, NodeData } from 'types';
-import { removeNode } from './externalHelpers';
+import { removeNode } from './crudHelpers';
 
 export interface SelectionProps {
   selections?: string[];

@@ -3,7 +3,7 @@ import { useDrag } from 'react-use-gesture';
 import { State } from 'react-use-gesture/dist/types';
 import { NodeData } from '../types';
 import { useCanvas } from './CanvasProvider';
-import { fromDefinition, transform } from 'transformation-matrix';
+import { getCoords } from './helpers';
 
 export type DragEvent = State['drag'];
 export type Position = [number, number];
@@ -66,19 +66,14 @@ export const useNodeDrag = ({
       }
 
       if (state.first) {
-        const { top, left } = containerRef.current.getBoundingClientRect();
-        const offsetX = scrollXY[0] - containerRef.current.scrollLeft;
-        const offsetY = scrollXY[1] - containerRef.current.scrollTop;
-
-        const tx = (containerWidth - layout.width * zoom) / 2 + offsetX + left;
-        const ty = (containerHeight - layout.height * zoom) / 2 + offsetY + top;
-
-        const matrix = transform(
-          fromDefinition([
-            { type: 'translate', tx, ty },
-            { type: 'scale', sx: zoom, sy: zoom }
-          ])
-        );
+        const matrix = getCoords({
+          containerRef,
+          zoom,
+          layout,
+          scrollXY,
+          containerHeight,
+          containerWidth
+        });
 
         // memo will hold the difference between the
         // first point of impact and the origin

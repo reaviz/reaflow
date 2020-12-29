@@ -1,3 +1,13 @@
+# 2.6.0
+- [Feature] Add proximity hook
+- [Feature] Expand canvas ref options
+- [Fix] Can't link nodes who aren't parents
+- [Fix] Layout null ref exception
+- [Chore] Folder reorg for utils
+- [Chore] Folder reorg for docs
+- [Chore] Replace `transformation-matrix` with `kld-affine`
+- [Chore] Various type improvements
+
 # 2.5.5 - 12/28/20
 - [Fix] Improve `useUndo` types
 

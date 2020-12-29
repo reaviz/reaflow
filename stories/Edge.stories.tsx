@@ -1,7 +1,7 @@
 import React, { useState} from 'react';
 import { Canvas } from '../src/Canvas';
 import { Node, Edge, MarkerArrow, Port, Icon, Arrow, Label, Remove, Add } from '../src/symbols';
-import { upsertNode } from '../src/utils';
+import { upsertNode } from '../src/helpers';
 import { EdgeData, NodeData } from '../src/types';
 
 export const Adding = () => {

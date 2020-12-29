@@ -1,0 +1,96 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Docs/Advanced/Refs" />
+
+# Refs
+You can get a reference to the `Canvas` instance to perform various
+functions externally.
+
+```jsx
+export const MyCanvas: FC = () => {
+  const ref = useRef<CanvasRef | null>(null);
+
+  useEffect(() => {
+    // Refs give you ability to do things like:
+    // ref.current?.centerCanvas()
+  }, [ref]);
+
+  return <Canvas ref={ref} />;
+};
+```
+
+The `ref` will expose the following interface:
+
+```ts
+export interface CanvasRef {
+  /**
+   * Canvas SVG ref.
+   */
+  svgRef: RefObject<SVGSVGElement>;
+
+  /**
+   * X/Y offset.
+   */
+  xy: [number, number];
+
+  /**
+   * Scroll offset.
+   */
+  scrollXY: [number, number];
+
+  /**
+   * ELK Layout object.
+   */
+  layout: ElkRoot;
+
+  /**
+   * Ref to container div.
+   */
+  containerRef: RefObject<HTMLDivElement | null>;
+
+  /**
+   * Height of the svg.
+   */
+  canvasHeight?: number;
+
+  /**
+   * Width of the svg.
+   */
+  canvasWidth?: number;
+
+  /**
+   * Width of the container div.
+   */
+  containerWidth?: number;
+
+  /**
+   * Height of the container div.
+   */
+  containerHeight?: number;
+
+  /**
+   * Center the canvas to the viewport.
+   */
+  centerCanvas?: () => void;
+
+  /**
+   * Fit the canvas to the viewport.
+   */
+  fitCanvas?: () => void;
+
+  /**
+   * Set a zoom factor of the canvas.
+   */
+  setZoom?: (factor: number) => void;
+
+  /**
+   * Zoom in on the canvas.
+   */
+  zoomIn?: () => void;
+
+  /**
+   * Zoom out on the canvas.
+   */
+  zoomOut?: () => void;
+}
+```
