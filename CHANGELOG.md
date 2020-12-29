@@ -1,10 +1,13 @@
-# 2.6.2
+# 2.6.3 - 12/29/20
+- [Fix] Fix children interface
+
+# 2.6.2 - 12/29/20
 - [Fix] Pass down nodes/edges to children callback
 
-# 2.6.1
+# 2.6.1 - 12/29/20
 - [Fix] Remove foreign objects being default children
 
-# 2.6.0
+# 2.6.0 - 12/29/20
 - [Feature] Add proximity hook
 - [Feature] Expand canvas ref options
 - [Fix] Can't link nodes who aren't parents
