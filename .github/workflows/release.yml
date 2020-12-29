@@ -12,6 +12,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
 
       - name: Use Node.js 12.x
         uses: actions/setup-node@v1
@@ -26,8 +28,6 @@ jobs:
 
       - name: Publish Chromatic
         run: yarn chromatic
-        with:
-          fetch-depth: 0
 
       - name: Copy Domain
         run: yarn copy
