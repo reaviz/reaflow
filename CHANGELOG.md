@@ -1,3 +1,6 @@
+# 2.6.2
+- [Fix] Pass down nodes/edges to children callback
+
 # 2.6.1
 - [Fix] Remove foreign objects being default children
 
