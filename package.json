@@ -8,7 +8,7 @@
     "prettier": "prettier --loglevel warn --write 'src/**/*.{ts,tsx,js,jsx}'",
     "lint": "eslint --ext js,ts,tsx",
     "lint:fix": "eslint --ext js,ts,tsx --fix src",
-    "start": "start-storybook -p 9009 -s public",
+    "start": "start-storybook -p 9009",
     "copy": "cp CNAME storybook-static/",
     "build-storybook": "build-storybook",
     "chromatic": "npx chromatic --project-token ugo6c655mvm --auto-accept-changes"
