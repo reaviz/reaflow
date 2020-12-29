@@ -293,7 +293,7 @@ export const Node: FC<Partial<NodeProps>> = ({
       {children && (
         <Fragment>
           {typeof children === 'function'
-            ? (children as any)({ height, width, x, y, node: properties })
+            ? (children as any)({ height, width, x, y, node: properties, nodes, edges })
             : children}
         </Fragment>
       )}
