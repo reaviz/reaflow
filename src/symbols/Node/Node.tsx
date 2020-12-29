@@ -32,6 +32,8 @@ export interface NodeChildProps {
   x: number;
   y: number;
   node: NodeData;
+  nodes?: NodeData[];
+  edges?: EdgeData[];
 }
 
 export interface NodeProps extends NodeDragEvents<NodeData, PortData> {
