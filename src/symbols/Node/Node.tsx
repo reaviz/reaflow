@@ -1,5 +1,6 @@
 import React, {
   FC,
+  Fragment,
   ReactElement,
   ReactNode,
   useCallback,
@@ -290,11 +291,11 @@ export const Node: FC<Partial<NodeProps>> = ({
         }}
       />
       {children && (
-        <foreignObject height={height} width={width} x={0} y={0}>
+        <Fragment>
           {typeof children === 'function'
             ? (children as any)({ height, width, x, y, node: properties })
             : children}
-        </foreignObject>
+        </Fragment>
       )}
       {icon && properties.icon && (
         <CloneElement<IconProps> element={icon} {...properties.icon} />

@@ -299,10 +299,12 @@ export const ForeignObjects = () => (
       node={
         <Node>
           {event => (
-            <div style={{ padding: 10, textAlign: 'center' }}>
-              <h3 style={{ color: 'white' }}>Age</h3>
-              <input type="range" min="1" max="100" value={event.node.data.value} />
-            </div>
+            <foreignObject height={event.height} width={event.width} x={0} y={0}>
+              <div style={{ padding: 10, textAlign: 'center' }}>
+                <h3 style={{ color: 'white' }}>Age</h3>
+                <input type="range" min="1" max="100" value={event.node.data.value} />
+              </div>
+            </foreignObject>
           )}
         </Node>
       }
