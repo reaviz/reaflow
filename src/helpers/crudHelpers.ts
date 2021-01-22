@@ -9,21 +9,31 @@ export function upsertNode(
   edge: EdgeData,
   newNode: NodeData
 ) {
+  const oldEdgeIndex = edges.findIndex((e) => e.id === edge.id);
+  const edgeBeforeNewNode = {
+    ...edge,
+    id: `${edge.from}-${newNode.id}`,
+    to: newNode.id
+  };
+  const edgeAfterNewNode = {
+    ...edge,
+    id: `${newNode.id}-${edge.to}`,
+    from: newNode.id
+  };
+
+  if (edge.fromPort && edge.toPort) {
+    edgeBeforeNewNode.fromPort = edge.fromPort;
+    edgeBeforeNewNode.toPort = `${newNode.id}-to`;
+
+    edgeAfterNewNode.fromPort = `${newNode.id}-from`;
+    edgeAfterNewNode.toPort = edge.toPort;
+  }
+
+  edges.splice(oldEdgeIndex, 1, edgeBeforeNewNode, edgeAfterNewNode);
+
   return {
     nodes: [...nodes, newNode],
-    edges: [
-      ...edges.filter((e) => e.id !== edge.id),
-      {
-        id: `${edge.from}-${newNode.id}`,
-        from: edge.from,
-        to: newNode.id
-      },
-      {
-        id: `${newNode.id}-${edge.to}`,
-        from: newNode.id,
-        to: edge.to
-      }
-    ]
+    edges: [...edges]
   };
 }
 
