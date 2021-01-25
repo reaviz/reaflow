@@ -118,7 +118,7 @@
       ".(ts|tsx)": "ts-jest"
     },
     "testMatch": [
-      "<rootDir>/src/**/?(*.)(spec|test).ts?(x)"
+      "<rootDir>/src/**/*.(spec|test).ts?(x)"
     ],
     "transformIgnorePatterns": [
       "[/\\\\]node_modules[/\\\\].+\\.(js|jsx)$"
