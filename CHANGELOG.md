@@ -1,3 +1,7 @@
+# 2.6.4 - 1/25/21
+- [Fix] Fix upsert node function #38
+- [Fix] Fix wrong import #39
+
 # 2.6.3 - 12/29/20
 - [Fix] Fix children interface
 
