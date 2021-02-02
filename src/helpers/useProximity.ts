@@ -5,16 +5,46 @@ import { Matrix2D, Point2D } from 'kld-affine';
 import { IntersectionQuery } from 'kld-intersections';
 
 export interface ProximityProps {
+  /**
+   * Min distance required before match is made. Default is 40.
+   */
   minDistance?: number;
+
+  /**
+   * Ref pointer to the canvas.
+   */
   canvasRef?: RefObject<CanvasRef>;
+
+  /**
+   * When a match state has changed.
+   */
   onMatchChange?: (matches: string | null, distance: number | null) => void;
 }
 
 export interface ProximityResult {
+  /**
+   * The matched id of the node.
+   */
   match: string | null;
+
+  /**
+   * Distance from the match.
+   */
   distance: number | null;
+
+  /**
+   * Event for drag started.
+   */
   onDragStart: (event: PointerEvent) => void;
+
+  /**
+   * Event for active dragging.
+   */
   onDrag: (event: PointerEvent) => void;
+
+  /**
+   * Event for drag ended.
+   */
   onDragEnd: (event: PointerEvent) => void;
 }
 
@@ -63,7 +93,7 @@ export const useProximity = ({
         );
 
         // Calc the distances
-        const dists: number[] = points.map((p) => mousePoint.distanceFrom(p));
+        const dists: number[] = points.map(p => mousePoint.distanceFrom(p));
         const minDist = Math.min(...dists);
 
         cubes.push({
