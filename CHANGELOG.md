@@ -1,3 +1,10 @@
+# 2.7.0 - 2/3/21
+- [fix] fix proximity drop with nesting
+- [fix] fix proximity not handling all edges
+- [fix] fix addNodeAndEdge not accounting for parent
+- [chore] upgrade deps
+- [chore] tweak peer dep for framer-motion
+
 # 2.6.4 - 1/25/21
 - [Fix] Fix upsert node function #38
 - [Fix] Fix wrong import #39
