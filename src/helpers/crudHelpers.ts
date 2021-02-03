@@ -9,7 +9,7 @@ export function upsertNode(
   edge: EdgeData,
   newNode: NodeData
 ) {
-  const oldEdgeIndex = edges.findIndex((e) => e.id === edge.id);
+  const oldEdgeIndex = edges.findIndex(e => e.id === edge.id);
   const edgeBeforeNewNode = {
     ...edge,
     id: `${edge.from}-${newNode.id}`,
@@ -159,7 +159,8 @@ export function addNodeAndEdge(
           {
             id: `${toNode.id}-${node.id}`,
             from: toNode.id,
-            to: node.id
+            to: node.id,
+            parent: node.parent
           }
         ]
         : [])
