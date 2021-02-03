@@ -293,17 +293,32 @@ export const Nested = () => {
 
     if (droppable) {
       const id = `${activeDrag}-${Math.floor(Math.random() * (100 - 1 + 1)) + 1}`;
-      const result = addNodeAndEdge(
-        nodes,
-        edges,
-        {
-          id,
-          text: id
-        },
-        enteredNode
-      );
-      setNodes(result.nodes);
-      setEdges(result.edges);
+
+      // This is for demonstration purposes, you should
+      // tweak this to fit your business logic
+      if (enteredNode?.id === '2') {
+        setNodes([
+          ...nodes,
+          {
+            id,
+            text: id,
+            parent: '2'
+          }
+        ]);
+      } else {
+        const result = addNodeAndEdge(
+          nodes,
+          edges,
+          {
+            id,
+            text: id,
+            parent: enteredNode?.parent
+          },
+          enteredNode
+        );
+        setNodes(result.nodes);
+        setEdges(result.edges);
+      }
     }
 
     setDroppable(false);
@@ -395,11 +410,11 @@ export const Nested = () => {
               <Node
                 {...n}
                 style={{
-                  strokeWidth: enteredNode?.id === n.id && droppable && distance < 40 ? -distance + 40 : 1
+                  strokeWidth: enteredNode?.id === n.id
+                    && droppable
+                    && distance < 40 && distance > 0 ? -distance + 40 : 1
                 }}
                 className={classNames({ closest: enteredNode?.id === n.id })}
-                onEnter={(event, node) => setEnteredNode(node)}
-                onLeave={(event, node) => setEnteredNode(null)}
               />
             ))
           }

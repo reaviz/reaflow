@@ -12,6 +12,12 @@ export interface NodeData<T = any> {
   className?: string;
 }
 
+export interface LayoutNodeData extends NodeData {
+  x: number;
+  y: number;
+  children?: LayoutNodeData[];
+}
+
 export interface IconData {
   url: string;
   height: number;
