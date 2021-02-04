@@ -1,3 +1,9 @@
+# 3.0.0 - 2/4/21
+- [breaking] `useProximity` no longer returns `distance`, instead use `onDistanceChange`
+- [feature] add `onIntersection` to `useProximity`
+- [feature] add `intersectNodeId` to `useProximity`
+- [feature] performance improvements for `useProximity`
+
 # 2.7.0 - 2/3/21
 - [fix] fix proximity drop with nesting
 - [fix] fix proximity not handling all edges
