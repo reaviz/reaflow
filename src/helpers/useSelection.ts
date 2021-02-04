@@ -45,7 +45,7 @@ export const useSelection = ({
       const has = internalSelections.includes(item);
       if (!has) {
         const next = [...internalSelections, item];
-        onSelection(next);
+        onSelection?.(next);
         setInternalSelections(next);
       }
     }
@@ -56,7 +56,7 @@ export const useSelection = ({
       const has = internalSelections.includes(item);
       if (has) {
         const next = internalSelections.filter((i) => i !== item);
-        onSelection(next);
+        onSelection?.(next);
         setInternalSelections(next);
       }
     }
@@ -74,7 +74,7 @@ export const useSelection = ({
   const clearSelections = (next = []) => {
     if (!disabled) {
       setInternalSelections(next);
-      onSelection(next);
+      onSelection?.(next);
     }
   };
 
@@ -112,8 +112,8 @@ export const useSelection = ({
 
         if (!disabled) {
           const next = nodes.map((n) => n.id);
-          onDataChange(nodes, edges);
-          onSelection(next);
+          onDataChange?.(nodes, edges);
+          onSelection?.(next);
           setInternalSelections(next);
         }
       }
@@ -127,8 +127,8 @@ export const useSelection = ({
         if (!disabled) {
           event.preventDefault();
           const result = removeNode(nodes, edges, internalSelections);
-          onDataChange(result.nodes, result.edges);
-          onSelection([]);
+          onDataChange?.(result.nodes, result.edges);
+          onSelection?.([]);
           setInternalSelections([]);
         }
       }
@@ -141,7 +141,7 @@ export const useSelection = ({
       callback: (event) => {
         if (!disabled) {
           event.preventDefault();
-          onSelection([]);
+          onSelection?.([]);
           setInternalSelections([]);
         }
       }
