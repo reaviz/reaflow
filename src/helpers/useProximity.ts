@@ -209,9 +209,7 @@ export const useProximity = ({
     // @ts-ignore
     setMatrix(getCoords(ref));
     setPoints(buildPoints(ref.layout.children));
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [disabled]);
+  }, [canvasRef, disabled]);
 
   const onDrag = useCallback(
     (event: PointerEvent) => {
