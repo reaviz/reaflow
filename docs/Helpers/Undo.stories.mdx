@@ -20,6 +20,7 @@ export interface UndoProps {
   nodes: NodeData[];
   edges: EdgeData[];
   maxHistory?: number;
+  disabled?: boolean;
   onUndoRedo: (state: UndoRedoEvent) => void;
 }
 ```
