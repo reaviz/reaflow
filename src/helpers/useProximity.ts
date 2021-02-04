@@ -209,7 +209,9 @@ export const useProximity = ({
     // @ts-ignore
     setMatrix(getCoords(ref));
     setPoints(buildPoints(ref.layout.children));
-  }, [canvasRef, disabled]);
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [disabled]);
 
   const onDrag = useCallback(
     (event: PointerEvent) => {
@@ -246,7 +248,15 @@ export const useProximity = ({
 
       setMatch(foundNodeId);
     },
-    [matrix, disabled, minDistance, points, onMatchChange, onIntersects, onDistanceChange]
+    [
+      matrix,
+      disabled,
+      minDistance,
+      points,
+      onMatchChange,
+      onIntersects,
+      onDistanceChange
+    ]
   );
 
   useEffect(() => {
