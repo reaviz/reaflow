@@ -49,14 +49,19 @@ export const Simple = () => {
   const canvasRef = useRef<CanvasRef | null>(null);
 
   const {
-    distance,
     onDragStart: onProximityDragStart,
     onDrag: onProximityDrag,
     onDragEnd: onProximityDragEnd
   } = useProximity({
     canvasRef,
+    onIntersects: (match: string) => {
+      console.info('Node Intersected', match);
+    },
+    onDistanceChange: (distance: number | null) => {
+      console.info('Distance Changed', distance);
+    },
     onMatchChange: (match: string | null) => {
-      console.log('Match Changed!', match);
+      console.info('Match Changed!', match);
 
       let matchNode: NodeData | null = null;
       if (match) {
@@ -69,7 +74,7 @@ export const Simple = () => {
   });
 
   const onDragStart =  (event, data) => {
-    console.log('Start of Dragging', event, data);
+    console.info('Start of Dragging', event, data);
     onProximityDragStart(event);
     setActiveDrag(data);
     dragControls.start(event, { snapToCursor: true });
@@ -186,7 +191,7 @@ export const Simple = () => {
               <Node
                 {...n}
                 style={{
-                  strokeWidth: enteredNode?.id === n.id && droppable && distance < 40 ? -distance + 40 : 1
+                  strokeWidth: enteredNode?.id === n.id && droppable ? 5 : 1
                 }}
                 className={classNames({ closest: enteredNode?.id === n.id })}
                 onEnter={(event, node) => setEnteredNode(node)}
@@ -194,7 +199,7 @@ export const Simple = () => {
               />
             ))
           }
-          onLayoutChange={layout => console.log('Layout', layout)}
+          onLayoutChange={layout => console.info('Layout', layout)}
         />
       </div>
       <Portal>
@@ -258,14 +263,19 @@ export const Nested = () => {
   const canvasRef = useRef<CanvasRef | null>(null);
 
   const {
-    distance,
     onDragStart: onProximityDragStart,
     onDrag: onProximityDrag,
     onDragEnd: onProximityDragEnd
   } = useProximity({
     canvasRef,
+    onDistanceChange: (distance: number | null) => {
+      console.info('Distance Changed', distance);
+    },
+    onIntersects: (match: string) => {
+      console.info('Node Intersected', match);
+    },
     onMatchChange: (match: string | null) => {
-      console.log('Match Changed!', match);
+      console.info('Match Changed!', match);
 
       let matchNode: NodeData | null = null;
       if (match) {
@@ -278,7 +288,7 @@ export const Nested = () => {
   });
 
   const onDragStart =  (event, data) => {
-    console.log('Start of Dragging', event, data);
+    console.info('Start of Dragging', event, data);
     onProximityDragStart(event);
     setActiveDrag(data);
     dragControls.start(event, { snapToCursor: true });
@@ -295,7 +305,7 @@ export const Nested = () => {
       const id = `${activeDrag}-${Math.floor(Math.random() * (100 - 1 + 1)) + 1}`;
 
       // This is for demonstration purposes, you should
-      // tweak this to fit your business logic
+      // tweak this to fit your business infoic
       if (enteredNode?.id === '2') {
         setNodes([
           ...nodes,
@@ -410,15 +420,13 @@ export const Nested = () => {
               <Node
                 {...n}
                 style={{
-                  strokeWidth: enteredNode?.id === n.id
-                    && droppable
-                    && distance < 40 && distance > 0 ? -distance + 40 : 1
+                  strokeWidth: enteredNode?.id === n.id && droppable ? 5 : 1
                 }}
                 className={classNames({ closest: enteredNode?.id === n.id })}
               />
             ))
           }
-          onLayoutChange={layout => console.log('Layout', layout)}
+          onLayoutChange={layout => console.info('Layout', layout)}
         />
       </div>
       <Portal>

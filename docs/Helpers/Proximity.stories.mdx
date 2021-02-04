@@ -46,8 +46,6 @@ const App = () => {
   const [nodes, setNodes] = useState<NodeData[]>([]);
 
   const {
-    // The distance from the cloest element
-    distance,
     // Drag event handlers we need to hook into our drag
     onDragStart: onProximityDragStart,
     onDrag: onProximityDrag,
@@ -144,9 +142,30 @@ The `useProximity` hook accepts the following properties:
 
 ```ts
 export interface ProximityProps {
+  /**
+   * Min distance required before match is made. Default is 40.
+   */
   minDistance?: number;
+
+  /**
+   * Ref pointer to the canvas.
+   */
   canvasRef?: RefObject<CanvasRef>;
-  onMatchChange?: (matches: string | null, distance: number | null) => void;
+
+  /**
+   * Distance from the match.
+   */
+  onDistanceChange?: (distance: number | null) => void;
+
+  /**
+   * When a match state has changed.
+   */
+  onMatchChange?: (matche: string | null, distance: number | null) => void;
+
+  /**
+   * When the pointer intersects a node.
+   */
+  onIntersects?: (matche: string | null) => void;
 }
 ```
 
@@ -154,10 +173,24 @@ and it returns the following interface:
 
 ```ts
 export interface ProximityResult {
+  /**
+   * The matched id of the node.
+   */
   match: string | null;
-  distance: number | null;
+
+  /**
+   * Event for drag started.
+   */
   onDragStart: (event: PointerEvent) => void;
+
+  /**
+   * Event for active dragging.
+   */
   onDrag: (event: PointerEvent) => void;
+
+  /**
+   * Event for drag ended.
+   */
   onDragEnd: (event: PointerEvent) => void;
 }
 ```

@@ -17,9 +17,19 @@ export interface ProximityProps {
   canvasRef?: RefObject<CanvasRef>;
 
   /**
+   * Distance from the match.
+   */
+  onDistanceChange?: (distance: number | null) => void;
+
+  /**
    * When a match state has changed.
    */
-  onMatchChange?: (matches: string | null, distance: number | null) => void;
+  onMatchChange?: (matche: string | null, distance: number | null) => void;
+
+  /**
+   * When the pointer intersects a node.
+   */
+  onIntersects?: (matche: string | null) => void;
 }
 
 export interface ProximityResult {
@@ -27,11 +37,6 @@ export interface ProximityResult {
    * The matched id of the node.
    */
   match: string | null;
-
-  /**
-   * Distance from the match.
-   */
-  distance: number | null;
 
   /**
    * Event for drag started.
@@ -166,6 +171,7 @@ const findNodeIntersection = (
   }
 
   return {
+    intersectedNodeId,
     foundNodeId,
     foundDist
   };
@@ -174,12 +180,17 @@ const findNodeIntersection = (
 export const useProximity = ({
   canvasRef,
   minDistance = 40,
-  onMatchChange
+  onMatchChange,
+  onIntersects,
+  onDistanceChange
 }: ProximityProps) => {
-  const [match, setMatch] = useState<string | null>(null);
-  const [distance, setDistance] = useState<number | null>(null);
-  const [matrix, setMatrix] = useState<Matrix2D | null>(null);
+  const lastIntersectRef = useRef<string | null>(null);
   const lastMatchRef = useRef<string | null>(null);
+  const lastDistance = useRef<number | null>(null);
+  const frame = useRef<number>(0);
+
+  const [match, setMatch] = useState<string | null>(null);
+  const [matrix, setMatrix] = useState<Matrix2D | null>(null);
   const [points, setPoints] = useState<PointNode[] | null>(null);
 
   const onDragStart = useCallback(() => {
@@ -188,25 +199,49 @@ export const useProximity = ({
     // @ts-ignore
     setMatrix(getCoords(ref));
     setPoints(buildPoints(ref.layout.children));
-  }, [canvasRef,]);
+  }, [canvasRef]);
 
   const onDrag = useCallback(
     (event: PointerEvent) => {
       if (!matrix) {
         return;
       }
-      const { foundNodeId, foundDist } = findNodeIntersection(event, matrix, points, minDistance);
+
+      const {
+        intersectedNodeId,
+        foundNodeId,
+        foundDist
+      } = findNodeIntersection(event, matrix, points, minDistance);
+      const nextDist = foundDist !== minDistance ? foundDist : null;
 
       if (foundNodeId !== lastMatchRef.current) {
         onMatchChange?.(foundNodeId, foundDist);
       }
 
+      if (intersectedNodeId !== lastIntersectRef.current) {
+        onIntersects?.(intersectedNodeId);
+      }
+
+      if (onDistanceChange && nextDist !== lastDistance.current) {
+        cancelAnimationFrame(frame.current);
+        frame.current = requestAnimationFrame(() => {
+          onDistanceChange(nextDist);
+        });
+      }
+
+      // Hold these in refs for race cases
+      lastIntersectRef.current = intersectedNodeId;
       lastMatchRef.current = foundNodeId;
+      lastDistance.current = nextDist;
+
       setMatch(foundNodeId);
-      setDistance(foundDist !== minDistance ? foundDist : null);
     },
-    [matrix, minDistance, points, onMatchChange]
+    [matrix, minDistance, points, onMatchChange, onIntersects, onDistanceChange]
   );
+
+  useEffect(() => {
+    return () => cancelAnimationFrame(frame.current);
+  });
 
   const onDragEnd = useCallback(() => {
     setMatch(null);
@@ -216,7 +251,6 @@ export const useProximity = ({
 
   return {
     match,
-    distance,
     onDragStart,
     onDrag,
     onDragEnd
