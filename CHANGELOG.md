@@ -1,3 +1,9 @@
+# 3.0.4 - 2/4/21
+- [feature] add disabled to select helper
+- [perf] improve node render perf
+- [perf] improve proximity perf
+- [perf] improve undo perf
+
 # 3.0.3 - 2/4/21
 - [fix] reverting react-use-gesture update
 
