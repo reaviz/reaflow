@@ -15,6 +15,7 @@ export interface UndoProps {
   nodes: NodeData[];
   edges: EdgeData[];
   maxHistory?: number;
+  disabled?: boolean;
   onUndoRedo: (state: UndoRedoEvent) => void;
 }
 
@@ -31,6 +32,7 @@ export interface UndoResult {
 export const useUndo = ({
   nodes,
   edges,
+  disabled,
   maxHistory = 20,
   onUndoRedo
 }: UndoProps): UndoResult => {
@@ -105,7 +107,9 @@ export const useUndo = ({
       description: 'Undo changes',
       callback: (event) => {
         event.preventDefault();
-        undo();
+        if (!disabled) {
+          undo();
+        }
       }
     },
     {
@@ -115,7 +119,9 @@ export const useUndo = ({
       description: 'Redo changes',
       callback: (event) => {
         event.preventDefault();
-        redo();
+        if (!disabled) {
+          redo();
+        }
       }
     }
   ]);
