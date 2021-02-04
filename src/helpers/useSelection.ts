@@ -7,6 +7,7 @@ export interface SelectionProps {
   selections?: string[];
   nodes?: NodeData[];
   edges?: EdgeData[];
+  disabled?: boolean;
   onSelection?: (value: string[]) => void;
   onDataChange?: (nodes: NodeData[], edges: EdgeData[]) => void;
 }
@@ -30,8 +31,9 @@ export const useSelection = ({
   selections = [],
   nodes = [],
   edges = [],
-  onSelection = () => undefined,
-  onDataChange = () => undefined
+  disabled,
+  onSelection,
+  onDataChange
 }: SelectionProps): SelectionResult => {
   const [internalSelections, setInternalSelections] = useState<string[]>(
     selections
@@ -39,20 +41,24 @@ export const useSelection = ({
   const [metaKeyDown, setMetaKeyDown] = useState<boolean>(false);
 
   const addSelection = (item: string) => {
-    const has = internalSelections.includes(item);
-    if (!has) {
-      const next = [...internalSelections, item];
-      onSelection(next);
-      setInternalSelections(next);
+    if (!disabled) {
+      const has = internalSelections.includes(item);
+      if (!has) {
+        const next = [...internalSelections, item];
+        onSelection(next);
+        setInternalSelections(next);
+      }
     }
   };
 
   const removeSelection = (item: string) => {
-    const has = internalSelections.includes(item);
-    if (has) {
-      const next = internalSelections.filter((i) => i !== item);
-      onSelection(next);
-      setInternalSelections(next);
+    if (!disabled) {
+      const has = internalSelections.includes(item);
+      if (has) {
+        const next = internalSelections.filter((i) => i !== item);
+        onSelection(next);
+        setInternalSelections(next);
+      }
     }
   };
 
@@ -66,8 +72,10 @@ export const useSelection = ({
   };
 
   const clearSelections = (next = []) => {
-    setInternalSelections(next);
-    onSelection(next);
+    if (!disabled) {
+      setInternalSelections(next);
+      onSelection(next);
+    }
   };
 
   const onClick = (event, data) => {
@@ -102,10 +110,12 @@ export const useSelection = ({
       callback: (event) => {
         event.preventDefault();
 
-        const next = nodes.map((n) => n.id);
-        onDataChange(nodes, edges);
-        onSelection(next);
-        setInternalSelections(next);
+        if (!disabled) {
+          const next = nodes.map((n) => n.id);
+          onDataChange(nodes, edges);
+          onSelection(next);
+          setInternalSelections(next);
+        }
       }
     },
     {
@@ -114,14 +124,13 @@ export const useSelection = ({
       description: 'Delete selected nodes and edges',
       keys: 'backspace',
       callback: (event) => {
-        event.preventDefault();
-
-        const result = removeNode(nodes, edges, internalSelections);
-
-        onDataChange(result.nodes, result.edges);
-        onSelection([]);
-
-        setInternalSelections([]);
+        if (!disabled) {
+          event.preventDefault();
+          const result = removeNode(nodes, edges, internalSelections);
+          onDataChange(result.nodes, result.edges);
+          onSelection([]);
+          setInternalSelections([]);
+        }
       }
     },
     {
@@ -130,9 +139,11 @@ export const useSelection = ({
       description: 'Deselect selected nodes and edges',
       keys: 'escape',
       callback: (event) => {
-        event.preventDefault();
-        onSelection([]);
-        setInternalSelections([]);
+        if (!disabled) {
+          event.preventDefault();
+          onSelection([]);
+          setInternalSelections([]);
+        }
       }
     }
   ]);

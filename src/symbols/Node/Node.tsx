@@ -5,6 +5,7 @@ import React, {
   ReactNode,
   useCallback,
   useEffect,
+  useRef,
   useState
 } from 'react';
 import { motion, useAnimation } from 'framer-motion';
@@ -173,69 +174,6 @@ export const Node: FC<Partial<NodeProps>> = ({
     });
   }, [controls, x, y]);
 
-  const renderNode = useCallback(
-    ({ children, ...n }) => {
-      const element =
-        typeof childNode === 'function' ? childNode(n) : childNode;
-      return (
-        <CloneElement<NodeProps>
-          key={n.id}
-          element={element}
-          id={`${id}-node-${n.id}`}
-          disabled={disabled}
-          nodes={children}
-          offsetX={newX}
-          offsetY={newY}
-          children={element.props.children}
-          childNode={childNode}
-          childEdge={childEdge}
-          onDragStart={onDragStart}
-          onDrag={onDrag}
-          onDragEnd={onDragEnd}
-          onClick={onClick}
-          onEnter={onEnter}
-          onLeave={onLeave}
-          onKeyDown={onKeyDown}
-          onRemove={onRemove}
-          {...n}
-        />
-      );
-    },
-    [
-      childNode,
-      id,
-      disabled,
-      newX,
-      newY,
-      childEdge,
-      onDragStart,
-      onDrag,
-      onDragEnd,
-      onClick,
-      onEnter,
-      onLeave,
-      onKeyDown,
-      onRemove
-    ]
-  );
-
-  const renderEdge = useCallback(
-    (e) => {
-      const element =
-        typeof childEdge === 'function' ? childEdge(e) : childEdge;
-      return (
-        <CloneElement<EdgeProps>
-          key={e.id}
-          element={element}
-          id={`${id}-edge-${e.id}`}
-          disabled={disabled}
-          {...e}
-        />
-      );
-    },
-    [childEdge, disabled, id]
-  );
-
   return (
     <motion.g
       initial={{
@@ -362,8 +300,44 @@ export const Node: FC<Partial<NodeProps>> = ({
         />
       )}
       <g>
-        {edges?.length > 0 && edges.map(renderEdge)}
-        {nodes?.length > 0 && nodes.map(renderNode)}
+        {edges?.length > 0 && edges.map(e => {
+          const element = typeof childEdge === 'function' ? childEdge(e) : childEdge;
+          return (
+            <CloneElement<EdgeProps>
+              key={e.id}
+              element={element}
+              id={`${id}-edge-${e.id}`}
+              disabled={disabled}
+              {...e}
+            />
+          );
+        })}
+        {nodes?.length > 0 && nodes.map(({ children, ...n }: any) => {
+          const element = typeof childNode === 'function' ? childNode(n) : childNode;
+          return (
+            <CloneElement<NodeProps>
+              key={n.id}
+              element={element}
+              id={`${id}-node-${n.id}`}
+              disabled={disabled}
+              nodes={children}
+              offsetX={newX}
+              offsetY={newY}
+              children={element.props.children}
+              childNode={childNode}
+              childEdge={childEdge}
+              onDragStart={onDragStart}
+              onDrag={onDrag}
+              onDragEnd={onDragEnd}
+              onClick={onClick}
+              onEnter={onEnter}
+              onLeave={onLeave}
+              onKeyDown={onKeyDown}
+              onRemove={onRemove}
+              {...n}
+            />
+          );
+        })}
       </g>
     </motion.g>
   );

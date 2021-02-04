@@ -20,6 +20,7 @@ The hook accepts the following:
 export interface SelectionProps {
   selections?: string[];
   nodes?: NodeData[];
+  disabled?: boolean;
   edges?: EdgeData[];
   onDataChange?: (nodes: NodeData[], edges: EdgeData[]) => void;
   onSelection?: (value: string[]) => void;

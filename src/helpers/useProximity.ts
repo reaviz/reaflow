@@ -186,14 +186,18 @@ export const useProximity = ({
   canvasRef,
   disabled,
   minDistance = 40,
-  onMatchChange,
-  onIntersects,
-  onDistanceChange
+  ...rest
 }: ProximityProps) => {
   const lastIntersectRef = useRef<string | null>(null);
   const lastMatchRef = useRef<string | null>(null);
   const lastDistance = useRef<number | null>(null);
   const frame = useRef<number>(0);
+
+  // Reference: https://reactjs.org/docs/hooks-faq.html#how-to-read-an-often-changing-value-from-usecallback
+  const eventRefs = useRef(rest);
+  useEffect(() => {
+    eventRefs.current = rest;
+  }, [rest]);
 
   const [match, setMatch] = useState<string | null>(null);
   const [matrix, setMatrix] = useState<Matrix2D | null>(null);
@@ -209,13 +213,20 @@ export const useProximity = ({
     // @ts-ignore
     setMatrix(getCoords(ref));
     setPoints(buildPoints(ref.layout.children));
-  }, [canvasRef, disabled]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [disabled]);
 
   const onDrag = useCallback(
     (event: PointerEvent) => {
       if (!matrix || disabled) {
         return;
       }
+
+      const {
+        onMatchChange,
+        onIntersects,
+        onDistanceChange
+      } = eventRefs.current;
 
       const {
         intersectedNodeId,
@@ -250,10 +261,7 @@ export const useProximity = ({
       matrix,
       disabled,
       minDistance,
-      points,
-      onMatchChange,
-      onIntersects,
-      onDistanceChange
+      points
     ]
   );
 

@@ -45,6 +45,12 @@ export const useUndo = ({
     })
   );
 
+  // Reference: https://reactjs.org/docs/hooks-faq.html#how-to-read-an-often-changing-value-from-usecallback
+  const callbackRef = useRef(onUndoRedo);
+  useEffect(() => {
+    callbackRef.current = onUndoRedo;
+  }, [onUndoRedo]);
+
   useEffect(() => {
     manager.current.save({
       nodes,
@@ -62,14 +68,14 @@ export const useUndo = ({
       setCanUndo(nextUndo);
       setCanRedo(nextRedo);
 
-      onUndoRedo({
+      callbackRef.current({
         ...state,
         type: 'undo',
         canUndo: nextUndo,
         canRedo: nextRedo
       });
     });
-  }, [onUndoRedo]);
+  }, []);
 
   const redo = useCallback(() => {
     manager.current.redo((state) => {
@@ -78,26 +84,26 @@ export const useUndo = ({
       setCanUndo(nextUndo);
       setCanRedo(nextRedo);
 
-      onUndoRedo({
+      callbackRef.current({
         ...state,
         type: 'redo',
         canUndo: nextUndo,
         canRedo: nextRedo
       });
     });
-  }, [onUndoRedo]);
+  }, []);
 
   const clear = useCallback(() => {
     manager.current.clear();
     setCanUndo(false);
     setCanRedo(false);
 
-    onUndoRedo({
+    callbackRef.current({
       type: 'clear',
       canUndo: false,
       canRedo: false
     });
-  }, [onUndoRedo]);
+  }, []);
 
   useHotkeys([
     {
