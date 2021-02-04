@@ -1,3 +1,6 @@
+# 3.0.5 - 2/4/21
+- [fix] fix typo w/ null coll
+
 # 3.0.4 - 2/4/21
 - [feature] add disabled to select helper
 - [perf] improve node render perf
