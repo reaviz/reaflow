@@ -300,7 +300,7 @@ export const Node: FC<Partial<NodeProps>> = ({
         />
       )}
       <g>
-        {edges?.length > 0 && edges.map(e => {
+        {edges?.length > 0 && edges.map((e: any) => {
           const element = typeof childEdge === 'function' ? childEdge(e) : childEdge;
           return (
             <CloneElement<EdgeProps>
