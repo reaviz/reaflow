@@ -1,3 +1,6 @@
+# 3.0.3 - 2/4/21
+- [fix] reverting react-use-gesture update
+
 # 3.0.2 - 2/4/21
 - [feature] add ability to disable proximity
 

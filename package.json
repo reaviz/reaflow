@@ -1,6 +1,6 @@
 {
   "name": "reaflow",
-  "version": "3.0.2",
+  "version": "3.0.3",
   "description": "Node-based Visualizations for React",
   "scripts": {
     "build": "rollup -c",
@@ -51,7 +51,7 @@
     "rdk": "^5.0.6",
     "react-cool-dimensions": "^1.2.0",
     "react-fast-compare": "^3.2.0",
-    "react-use-gesture": "^9.0.0",
+    "react-use-gesture": "^8.0.1",
     "framer-motion": "^3.0.0",
     "reakeys": "^1.1.0",
     "undoo": "^0.5.0"
