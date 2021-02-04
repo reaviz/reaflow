@@ -1,3 +1,6 @@
+# 3.0.1 - 2/4/21
+- [feature] add ability to disable undo/redo
+
 # 3.0.0 - 2/4/21
 - [breaking] `useProximity` no longer returns `distance`, instead use `onDistanceChange`
 - [feature] add `onIntersection` to `useProximity`
