@@ -1,3 +1,6 @@
+# 3.0.2 - 2/4/21
+- [feature] add ability to disable proximity
+
 # 3.0.1 - 2/4/21
 - [feature] add ability to disable undo/redo
 
