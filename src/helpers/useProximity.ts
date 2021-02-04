@@ -7,6 +7,11 @@ import { LayoutNodeData } from '../types';
 
 export interface ProximityProps {
   /**
+   * Disable proximity or not.
+   */
+  disabled?: boolean;
+
+  /**
    * Min distance required before match is made. Default is 40.
    */
   minDistance?: number;
@@ -179,6 +184,7 @@ const findNodeIntersection = (
 
 export const useProximity = ({
   canvasRef,
+  disabled,
   minDistance = 40,
   onMatchChange,
   onIntersects,
@@ -194,16 +200,20 @@ export const useProximity = ({
   const [points, setPoints] = useState<PointNode[] | null>(null);
 
   const onDragStart = useCallback(() => {
+    if (disabled) {
+      return;
+    }
+
     const ref = canvasRef.current;
 
     // @ts-ignore
     setMatrix(getCoords(ref));
     setPoints(buildPoints(ref.layout.children));
-  }, [canvasRef]);
+  }, [canvasRef, disabled]);
 
   const onDrag = useCallback(
     (event: PointerEvent) => {
-      if (!matrix) {
+      if (!matrix || disabled) {
         return;
       }
 
@@ -236,7 +246,7 @@ export const useProximity = ({
 
       setMatch(foundNodeId);
     },
-    [matrix, minDistance, points, onMatchChange, onIntersects, onDistanceChange]
+    [matrix, disabled, minDistance, points, onMatchChange, onIntersects, onDistanceChange]
   );
 
   useEffect(() => {
@@ -244,10 +254,12 @@ export const useProximity = ({
   });
 
   const onDragEnd = useCallback(() => {
-    setMatch(null);
-    setMatrix(null);
-    setPoints(null);
-  }, []);
+    if (!disabled) {
+      setMatch(null);
+      setMatrix(null);
+      setPoints(null);
+    }
+  }, [disabled]);
 
   return {
     match,

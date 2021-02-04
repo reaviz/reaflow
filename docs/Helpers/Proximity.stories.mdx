@@ -143,6 +143,11 @@ The `useProximity` hook accepts the following properties:
 ```ts
 export interface ProximityProps {
   /**
+   * Disable proximity or not.
+   */
+  disabled?: boolean;
+
+  /**
    * Min distance required before match is made. Default is 40.
    */
   minDistance?: number;
