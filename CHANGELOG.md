@@ -1,3 +1,6 @@
+# 3.0.6 - 2/9/21
+- [fix] fix edge overrender issues
+
 # 3.0.5 - 2/4/21
 - [fix] fix typo w/ null coll
 
