@@ -185,7 +185,7 @@ export const NestedEdges = () => {
     switch (data.label){
       case 'A':
         return (
-          <Node style={{fill: 'lightgreen', opacity: 0.8}}>
+          <Node style={{fill: '#1b1d3c', opacity: 0.8}}>
             <div style={{textAlign: "center"}}>
               <h4>{data.name}</h4>
               <p>{data.description}</p>
@@ -194,7 +194,7 @@ export const NestedEdges = () => {
         )
       case 'B':
         return (
-          <Node style={{fill: 'lightyellow'}}>
+          <Node style={{fill: '#0e0f1f'}}>
             <div style={{textAlign: "center"}}>
               <h4>{data.name}</h4>
             </div>
