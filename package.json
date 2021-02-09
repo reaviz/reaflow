@@ -1,6 +1,6 @@
 {
   "name": "reaflow",
-  "version": "3.0.6",
+  "version": "3.0.7",
   "description": "Node-based Visualizations for React",
   "scripts": {
     "build": "rollup -c",

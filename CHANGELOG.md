@@ -1,3 +1,6 @@
+# 3.0.7 - 2/9/21
+- [fix] fix edge overrender issues
+
 # 3.0.6 - 2/9/21
 - [fix] fix edge overrender issues
 
