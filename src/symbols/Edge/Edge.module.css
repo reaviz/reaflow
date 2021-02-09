@@ -12,11 +12,11 @@
   }
 
   .path {
-    fill: none;
+    fill: transparent;
     stroke: #485a74;
     pointer-events: none;
     shape-rendering: geometricPrecision;
-    stroke-width: 1;
+    stroke-width: 1pt;
 
     &.active {
       stroke: #46fecb !important;
