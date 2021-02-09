@@ -4,26 +4,84 @@ import { EdgeData, NodeData } from '../types';
 import { removeNode } from './crudHelpers';
 
 export interface SelectionProps {
+  /**
+   * Current selections.
+   */
   selections?: string[];
+
+  /**
+   * Node datas.
+   */
   nodes?: NodeData[];
+
+  /**
+   * Edge datas.
+   */
   edges?: EdgeData[];
+
+  /**
+   * Disabled or not.
+   */
   disabled?: boolean;
+
+  /**
+   * On selection change.
+   */
   onSelection?: (value: string[]) => void;
+
+  /**
+   * On data change.
+   */
   onDataChange?: (nodes: NodeData[], edges: EdgeData[]) => void;
 }
 
 export interface SelectionResult {
+  /**
+   * Selections id array.
+   */
   selections: string[];
+
+  /**
+   * Clear selections method.
+   */
   clearSelections: (value?: string[]) => void;
+
+  /**
+   * A selection method.
+   */
   addSelection: (value: string) => void;
+
+  /**
+   * Remove selection method.
+   */
   removeSelection: (value: string) => void;
+
+  /**
+   * Toggle existing selection on/off method.
+   */
   toggleSelection: (value: string) => void;
+
+  /**
+   * Set internal selections.
+   */
   setSelections: (value: string[]) => void;
+
+  /**
+   * On click event pass through.
+   */
   onClick?: (
     event: React.MouseEvent<SVGGElement, MouseEvent>,
     data: any
   ) => void;
+
+  /**
+   * On canvas click event pass through.
+   */
   onCanvasClick?: (event?: React.MouseEvent<SVGGElement, MouseEvent>) => void;
+
+  /**
+   * On keydown event pass through.
+   */
   onKeyDown?: (event: React.KeyboardEvent<SVGGElement>) => void;
 }
 

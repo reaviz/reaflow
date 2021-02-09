@@ -4,28 +4,93 @@ import { EdgeData, NodeData } from '../types';
 import Undoo from 'undoo';
 
 export interface UndoRedoEvent {
+  /**
+   * Updated node datas.
+   */
   nodes?: NodeData[];
+
+  /**
+   * Updated edge datas.
+   */
   edges?: EdgeData[];
+
+  /**
+   * Type of change.
+   */
   type: 'undo' | 'redo' | 'clear';
+
+  /**
+   * Whether you can undo now.
+   */
   canUndo: boolean;
+
+  /**
+   * Whether you can redo now.
+   */
   canRedo: boolean;
 }
 
 export interface UndoProps {
+  /**
+   * Current node datas.
+   */
   nodes: NodeData[];
+
+  /**
+   * Current edge datas.
+   */
   edges: EdgeData[];
+
+  /**
+   * Max history count.
+   */
   maxHistory?: number;
+
+  /**
+   * Disabled or not.
+   */
   disabled?: boolean;
+
+  /**
+   * On undo/redo event handler.
+   */
   onUndoRedo: (state: UndoRedoEvent) => void;
 }
 
 export interface UndoResult {
+  /**
+   * Can undo or not.
+   */
   canUndo: boolean;
+
+  /**
+   * Can redo or not.
+   */
   canRedo: boolean;
+
+  /**
+   * Count of existing changes.
+   */
   count: () => number;
+
+  /**
+   * Clear state.
+   */
   clear: () => void;
+
+  /**
+   * Get history of state.
+   */
   history: () => { nodes: NodeData[]; edges: EdgeData[] }[];
+
+  /**
+   * Perform an redo.
+   */
   redo: () => void;
+
+  /**
+   * Perform a undo.
+   */
   undo: () => void;
 }
 

@@ -13,6 +13,22 @@ import {
 } from '../src/symbols';
 import { NodeData, PortData } from '../src/types';
 
+export default {
+  title: 'Demos/Ports',
+  component: Canvas,
+  subcomponents: {
+    Node,
+    Edge,
+    MarkerArrow,
+    Arrow,
+    Icon,
+    Label,
+    Port,
+    Remove,
+    Add
+  }
+};
+
 export const Simple = () => (
   <div style={{ position: 'absolute', top: 0, bottom: 0, left: 0, right: 0 }}>
     <Canvas
@@ -331,20 +347,4 @@ export const LinkingPortRestrictions = () => {
       />
     </div>
   );
-};
-
-export default {
-  title: 'Demos/Ports',
-  component: Canvas,
-  subcomponents: {
-    Node,
-    Edge,
-    MarkerArrow,
-    Arrow,
-    Icon,
-    Label,
-    Port,
-    Remove,
-    Add
-  }
 };

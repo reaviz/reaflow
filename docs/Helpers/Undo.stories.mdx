@@ -17,10 +17,29 @@ The hook accepts the following arguments:
 
 ```ts
 export interface UndoProps {
+  /**
+   * Current node datas.
+   */
   nodes: NodeData[];
+
+  /**
+   * Current edge datas.
+   */
   edges: EdgeData[];
+
+  /**
+   * Max history count.
+   */
   maxHistory?: number;
+
+  /**
+   * Disabled or not.
+   */
   disabled?: boolean;
+
+  /**
+   * On undo/redo event handler.
+   */
   onUndoRedo: (state: UndoRedoEvent) => void;
 }
 ```
@@ -49,6 +68,37 @@ const MyApp = () => {
 }
 ```
 
+The `UndoRedoEvent` interface looks like:
+
+```ts
+export interface UndoRedoEvent {
+  /**
+   * Updated node datas.
+   */
+  nodes?: NodeData[];
+
+  /**
+   * Updated edge datas.
+   */
+  edges?: EdgeData[];
+
+  /**
+   * Type of change.
+   */
+  type: 'undo' | 'redo' | 'clear';
+
+  /**
+   * Whether you can undo now.
+   */
+  canUndo: boolean;
+
+  /**
+   * Whether you can redo now.
+   */
+  canRedo: boolean;
+}
+```
+
 Now anytime you make a change to the `nodes` or `edges` the
 hook will update the internal history and then you can
 call `undo` or `redo` functions to retrieve those states.
@@ -57,12 +107,39 @@ The hook returns other properties such as:
 
 ```ts
 export interface UndoResult {
+  /**
+   * Can undo or not.
+   */
   canUndo: boolean;
+
+  /**
+   * Can redo or not.
+   */
   canRedo: boolean;
-  clear: () => void;
+
+  /**
+   * Count of existing changes.
+   */
   count: () => number;
-  history: () => { nodes: NodeData[]; edges: EdgeData[]; }[];
+
+  /**
+   * Clear state.
+   */
+  clear: () => void;
+
+  /**
+   * Get history of state.
+   */
+  history: () => { nodes: NodeData[]; edges: EdgeData[] }[];
+
+  /**
+   * Perform an redo.
+   */
   redo: () => void;
+
+  /**
+   * Perform a undo.
+   */
   undo: () => void;
 }
 ```

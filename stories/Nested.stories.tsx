@@ -3,6 +3,22 @@ import { Canvas } from '../src/Canvas';
 import { Node, Edge, MarkerArrow, Port, Icon, Arrow, Label, Remove, Add, NodeProps } from '../src/symbols';
 import { EdgeData, NodeData } from '../src/types';
 
+export default {
+  title: 'Demos/Nested',
+  component: Canvas,
+  subcomponents: {
+    Node,
+    Edge,
+    MarkerArrow,
+    Arrow,
+    Icon,
+    Label,
+    Port,
+    Remove,
+    Add
+  }
+};
+
 export const Simple = () => (
   <div style={{ position: 'absolute', top: 0, bottom: 0, left: 0, right: 0 }}>
     <Canvas
@@ -113,11 +129,11 @@ export const NestedEdges = () => {
     }
   }
   const nodes: NodeData[]= [
-    { 
-      id: '1', 
+    {
+      id: '1',
       text: '1',
     },
-    { 
+    {
       id: '2',
       label: 'A',
       name: 'Process XYZ',
@@ -126,41 +142,41 @@ export const NestedEdges = () => {
       nodePadding: [120, 50, 50, 50],
       ...nodeDimensions.typeA
     },
-    { 
+    {
       id: '2.1',
       parent: '2',
       label: 'B',
       name: 'Task 1',
       ...nodeDimensions.typeB
     },
-    { 
-      id: '2.2', 
-      parent: '2', 
+    {
+      id: '2.2',
+      parent: '2',
       label: 'B',
       name: 'Task 2',
       ...nodeDimensions.typeB
     },
-    { 
+    {
       id: '3',
       text: '3'
     }
   ];
   const edges: EdgeData[] = [
     {
-      id: '1-2.1', 
-      from: '1', 
-      to: '2.1' 
-    }, 
-    { 
-      id: '2.1-2.2', 
+      id: '1-2.1',
+      from: '1',
+      to: '2.1'
+    },
+    {
+      id: '2.1-2.2',
       parent: '2',
-      from: '2.1', 
-      to: '2.2' 
-    }, 
-    { 
-      id: '2.2-3', 
-      from: '2.2', 
-      to: '3' 
+      from: '2.1',
+      to: '2.2'
+    },
+    {
+      id: '2.2-3',
+      from: '2.2',
+      to: '3'
     },
   ];
 
@@ -473,19 +489,3 @@ export const NestedNesting = () => (
     />
   </div>
 );
-
-export default {
-  title: 'Demos/Nested',
-  component: Canvas,
-  subcomponents: {
-    Node,
-    Edge,
-    MarkerArrow,
-    Arrow,
-    Icon,
-    Label,
-    Port,
-    Remove,
-    Add
-  }
-};

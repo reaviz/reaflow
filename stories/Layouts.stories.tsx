@@ -2,6 +2,22 @@ import React from 'react';
 import { Canvas } from '../src/Canvas';
 import { Node, Edge, MarkerArrow, Port, Icon, Arrow, Label, Remove, Add } from '../src/symbols';
 
+export default {
+  title: 'Demos/Layouts',
+  component: Canvas,
+  subcomponents: {
+    Node,
+    Edge,
+    MarkerArrow,
+    Arrow,
+    Icon,
+    Label,
+    Port,
+    Remove,
+    Add
+  }
+};
+
 export const Direction = () => (
   <div style={{ position: 'absolute', top: 0, bottom: 0, left: 0, right: 0 }}>
     <Canvas
@@ -175,19 +191,3 @@ export const CustomOptions = () => (
     />
   </div>
 );
-
-export default {
-  title: 'Demos/Layouts',
-  component: Canvas,
-  subcomponents: {
-    Node,
-    Edge,
-    MarkerArrow,
-    Arrow,
-    Icon,
-    Label,
-    Port,
-    Remove,
-    Add
-  }
-};

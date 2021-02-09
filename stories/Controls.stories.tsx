@@ -2,6 +2,22 @@ import React, { useRef, useState } from 'react';
 import { Canvas, CanvasRef } from '../src/Canvas';
 import { Node, Edge, MarkerArrow, Port, Icon, Arrow, Label, Remove, Add } from '../src/symbols';
 
+export default {
+  title: 'Demos/Controls',
+  component: Canvas,
+  subcomponents: {
+    Node,
+    Edge,
+    MarkerArrow,
+    Arrow,
+    Icon,
+    Label,
+    Port,
+    Remove,
+    Add
+  }
+};
+
 export const FixedPosition = () => (
   <div style={{ border: 'solid 1px #12131e', height: 450, width: 450, position: 'relative' }}>
     <Canvas
@@ -209,20 +225,4 @@ export const Zoom = () => {
       />
     </div>
   );
-};
-
-export default {
-  title: 'Demos/Controls',
-  component: Canvas,
-  subcomponents: {
-    Node,
-    Edge,
-    MarkerArrow,
-    Arrow,
-    Icon,
-    Label,
-    Port,
-    Remove,
-    Add
-  }
 };

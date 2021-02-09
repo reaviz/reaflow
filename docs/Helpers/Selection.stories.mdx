@@ -18,12 +18,35 @@ The hook accepts the following:
 
 ```ts
 export interface SelectionProps {
+  /**
+   * Current selections.
+   */
   selections?: string[];
+
+  /**
+   * Node datas.
+   */
   nodes?: NodeData[];
-  disabled?: boolean;
+
+  /**
+   * Edge datas.
+   */
   edges?: EdgeData[];
-  onDataChange?: (nodes: NodeData[], edges: EdgeData[]) => void;
+
+  /**
+   * Disabled or not.
+   */
+  disabled?: boolean;
+
+  /**
+   * On selection change.
+   */
   onSelection?: (value: string[]) => void;
+
+  /**
+   * On data change.
+   */
+  onDataChange?: (nodes: NodeData[], edges: EdgeData[]) => void;
 }
 ```
 
@@ -31,20 +54,53 @@ and returns the following:
 
 ```ts
 export interface SelectionResult {
+  /**
+   * Selections id array.
+   */
+  selections: string[];
+
+  /**
+   * Clear selections method.
+   */
+  clearSelections: (value?: string[]) => void;
+
+  /**
+   * A selection method.
+   */
+  addSelection: (value: string) => void;
+
+  /**
+   * Remove selection method.
+   */
+  removeSelection: (value: string) => void;
+
+  /**
+   * Toggle existing selection on/off method.
+   */
+  toggleSelection: (value: string) => void;
+
+  /**
+   * Set internal selections.
+   */
+  setSelections: (value: string[]) => void;
+
+  /**
+   * On click event pass through.
+   */
   onClick?: (
     event: React.MouseEvent<SVGGElement, MouseEvent>,
     data: any
   ) => void;
-  onCanvasClick?: (
-    event?: React.MouseEvent<SVGGElement, MouseEvent>
-  ) => void;
+
+  /**
+   * On canvas click event pass through.
+   */
+  onCanvasClick?: (event?: React.MouseEvent<SVGGElement, MouseEvent>) => void;
+
+  /**
+   * On keydown event pass through.
+   */
   onKeyDown?: (event: React.KeyboardEvent<SVGGElement>) => void;
-  selections: string[];
-  clearSelections: (value?: string[]) => void;
-  addSelection: (value: string) => void;
-  removeSelection: (value: string) => void;
-  toggleSelection: (value: string) => void;
-  setSelections: (value: string[]) => void;
 }
 ```
 

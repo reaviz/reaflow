@@ -4,6 +4,22 @@ import { useSelection, removeAndUpsertNodes } from '../src/helpers';
 import { Node, Edge, MarkerArrow, Port, Icon, Arrow, Label, Remove, Add } from '../src/symbols';
 import { EdgeData, NodeData } from '../src/types';
 
+export default {
+  title: 'Demos/Selections',
+  component: Canvas,
+  subcomponents: {
+    Node,
+    Edge,
+    MarkerArrow,
+    Arrow,
+    Icon,
+    Label,
+    Port,
+    Remove,
+    Add
+  }
+};
+
 export const Simple = () => {
   const [nodes, setNodes] = useState<NodeData[]>([
     {
@@ -310,20 +326,4 @@ export const ManualSelection = () => {
       />
     </div>
   );
-};
-
-export default {
-  title: 'Demos/Selections',
-  component: Canvas,
-  subcomponents: {
-    Node,
-    Edge,
-    MarkerArrow,
-    Arrow,
-    Icon,
-    Label,
-    Port,
-    Remove,
-    Add
-  }
 };
