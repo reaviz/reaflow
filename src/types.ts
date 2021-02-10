@@ -1,3 +1,5 @@
+import { ElkLayoutOptions } from './layout';
+
 export interface NodeData<T = any> {
   /**
    * Unique ID for the node.
@@ -59,7 +61,7 @@ export interface NodeData<T = any> {
   /**
    * ELK layout options.
    */
-  layoutOptions?: any;
+  layoutOptions?: ElkLayoutOptions;
 }
 
 export interface LayoutNodeData extends NodeData {

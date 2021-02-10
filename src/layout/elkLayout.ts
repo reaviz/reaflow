@@ -5,11 +5,26 @@ import { formatText, measureText } from './utils';
 
 export type CanvasDirection = 'LEFT' | 'RIGHT' | 'DOWN' | 'UP';
 
-export interface ElkOptions {
-  direction: CanvasDirection;
+/**
+ * ELKjs layout options.
+ *
+ * Unfortunately, the ELKjs documentation is not straightforward.
+ * You'll likely need to take a look at the ELK options reference to see all available options.
+ *
+ * @see https://github.com/kieler/elkjs#layout-options
+ * @see https://www.eclipse.org/elk/reference/options.html
+ */
+export interface ElkLayoutOptions {
+  'elk.direction'?: CanvasDirection;
+  [key: string]: string;
 }
 
-const defaultLayoutOptions = {
+/**
+ * ELK layout options applied by default, unless overridden through <Canvas layoutOptions> property.
+ *
+ * XXX Not to be confounded with ELK "defaultLayoutOptions" property, which is meant to be used as fallback, when no layout option is provided.
+ */
+const defaultLayoutOptions: ElkLayoutOptions = {
   'elk.nodeLabels.placement': 'INSIDE V_CENTER H_RIGHT',
   'elk.algorithm': 'org.eclipse.elk.layered',
   'elk.direction': 'DOWN',
@@ -23,8 +38,7 @@ const defaultLayoutOptions = {
   separateConnectedComponents: 'false',
   'spacing.componentComponent': '70',
   spacing: '75',
-  'spacing.nodeNodeBetweenLayers': '70',
-
+  'spacing.nodeNodeBetweenLayers': '70'
 };
 
 function mapNode(nodes: NodeData[], edges: EdgeData[], node: NodeData) {
@@ -65,7 +79,7 @@ function mapNode(nodes: NodeData[], edges: EdgeData[], node: NodeData) {
     layoutOptions: {
       'elk.padding': `[left=${nodePadding.left}, top=${nodePadding.top}, right=${nodePadding.right}, bottom=${nodePadding.bottom}]`,
       portConstraints: 'FIXED_ORDER',
-      ...(node.layoutOptions || {}),
+      ...(node.layoutOptions || {})
     },
     properties: {
       ...node
@@ -167,7 +181,7 @@ function postProcessNode(nodes: any[]): any[] {
 export const elkLayout = (
   nodes: NodeData[],
   edges: EdgeData[],
-  options: ElkOptions
+  options: ElkLayoutOptions
 ) => {
   const graph = new ELK();
 
@@ -181,8 +195,7 @@ export const elkLayout = (
         {
           layoutOptions: {
             ...defaultLayoutOptions,
-            ...options,
-            'elk.direction': options.direction
+            ...options
           }
         }
       )

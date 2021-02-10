@@ -12,7 +12,12 @@ import React, {
 import { useId, CloneElement } from 'rdk';
 import { Node, NodeProps } from './symbols/Node';
 import { Edge, EdgeProps } from './symbols/Edge';
-import { ElkRoot, CanvasDirection, useLayout, LayoutResult } from './layout';
+import {
+  ElkRoot,
+  CanvasDirection,
+  LayoutResult,
+  ElkLayoutOptions
+} from './layout';
 import { MarkerArrow, MarkerArrowProps } from './symbols/Arrow';
 import { EdgeData, NodeData, PortData } from './types';
 import classNames from 'classnames';
@@ -90,7 +95,7 @@ export interface CanvasContainerProps extends CanvasProps {
   /**
    * ELKJS Layout Options
    */
-  layoutOptions?: any;
+  layoutOptions?: ElkLayoutOptions;
 
   /**
    * Callback to check if a node is linkable or not.
