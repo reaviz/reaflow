@@ -184,6 +184,10 @@ export const elkLayout = (
   options: ElkLayoutOptions
 ) => {
   const graph = new ELK();
+  const layoutOptions: ElkLayoutOptions = {
+    ...defaultLayoutOptions,
+    ...options
+  };
 
   return new PCancelable<ElkNode>((resolve, reject) => {
     graph
@@ -193,10 +197,7 @@ export const elkLayout = (
           ...mapInput(nodes, edges)
         },
         {
-          layoutOptions: {
-            ...defaultLayoutOptions,
-            ...options
-          }
+          layoutOptions: layoutOptions
         }
       )
       .then((data) => {
