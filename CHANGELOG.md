@@ -1,3 +1,7 @@
+# 3.0.9 - 2/10/21
+- [feature] add `selectionDisabled` to `NodeData` and `EdgeData`
+- [fix] fix `disabled` not passing through to nodes and edges
+
 # 3.0.8 - 2/10/21
 - [feature] add `layoutOptions` to `NodeData` model
 - [chore] improve docs
