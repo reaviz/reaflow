@@ -23,7 +23,8 @@ const defaultLayoutOptions = {
   separateConnectedComponents: 'false',
   'spacing.componentComponent': '70',
   spacing: '75',
-  'spacing.nodeNodeBetweenLayers': '70'
+  'spacing.nodeNodeBetweenLayers': '70',
+
 };
 
 function mapNode(nodes: NodeData[], edges: EdgeData[], node: NodeData) {
@@ -63,7 +64,8 @@ function mapNode(nodes: NodeData[], edges: EdgeData[], node: NodeData) {
       : [],
     layoutOptions: {
       'elk.padding': `[left=${nodePadding.left}, top=${nodePadding.top}, right=${nodePadding.right}, bottom=${nodePadding.bottom}]`,
-      portConstraints: 'FIXED_ORDER'
+      portConstraints: 'FIXED_ORDER',
+      ...(node.layoutOptions || {}),
     },
     properties: {
       ...node
