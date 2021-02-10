@@ -4,6 +4,7 @@
   "description": "Node-based Visualizations for React",
   "scripts": {
     "build": "rollup -c",
+    "build:watch": "rollup -c -w",
     "test": "jest --env=jsdom",
     "prettier": "prettier --loglevel warn --write 'src/**/*.{ts,tsx,js,jsx}'",
     "lint": "eslint --ext js,ts,tsx",
