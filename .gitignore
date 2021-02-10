@@ -66,3 +66,6 @@ typings/
 .DS_Store
 src/**/*.scss.d.ts
 src/**/*.css.d.ts
+
+# IDE
+.idea
