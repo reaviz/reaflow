@@ -1,3 +1,7 @@
+# 3.0.8 - 2/10/21
+- [feature] add `layoutOptions` to `NodeData` model
+- [chore] improve docs
+
 # 3.0.7 - 2/9/21
 - [fix] fix edge overrender issues
 
