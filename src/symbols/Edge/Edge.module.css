@@ -4,10 +4,18 @@
   }
 
   &:not(.disabled) {
-    &:hover {
-      .path {
-        stroke: #a5a9e2;
+    &:not(.selectionDisabled) {
+      &:hover {
+        .path {
+          stroke: #a5a9e2;
+        }
       }
+    }
+  }
+
+  &:not(.selectionDisabled) {
+    .clicker {
+      cursor: pointer;
     }
   }
 
@@ -31,7 +39,6 @@
   .clicker {
     fill: none;
     stroke: transparent;
-    cursor: pointer;
     stroke-width: 15px;
 
     &:focus {

@@ -212,11 +212,12 @@ export const Node: FC<Partial<NodeProps>> = ({
         }}
         className={classNames(css.rect, className, properties?.className, {
           [css.active]: isActive,
-          [css.disabled]: disabled,
+          [css.disabled]: disabled || properties?.disabled,
           [css.unlinkable]: isLinkable === false,
           [css.dragging]: dragging,
           [css.children]: nodes?.length > 0,
-          [css.deleteHovered]: deleteHovered
+          [css.deleteHovered]: deleteHovered,
+          [css.selectionDisabled]: properties?.selectionDisabled
         })}
         style={style}
         height={height}
@@ -233,7 +234,15 @@ export const Node: FC<Partial<NodeProps>> = ({
       {children && (
         <Fragment>
           {typeof children === 'function'
-            ? (children as any)({ height, width, x, y, node: properties, nodes, edges })
+            ? (children as any)({
+              height,
+              width,
+              x,
+              y,
+              node: properties,
+              nodes,
+              edges
+            })
             : children}
         </Fragment>
       )}
@@ -300,44 +309,48 @@ export const Node: FC<Partial<NodeProps>> = ({
         />
       )}
       <g>
-        {edges?.length > 0 && edges.map((e: any) => {
-          const element = typeof childEdge === 'function' ? childEdge(e) : childEdge;
-          return (
-            <CloneElement<EdgeProps>
-              key={e.id}
-              element={element}
-              id={`${id}-edge-${e.id}`}
-              disabled={disabled}
-              {...e}
-            />
-          );
-        })}
-        {nodes?.length > 0 && nodes.map(({ children, ...n }: any) => {
-          const element = typeof childNode === 'function' ? childNode(n) : childNode;
-          return (
-            <CloneElement<NodeProps>
-              key={n.id}
-              element={element}
-              id={`${id}-node-${n.id}`}
-              disabled={disabled}
-              nodes={children}
-              offsetX={newX}
-              offsetY={newY}
-              children={element.props.children}
-              childNode={childNode}
-              childEdge={childEdge}
-              onDragStart={onDragStart}
-              onDrag={onDrag}
-              onDragEnd={onDragEnd}
-              onClick={onClick}
-              onEnter={onEnter}
-              onLeave={onLeave}
-              onKeyDown={onKeyDown}
-              onRemove={onRemove}
-              {...n}
-            />
-          );
-        })}
+        {edges?.length > 0 &&
+          edges.map((e: any) => {
+            const element =
+              typeof childEdge === 'function' ? childEdge(e) : childEdge;
+            return (
+              <CloneElement<EdgeProps>
+                key={e.id}
+                element={element}
+                id={`${id}-edge-${e.id}`}
+                disabled={disabled}
+                {...e}
+              />
+            );
+          })}
+        {nodes?.length > 0 &&
+          nodes.map(({ children, ...n }: any) => {
+            const element =
+              typeof childNode === 'function' ? childNode(n) : childNode;
+            return (
+              <CloneElement<NodeProps>
+                key={n.id}
+                element={element}
+                id={`${id}-node-${n.id}`}
+                disabled={disabled}
+                nodes={children}
+                offsetX={newX}
+                offsetY={newY}
+                children={element.props.children}
+                childNode={childNode}
+                childEdge={childEdge}
+                onDragStart={onDragStart}
+                onDrag={onDrag}
+                onDragEnd={onDragEnd}
+                onClick={onClick}
+                onEnter={onEnter}
+                onLeave={onLeave}
+                onKeyDown={onKeyDown}
+                onRemove={onRemove}
+                {...n}
+              />
+            );
+          })}
       </g>
     </motion.g>
   );

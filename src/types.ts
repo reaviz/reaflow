@@ -60,6 +60,11 @@ export interface NodeData<T = any> {
    * ELK layout options.
    */
   layoutOptions?: any;
+
+  /**
+   * Whether the node can be clicked.
+   */
+  selectionDisabled?: boolean;
 }
 
 export interface LayoutNodeData extends NodeData {
@@ -140,6 +145,11 @@ export interface EdgeData<T = any> {
    * Parent of the edge for nesting.
    */
   parent?: string;
+
+  /**
+   * Whether the edge can be clicked.
+   */
+  selectionDisabled?: boolean;
 }
 
 export interface PortData {

@@ -16,10 +16,15 @@
   }
 
   &:not(.disabled) {
-    cursor: pointer;
+    &:not(.selectionDisabled) {
+      cursor: pointer;
 
-    &.dragging,
-    &:hover {
+      &:hover {
+        stroke: #a5a9e2;
+      }
+    }
+
+    &.dragging {
       stroke: #a5a9e2;
     }
 

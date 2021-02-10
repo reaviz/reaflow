@@ -140,6 +140,48 @@ export const Removeable = () => {
   );
 };
 
+export const Disabled = () => (
+  <div style={{ position: 'absolute', top: 0, bottom: 0, left: 0, right: 0 }}>
+    <Canvas
+      arrow={null}
+      nodes={[
+        {
+          id: '1',
+          text: '1'
+        },
+        {
+          id: '2',
+          text: '2'
+        },
+        {
+          id: '3',
+          text: '3'
+        }
+      ]}
+      edges={[
+        {
+          id: '1-2',
+          from: '1',
+          to: '2',
+          selectionDisabled: true
+        },
+        {
+          id: '2-3',
+          from: '2',
+          to: '3',
+          disabled: true
+        },
+        {
+          id: '1-3',
+          from: '1',
+          to: '3'
+        }
+      ]}
+      onLayoutChange={layout => console.log('Layout', layout)}
+    />
+  </div>
+);
+
 export const NoArrows = () => (
   <div style={{ position: 'absolute', top: 0, bottom: 0, left: 0, right: 0 }}>
     <Canvas

@@ -143,7 +143,12 @@ export const Edge: FC<Partial<EdgeProps>> = ({
   }, [sections]);
 
   return (
-    <g className={classNames(css.edge, { [css.disabled]: disabled })}>
+    <g
+      className={classNames(css.edge, {
+        [css.disabled]: disabled || properties?.disabled,
+        [css.selectionDisabled]: properties?.selectionDisabled
+      })}
+    >
       <path
         ref={pathRef}
         style={style}
