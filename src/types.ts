@@ -152,11 +152,18 @@ export interface EdgeData<T = any> {
   selectionDisabled?: boolean;
 }
 
+export type PortSide = 'NORTH' | 'SOUTH' | 'EAST' | 'WEST';
+
 export interface PortData {
   /**
    * Unique ID of the port.
    */
   id: string;
+
+  /**
+   * Port is disabled.
+   */
+  disabled?: boolean;
 
   /**
    * Height of the port.
@@ -186,5 +193,5 @@ export interface PortData {
   /**
    * Side the port is located.
    */
-  side: 'NORTH' | 'SOUTH' | 'EAST' | 'WEST';
+  side: PortSide;
 }

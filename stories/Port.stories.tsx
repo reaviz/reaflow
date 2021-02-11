@@ -104,6 +104,83 @@ export const Simple = () => (
   </div>
 );
 
+export const Disabled = () => (
+  <div style={{ position: 'absolute', top: 0, bottom: 0, left: 0, right: 0 }}>
+    <Canvas
+      nodes={[
+        {
+          id: '1',
+          text: 'Node 1',
+          ports: [
+            {
+              id: '1-from',
+              width: 10,
+              height: 10,
+              side: 'SOUTH',
+              disabled: true
+            },
+            {
+              id: '1-to',
+              width: 10,
+              height: 10,
+              side: 'NORTH'
+            }
+          ]
+        },
+        {
+          id: '2',
+          text: 'Node 2',
+          ports: [
+            {
+              id: '2-from',
+              width: 10,
+              height: 10,
+              side: 'SOUTH',
+              disabled: true
+            },
+            {
+              id: '2-to',
+              width: 10,
+              height: 10,
+              side: 'NORTH'
+            }
+          ]
+        }
+      ]}
+      edges={[
+        {
+          id: '1-2',
+          from: '1',
+          to: '2',
+          fromPort: '1-from',
+          toPort: '2-to'
+        }
+      ]}
+      node={
+        <Node
+          port={
+            <Port
+              onClick={(e, node) => {
+                console.log('onClick port: ', node);
+              }}
+              onEnter={(e, node) => {
+                console.log('onEnter port: ', node);
+              }}
+              onLeave={(e, node) => {
+                console.log('onLeave port: ', node);
+              }}
+              style={{ fill: 'blue', stroke: 'white' }}
+              rx={10}
+              ry={10}
+            />
+          }
+        />
+      }
+      onLayoutChange={(layout) => console.log('Layout', layout)}
+    />
+  </div>
+);
+
 export const Styled = () => (
   <div style={{ position: 'absolute', top: 0, bottom: 0, left: 0, right: 0 }}>
     <style>
