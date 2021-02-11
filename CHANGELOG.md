@@ -1,3 +1,6 @@
+# 3.0.11 - 2/11/21
+- [fix] fix disabled css overrides not correct
+
 # 3.0.10 - 2/10/21
 - [feature] add ability to disable port events
 - [fix] make port cursor a crosshair rather than pointer
