@@ -27,7 +27,7 @@
     }
 
     &.deleteHovered {
-      stroke: #ff005d;
+      stroke: #ff005d !important;
       stroke-dasharray: 4 2;
     }
   }
