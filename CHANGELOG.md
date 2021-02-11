@@ -1,3 +1,6 @@
+# 3.0.13 - 2/11/21
+- [fix] fix disabled css overrides not correct in node
+
 # 3.0.12 - 2/11/21
 - [fix] fix disabled css overrides not correct in edge
 
