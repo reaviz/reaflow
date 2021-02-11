@@ -6,22 +6,12 @@
   shape-rendering: geometricPrecision;
   stroke-width: 1pt;
 
-  &:focus {
-    outline: none;
-  }
-
-  &.children {
-    fill: transparent;
-    stroke: #475872;
-  }
-
+  &:not(.selectionDisabled),
   &:not(.disabled) {
-    &:not(.selectionDisabled) {
-      cursor: pointer;
+    cursor: pointer;
 
-      &:hover {
-        stroke: #a5a9e2;
-      }
+    &:hover {
+      stroke: #a5a9e2;
     }
 
     &.dragging {
@@ -40,5 +30,14 @@
       stroke: #ff005d;
       stroke-dasharray: 4 2;
     }
+  }
+
+  &:focus {
+    outline: none;
+  }
+
+  &.children {
+    fill: transparent;
+    stroke: #475872;
   }
 }
