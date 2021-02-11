@@ -1,3 +1,6 @@
+# 3.0.12 - 2/11/21
+- [fix] fix disabled css overrides not correct in edge
+
 # 3.0.11 - 2/11/21
 - [fix] fix disabled css overrides not correct
 
