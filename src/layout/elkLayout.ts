@@ -43,6 +43,7 @@ const defaultLayoutOptions: ElkLayoutOptions = {
    * and then reordered such that the number of edge crossings is minimized.
    * Afterwards, concrete coordinates are computed for the nodes and edge bend points.
    *
+   * @see https://www.eclipse.org/elk/reference/algorithms.html
    * @see https://www.eclipse.org/elk/reference/options/org-eclipse-elk-algorithm.html
    * @see https://www.eclipse.org/elk/reference/algorithms/org-eclipse-elk-layered.html
    */
