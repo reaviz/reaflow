@@ -10,11 +10,11 @@
         stroke: #a5a9e2;
 
         &.active {
-          stroke: #46fecb !important;
+          stroke: #46fecb;
         }
 
         &.deleteHovered {
-          stroke: #ff005d !important;
+          stroke: #ff005d;
           stroke-dasharray: 4 2;
         }
       }
