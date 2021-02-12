@@ -1,4 +1,4 @@
-import { ElkLayoutOptions } from './layout';
+import { ElkNodeLayoutOptions } from './layout';
 
 export interface NodeData<T = any> {
   /**
@@ -61,7 +61,7 @@ export interface NodeData<T = any> {
   /**
    * ELK layout options.
    */
-  layoutOptions?: ElkLayoutOptions;
+  layoutOptions?: ElkNodeLayoutOptions;
 
   /**
    * Whether the node can be clicked.

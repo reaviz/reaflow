@@ -16,7 +16,7 @@ import {
   ElkRoot,
   CanvasDirection,
   LayoutResult,
-  ElkLayoutOptions
+  ElkCanvasLayoutOptions
 } from './layout';
 import { MarkerArrow, MarkerArrowProps } from './symbols/Arrow';
 import { EdgeData, NodeData, PortData } from './types';
@@ -95,7 +95,7 @@ export interface CanvasContainerProps extends CanvasProps {
   /**
    * ELKJS Layout Options
    */
-  layoutOptions?: ElkLayoutOptions;
+  layoutOptions?: ElkCanvasLayoutOptions;
 
   /**
    * Callback to check if a node is linkable or not.

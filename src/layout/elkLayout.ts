@@ -6,7 +6,7 @@ import { formatText, measureText } from './utils';
 export type CanvasDirection = 'LEFT' | 'RIGHT' | 'DOWN' | 'UP';
 
 /**
- * ELKjs layout options.
+ * ELKjs layout options for the Canvas.
  *
  * Unfortunately, the ELKjs documentation is not straightforward.
  * You'll likely need to take a look at the ELK options reference to see all available options.
@@ -14,8 +14,17 @@ export type CanvasDirection = 'LEFT' | 'RIGHT' | 'DOWN' | 'UP';
  * @see https://github.com/kieler/elkjs#layout-options
  * @see https://www.eclipse.org/elk/reference/options.html
  */
-export interface ElkLayoutOptions {
+export interface ElkCanvasLayoutOptions {
   'elk.direction'?: CanvasDirection;
+  [key: string]: string;
+}
+
+/**
+ * ELKjs layout option for a node.
+ *
+ * TODO add reference link, I don't know what are the available options.
+ */
+export interface ElkNodeLayoutOptions {
   [key: string]: string;
 }
 
@@ -26,7 +35,7 @@ export interface ElkLayoutOptions {
  *
  * @see https://www.eclipse.org/elk/reference/options.html
  */
-const defaultLayoutOptions: ElkLayoutOptions = {
+const defaultLayoutOptions: ElkCanvasLayoutOptions = {
   /**
    * Hints for where node labels are to be placed; if empty, the node label’s position is not modified.
    *
@@ -296,10 +305,10 @@ function postProcessNode(nodes: any[]): any[] {
 export const elkLayout = (
   nodes: NodeData[],
   edges: EdgeData[],
-  options: ElkLayoutOptions
+  options: ElkCanvasLayoutOptions
 ) => {
   const graph = new ELK();
-  const layoutOptions: ElkLayoutOptions = {
+  const layoutOptions: ElkCanvasLayoutOptions = {
     ...defaultLayoutOptions,
     ...options
   };
