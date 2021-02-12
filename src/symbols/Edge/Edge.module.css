@@ -3,11 +3,25 @@
     pointer-events: none;
   }
 
+  &:not(.selectionDisabled),
   &:not(.disabled) {
     &:hover {
       .path {
         stroke: #a5a9e2;
+
+        &.active {
+          stroke: #46fecb;
+        }
+
+        &.deleteHovered {
+          stroke: #ff005d;
+          stroke-dasharray: 4 2;
+        }
       }
+    }
+
+    .clicker {
+      cursor: pointer;
     }
   }
 
@@ -17,21 +31,11 @@
     pointer-events: none;
     shape-rendering: geometricPrecision;
     stroke-width: 1pt;
-
-    &.active {
-      stroke: #46fecb !important;
-    }
-
-    &.deleteHovered {
-      stroke: #ff005d !important;
-      stroke-dasharray: 4 2;
-    }
   }
 
   .clicker {
     fill: none;
     stroke: transparent;
-    cursor: pointer;
     stroke-width: 15px;
 
     &:focus {

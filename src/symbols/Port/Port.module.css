@@ -1,12 +1,15 @@
 .port {
   stroke: #0d0e17;
-  fill: #3E405A;
+  fill: #3e405a;
   stroke-width: 2px;
   shape-rendering: geometricPrecision;
   pointer-events: none;
 }
 
 .clicker {
-  cursor: pointer;
   opacity: 0;
+
+  &:not(.disabled) {
+    cursor: crosshair;
+  }
 }

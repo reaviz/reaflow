@@ -20,6 +20,37 @@ export default {
   }
 };
 
+export const Disabled = () => (
+  <div style={{ position: 'absolute', top: 0, bottom: 0, left: 0, right: 0 }}>
+    <Canvas
+      nodes={[
+        {
+          id: '1',
+          text: '1',
+          disabled: true
+        },
+        {
+          id: '2',
+          text: '2',
+          selectionDisabled: true
+        },
+        {
+          id: '3',
+          text: '3'
+        }
+      ]}
+      edges={[
+        {
+          id: '1-2',
+          from: '1',
+          to: '2'
+        }
+      ]}
+      onLayoutChange={layout => console.log('Layout', layout)}
+    />
+  </div>
+);
+
 export const LabelsAndIcons = () => (
   <div style={{ position: 'absolute', top: 0, bottom: 0, left: 0, right: 0 }}>
     <Canvas

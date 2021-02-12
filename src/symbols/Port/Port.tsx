@@ -90,7 +90,7 @@ export const Port = forwardRef(
       y: newY + offsetY,
       height: properties.height,
       width: properties.width,
-      disabled: disabled || readonly,
+      disabled: disabled || readonly || properties?.disabled,
       node: properties,
       onDrag,
       onDragStart: onDragStartInternal,
@@ -101,6 +101,8 @@ export const Port = forwardRef(
       return null;
     }
 
+    const isDisabled = properties.disabled || disabled;
+
     return (
       <g>
         <rect
@@ -110,7 +112,7 @@ export const Port = forwardRef(
           width={properties.width + 14}
           x={newX - 7}
           y={newY - 7}
-          className={css.clicker}
+          className={classNames(css.clicker, { [css.disabled]: isDisabled })}
           onMouseEnter={(event) => {
             event.stopPropagation();
             setHovered(true);
@@ -143,7 +145,7 @@ export const Port = forwardRef(
           animate={{
             x: newX,
             y: newY,
-            scale: dragging || active || hovered ? 1.5 : 1,
+            scale: (dragging || active || hovered) && !isDisabled ? 1.5 : 1,
             opacity: 1
           }}
         />

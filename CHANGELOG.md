@@ -1,3 +1,20 @@
+# 3.0.13 - 2/11/21
+- [fix] fix disabled css overrides not correct in node
+
+# 3.0.12 - 2/11/21
+- [fix] fix disabled css overrides not correct in edge
+
+# 3.0.11 - 2/11/21
+- [fix] fix disabled css overrides not correct
+
+# 3.0.10 - 2/10/21
+- [feature] add ability to disable port events
+- [fix] make port cursor a crosshair rather than pointer
+
+# 3.0.9 - 2/10/21
+- [feature] add `selectionDisabled` to `NodeData` and `EdgeData`
+- [fix] fix `disabled` not passing through to nodes and edges
+
 # 3.0.8 - 2/10/21
 - [feature] add `layoutOptions` to `NodeData` model
 - [chore] improve docs
