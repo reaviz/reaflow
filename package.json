@@ -14,7 +14,7 @@
     "build-storybook": "build-storybook",
     "chromatic": "npx chromatic --project-token ugo6c655mvm --auto-accept-changes",
     "link:reaflow": "yarn link && cd ./node_modules/react && yarn link && cd ../react-dom && yarn link",
-    "unlink:reaflow": "yarn unlink || cd ./node_modules/react || yarn unlink && cd ../react-dom && yarn unlink"
+    "unlink:reaflow": "yarn unlink || cd ./node_modules/react && yarn unlink || cd ../react-dom && yarn unlink"
   },
   "source": "src/index.ts",
   "main": "dist/index.cjs.js",
