@@ -178,7 +178,7 @@ export const useUndo = ({
       description: 'Undo changes',
       callback: (event) => {
         event.preventDefault();
-        if (!disabled) {
+        if (!disabled && canUndo) {
           undo();
         }
       }
@@ -190,7 +190,7 @@ export const useUndo = ({
       description: 'Redo changes',
       callback: (event) => {
         event.preventDefault();
-        if (!disabled) {
+        if (!disabled && canRedo) {
           redo();
         }
       }
