@@ -8,10 +8,20 @@ import { getCoords } from './helpers';
 export type DragEvent = State['drag'];
 export type Position = [number, number];
 
-export interface NodeDragEvents<T = any> {
-  onDrag?: (event: DragEvent, initial: Position, data: T) => void;
-  onDragEnd?: (event: DragEvent, initial: Position, data: T) => void;
-  onDragStart?: (event: DragEvent, initial: Position, data: T) => void;
+export interface NodeDragEvents<T = any, TT = any | undefined> {
+  onDrag?: (event: DragEvent, initial: Position, data: T, extra?: TT) => void;
+  onDragEnd?: (
+    event: DragEvent,
+    initial: Position,
+    data: T,
+    extra?: TT
+  ) => void;
+  onDragStart?: (
+    event: DragEvent,
+    initial: Position,
+    data: T,
+    extra?: TT
+  ) => void;
 }
 
 export interface NodeDragProps extends NodeDragEvents {
