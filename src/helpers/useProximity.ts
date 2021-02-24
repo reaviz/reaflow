@@ -12,7 +12,9 @@ export interface ProximityProps {
   disabled?: boolean;
 
   /**
-   * Min distance required before match is made. Default is 40.
+   * Min distance required before match is made.
+   *
+   * @default 40
    */
   minDistance?: number;
 
@@ -213,7 +215,7 @@ export const useProximity = ({
     // @ts-ignore
     setMatrix(getCoords(ref));
     setPoints(buildPoints(ref.layout.children));
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [disabled]);
 
   const onDrag = useCallback(
@@ -257,12 +259,7 @@ export const useProximity = ({
 
       setMatch(foundNodeId);
     },
-    [
-      matrix,
-      disabled,
-      minDistance,
-      points
-    ]
+    [matrix, disabled, minDistance, points]
   );
 
   useEffect(() => {

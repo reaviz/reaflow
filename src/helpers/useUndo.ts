@@ -43,11 +43,15 @@ export interface UndoProps {
 
   /**
    * Max history count.
+   *
+   * @default 20
    */
   maxHistory?: number;
 
   /**
    * Disabled or not.
+   *
+   * @default false
    */
   disabled?: boolean;
 

@@ -6,6 +6,8 @@ import { removeNode } from './crudHelpers';
 export interface SelectionProps {
   /**
    * Current selections.
+   *
+   * Contains both nodes and edges ids.
    */
   selections?: string[];
 
@@ -27,7 +29,7 @@ export interface SelectionProps {
   /**
    * On selection change.
    */
-  onSelection?: (value: string[]) => void;
+  onSelection?: (newSelectedIds: string[]) => void;
 
   /**
    * On data change.
@@ -37,7 +39,7 @@ export interface SelectionProps {
 
 export interface SelectionResult {
   /**
-   * Selections id array.
+   * Selections id array (of nodes and edges).
    */
   selections: string[];
 
