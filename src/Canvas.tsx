@@ -49,6 +49,8 @@ export interface CanvasContainerProps extends CanvasProps {
 
   /**
    * Whether the canvas is pannable or not.
+   *
+   * TODO What does "pannable" means in Reaflow context? I don't understand it
    */
   pannable?: boolean;
 
@@ -100,15 +102,19 @@ export interface CanvasContainerProps extends CanvasProps {
   /**
    * Callback to check if a node is linkable or not.
    */
-  onNodeLink?: (from: NodeData, to: NodeData, port?: PortData) => void;
+  onNodeLink?: (
+    fromNode: NodeData,
+    toNode: NodeData,
+    fromPort?: PortData
+  ) => void;
 
   /**
    * Callback when a node is linked.
    */
   onNodeLinkCheck?: (
-    from: NodeData,
-    to: NodeData,
-    port?: PortData
+    fromNode: NodeData,
+    toNode: NodeData,
+    fromPort?: PortData
   ) => undefined | boolean;
 
   /**
