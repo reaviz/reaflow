@@ -44,6 +44,11 @@ export interface UndoProps {
   /**
    * Max history count.
    */
+  initialHistory?: { nodes: NodeData[]; edges: EdgeData[] };
+
+  /**
+   * Max history count.
+   */
   maxHistory?: number;
 
   /**
@@ -98,17 +103,22 @@ export const useUndo = ({
   nodes,
   edges,
   disabled,
+  initialHistory,
   maxHistory = 20,
   onUndoRedo
 }: UndoProps): UndoResult => {
   const [canUndo, setCanUndo] = useState<boolean>(false);
   const [canRedo, setCanRedo] = useState<boolean>(false);
 
-  const manager = useRef<Undoo>(
-    new Undoo({
-      maxLength: maxHistory
-    })
-  );
+  const undoo = new Undoo({
+    maxLength: maxHistory
+  });
+
+  const manager = useRef<Undoo>(undoo);
+
+  if (initialHistory) {
+    undoo.import(initialHistory);
+  }
 
   // Reference: https://reactjs.org/docs/hooks-faq.html#how-to-read-an-often-changing-value-from-usecallback
   const callbackRef = useRef(onUndoRedo);
