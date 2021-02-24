@@ -5,11 +5,14 @@ import { UndoRedoEvent, useUndo } from './useUndo';
 
 // jest.disableAutomock(); XXX Don't know what that does, it was used in other tests
 
+/**
+ * Mock component for testing. Used to trigger undo/redo action and see if states updates accordingly.
+ */
 const UndoRedoTestComponent = () => {
   const [nodes, setNodes] = useState<NodeData[]>([]);
   const [edges, setEdges] = useState<EdgeData[]>([]);
 
-  const { undo, redo, canUndo, canRedo, clear } = useUndo({
+  const { undo, redo, canUndo, canRedo, clear, history } = useUndo({
     nodes,
     edges,
     onUndoRedo: (state: UndoRedoEvent) => {
@@ -19,6 +22,8 @@ const UndoRedoTestComponent = () => {
       setEdges(state?.edges);
     }
   });
+
+  // console.log('history', history()) // This crashes, see https://github.com/reaviz/reaflow/issues/66#issuecomment-785278040
 
   return (
     <div>
@@ -49,7 +54,8 @@ const UndoRedoTestComponent = () => {
 
 describe('helpers/useUndo.ts', () => {
   test('should allow to undo/redo', () => {
-    const component = render(<UndoRedoTestComponent />);
+    // Renders the component, make "screen" available
+    render(<UndoRedoTestComponent />);
 
     fireEvent.click(screen.getByText('Add node'));
     fireEvent.click(screen.getByText('Add node'));
