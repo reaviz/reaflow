@@ -1,11 +1,33 @@
+import {
+  Meta,
+  Story
+} from '@storybook/react/types-6-0';
 import React, { useState } from 'react';
+import {
+  EdgeData,
+  NodeData
+} from '../src';
 import { Canvas } from '../src/Canvas';
-import { Node, Edge, MarkerArrow, Port, Icon, Arrow, Label, Remove, Add, NodeProps, EdgeProps } from '../src/symbols';
-import { UndoRedoEvent, useUndo } from '../src/helpers';
+import {
+  UndoRedoEvent,
+  useUndo
+} from '../src/helpers';
+import {
+  Add,
+  Arrow,
+  Edge,
+  Icon,
+  Label,
+  MarkerArrow,
+  Node,
+  Port,
+  Remove
+} from '../src/symbols';
 
 export default {
   title: 'Demos/Undo Redo',
   component: Canvas,
+  argTypes: {},
   subcomponents: {
     Node,
     Edge,
@@ -17,9 +39,14 @@ export default {
     Remove,
     Add
   }
+} as Meta;
+
+type PropsWithChildrenMock = {
+  initialHistory?: { nodes: NodeData[]; edges: EdgeData[] }[];
 };
 
-export const Simple = () => {
+const Template: Story<PropsWithChildrenMock> = (props) => {
+  const { initialHistory } = props;
   const [nodes, setNodes] = useState<any[]>([
     {
       id: '1',
@@ -51,6 +78,7 @@ export const Simple = () => {
   const { undo, redo, canUndo, canRedo } = useUndo({
     nodes,
     edges,
+    initialHistory,
     onUndoRedo: (state: UndoRedoEvent) => {
       console.log('Undo / Redo', state);
       setEdges(state.edges);
@@ -98,3 +126,73 @@ export const Simple = () => {
     </div>
   );
 };
+
+export const Simple: Story<PropsWithChildrenMock> = Template.bind({});
+Simple.args = {};
+
+export const WithInitialHistory: Story<PropsWithChildrenMock> = Template.bind({});
+WithInitialHistory.args = {
+  initialHistory: [
+    {
+      nodes: [],
+      edges: []
+    },
+    {
+      nodes: [
+        {
+          id: '1',
+          text: 'Node 1'
+        }
+      ],
+      edges: []
+    },
+    {
+      nodes: [
+        {
+          id: '1',
+          text: 'Node 1'
+        },
+        {
+          id: '2',
+          text: 'Node 2'
+        }
+      ],
+      edges: [
+        {
+          id: '1-2',
+          from: '1',
+          to: '2'
+        }
+      ]
+    },
+    {
+      nodes: [
+        {
+          id: '1',
+          text: 'Node 1'
+        },
+        {
+          id: '2',
+          text: 'Node 2'
+        },
+        {
+          id: '3',
+          text: 'Node 3'
+        }
+      ],
+      edges: [
+        {
+          id: '1-2',
+          from: '1',
+          to: '2'
+        },
+        {
+          id: '1-3',
+          from: '1',
+          to: '3'
+        }
+      ]
+    }
+  ]
+};
+
