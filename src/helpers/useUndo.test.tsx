@@ -6,7 +6,7 @@ import { UndoRedoEvent, useUndo } from './useUndo';
 // jest.disableAutomock(); XXX Don't know what that does, it was used in other tests
 
 type Props = {
-  initialHistory?: [{ nodes: NodeData[]; edges: EdgeData[] }];
+  initialHistory?: { nodes: NodeData[]; edges: EdgeData[] }[];
 };
 
 /**

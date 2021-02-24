@@ -46,7 +46,7 @@ export interface UndoProps {
    *
    * @see https://github.com/fabioricali/undoo#Undoo+import
    */
-  initialHistory?: [{ nodes: NodeData[]; edges: EdgeData[] }];
+  initialHistory?: { nodes: NodeData[]; edges: EdgeData[] }[];
 
   /**
    * Max history count.
