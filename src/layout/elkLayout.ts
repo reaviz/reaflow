@@ -23,9 +23,28 @@ export interface ElkCanvasLayoutOptions {
  * ELKjs layout option for a node.
  *
  * TODO add reference link, I don't know what are the available options.
+ *
+ * @see https://www.eclipse.org/elk/reference/options.html
  */
 export interface ElkNodeLayoutOptions {
   [key: string]: string;
+
+  /**
+   * @example [left=12, top=12, right=12, bottom=12]
+   * @see https://www.eclipse.org/elk/reference/options/org-eclipse-elk-padding.html
+   */
+  'elk.padding': string;
+
+  /**
+   * @see https://www.eclipse.org/elk/reference/options/org-eclipse-elk-portConstraints.html
+   */
+  portConstraints:
+    | 'UNDEFINED'
+    | 'FREE'
+    | 'FIXED_SIDE'
+    | 'FIXED_ORDER'
+    | 'FIXED_RATIO'
+    | 'FIXED_POS';
 }
 
 /**
@@ -184,6 +203,12 @@ function mapNode(nodes: NodeData[], edges: EdgeData[], node: NodeData) {
     .filter((e) => e.parent === node.id)
     .map((e) => mapEdge(e));
 
+  const nodeLayoutOptions: ElkNodeLayoutOptions = {
+    'elk.padding': `[left=${nodePadding.left}, top=${nodePadding.top}, right=${nodePadding.right}, bottom=${nodePadding.bottom}]`,
+    portConstraints: 'FIXED_ORDER',
+    ...(node.layoutOptions || {})
+  };
+
   return {
     id: node.id,
     height,
@@ -200,11 +225,7 @@ function mapNode(nodes: NodeData[], edges: EdgeData[], node: NodeData) {
         }
       }))
       : [],
-    layoutOptions: {
-      'elk.padding': `[left=${nodePadding.left}, top=${nodePadding.top}, right=${nodePadding.right}, bottom=${nodePadding.bottom}]`,
-      portConstraints: 'FIXED_ORDER',
-      ...(node.layoutOptions || {})
-    },
+    layoutOptions: nodeLayoutOptions,
     properties: {
       ...node
     },
