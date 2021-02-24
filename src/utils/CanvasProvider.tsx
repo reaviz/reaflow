@@ -1,5 +1,5 @@
 import React, { createContext, useContext } from 'react';
-import { LayoutResult, useLayout } from '../layout';
+import { LayoutResult, useLayout } from '../layout/useLayout';
 import { NodeData, PortData } from '../types';
 import { EdgeDragResult, useEdgeDrag } from './useEdgeDrag';
 import { useZoom, ZoomResult } from './useZoom';
