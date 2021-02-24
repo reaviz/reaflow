@@ -98,7 +98,7 @@ import { Canvas } from 'reaflow';
 const Page = () => {
   return (
     <div style={{position: 'relative', width: '100vw', height: '100vh'}}>
-      <div style={{position: 'absolute', top: 0, bottom: 0, left: 0, right: 0, 'background-color': 'lightgrey'}}>
+      <div style={{position: 'absolute', top: 0, bottom: 0, left: 0, right: 0, 'backgroundColor': '#F5F5F5'}}>
         {
           // Don't render the Canvas on the server
           typeof window !== 'undefined' && (
