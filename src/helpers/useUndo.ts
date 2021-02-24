@@ -42,9 +42,11 @@ export interface UndoProps {
   edges: EdgeData[];
 
   /**
-   * Max history count.
+   * Initial history. Imported as initial history state if defined.
+   *
+   * @see https://github.com/fabioricali/undoo#Undoo+import
    */
-  initialHistory?: { nodes: NodeData[]; edges: EdgeData[] };
+  initialHistory?: [{ nodes: NodeData[]; edges: EdgeData[] }];
 
   /**
    * Max history count.
@@ -116,7 +118,7 @@ export const useUndo = ({
 
   const manager = useRef<Undoo>(undoo);
 
-  if (initialHistory) {
+  if (Array.isArray(initialHistory)) {
     undoo.import(initialHistory);
   }
 

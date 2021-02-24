@@ -5,16 +5,22 @@ import { UndoRedoEvent, useUndo } from './useUndo';
 
 // jest.disableAutomock(); XXX Don't know what that does, it was used in other tests
 
+type Props = {
+  initialHistory?: [{ nodes: NodeData[]; edges: EdgeData[] }];
+};
+
 /**
  * Mock component for testing. Used to trigger undo/redo action and see if states updates accordingly.
  */
-const UndoRedoTestComponent = () => {
+const UndoRedoMockComponent = (props: Props) => {
+  const { initialHistory } = props;
   const [nodes, setNodes] = useState<NodeData[]>([]);
   const [edges, setEdges] = useState<EdgeData[]>([]);
 
   const { undo, redo, canUndo, canRedo, clear, history } = useUndo({
     nodes,
     edges,
+    initialHistory,
     onUndoRedo: (state: UndoRedoEvent) => {
       // console.log('Undo / Redo', state);
 
@@ -55,7 +61,7 @@ const UndoRedoTestComponent = () => {
 describe('helpers/useUndo.ts', () => {
   test('should allow to undo/redo', () => {
     // Renders the component, make "screen" available
-    render(<UndoRedoTestComponent />);
+    render(<UndoRedoMockComponent />);
 
     fireEvent.click(screen.getByText('Add node'));
     fireEvent.click(screen.getByText('Add node'));
@@ -81,5 +87,25 @@ describe('helpers/useUndo.ts', () => {
       screen.getByTestId('output'),
       'Failed to undo twice'
     ).toHaveTextContent('There are 0 nodes and 0 edges.');
+  });
+
+  test('should allow to load an initial history', () => {
+    // Renders the component, make "screen" available
+    render(
+      <UndoRedoMockComponent
+        initialHistory={[{ nodes: [{ id: '1' }, { id: '2' }], edges: [] }]}
+      />
+    );
+
+    expect(
+      screen.getByTestId('output'),
+      'Should be initialised with 0 nodes and 0 edges'
+    ).toHaveTextContent('There are 0 nodes and 0 edges.');
+
+    fireEvent.click(screen.getByText('Undo'));
+    expect(
+      screen.getByTestId('output'),
+      'Undoing should go back to the previous state of the history, which contains 2 nodes and 0 edges'
+    ).toHaveTextContent('There are 2 nodes and 0 edges.');
   });
 });
