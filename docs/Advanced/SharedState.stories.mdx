@@ -1,12 +1,12 @@
 import { Meta } from '@storybook/addon-docs/blocks';
 
-<Meta title="Docs/Advanced/Canvas state" />
+<Meta title="Docs/Advanced/Shared state" />
 
-# Canvas state
+# Shared state
 
 This Storybook demo showcases `React.useState` as state manager, because it's very simple to comprehend and simple apps could actually use it for real.
 
-But, as your app growths, you might need to have some shared state and use a shared State manager.
+Although, as your app growths, you might need to have some **shared state** and use a shared State manager (Redux, Recoil, xState, MobX, etc.).
 
 ## What state manager should be used with reaflow?
 
@@ -50,3 +50,6 @@ You can use the library of your choice to clone the state, `lodash.clonedeep` is
 > [This is not a bug, it's expected](https://github.com/reaviz/reaflow/issues/43#issuecomment-774012401). Although, it is very confusing because `newNodes` shows the expected value in the console.
 It would be a better developer experience for React to throw an exception when mutating the state directly. _(it's what `recoil` does)_
 
+## Community examples
+
+- [Vadorequest/poc-nextjs-reaflow](https://github.com/Vadorequest/poc-nextjs-reaflow) uses **Recoil** as shared State Manager.
