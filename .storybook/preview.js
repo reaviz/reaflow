@@ -23,9 +23,6 @@ export const parameters = {
   docs: {
     theme
   },
-  options: {
-    showRoots: true
-  },
   actions: { argTypesRegex: '^on.*' },
   options: {
     storySort: (a, b) => {
