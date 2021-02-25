@@ -27,7 +27,13 @@ import {
 export default {
   title: 'Demos/Undo Redo',
   component: Canvas,
-  argTypes: {},
+  argTypes: {
+    initialHistory: {
+      control: {
+        disable: true // TODO make it readonly when it'll be possible - See https://github.com/storybookjs/storybook/issues/14048
+      }
+    }
+  },
   subcomponents: {
     Node,
     Edge,
