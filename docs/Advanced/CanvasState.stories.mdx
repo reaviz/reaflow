@@ -1,0 +1,52 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Docs/Advanced/Canvas state" />
+
+# Canvas state
+
+This Storybook demo showcases `React.useState` as state manager, because it's very simple to comprehend and simple apps could actually use it for real.
+
+But, as your app growths, you might need to have some shared state and use a shared State manager.
+
+## What state manager should be used with reaflow?
+
+Reaflow is store-agnostic and doesn't recommend any store manager in particular. The choice is yours.
+
+If you're unfamiliar with React State managers, we recommend watching [What State Management Library Should I Use with React?](https://www.youtube.com/watch?v=u_o09PD_qAs&feature=emb_logo&ab_channel=LeeRobinson).
+
+## Immutability when using `React.useState`
+
+> If you're using `React.useState`, be careful about immutability.
+
+While React `useState` will not throw when mutate the state directly, it won't actually work.
+
+```tsx
+import React, { useState } from 'react';
+import { NodeData } from 'reaflow';
+
+const [nodes, setNodes] = useState<NodeData[]>([]);
+
+...
+
+const newNodes = nodes; // DO NOT DO THAT
+newNodes[0] = { id: '1' };
+console.log('updateCurrentNode new nodes', newNodes); // Will print the expected object
+
+setNodes(newNodes); // Will not crash, but won't actually mutate the state for real
+
+```
+
+You must not mutate the state directly `nodes`, but clone it first.
+
+```tsx
+import cloneDeep from 'lodash.clonedeep';
+
+const newNodes = nodes; // DO NOT DO THAT
+const newNodes = cloneDeep(nodes); // Do that instead
+```
+
+You can use the library of your choice to clone the state, `lodash.clonedeep` is a good choice.
+
+> [This is not a bug, it's expected](https://github.com/reaviz/reaflow/issues/43#issuecomment-774012401). Although, it is very confusing because `newNodes` shows the expected value in the console.
+It would be a better developer experience for React to throw an exception when mutating the state directly. _(it's what `recoil` does)_
+
