@@ -47,12 +47,151 @@ export default {
   }
 } as Meta;
 
-type PropsWithChildrenMock = {
-  initialHistory?: { nodes: NodeData[]; edges: EdgeData[] }[];
+type Props = {}
+
+export const Simple: Story<Props> = () => {
+  const [nodes, setNodes] = useState<any[]>([
+    {
+      id: '1',
+      text: 'Node 1'
+    },
+    {
+      id: '2',
+      text: 'Node 2'
+    },
+    {
+      id: '3',
+      text: 'Node 3'
+    }
+  ]);
+
+  const [edges, setEdges] = useState<any[]>([
+    {
+      id: '1-2',
+      from: '1',
+      to: '2'
+    },
+    {
+      id: '1-3',
+      from: '1',
+      to: '3'
+    }
+  ]);
+
+  const { undo, redo, canUndo, canRedo } = useUndo({
+    nodes,
+    edges,
+    onUndoRedo: (state: UndoRedoEvent) => {
+      console.log('Undo / Redo', state);
+      setEdges(state.edges);
+      setNodes(state.nodes);
+    }
+  });
+
+  const addNode = () => {
+    setNodes([
+      ...nodes,
+      {
+        id: `a${Math.random()}`,
+        text: `Node ${Math.random()}`
+      }
+    ]);
+  };
+
+  return (
+    <div style={{ position: 'absolute', top: 0, bottom: 0, left: 0, right: 0 }}>
+      <button
+        style={{ position: 'absolute', top: 10, left: 10, zIndex: 999 }}
+        onClick={addNode}
+      >
+        Add Nodes
+      </button>
+      <button
+        style={{ position: 'absolute', top: 10, left: 100, zIndex: 999 }}
+        onClick={undo}
+        disabled={!canUndo}
+      >
+        Undo
+      </button>
+      <button
+        style={{ position: 'absolute', top: 10, left: 160, zIndex: 999 }}
+        onClick={redo}
+        disabled={!canRedo}
+      >
+        Redo
+      </button>
+      <Canvas
+        nodes={nodes}
+        edges={edges}
+        onLayoutChange={layout => console.log('Layout', layout)}
+      />
+    </div>
+  );
 };
 
-const Template: Story<PropsWithChildrenMock> = (props) => {
-  const { initialHistory } = props;
+export const WithInitialHistory: Story<Props> = () => {
+  const initialHistory: { nodes: NodeData[]; edges: EdgeData[] }[] = [
+    {
+      nodes: [],
+      edges: []
+    },
+    {
+      nodes: [
+        {
+          id: '1',
+          text: 'Node 1'
+        }
+      ],
+      edges: []
+    },
+    {
+      nodes: [
+        {
+          id: '1',
+          text: 'Node 1'
+        },
+        {
+          id: '2',
+          text: 'Node 2'
+        }
+      ],
+      edges: [
+        {
+          id: '1-2',
+          from: '1',
+          to: '2'
+        }
+      ]
+    },
+    {
+      nodes: [
+        {
+          id: '1',
+          text: 'Node 1'
+        },
+        {
+          id: '2',
+          text: 'Node 2'
+        },
+        {
+          id: '3',
+          text: 'Node 3'
+        }
+      ],
+      edges: [
+        {
+          id: '1-2',
+          from: '1',
+          to: '2'
+        },
+        {
+          id: '1-3',
+          from: '1',
+          to: '3'
+        }
+      ]
+    }
+  ];
   const [nodes, setNodes] = useState<any[]>([
     {
       id: '1',
@@ -132,73 +271,3 @@ const Template: Story<PropsWithChildrenMock> = (props) => {
     </div>
   );
 };
-
-export const Simple: Story<PropsWithChildrenMock> = Template.bind({});
-Simple.args = {};
-
-export const WithInitialHistory: Story<PropsWithChildrenMock> = Template.bind({});
-WithInitialHistory.args = {
-  initialHistory: [
-    {
-      nodes: [],
-      edges: []
-    },
-    {
-      nodes: [
-        {
-          id: '1',
-          text: 'Node 1'
-        }
-      ],
-      edges: []
-    },
-    {
-      nodes: [
-        {
-          id: '1',
-          text: 'Node 1'
-        },
-        {
-          id: '2',
-          text: 'Node 2'
-        }
-      ],
-      edges: [
-        {
-          id: '1-2',
-          from: '1',
-          to: '2'
-        }
-      ]
-    },
-    {
-      nodes: [
-        {
-          id: '1',
-          text: 'Node 1'
-        },
-        {
-          id: '2',
-          text: 'Node 2'
-        },
-        {
-          id: '3',
-          text: 'Node 3'
-        }
-      ],
-      edges: [
-        {
-          id: '1-2',
-          from: '1',
-          to: '2'
-        },
-        {
-          id: '1-3',
-          from: '1',
-          to: '3'
-        }
-      ]
-    }
-  ]
-};
-
