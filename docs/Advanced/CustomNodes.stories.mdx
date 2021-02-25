@@ -1,0 +1,90 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Docs/Advanced/Custom nodes" />
+
+# Custom nodes
+
+Using HTML within a `Node` component relies on the SVG [`foreignObject`](https://developer.mozilla.org/en-US/docs/Web/SVG/Element/foreignObject).
+
+> You do not need to use `xmlns` (XML NameSpace) in the first `div` within `foreignObject`, it's only required when the SVG is a whole document.
+
+## Rendering different kinds/types of nodes
+
+Most apps will need to render different kinds of nodes. The way to go is to use a Node "[Router](https://github.com/Vadorequest/poc-nextjs-reaflow/blob/734018e8135523fccc2c01077294bca0a32ddfbe/src/components/nodes/NodeRouter.tsx#L43)" component, which checks what the node's type is, and renders the related React component.
+
+## How does `foreignObject` render in HTML?
+
+While using `foreignObject` allows building components using usual HTML/CSS, there are a few quirks to consider.
+
+```html
+<!-- "g" is a graph representing a Node "container" -->
+<g cursor='initial' opacity='1' style='transform: translateX(1702px) translateY(495.333px) translateZ(0px); transform-origin: 100px 50px;'>
+  <!-- "rect" is a rectangle representing the reaflow "Node" component, it's what events are bound to -->
+  <rect tabindex='-1' class='Node-module_rect__1Eal3 node-svg-rect node-information-svg-rect' height='100' width='200' rx='2' ry='2' opacity='1' style='stroke-width: 0; fill: white; color: black; cursor: auto;'></rect>
+
+  <!-- "foreignObject" is the root containing your custom HTML for the node -->
+  <foreignObject id='node-foreignObject-2ca8efe0-75ed-11eb-8896-7bd259f8797e' class='information-node-container node-container css-1ncbppe-BaseNode' width='200' height='100'>
+    <!-- The first div, should use "position: fixed" for children to display properly -->
+    <div class='node'>
+      Node content
+    </div>
+  </foreignObject>
+
+  <!-- Ports -->
+  <g>
+    <rect height='29' width='29' x='-14.5' y='35.5' class='Port-module_clicker__ZivO1'></rect>
+    <rect class='Port-module_port__30o1q 2ca8a1c0-75ed-11eb-8896-7bd259f8797e port' height='15' width='15' rx='15' ry='15' opacity='1' style='fill: white; stroke: white; transform: translateX(-7.5px) translateY(42.5px) scale(1) translateZ(0px); transform-origin: 7.5px 7.5px;'></rect>
+  </g>
+  <g>
+    <rect height='29' width='29' x='185.5' y='35.5' class='Port-module_clicker__ZivO1'></rect>
+    <rect class='Port-module_port__30o1q 2ca8c8d0-75ed-11eb-8896-7bd259f8797e port' height='15' width='15' rx='15' ry='15' opacity='1' style='fill: white; stroke: white; transform: translateX(192.5px) translateY(42.5px) scale(1) translateZ(0px); transform-origin: 7.5px 7.5px;'></rect>
+  </g>
+  <g></g>
+</g>
+```
+
+## Known issues and workarounds
+
+### Use `position: fixed` in the first div
+
+You must apply `position: fixed` to the first `div` element contained by the `foreignObject`, otherwise any child element using `position` [will not be displayed](https://github.com/reaviz/reaflow/issues/44#issuecomment-776883460).
+  - This issue was the reason why `react-select` and `ChakraUI Select` components wouldn't display properly.
+
+### Z-index doesn't have any effect on SVG elements
+
+The `foreignObject` is still a SVG element, and it is displayed on top of the `rect` (which represents the Node component created by reaflow).
+
+It is not possible to re-order SVG elements using `z-index`.
+The rule of display on the Z index being "the last element is displayed on top of the other element".
+
+### The `foreignObject` will steal events (onClick, onEnter, onLeave, etc.) that are bound to the `rect` (Node)
+
+Because the `foreignObject` displays on top of the `rect` element, it will "steal" events such as onClick, onEnter/onLeave (mouse).
+
+Those events are provided by default by Reaflow `Canvas` to its `Node` components.
+Thus, by using `foreignObject`, **none of the built-in Node events will work anymore**, [unless you set `pointer-events: none` to the `foreignObject` element](https://github.com/reaviz/reaflow/discussions/34).
+
+Although, even if you disable `pointer-events`, depending on your Node component UI, it might only work for part of the component.
+
+Many built-in behaviors will be affected because of this, such as:
+- Dragging an edge from a node
+  - Dragging won't work if the click doesn't happen on the `rect`
+- Selecting nodes
+  - The click won't work it doesn't happen on the `rect`
+  - Using shortcuts for multiple selection [won't work because keyboard events won't be captured](https://github.com/reaviz/reaflow/issues/50)
+
+That's why, in addition to disabling `pointer-events`, **you might also want [to forward the native events](https://github.com/Vadorequest/poc-nextjs-reaflow/blob/272a23604e0a11ef0726e19091be58ffd5861d62/src/components/nodes/BaseNode.tsx#L357-L360)** (onClick, onEnter, onLeave, onKeyPress, etc.) to the main div (`.node` above).
+
+By forwarding those events to the first `div`, you'll work around most of the above-mentioned issues.
+
+### Entering/leaving a node
+
+Depending on how complicated your HTML is within the nodes themselves, it might be tough to detect whether you're in a node or not.
+
+When not using `foreignObject`, it is really straightforward, but when the `foreignObject` contains complex HTML structure, the `onEnter/onLeave` events applied to main `div` will trigger when hovering other elements within that node, leading to a tons of false-positive events.
+
+At this time, there was no viable solution being reported to work around this issue.
+
+## Community examples
+
+- [Vadorequest/poc-nextjs-reaflow](https://github.com/Vadorequest/poc-nextjs-reaflow) uses custom nodes UI, and [all nodes relies on `foreignObject`](https://github.com/Vadorequest/poc-nextjs-reaflow/blob/287141b94145eec18fb02aab8f00676ae92f1310/src/components/nodes/BaseNode.tsx#L279-L418)
