@@ -130,7 +130,7 @@ export interface UndoResult {
   /**
    * Get history of state.
    */
-  history: () => { nodes: NodeData[]; edges: EdgeData[] }[];
+  history: () => UndoRedoHistory;
 
   /**
    * Perform an redo.

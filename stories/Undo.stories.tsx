@@ -3,13 +3,10 @@ import {
   Story
 } from '@storybook/react/types-6-0';
 import React, { useState } from 'react';
-import {
-  EdgeData,
-  NodeData
-} from '../src';
 import { Canvas } from '../src/Canvas';
 import {
   UndoRedoEvent,
+  UndoRedoHistory,
   useUndo
 } from '../src/helpers';
 import {
@@ -130,7 +127,7 @@ export const Simple: Story<Props> = () => {
 };
 
 export const WithInitialHistory: Story<Props> = () => {
-  const initialHistory: { nodes: NodeData[]; edges: EdgeData[] }[] = [
+  const initialHistory: UndoRedoHistory = [
     {
       nodes: [],
       edges: []

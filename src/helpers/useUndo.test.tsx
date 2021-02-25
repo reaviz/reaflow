@@ -1,12 +1,12 @@
 import { fireEvent, render, screen } from '@testing-library/react';
 import React, { useState } from 'react';
 import { EdgeData, NodeData } from '../types';
-import { UndoRedoEvent, useUndo } from './useUndo';
+import { UndoRedoEvent, UndoRedoHistory, useUndo } from './useUndo';
 
 // jest.disableAutomock(); XXX Don't know what that does, it was used in other tests
 
 type Props = {
-  initialHistory?: { nodes: NodeData[]; edges: EdgeData[] }[];
+  initialHistory?: UndoRedoHistory;
 };
 
 /**

@@ -3,6 +3,11 @@ import { useHotkeys } from 'reakeys';
 import { EdgeData, NodeData } from '../types';
 import Undoo from 'undoo';
 
+export type UndoRedoHistory = {
+  nodes: NodeData[];
+  edges: EdgeData[];
+}[];
+
 export interface UndoRedoEvent {
   /**
    * Updated node datas.
@@ -46,7 +51,7 @@ export interface UndoProps {
    *
    * @see https://github.com/fabioricali/undoo#Undoo+import
    */
-  initialHistory?: { nodes: NodeData[]; edges: EdgeData[] }[];
+  initialHistory?: UndoRedoHistory;
 
   /**
    * Max history count.
@@ -88,7 +93,7 @@ export interface UndoResult {
   /**
    * Get history of state.
    */
-  history: () => { nodes: NodeData[]; edges: EdgeData[] }[];
+  history: () => UndoRedoHistory;
 
   /**
    * Perform an redo.
