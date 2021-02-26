@@ -104,7 +104,7 @@ export const Edge: FC<Partial<EdgeProps>> = ({
     }
 
     // Handle bend points that elk gives
-    // us seperately from drag points
+    // us separately from drag points
     if (sections[0].bendPoints) {
       const points: any[] = sections
         ? [
