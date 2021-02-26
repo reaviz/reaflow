@@ -1,6 +1,9 @@
 import React, {
   FC,
+  Fragment,
+  MutableRefObject,
   ReactElement,
+  ReactNode,
   useEffect,
   useMemo,
   useRef,
@@ -33,6 +36,16 @@ export interface EdgeSections {
   };
 }
 
+export interface EdgeChildProps {
+  edge: EdgeData;
+  pathRef: MutableRefObject<SVGPathElement> | null;
+  center: CenterCoords | null;
+}
+
+export type EdgeChildrenAsFunction = (
+  edgeChildProps: EdgeChildProps
+) => ReactNode;
+
 export interface EdgeProps {
   id: string;
   disabled?: boolean;
@@ -42,6 +55,7 @@ export interface EdgeProps {
   targetPort: string;
   properties?: EdgeData;
   style?: any;
+  children?: ReactNode | EdgeChildrenAsFunction;
   sections: EdgeSections[];
   labels?: LabelProps[];
   className?: string;
@@ -80,6 +94,7 @@ export const Edge: FC<Partial<EdgeProps>> = ({
   className,
   disabled,
   style,
+  children,
   add = <Add />,
   remove = <Remove />,
   label = <Label />,
@@ -143,6 +158,12 @@ export const Edge: FC<Partial<EdgeProps>> = ({
     }
   }, [sections]);
 
+  const edgeChildProps: EdgeChildProps = {
+    edge: properties,
+    center,
+    pathRef
+  };
+
   return (
     <g
       className={classNames(css.edge, {
@@ -184,6 +205,14 @@ export const Edge: FC<Partial<EdgeProps>> = ({
           onLeave(event, properties);
         }}
       />
+
+      {children && (
+        <Fragment>
+          {typeof children === 'function'
+            ? (children as EdgeChildrenAsFunction)(edgeChildProps)
+            : children}
+        </Fragment>
+      )}
 
       {labels?.length > 0 &&
         labels.map((l, index) => (
