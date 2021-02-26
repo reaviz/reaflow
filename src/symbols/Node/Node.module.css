@@ -1,7 +1,8 @@
 .rect {
   fill: #2b2c3e;
-  stroke: transparent;
   transition: stroke 100ms ease-in-out;
+  /* TODO Why duplicated stroke? */
+  stroke: transparent;
   stroke: #475872;
   shape-rendering: geometricPrecision;
   stroke-width: 1pt;
