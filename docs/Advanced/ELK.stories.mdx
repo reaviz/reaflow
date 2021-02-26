@@ -1,0 +1,224 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Docs/Advanced/Eclipse Layout Kernel" />
+
+# Eclipse Layout Kernel (ELK)
+
+[`ELK`](https://www.eclipse.org/elk/) is what's use by Reaflow to position the nodes and edges automatically.
+
+Actually, Reaflow uses [`ELKjs`](https://github.com/kieler/elkjs), which is a port of ELK to JavaScript.
+
+## Changing ELK behavior
+
+Unfortunately, the ELK/ELKjs documentation isn't TypeScript-friendly, and you'll need to dig into the ELK documentation and issues if you're trying to change **how the graph's layout behaves**.
+
+Here are some useful links:
+
+- [ELKjs GitHub](https://github.com/kieler/elkjs)
+- [ELK official website](https://www.eclipse.org/elk/)
+- [ELK Demonstrators](https://rtsys.informatik.uni-kiel.de/elklive/index.html)
+- [Tool to convert `elkt <=> json` both ways](https://rtsys.informatik.uni-kiel.de/elklive/conversion.html)
+- [Tool to convert `elkt` to a graph](https://rtsys.informatik.uni-kiel.de/elklive/elkgraph.html)
+- [Java ELK implementation of the `layered` algorithm](https://github.com/eclipse/elk/tree/master/plugins/org.eclipse.elk.alg.layered/src/org/eclipse/elk/alg/layered/p2layers)
+- [Community examples soure code](https://github.com/eclipse/elk-models/tree/master/examples) _(which are displayed on [ELK examples](https://rtsys.informatik.uni-kiel.de/elklive/examples.html))_
+- [Klayjs example](http://kieler.github.io/klayjs-d3/examples/interactive) (ELK is the successor of KlayJS and [should support the same options](https://github.com/kieler/elkjs/issues/122#issuecomment-777781503))
+- [ELKjs issues opened by Austin](https://github.com/kieler/elkjs/issues?q=is%3Aissue+sort%3Aupdated-desc+author%3Aamcdnl)
+
+> From experience, changing ELK behavior is tough, because it is hard to comprehend what option(s) should be changed to achieve one's goal.
+
+## Dragging and positioning nodes manually
+
+It's not currently possible to manually position a node in the layout, because ELK automatically position the elements depending on the selected `algorithm`.
+
+This is a known limitation of ELK:
+- [[ELK] - Tracking issue - Manually positioning the nodes ("Standalone Edge Routing")](https://github.com/eclipse/elk/issues/315)
+- [[Reaflow] - Tracking issue - Custom Dragging](https://github.com/reaviz/reaflow/issues/4)
+
+> TLDR; They're willing to implement the feature (AKA "Standalone Edge Routing"), but they're waiting for an open source contribution.
+
+## Reaflow default ELK configuration
+
+Reaflow applies a [default configuration](https://github.com/reaviz/reaflow/blob/master/src/layout/elkLayout.ts), which is customizable through the `Canvas` component.
+
+Preview of `src/layout/elkLayout.ts`:
+```tsx
+/**
+ * ELKjs layout options for the Canvas.
+ *
+ * Unfortunately, the ELKjs documentation is not straightforward.
+ * You'll likely need to take a look at the ELK options reference to see all available options.
+ *
+ * @see https://github.com/kieler/elkjs#layout-options
+ * @see https://www.eclipse.org/elk/reference/options.html
+ */
+export interface ElkCanvasLayoutOptions {
+  'elk.direction'?: CanvasDirection;
+  [key: string]: string;
+}
+
+/**
+ * ELKjs layout option for a node.
+ *
+ * TODO add reference link, I don't know what are the available options.
+ *
+ * @see https://www.eclipse.org/elk/reference/options.html
+ */
+export interface ElkNodeLayoutOptions {
+  [key: string]: string;
+
+  /**
+   * @example [left=12, top=12, right=12, bottom=12]
+   * @see https://www.eclipse.org/elk/reference/options/org-eclipse-elk-padding.html
+   */
+  'elk.padding': string;
+
+  /**
+   * @see https://www.eclipse.org/elk/reference/options/org-eclipse-elk-portConstraints.html
+   */
+  portConstraints:
+    | 'UNDEFINED'
+    | 'FREE'
+    | 'FIXED_SIDE'
+    | 'FIXED_ORDER'
+    | 'FIXED_RATIO'
+    | 'FIXED_POS';
+}
+
+/**
+ * ELK layout options applied by default, unless overridden through <Canvas layoutOptions> property.
+ *
+ * XXX Not to be confounded with ELK "defaultLayoutOptions" property, which is meant to be used as fallback, when no layout option is provided.
+ *
+ * @see https://www.eclipse.org/elk/reference/options.html
+ */
+const defaultLayoutOptions: ElkCanvasLayoutOptions = {
+  /**
+   * Hints for where node labels are to be placed; if empty, the node label’s position is not modified.
+   *
+   * @see https://www.eclipse.org/elk/reference/options/org-eclipse-elk-nodeLabels-placement.html
+   */
+  'elk.nodeLabels.placement': 'INSIDE V_CENTER H_RIGHT',
+
+  /**
+   * Select a specific layout algorithm.
+   *
+   * Uses "layered" strategy.
+   * It emphasizes the direction of edges by pointing as many edges as possible into the same direction.
+   * The nodes are arranged in layers, which are sometimes called “hierarchies”,
+   * and then reordered such that the number of edge crossings is minimized.
+   * Afterwards, concrete coordinates are computed for the nodes and edge bend points.
+   *
+   * @see https://www.eclipse.org/elk/reference/algorithms.html
+   * @see https://www.eclipse.org/elk/reference/options/org-eclipse-elk-algorithm.html
+   * @see https://www.eclipse.org/elk/reference/algorithms/org-eclipse-elk-layered.html
+   */
+  'elk.algorithm': 'org.eclipse.elk.layered',
+
+  /**
+   * Overall direction of edges: horizontal (right / left) or vertical (down / up).
+   *
+   * @see https://www.eclipse.org/elk/reference/options/org-eclipse-elk-direction.html
+   */
+  'elk.direction': 'DOWN',
+
+  /**
+   * XXX NOT SURE - Option doesn't seem to exist, should be "org.eclipse.elk.layered.layering.strategy"?
+   * Strategy for node layering.
+   *
+   * @see https://www.eclipse.org/elk/reference/options/org-eclipse-elk-layered-layering-strategy.html
+   */
+  nodeLayering: 'INTERACTIVE',
+
+  /**
+   * What kind of edge routing style should be applied for the content of a parent node.
+   * Algorithms may also set this option to single edges in order to mark them as splines.
+   * The bend point list of edges with this option set to SPLINES
+   * must be interpreted as control points for a piecewise cubic spline.
+   *
+   * @see https://www.eclipse.org/elk/reference/options/org-eclipse-elk-edgeRouting.html
+   */
+  'org.eclipse.elk.edgeRouting': 'ORTHOGONAL',
+
+  /**
+   * Adds bend points even if an edge does not change direction.
+   * If true, each long edge dummy will contribute a bend point to its edges
+   * and hierarchy-crossing edges will always get a bend point where they cross hierarchy boundaries.
+   * By default, bend points are only added where an edge changes direction.
+   *
+   * @see https://www.eclipse.org/elk/reference/options/org-eclipse-elk-layered-unnecessaryBendpoints.html
+   */
+  'elk.layered.unnecessaryBendpoints': 'true',
+
+  /**
+   * The spacing to be preserved between nodes and edges that are routed next to the node’s layer.
+   * For the spacing between nodes and edges that cross the node’s layer ‘spacing.edgeNode’ is used.
+   *
+   * @see https://www.eclipse.org/elk/reference/options/org-eclipse-elk-layered-spacing-edgeNodeBetweenLayers.html
+   */
+  'elk.layered.spacing.edgeNodeBetweenLayers': '50',
+
+  /**
+   * Tells the BK node placer to use a certain alignment (out of its four)
+   * instead of the one producing the smallest height, or the combination of all four.
+   *
+   * @see https://www.eclipse.org/elk/reference/options/org-eclipse-elk-layered-nodePlacement-bk-fixedAlignment.html
+   */
+  'org.eclipse.elk.layered.nodePlacement.bk.fixedAlignment': 'BALANCED',
+
+  /**
+   * Strategy for cycle breaking.
+   *
+   * Cycle breaking looks for cycles in the graph and determines which edges to reverse to break the cycles.
+   * Reversed edges will end up pointing to the opposite direction of regular edges
+   * (that is, reversed edges will point left if edges usually point right).
+   *
+   * @see https://www.eclipse.org/elk/reference/options/org-eclipse-elk-layered-cycleBreaking-strategy.html
+   */
+  'org.eclipse.elk.layered.cycleBreaking.strategy': 'DEPTH_FIRST',
+
+  /**
+   * Whether this node allows to route self loops inside of it instead of around it.
+   *
+   * If set to true, this will make the node a compound node if it isn’t already,
+   * and will require the layout algorithm to support compound nodes with hierarchical ports.
+   *
+   * @see https://www.eclipse.org/elk/reference/options/org-eclipse-elk-insideSelfLoops-activate.html
+   */
+  'org.eclipse.elk.insideSelfLoops.activate': 'true',
+
+  /**
+   * Whether each connected component should be processed separately.
+   *
+   * @see https://www.eclipse.org/elk/reference/options/org-eclipse-elk-separateConnectedComponents.html
+   */
+  separateConnectedComponents: 'false',
+
+  /**
+   * Spacing to be preserved between pairs of connected components.
+   * This option is only relevant if ‘separateConnectedComponents’ is activated.
+   *
+   * @see https://www.eclipse.org/elk/reference/options/org-eclipse-elk-spacing-componentComponent.html
+   */
+  'spacing.componentComponent': '70',
+
+  /**
+   * XXX NOT SURE - Should be spacing.baseValue?
+   * An optional base value for all other layout options of the ‘spacing’ group.
+   * It can be used to conveniently alter the overall ‘spaciousness’ of the drawing.
+   * Whenever an explicit value is set for the other layout options, this base value will have no effect.
+   * The base value is not inherited, i.e. it must be set for each hierarchical node.
+   *
+   * @see https://www.eclipse.org/elk/reference/groups/org-eclipse-elk-layered-spacing.html
+   */
+  spacing: '75',
+
+  /**
+   * The spacing to be preserved between any pair of nodes of two adjacent layers.
+   * Note that ‘spacing.nodeNode’ is used for the spacing between nodes within the layer itself.
+   *
+   * @see https://www.eclipse.org/elk/reference/options/org-eclipse-elk-layered-spacing-nodeNodeBetweenLayers.html
+   */
+  'spacing.nodeNodeBetweenLayers': '70'
+};
+```
+
