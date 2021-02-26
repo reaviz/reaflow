@@ -98,6 +98,7 @@ export const Edge: FC<Partial<EdgeProps>> = ({
     ? selections.includes(properties?.id)
     : null;
 
+  // The "d" attribute defines a path to be drawn. See https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/d
   const d = useMemo(() => {
     if (!sections?.length) {
       return null;
@@ -159,6 +160,7 @@ export const Edge: FC<Partial<EdgeProps>> = ({
         d={d}
         markerEnd="url(#end-arrow)"
       />
+
       <path
         className={css.clicker}
         d={d}
@@ -182,6 +184,7 @@ export const Edge: FC<Partial<EdgeProps>> = ({
           onLeave(event, properties);
         }}
       />
+
       {labels?.length > 0 &&
         labels.map((l, index) => (
           <CloneElement<LabelProps>
@@ -190,6 +193,7 @@ export const Edge: FC<Partial<EdgeProps>> = ({
             {...(l as LabelProps)}
           />
         ))}
+
       {!disabled && center && !readonly && remove && (
         <CloneElement<RemoveProps>
           element={remove}
@@ -207,6 +211,7 @@ export const Edge: FC<Partial<EdgeProps>> = ({
           onLeave={() => setDeleteHovered(false)}
         />
       )}
+
       {!disabled && center && !readonly && add && (
         <CloneElement<AddProps>
           element={add}
