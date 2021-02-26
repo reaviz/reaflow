@@ -242,7 +242,7 @@ export const Node: FC<Partial<NodeProps>> = ({
               node: properties,
               nodes,
               edges
-            })
+            } as NodeChildProps)
             : children}
         </Fragment>
       )}
