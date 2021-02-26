@@ -1,4 +1,4 @@
-import React, { forwardRef, Ref, useState } from 'react';
+import React, { forwardRef, Fragment, ReactNode, Ref, useState } from 'react';
 import { motion } from 'framer-motion';
 import { PortData } from '../../types';
 import {
@@ -19,6 +19,23 @@ export interface ElkPortProperties {
   'port.alignment': string;
 }
 
+export interface PortChildProps {
+  port: PortData;
+  isDisabled: boolean;
+  isDragging: boolean;
+  isHovered: boolean;
+  x: number;
+  y: number;
+  rx: number;
+  ry: number;
+  offsetX: number;
+  offsetY: number;
+}
+
+export type PortChildrenAsFunction = (
+  portChildProps: PortChildProps
+) => ReactNode;
+
 export interface PortProps extends NodeDragEvents<PortData> {
   id: string;
   x: number;
@@ -31,6 +48,7 @@ export interface PortProps extends NodeDragEvents<PortData> {
   className?: string;
   properties: ElkPortProperties & PortData;
   style?: any;
+  children?: ReactNode | PortChildrenAsFunction;
   active?: boolean;
   onEnter?: (
     event: React.MouseEvent<SVGGElement, MouseEvent>,
@@ -55,6 +73,7 @@ export const Port = forwardRef(
       ry,
       disabled,
       style,
+      children,
       properties,
       offsetX,
       offsetY,
@@ -103,6 +122,19 @@ export const Port = forwardRef(
 
     const isDisabled = properties.disabled || disabled;
 
+    const portChildProps: PortChildProps = {
+      port: properties,
+      isDragging: dragging,
+      isHovered: hovered,
+      isDisabled,
+      x,
+      y,
+      rx,
+      ry,
+      offsetX,
+      offsetY
+    };
+
     return (
       <g>
         <rect
@@ -128,6 +160,7 @@ export const Port = forwardRef(
             onClick(event, properties);
           }}
         />
+
         <motion.rect
           key={`${x}-${y}`}
           style={style}
@@ -149,6 +182,14 @@ export const Port = forwardRef(
             opacity: 1
           }}
         />
+
+        {children && (
+          <Fragment>
+            {typeof children === 'function'
+              ? (children as PortChildrenAsFunction)(portChildProps)
+              : children}
+          </Fragment>
+        )}
       </g>
     );
   }
