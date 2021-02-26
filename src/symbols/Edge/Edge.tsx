@@ -109,9 +109,9 @@ export const Edge: FC<Partial<EdgeProps>> = ({
   const [deleteHovered, setDeleteHovered] = useState<boolean>(false);
   const [center, setCenter] = useState<CenterCoords | null>(null);
   const { selections, readonly } = useCanvas();
-  const isActive = selections?.length
+  const isActive: boolean = selections?.length
     ? selections.includes(properties?.id)
-    : null;
+    : false;
 
   // The "d" attribute defines a path to be drawn. See https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/d
   const d = useMemo(() => {
