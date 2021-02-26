@@ -89,19 +89,19 @@ export const Port = forwardRef(
     ref: Ref<SVGRectElement>
   ) => {
     const { readonly } = useCanvas();
-    const [dragging, setDragging] = useState<boolean>(false);
-    const [hovered, setHovered] = useState<boolean>(false);
+    const [isDragging, setIsDragging] = useState<boolean>(false);
+    const [isHovered, setIsHovered] = useState<boolean>(false);
     const newX = x - properties.width / 2;
     const newY = y - properties.height / 2;
 
     const onDragStartInternal = (event: DragEvent, initial: Position) => {
       onDragStart(event, initial, properties);
-      setDragging(true);
+      setIsDragging(true);
     };
 
     const onDragEndInternal = (event: DragEvent, initial: Position) => {
       onDragEnd(event, initial, properties);
-      setDragging(false);
+      setIsDragging(false);
     };
 
     const bind = useNodeDrag({
@@ -124,8 +124,8 @@ export const Port = forwardRef(
 
     const portChildProps: PortChildProps = {
       port: properties,
-      isDragging: dragging,
-      isHovered: hovered,
+      isDragging,
+      isHovered,
       isDisabled,
       x,
       y,
@@ -147,12 +147,12 @@ export const Port = forwardRef(
           className={classNames(css.clicker, { [css.disabled]: isDisabled })}
           onMouseEnter={(event) => {
             event.stopPropagation();
-            setHovered(true);
+            setIsHovered(true);
             onEnter(event, properties);
           }}
           onMouseLeave={(event) => {
             event.stopPropagation();
-            setHovered(false);
+            setIsHovered(false);
             onLeave(event, properties);
           }}
           onClick={(event) => {
@@ -178,7 +178,7 @@ export const Port = forwardRef(
           animate={{
             x: newX,
             y: newY,
-            scale: (dragging || active || hovered) && !isDisabled ? 1.5 : 1,
+            scale: (isDragging || active || isHovered) && !isDisabled ? 1.5 : 1,
             opacity: 1
           }}
         />
