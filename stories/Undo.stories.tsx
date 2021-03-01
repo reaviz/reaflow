@@ -27,7 +27,8 @@ export default {
   argTypes: {
     initialHistory: {
       control: {
-        disable: true // TODO make it readonly when it'll be possible - See https://github.com/storybookjs/storybook/issues/14048
+        // TODO make it readonly when it'll be possible - See https://github.com/storybookjs/storybook/issues/14048
+        disable: true
       }
     }
   },
@@ -44,9 +45,7 @@ export default {
   }
 } as Meta;
 
-type Props = {}
-
-export const Simple: Story<Props> = () => {
+export const Simple: Story = () => {
   const [nodes, setNodes] = useState<any[]>([
     {
       id: '1',
@@ -126,7 +125,7 @@ export const Simple: Story<Props> = () => {
   );
 };
 
-export const WithInitialHistory: Story<Props> = () => {
+export const WithInitialHistory: Story = () => {
   const initialHistory: UndoRedoHistory = [
     {
       nodes: [],
