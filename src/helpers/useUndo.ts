@@ -123,9 +123,11 @@ export const useUndo = ({
 
   const manager = useRef<Undoo>(undoo);
 
-  if (Array.isArray(initialHistory)) {
-    undoo.import(initialHistory);
-  }
+  useEffect(() => {
+    if (Array.isArray(initialHistory)) {
+      undoo.import(initialHistory);
+    }
+  }, []);
 
   // Reference: https://reactjs.org/docs/hooks-faq.html#how-to-read-an-often-changing-value-from-usecallback
   const callbackRef = useRef(onUndoRedo);
