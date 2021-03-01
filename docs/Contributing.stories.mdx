@@ -1,0 +1,42 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Docs/Contributing" />
+
+# Contributing
+
+## Getting started
+
+- `yarn install`
+- `yarn start` opens Storybook documentation on [localhost:9009](http://localhost:9009)
+
+## Using the `reaflow` package locally as a dependency
+
+If you're working on some app **that uses `reaflow` as a dependency**, and if you want to quickly update the code of `reaflow` locally (without publishing changes to NPM), you basically have two choices:
+- [Use Git submodules](https://git-scm.com/book/en/v2/Git-Tools-Submodules)
+- Use [NPM](https://docs.npmjs.com/cli/v6/commands/npm-link)/[Yarn](https://classic.yarnpkg.com/en/docs/cli/link/) `link` feature
+
+At this time, we don't have an official recommandation about which one to use, it's up to you.
+
+### Using `link`
+
+Using NPM/Yarn link will link your dependencies on your main project to your local `reaflow` folder.
+
+> :warning: Beware: The "link" might break quite often when installing new dependencies on your main project, and you'll need to unlink and link back again to fix it.
+
+#### Configuration example (with Yarn):
+
+1. From your local `reaflow` folder, run `yarn install` and then `yarn link:reaflow`, which will create the links in yarn
+1. From your main project folder, run `yarn link reaflow && yarn link react && yarn link react-dom`
+  - _We suggest adding it as a command in your package.json: `"link:reaflow": "yarn link reaflow && yarn link react && yarn link react-dom"`_ - [See example](https://github.com/Vadorequest/poc-nextjs-reaflow/blob/cf8499008c4b70946d82803741401fac48264a5b/package.json#L8)
+1. **If you edit the `reaflow` files** and need to recompile the project then run `yarn build:watch` from your local `reaflow` folder (changes will be applied immediately, you'll benefit from hot-reloading, etc.)
+
+Once everything is linked, your main project will use the files in your local `reaflow` folder.
+While `yarn build:watch` is running, your changes from `reaflow` will automatically apply to your main project.
+
+#### :warning When the link breaks
+
+When you install new dependencies in your main project, it might break the links with `reaflow`.
+
+To fix it, you'll need to remove your `node_modules` folder and reinstall all packages **on both** your main project and `reaflow`, starting with `reaflow`.
+1. From `reaflow` folder: `rm -rf node_modules && yarn && yarn link:reaflow`
+1. From your main project folder: `rm -rf node_modules && yarn && yarn link:reaflow`
