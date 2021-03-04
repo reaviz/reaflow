@@ -1,4 +1,4 @@
-import React, { forwardRef, Ref, useState } from 'react';
+import React, { forwardRef, Fragment, ReactNode, Ref, useState } from 'react';
 import { motion } from 'framer-motion';
 import { PortData } from '../../types';
 import {
@@ -19,6 +19,23 @@ export interface ElkPortProperties {
   'port.alignment': string;
 }
 
+export interface PortChildProps {
+  port: PortData;
+  isDisabled: boolean;
+  isDragging: boolean;
+  isHovered: boolean;
+  x: number;
+  y: number;
+  rx: number;
+  ry: number;
+  offsetX: number;
+  offsetY: number;
+}
+
+export type PortChildrenAsFunction = (
+  portChildProps: PortChildProps
+) => ReactNode;
+
 export interface PortProps extends NodeDragEvents<PortData> {
   id: string;
   x: number;
@@ -31,6 +48,7 @@ export interface PortProps extends NodeDragEvents<PortData> {
   className?: string;
   properties: ElkPortProperties & PortData;
   style?: any;
+  children?: ReactNode | PortChildrenAsFunction;
   active?: boolean;
   onEnter?: (
     event: React.MouseEvent<SVGGElement, MouseEvent>,
@@ -55,6 +73,7 @@ export const Port = forwardRef(
       ry,
       disabled,
       style,
+      children,
       properties,
       offsetX,
       offsetY,
@@ -70,19 +89,19 @@ export const Port = forwardRef(
     ref: Ref<SVGRectElement>
   ) => {
     const { readonly } = useCanvas();
-    const [dragging, setDragging] = useState<boolean>(false);
-    const [hovered, setHovered] = useState<boolean>(false);
+    const [isDragging, setIsDragging] = useState<boolean>(false);
+    const [isHovered, setIsHovered] = useState<boolean>(false);
     const newX = x - properties.width / 2;
     const newY = y - properties.height / 2;
 
     const onDragStartInternal = (event: DragEvent, initial: Position) => {
       onDragStart(event, initial, properties);
-      setDragging(true);
+      setIsDragging(true);
     };
 
     const onDragEndInternal = (event: DragEvent, initial: Position) => {
       onDragEnd(event, initial, properties);
-      setDragging(false);
+      setIsDragging(false);
     };
 
     const bind = useNodeDrag({
@@ -103,6 +122,19 @@ export const Port = forwardRef(
 
     const isDisabled = properties.disabled || disabled;
 
+    const portChildProps: PortChildProps = {
+      port: properties,
+      isDragging,
+      isHovered,
+      isDisabled,
+      x,
+      y,
+      rx,
+      ry,
+      offsetX,
+      offsetY
+    };
+
     return (
       <g>
         <rect
@@ -115,12 +147,12 @@ export const Port = forwardRef(
           className={classNames(css.clicker, { [css.disabled]: isDisabled })}
           onMouseEnter={(event) => {
             event.stopPropagation();
-            setHovered(true);
+            setIsHovered(true);
             onEnter(event, properties);
           }}
           onMouseLeave={(event) => {
             event.stopPropagation();
-            setHovered(false);
+            setIsHovered(false);
             onLeave(event, properties);
           }}
           onClick={(event) => {
@@ -145,10 +177,17 @@ export const Port = forwardRef(
           animate={{
             x: newX,
             y: newY,
-            scale: (dragging || active || hovered) && !isDisabled ? 1.5 : 1,
+            scale: (isDragging || active || isHovered) && !isDisabled ? 1.5 : 1,
             opacity: 1
           }}
         />
+        {children && (
+          <Fragment>
+            {typeof children === 'function'
+              ? (children as PortChildrenAsFunction)(portChildProps)
+              : children}
+          </Fragment>
+        )}
       </g>
     );
   }

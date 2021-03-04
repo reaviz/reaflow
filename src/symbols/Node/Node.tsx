@@ -3,9 +3,7 @@ import React, {
   Fragment,
   ReactElement,
   ReactNode,
-  useCallback,
   useEffect,
-  useRef,
   useState
 } from 'react';
 import { motion, useAnimation } from 'framer-motion';
@@ -37,6 +35,10 @@ export interface NodeChildProps {
   edges?: EdgeData[];
 }
 
+export type NodeChildrenAsFunction = (
+  nodeChildProps: NodeChildProps
+) => ReactNode;
+
 export interface NodeProps extends NodeDragEvents<NodeData, PortData> {
   id: string;
   height: number;
@@ -53,7 +55,7 @@ export interface NodeProps extends NodeDragEvents<NodeData, PortData> {
   properties: any;
   className?: string;
   style?: any;
-  children?: ReactNode | ((node: NodeChildProps) => ReactNode);
+  children?: ReactNode | NodeChildrenAsFunction;
   parent?: string;
 
   nodes?: NodeData[];
@@ -174,6 +176,16 @@ export const Node: FC<Partial<NodeProps>> = ({
     });
   }, [controls, x, y]);
 
+  const nodeChildProps: NodeChildProps = {
+    height,
+    width,
+    x,
+    y,
+    node: properties,
+    nodes,
+    edges
+  };
+
   return (
     <motion.g
       initial={{
@@ -234,15 +246,7 @@ export const Node: FC<Partial<NodeProps>> = ({
       {children && (
         <Fragment>
           {typeof children === 'function'
-            ? (children as any)({
-              height,
-              width,
-              x,
-              y,
-              node: properties,
-              nodes,
-              edges
-            })
+            ? (children as NodeChildrenAsFunction)(nodeChildProps)
             : children}
         </Fragment>
       )}

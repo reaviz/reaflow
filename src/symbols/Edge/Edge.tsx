@@ -1,6 +1,9 @@
 import React, {
   FC,
+  Fragment,
+  MutableRefObject,
   ReactElement,
+  ReactNode,
   useEffect,
   useMemo,
   useRef,
@@ -33,6 +36,16 @@ export interface EdgeSections {
   };
 }
 
+export interface EdgeChildProps {
+  edge: EdgeData;
+  pathRef: MutableRefObject<SVGPathElement> | null;
+  center: CenterCoords | null;
+}
+
+export type EdgeChildrenAsFunction = (
+  edgeChildProps: EdgeChildProps
+) => ReactNode;
+
 export interface EdgeProps {
   id: string;
   disabled?: boolean;
@@ -42,6 +55,7 @@ export interface EdgeProps {
   targetPort: string;
   properties?: EdgeData;
   style?: any;
+  children?: ReactNode | EdgeChildrenAsFunction;
   sections: EdgeSections[];
   labels?: LabelProps[];
   className?: string;
@@ -80,6 +94,7 @@ export const Edge: FC<Partial<EdgeProps>> = ({
   className,
   disabled,
   style,
+  children,
   add = <Add />,
   remove = <Remove />,
   label = <Label />,
@@ -94,17 +109,18 @@ export const Edge: FC<Partial<EdgeProps>> = ({
   const [deleteHovered, setDeleteHovered] = useState<boolean>(false);
   const [center, setCenter] = useState<CenterCoords | null>(null);
   const { selections, readonly } = useCanvas();
-  const isActive = selections?.length
+  const isActive: boolean = selections?.length
     ? selections.includes(properties?.id)
-    : null;
+    : false;
 
+  // The "d" attribute defines a path to be drawn. See https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/d
   const d = useMemo(() => {
     if (!sections?.length) {
       return null;
     }
 
     // Handle bend points that elk gives
-    // us seperately from drag points
+    // us separately from drag points
     if (sections[0].bendPoints) {
       const points: any[] = sections
         ? [
@@ -141,6 +157,12 @@ export const Edge: FC<Partial<EdgeProps>> = ({
       );
     }
   }, [sections]);
+
+  const edgeChildProps: EdgeChildProps = {
+    edge: properties,
+    center,
+    pathRef
+  };
 
   return (
     <g
@@ -182,6 +204,13 @@ export const Edge: FC<Partial<EdgeProps>> = ({
           onLeave(event, properties);
         }}
       />
+      {children && (
+        <Fragment>
+          {typeof children === 'function'
+            ? (children as EdgeChildrenAsFunction)(edgeChildProps)
+            : children}
+        </Fragment>
+      )}
       {labels?.length > 0 &&
         labels.map((l, index) => (
           <CloneElement<LabelProps>
