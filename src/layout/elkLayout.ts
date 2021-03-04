@@ -85,12 +85,11 @@ const defaultLayoutOptions: ElkCanvasLayoutOptions = {
   'elk.direction': 'DOWN',
 
   /**
-   * XXX NOT SURE - Option doesn't seem to exist, should be "org.eclipse.elk.layered.layering.strategy"?
    * Strategy for node layering.
    *
    * @see https://www.eclipse.org/elk/reference/options/org-eclipse-elk-layered-layering-strategy.html
    */
-  nodeLayering: 'INTERACTIVE',
+  'org.eclipse.elk.layered.layering.strategy': 'INTERACTIVE',
 
   /**
    * What kind of edge routing style should be applied for the content of a parent node.
