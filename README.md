@@ -25,23 +25,32 @@
 
 ---
 
-REAFLOW is a modular diagram engine for build static or interactive editors.
-The library is feature rich and modular allowing for displaying complex visualizations
-with total customizability.
+REAFLOW is a modular diagram engine for building static or interactive editors. The library is feature-rich and modular allowing for displaying complex
+visualizations with total customizability.
 
 ## 🚀 Quick Links
-- Checkout the [docs and demos](https://reaflow.dev)
-- Learn about updates from the [Changelog](CHANGELOG.md)
+
+- :point_right: Checkout the [**docs and demos**](https://reaflow.dev)
+- :newspaper: Learn about updates from the [Changelog](CHANGELOG.md)
 - Explore the library on [Chroma](https://www.chromatic.com/library?appId=5f99ba42fe88ac0022fd1147)
 
 ## 📦 Usage
-Install the package via NPM:
+
+Install the package via **NPM**:
 
 ```
 npm i reaflow --save
 ```
 
-then add the component with some nodes and edges:
+Install the package via **Yarn**:
+
+```
+yarn add reaflow
+```
+
+## Usage with Create React App (no SSR support, client-side support only)
+
+Add the component with some nodes and edges:
 
 ```jsx
 import React from 'react';
@@ -49,6 +58,8 @@ import { Canvas } from 'reaflow';
 
 export default () => (
   <Canvas
+    maxWidth={800} // Use small canvas dimensions to make sure the nodes appear on screen immediately
+    maxHeight={600}
     nodes={[
       {
         id: '1',
@@ -70,8 +81,16 @@ export default () => (
 );
 ```
 
-## 🔭 Developing
+## Usage with Next.js framework
 
-- `yarn install`
-- `yarn start`
-- Storybook Opens
+See [SSR Support](https://reaflow.dev/?path=/story/docs-getting-started-ssr-support--page)
+
+## Community showcases
+
+See [Community showcases](https://reaflow.dev/?path=/story/docs-community--page)
+
+---
+
+# 🔭 Contributing
+
+See [Contributing](https://reaflow.dev/?path=/story/docs-contributing--page)
