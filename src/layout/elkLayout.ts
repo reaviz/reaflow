@@ -165,7 +165,7 @@ const defaultLayoutOptions: ElkCanvasLayoutOptions = {
   'spacing.componentComponent': '70',
 
   /**
-   * XXX NOT SURE - Should be spacing.baseValue?
+   * TODO: Should be spacing.baseValue?
    * An optional base value for all other layout options of the ‘spacing’ group.
    * It can be used to conveniently alter the overall ‘spaciousness’ of the drawing.
    * Whenever an explicit value is set for the other layout options, this base value will have no effect.
