@@ -49,8 +49,6 @@ export interface CanvasContainerProps extends CanvasProps {
 
   /**
    * Whether the canvas is pannable or not.
-   *
-   * TODO What does "pannable" means in Reaflow context? I don't understand it
    */
   pannable?: boolean;
 
