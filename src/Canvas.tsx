@@ -12,7 +12,12 @@ import React, {
 import { useId, CloneElement } from 'rdk';
 import { Node, NodeProps } from './symbols/Node';
 import { Edge, EdgeProps } from './symbols/Edge';
-import { ElkRoot, CanvasDirection, useLayout, LayoutResult } from './layout';
+import {
+  ElkRoot,
+  CanvasDirection,
+  LayoutResult,
+  ElkCanvasLayoutOptions
+} from './layout';
 import { MarkerArrow, MarkerArrowProps } from './symbols/Arrow';
 import { EdgeData, NodeData, PortData } from './types';
 import classNames from 'classnames';
@@ -90,20 +95,24 @@ export interface CanvasContainerProps extends CanvasProps {
   /**
    * ELKJS Layout Options
    */
-  layoutOptions?: any;
+  layoutOptions?: ElkCanvasLayoutOptions;
 
   /**
    * Callback to check if a node is linkable or not.
    */
-  onNodeLink?: (from: NodeData, to: NodeData, port?: PortData) => void;
+  onNodeLink?: (
+    fromNode: NodeData,
+    toNode: NodeData,
+    fromPort?: PortData
+  ) => void;
 
   /**
    * Callback when a node is linked.
    */
   onNodeLinkCheck?: (
-    from: NodeData,
-    to: NodeData,
-    port?: PortData
+    fromNode: NodeData,
+    toNode: NodeData,
+    fromPort?: PortData
   ) => undefined | boolean;
 
   /**

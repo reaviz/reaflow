@@ -6,7 +6,11 @@ import {
   useRef,
   useState
 } from 'react';
-import { elkLayout, CanvasDirection } from './elkLayout';
+import {
+  elkLayout,
+  CanvasDirection,
+  ElkCanvasLayoutOptions
+} from './elkLayout';
 import useDimensions from 'react-cool-dimensions';
 import isEqual from 'react-fast-compare';
 import { EdgeData, NodeData } from '../types';
@@ -30,7 +34,7 @@ export interface LayoutProps {
   center: boolean;
   fit: boolean;
   zoom: number;
-  layoutOptions?: any;
+  layoutOptions?: ElkCanvasLayoutOptions;
   direction: CanvasDirection;
   setZoom: (factor: number) => void;
   onLayoutChange: (layout: ElkRoot) => void;
@@ -111,7 +115,10 @@ export const useLayout = ({
   const canvasWidth = pannable ? maxWidth : width;
 
   useEffect(() => {
-    const promise = elkLayout(nodes, edges, { direction, ...layoutOptions });
+    const promise = elkLayout(nodes, edges, {
+      'elk.direction': direction,
+      ...layoutOptions
+    });
 
     promise
       .then((result) => {

@@ -43,11 +43,15 @@ export interface UndoProps {
 
   /**
    * Max history count.
+   *
+   * @default 20
    */
   maxHistory?: number;
 
   /**
    * Disabled or not.
+   *
+   * @default false
    */
   disabled?: boolean;
 
@@ -178,7 +182,7 @@ export const useUndo = ({
       description: 'Undo changes',
       callback: (event) => {
         event.preventDefault();
-        if (!disabled) {
+        if (!disabled && canUndo) {
           undo();
         }
       }
@@ -190,7 +194,7 @@ export const useUndo = ({
       description: 'Redo changes',
       callback: (event) => {
         event.preventDefault();
-        if (!disabled) {
+        if (!disabled && canRedo) {
           redo();
         }
       }

@@ -1,10 +1,13 @@
-import { ElkRoot, LayoutResult, useLayout } from '../layout/useLayout';
-import React, { createContext, RefObject, useContext } from 'react';
+import React, { createContext, useContext } from 'react';
+import { LayoutResult, useLayout } from '../layout/useLayout';
 import { NodeData, PortData } from '../types';
 import { EdgeDragResult, useEdgeDrag } from './useEdgeDrag';
 import { useZoom, ZoomResult } from './useZoom';
 
-export interface CanvasProviderValue extends EdgeDragResult, LayoutResult, ZoomResult {
+export interface CanvasProviderValue
+  extends EdgeDragResult,
+    LayoutResult,
+    ZoomResult {
   selections?: string[];
   readonly?: boolean;
   pannable: boolean;
@@ -13,11 +16,15 @@ export interface CanvasProviderValue extends EdgeDragResult, LayoutResult, ZoomR
 export const CanvasContext = createContext<CanvasProviderValue>({} as any);
 
 export interface CanvasProviderProps {
-  onNodeLink?: (from: NodeData, to: NodeData, port?: PortData) => void;
+  onNodeLink?: (
+    fromNode: NodeData,
+    toNode: NodeData,
+    fromPort?: PortData
+  ) => void;
   onNodeLinkCheck?: (
-    from: NodeData,
-    to: NodeData,
-    port?: PortData
+    fromNode: NodeData,
+    toNode: NodeData,
+    fromPort?: PortData
   ) => undefined | boolean;
 }
 
