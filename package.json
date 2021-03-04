@@ -12,9 +12,7 @@
     "start": "start-storybook -p 9009",
     "copy": "cp CNAME storybook-static/",
     "build-storybook": "build-storybook",
-    "chromatic": "npx chromatic --project-token ugo6c655mvm --auto-accept-changes",
-    "link:reaflow": "yarn link && cd ./node_modules/react && yarn link && cd ../react-dom && yarn link",
-    "unlink:reaflow": "yarn unlink || cd ./node_modules/react && yarn unlink || cd ../react-dom && yarn unlink"
+    "chromatic": "npx chromatic --project-token ugo6c655mvm --auto-accept-changes"
   },
   "source": "src/index.ts",
   "main": "dist/index.cjs.js",
