@@ -57,31 +57,27 @@ import React from 'react';
 import { Canvas } from 'reaflow';
 
 export default () => (
-  <div style={{ position: 'relative', width: '100vw', height: '100vh' }}>
-    <div style={{ position: 'absolute', top: 0, bottom: 0, left: 0, right: 0, 'background-color': 'lightgrey' }}>
-      <Canvas
-        maxWidth={800} // Use small canvas dimensions to make sure the nodes appear on screen immediately
-        maxHeight={600}
-        nodes={[
-          {
-            id: '1',
-            text: '1'
-          },
-          {
-            id: '2',
-            text: '2'
-          }
-        ]}
-        edges={[
-          {
-            id: '1-2',
-            from: '1',
-            to: '2'
-          }
-        ]}
-      />
-    </div>
-  </div>
+  <Canvas
+    maxWidth={800} // Use small canvas dimensions to make sure the nodes appear on screen immediately
+    maxHeight={600}
+    nodes={[
+      {
+        id: '1',
+        text: '1'
+      },
+      {
+        id: '2',
+        text: '2'
+      }
+    ]}
+    edges={[
+      {
+        id: '1-2',
+        from: '1',
+        to: '2'
+      }
+    ]}
+  />
 );
 ```
 
