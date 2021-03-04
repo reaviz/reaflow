@@ -13,44 +13,45 @@ and performing the actual link.
 
 Below is a example showing how one might use these two functions together:
 
-```jsx
-import React from 'react';
-import { Canvas, hasLink } from 'reaflow';
+```tsx
+import React, { useState } from 'react';
+import { Canvas, hasLink, NodeData, EdgeData } from 'reaflow';
 
-const nodes = [
-  {
-    id: '1',
-    text: '1'
-  },
-  {
-    id: '2',
-    text: '2'
-  }
-];
+export default () => {
+  const [nodes, setNodes] = useState<NodeData[]>([
+    {
+      id: '1',
+      text: '1'
+    },
+    {
+      id: '2',
+      text: '2'
+    }
+  ]);
+  const [edges, setEdges] = useState<EdgeData[]>([]);
 
-const edges = [];
+  return (
+    <Canvas
+      nodes={nodes}
+      edges={edges}
+      onNodeLinkCheck={(from: NodeData, to: NodeData) => {
+        return !hasLink(edges, from, to);
+      }}
+      onNodeLink={(from, to) => {
+        const id = `${from.id}-${to.id}`;
 
-export default () => (
-  <Canvas
-    nodes={nodes}
-    edges={edges}
-    onNodeLinkCheck={(from: NodeData, to: NodeData) => {
-      return !hasLink(edges, from, to);
-    }}
-    onNodeLink={(from, to) => {
-      const id = `${from.id}-${to.id}`;
-
-      setEdges([
-        ...edges,
-        {
-          id,
-          from: from.id,
-          to: to.id
-        }
-      ]);
-    }}
-  />
-);
+        setEdges([
+          ...edges,
+          {
+            id,
+            from: from.id,
+            to: to.id
+          }
+        ]);
+      }}
+    />
+  )
+};
 ```
 
 In the example, we take advantage of one of the
