@@ -181,7 +181,6 @@ export const Edge: FC<Partial<EdgeProps>> = ({
         d={d}
         markerEnd="url(#end-arrow)"
       />
-
       <path
         className={css.clicker}
         d={d}
@@ -205,7 +204,6 @@ export const Edge: FC<Partial<EdgeProps>> = ({
           onLeave(event, properties);
         }}
       />
-
       {children && (
         <Fragment>
           {typeof children === 'function'
@@ -213,7 +211,6 @@ export const Edge: FC<Partial<EdgeProps>> = ({
             : children}
         </Fragment>
       )}
-
       {labels?.length > 0 &&
         labels.map((l, index) => (
           <CloneElement<LabelProps>
@@ -222,7 +219,6 @@ export const Edge: FC<Partial<EdgeProps>> = ({
             {...(l as LabelProps)}
           />
         ))}
-
       {!disabled && center && !readonly && remove && (
         <CloneElement<RemoveProps>
           element={remove}
@@ -240,7 +236,6 @@ export const Edge: FC<Partial<EdgeProps>> = ({
           onLeave={() => setDeleteHovered(false)}
         />
       )}
-
       {!disabled && center && !readonly && add && (
         <CloneElement<AddProps>
           element={add}

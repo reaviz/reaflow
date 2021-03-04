@@ -160,7 +160,6 @@ export const Port = forwardRef(
             onClick(event, properties);
           }}
         />
-
         <motion.rect
           key={`${x}-${y}`}
           style={style}
@@ -182,7 +181,6 @@ export const Port = forwardRef(
             opacity: 1
           }}
         />
-
         {children && (
           <Fragment>
             {typeof children === 'function'
