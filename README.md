@@ -48,9 +48,7 @@ Install the package via **Yarn**:
 yarn add reaflow
 ```
 
-## Usage with Create React App (no SSR support, client-side support only)
-
-Add the component with some nodes and edges:
+Import the component into your app and add some nodes and edges:
 
 ```jsx
 import React from 'react';
@@ -58,7 +56,7 @@ import { Canvas } from 'reaflow';
 
 export default () => (
   <Canvas
-    maxWidth={800} // Use small canvas dimensions to make sure the nodes appear on screen immediately
+    maxWidth={800}
     maxHeight={600}
     nodes={[
       {
@@ -81,16 +79,6 @@ export default () => (
 );
 ```
 
-## Usage with Next.js framework
-
-See [SSR Support](https://reaflow.dev/?path=/story/docs-getting-started-ssr-support--page)
-
-## Community showcases
-
-See [Community showcases](https://reaflow.dev/?path=/story/docs-community--page)
-
----
-
-# 🔭 Contributing
+## 🔭 Contributing
 
 See [Contributing](https://reaflow.dev/?path=/story/docs-contributing--page)
