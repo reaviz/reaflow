@@ -140,6 +140,9 @@ export const NestedEdges = () => {
       description: 'Description of XYZ',
       // describes padding for nested nodes
       nodePadding: [120, 50, 50, 50],
+      layoutOptions:{
+        portConstraints: 'FREE',
+      },
       ...nodeDimensions.typeA
     },
     {
@@ -147,6 +150,9 @@ export const NestedEdges = () => {
       parent: '2',
       label: 'B',
       name: 'Task 1',
+      layoutOptions:{
+        portConstraints: 'FREE',
+      },
       ...nodeDimensions.typeB
     },
     {
@@ -154,6 +160,9 @@ export const NestedEdges = () => {
       parent: '2.1',
       label: 'B',
       name: 'Task 1',
+      layoutOptions:{
+        portConstraints: 'FREE',
+      },
       ...nodeDimensions.typeB
     },
     {
@@ -161,10 +170,16 @@ export const NestedEdges = () => {
       parent: '2',
       label: 'B',
       name: 'Task 2',
+      layoutOptions:{
+        portConstraints: 'FREE',
+      },
       ...nodeDimensions.typeB
     },
     {
       id: '3',
+      layoutOptions:{
+        portConstraints: 'FREE',
+      },
       text: '3'
     }
   ];
@@ -214,7 +229,7 @@ export const NestedEdges = () => {
         )
       default:
         return (
-          <Node/>
+          <Node />
         )
     }
   }
