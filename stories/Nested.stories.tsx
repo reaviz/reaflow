@@ -150,6 +150,13 @@ export const NestedEdges = () => {
       ...nodeDimensions.typeB
     },
     {
+      id: '2.1.1',
+      parent: '2.1',
+      label: 'B',
+      name: 'Task 1',
+      ...nodeDimensions.typeB
+    },
+    {
       id: '2.2',
       parent: '2',
       label: 'B',
@@ -166,6 +173,11 @@ export const NestedEdges = () => {
       id: '1-2.1',
       from: '1',
       to: '2.1'
+    },
+    {
+      id: '1-2.1.1',
+      from: '1',
+      to: '2.1.1'
     },
     {
       id: '2.1-2.2',
