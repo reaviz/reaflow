@@ -339,8 +339,8 @@ const InternalCanvas: FC<CanvasProps & { ref?: Ref<CanvasRef> }> = forwardRef(
               }
             }}
           >
-            {layout?.edges?.map(renderEdge)}
             {layout?.children?.map(renderNode)}
+            {layout?.edges?.map(renderEdge)}
             {dragCoords !== null && !readonly && (
               <CloneElement<EdgeProps>
                 element={dragEdge}
