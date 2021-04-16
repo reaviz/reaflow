@@ -1,6 +1,9 @@
 # 3.1.0 - 4/16/21
 - [chore] upgrade rdk/realayers/deps
 
+# 3.0.14 - 3/7/21
+- [feature] Add `children` property to Edges/Port components #76
+
 # 3.0.13 - 2/11/21
 - [fix] fix disabled css overrides not correct in node
 
