@@ -1,3 +1,6 @@
+# 3.1.1 - 4/19/21
+- [feature] add `animated` property to disable animations
+
 # 3.1.0 - 4/16/21
 - [chore] upgrade rdk/realayers/deps
 

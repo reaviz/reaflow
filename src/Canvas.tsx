@@ -138,6 +138,11 @@ export interface CanvasProps {
   disabled?: boolean;
 
   /**
+   * Whether the nodes / edges are animated or not.
+   */
+  animated?: boolean;
+
+  /**
    * Static height of the canvas.
    */
   height?: number;
@@ -202,6 +207,7 @@ const InternalCanvas: FC<CanvasProps & { ref?: Ref<CanvasRef> }> = forwardRef(
       width = '100%',
       readonly,
       disabled = false,
+      animated = true,
       arrow = <MarkerArrow />,
       node = <Node />,
       edge = <Edge />,
@@ -246,42 +252,6 @@ const InternalCanvas: FC<CanvasProps & { ref?: Ref<CanvasRef> }> = forwardRef(
       zoomOut,
       fitCanvas
     }));
-
-    const renderNode = useCallback(
-      ({ children, ...n }) => {
-        const element = typeof node === 'function' ? node(n) : node;
-        return (
-          <CloneElement<NodeProps>
-            key={n.id}
-            element={element}
-            id={`${id}-node-${n.id}`}
-            disabled={disabled}
-            children={element.props.children}
-            nodes={children}
-            childEdge={edge}
-            childNode={node}
-            {...n}
-          />
-        );
-      },
-      [node, edge, disabled, id]
-    );
-
-    const renderEdge = useCallback(
-      (e: EdgeProps) => {
-        const element = typeof edge === 'function' ? edge(e) : edge;
-        return (
-          <CloneElement<EdgeProps>
-            key={e.id}
-            element={element}
-            id={`${id}-edge-${e.id}`}
-            disabled={disabled}
-            {...e}
-          />
-        );
-      },
-      [edge, disabled, id]
-    );
 
     const mount = useRef<boolean>(false);
     useLayoutEffect(() => {
@@ -330,17 +300,50 @@ const InternalCanvas: FC<CanvasProps & { ref?: Ref<CanvasRef> }> = forwardRef(
               translateX: xy[0],
               translateY: xy[1],
               scale: zoom,
-              transition: {
-                velocity: 100,
-                translateX: { duration: mount.current ? 0.3 : 0 },
-                translateY: { duration: mount.current ? 0.3 : 0 },
-                opacity: { duration: 0.8 },
-                when: 'beforeChildren'
-              }
+              transition: animated
+                ? {
+                  velocity: 100,
+                  translateX: { duration: mount.current ? 0.3 : 0 },
+                  translateY: { duration: mount.current ? 0.3 : 0 },
+                  opacity: { duration: 0.8 },
+                  when: 'beforeChildren'
+                }
+                : {
+                  type: false,
+                  duration: 0,
+                  when: 'beforeChildren'
+                }
             }}
           >
-            {layout?.children?.map(renderNode)}
-            {layout?.edges?.map(renderEdge)}
+            {layout?.children?.map(({ children, ...n }) => {
+              const element = typeof node === 'function' ? node(n) : node;
+              return (
+                <CloneElement<NodeProps>
+                  key={n.id}
+                  element={element}
+                  id={`${id}-node-${n.id}`}
+                  disabled={disabled}
+                  children={element.props.children}
+                  animated={animated}
+                  nodes={children}
+                  childEdge={edge}
+                  childNode={node}
+                  {...n}
+                />
+              );
+            })}
+            {layout?.edges?.map((e) => {
+              const element = typeof edge === 'function' ? edge(e) : edge;
+              return (
+                <CloneElement<EdgeProps>
+                  key={e.id}
+                  element={element}
+                  id={`${id}-edge-${e.id}`}
+                  disabled={disabled}
+                  {...e}
+                />
+              );
+            })}
             {dragCoords !== null && !readonly && (
               <CloneElement<EdgeProps>
                 element={dragEdge}

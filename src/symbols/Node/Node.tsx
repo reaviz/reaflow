@@ -57,6 +57,7 @@ export interface NodeProps extends NodeDragEvents<NodeData, PortData> {
   style?: any;
   children?: ReactNode | NodeChildrenAsFunction;
   parent?: string;
+  animated?: boolean;
 
   nodes?: NodeData[];
   edges?: EdgeData[];
@@ -102,6 +103,7 @@ export const Node: FC<Partial<NodeProps>> = ({
   height,
   width,
   properties,
+  animated,
   className,
   rx = 2,
   ry = 2,
@@ -240,7 +242,8 @@ export const Node: FC<Partial<NodeProps>> = ({
           opacity: 0
         }}
         animate={{
-          opacity: 1
+          opacity: 1,
+          transition: !animated ? { type: false, duration: 0 } : {}
         }}
       />
       {children && (
@@ -340,6 +343,7 @@ export const Node: FC<Partial<NodeProps>> = ({
                 nodes={children}
                 offsetX={newX}
                 offsetY={newY}
+                animated={animated}
                 children={element.props.children}
                 childNode={childNode}
                 childEdge={childEdge}
