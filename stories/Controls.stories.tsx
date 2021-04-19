@@ -228,8 +228,6 @@ export const Zoom = () => {
   );
 };
 
-
-
 export const ZoomExternal = () => {
   const ref = useRef<CanvasRef | null>(null);
 
@@ -244,8 +242,10 @@ export const ZoomExternal = () => {
       <TransformComponent>
           <Canvas
             ref={ref}
+            zoomable={false}
             maxWidth={800}
             maxHeight={800}
+            fit={true}
             nodes={[
               {
                 id: '1',
