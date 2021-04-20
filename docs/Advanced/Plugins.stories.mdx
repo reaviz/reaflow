@@ -1,0 +1,45 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Docs/Advanced/Plugins" />
+
+# Plugins
+
+Below is a list of some library and examples to further enhance reaflow.
+
+## Zooming and panning
+> Super fast and light react npm package for zooming, panning and pinching html elements in easy way
+
+[React-zoom-pan-pinch](https://github.com/prc5/react-zoom-pan-pinch): By wrapping
+the Reaflow graph in the `TransformWrapper` of this library Mobile gestures,
+touchpad gestures and desktop mouse events are enabled. The graph can be
+scrolled via the mouse wheel and panned by dragging the canvas. The library
+provides a rich interface for interaction events.
+
+Properties:
+- `wheel={{step: 40}}` - Define the zoom steps for each mouse wheel step
+- `minScale` and `maxScale` - Define the minimum and maximum zoom
+- `limitToBounds` - Define if the graph should be allowed to be pannable out of the view
+
+To mitigate complications, make sure to deactivate the reaflow native
+zoom feature by setting `zoomable={false}`.
+
+```tsx
+import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
+...
+<TransformWrapper
+  wheel={{ step: 40 }}
+  options={{
+    maxScale: 4,
+    limitToBounds: false
+  }}
+>
+  <TransformComponent>
+    <Canvas
+      zoomable={false}
+      fit={true}
+      nodes={...}
+      edges={...}
+    />
+  </TransformComponent>
+</TransformWrapper>
+```
