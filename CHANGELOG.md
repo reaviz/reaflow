@@ -1,3 +1,6 @@
+# 3.1.2 - 5/14/21
+- [bug] fix positioning of ports relative to edges
+
 # 3.1.1 - 4/19/21
 - [feature] add `animated` property to disable animations
 
