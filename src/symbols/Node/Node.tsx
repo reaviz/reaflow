@@ -190,6 +190,7 @@ export const Node: FC<Partial<NodeProps>> = ({
 
   return (
     <motion.g
+      id={id}
       initial={{
         cursor: 'initial',
         opacity: 0,
@@ -298,6 +299,7 @@ export const Node: FC<Partial<NodeProps>> = ({
               setDragging(false);
             }}
             {...(p as PortProps)}
+            id={`${id}-port-${p.id}`}
           />
         ))}
       {!disabled && isActive && !readonly && remove && (

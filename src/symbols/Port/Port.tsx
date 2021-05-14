@@ -67,6 +67,7 @@ export interface PortProps extends NodeDragEvents<PortData> {
 export const Port = forwardRef(
   (
     {
+      id,
       x,
       y,
       rx,
@@ -136,7 +137,7 @@ export const Port = forwardRef(
     };
 
     return (
-      <g>
+      <g id={id}>
         <rect
           {...bind()}
           ref={ref}

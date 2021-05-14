@@ -7,7 +7,8 @@ import React, {
   useCallback,
   useLayoutEffect,
   useRef,
-  RefObject
+  RefObject,
+  Fragment
 } from 'react';
 import { useId, CloneElement } from 'rdk';
 import { Node, NodeProps } from './symbols/Node';
@@ -321,7 +322,6 @@ const InternalCanvas: FC<CanvasProps & { ref?: Ref<CanvasRef> }> = forwardRef(
                 <CloneElement<NodeProps>
                   key={n.id}
                   element={element}
-                  id={`${id}-node-${n.id}`}
                   disabled={disabled}
                   children={element.props.children}
                   animated={animated}
@@ -329,6 +329,7 @@ const InternalCanvas: FC<CanvasProps & { ref?: Ref<CanvasRef> }> = forwardRef(
                   childEdge={edge}
                   childNode={node}
                   {...n}
+                  id={`${id}-node-${n.id}`}
                 />
               );
             })}
@@ -338,9 +339,9 @@ const InternalCanvas: FC<CanvasProps & { ref?: Ref<CanvasRef> }> = forwardRef(
                 <CloneElement<EdgeProps>
                   key={e.id}
                   element={element}
-                  id={`${id}-edge-${e.id}`}
                   disabled={disabled}
                   {...e}
+                  id={`${id}-edge-${e.id}`}
                 />
               );
             })}
@@ -352,6 +353,24 @@ const InternalCanvas: FC<CanvasProps & { ref?: Ref<CanvasRef> }> = forwardRef(
                 sections={dragCoords}
               />
             )}
+            {layout?.children?.map(({ children, ports, ...n }) => (
+              <Fragment key={n.id}>
+                {ports?.length > 0 && (
+                  <motion.g
+                    key={n.id}
+                    animate={{ translateX: n.x, translateY: n.y, transition: { duration: 0 } }}
+                  >
+                    {ports.map((port, index) => (
+                      <use
+                        key={index}
+                        xlinkHref={`#${id}-node-${n.id}-port-${port.id}`}
+                        style={{ pointerEvents: 'none' }}
+                      />
+                    ))}
+                  </motion.g>
+                )}
+              </Fragment>
+            ))}
           </motion.g>
         </svg>
       </div>
