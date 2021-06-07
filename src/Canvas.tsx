@@ -4,10 +4,8 @@ import React, {
   Ref,
   useImperativeHandle,
   forwardRef,
-  useCallback,
   useLayoutEffect,
   useRef,
-  RefObject,
   Fragment
 } from 'react';
 import { useId, CloneElement } from 'rdk';
@@ -358,7 +356,11 @@ const InternalCanvas: FC<CanvasProps & { ref?: Ref<CanvasRef> }> = forwardRef(
                 {ports?.length > 0 && (
                   <motion.g
                     key={n.id}
-                    animate={{ translateX: n.x, translateY: n.y, transition: { duration: 0 } }}
+                    animate={{
+                      translateX: n.x,
+                      translateY: n.y,
+                      transition: { duration: 0 }
+                    }}
                   >
                     {ports.map((port, index) => (
                       <use
