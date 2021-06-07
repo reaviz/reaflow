@@ -14,12 +14,16 @@ export default [
       {
         file: pkg.browser,
         format: 'umd',
-        name: 'reaflow'
+        name: 'reaflow',
+        // https://github.com/kieler/elkjs/issues/127
+        strict: false
       },
       {
         file: pkg.main,
         format: 'cjs',
-        name: 'reaflow'
+        name: 'reaflow',
+        // https://github.com/kieler/elkjs/issues/127
+        strict: false
       },
       {
         file: pkg.module,
