@@ -11408,10 +11408,10 @@ raw-loader@^4.0.2:
     loader-utils "^2.0.0"
     schema-utils "^3.0.0"
 
-rdk@^5.1.0:
-  version "5.1.0"
-  resolved "https://registry.yarnpkg.com/rdk/-/rdk-5.1.0.tgz#a0e5b87d19820026a7b27d90365e8d03f3a8a846"
-  integrity sha512-xGDC/Uq/ZjrUPGUAQIKRjanvyhAqwn6+9qPlkT5pdzt7CEvQ6rggc2TVLKCtRIFlZZqFXh/UZaJ2c1/I7kRrFA==
+rdk@^5.1.2:
+  version "5.1.2"
+  resolved "https://registry.yarnpkg.com/rdk/-/rdk-5.1.2.tgz#c22587a95206ef31d1e63a1b225b6ab627ea70e7"
+  integrity sha512-adFAm8zWSKnd+85kCyCu2YRdTupKU4PannVlco2OSgIxYGOWFX/MbEhW6iPZo1jpIyDjpREJ2MBj9hhAzVG7/Q==
   dependencies:
     classnames "^2.2.6"
     popper.js "^1.16.1"

@@ -1,3 +1,7 @@
+# 3.1.3 - 6/9/21
+- [chore] upgrade rdk
+- [chore] fix elk bundling issue
+
 # 3.1.2 - 5/14/21
 - [bug] fix positioning of ports relative to edges
 
