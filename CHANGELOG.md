@@ -1,3 +1,6 @@
+# 3.1.4 - 7/9/21
+- [chore] upgrade rdk
+
 # 3.1.3 - 6/9/21
 - [chore] upgrade rdk
 - [chore] fix elk bundling issue
