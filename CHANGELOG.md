@@ -1,3 +1,7 @@
+# 3.2.0 - 7/21/21
+- [feature] ability to drag nodes to different positions
+- [feature] new helper functions: `removeEdgesFromNode` and `createEdgeFromNodes`
+
 # 3.1.4 - 7/9/21
 - [chore] upgrade rdk
 
