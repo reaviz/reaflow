@@ -6,7 +6,8 @@ import React, {
   forwardRef,
   useLayoutEffect,
   useRef,
-  Fragment
+  Fragment,
+  useMemo
 } from 'react';
 import { useId, CloneElement } from 'rdk';
 import { Node, NodeProps } from './symbols/Node';
@@ -22,8 +23,8 @@ import { EdgeData, NodeData, PortData } from './types';
 import classNames from 'classnames';
 import { CanvasProvider, useCanvas } from './utils/CanvasProvider';
 import { motion } from 'framer-motion';
-import css from './Canvas.module.css';
 import { ZoomResult } from './utils/useZoom';
+import css from './Canvas.module.css';
 
 export interface CanvasContainerProps extends CanvasProps {
   /**
@@ -157,9 +158,14 @@ export interface CanvasProps {
   readonly?: boolean;
 
   /**
-   * Element of the draw edge.
+   * Element of the drag edge.
    */
   dragEdge?: ReactElement<EdgeProps, typeof Edge>;
+
+  /**
+   * Element of the drag node.
+   */
+  dragNode?: ReactElement<NodeProps, typeof Node>;
 
   /**
    * Arrow shown on the edges.
@@ -210,6 +216,7 @@ const InternalCanvas: FC<CanvasProps & { ref?: Ref<CanvasRef> }> = forwardRef(
       arrow = <MarkerArrow />,
       node = <Node />,
       edge = <Edge />,
+      dragNode = null,
       dragEdge = <Edge add={null} />,
       onMouseEnter = () => undefined,
       onMouseLeave = () => undefined,
@@ -258,6 +265,12 @@ const InternalCanvas: FC<CanvasProps & { ref?: Ref<CanvasRef> }> = forwardRef(
         mount.current = true;
       }
     }, [layout, xy]);
+
+    const dragNodeData = useMemo(() =>
+      rest.dragNode
+        ? layout?.children?.find(c => c.id === rest.dragNode.id)
+        : null,
+    [layout?.children, rest.dragNode]);
 
     return (
       <div
@@ -343,12 +356,26 @@ const InternalCanvas: FC<CanvasProps & { ref?: Ref<CanvasRef> }> = forwardRef(
                 />
               );
             })}
-            {dragCoords !== null && !readonly && (
+            {dragCoords !== null && dragEdge && !readonly && (
               <CloneElement<EdgeProps>
                 element={dragEdge}
-                id={`${id}-drag`}
-                disabled={true}
+                id={`${id}-edge-drag`}
+                disabled
                 sections={dragCoords}
+              />
+            )}
+            {dragCoords !== null && dragNode && !readonly && (
+              <CloneElement<NodeProps>
+                element={dragNode}
+                {...dragNodeData}
+                id={`${id}-node-drag`}
+                animated={animated}
+                className={css.dragNode}
+                height={50}
+                width={50}
+                disabled
+                x={dragCoords[0].endPoint.x}
+                y={dragCoords[0].endPoint.y}
               />
             )}
             {layout?.children?.map(({ children, ports, ...n }) => (

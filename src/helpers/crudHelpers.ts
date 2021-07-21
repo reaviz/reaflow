@@ -133,12 +133,31 @@ export function removeNode(
 }
 
 /**
+ * Helper function to remove a node's related edges.
+ */
+export function removeEdgesFromNode(nodeId: string, edges: EdgeData[]) {
+  return edges.filter(edge => !(edge.to === nodeId || edge.from === nodeId));
+}
+
+/**
  * Remove edge(s)
  */
 export function removeEdge(edges: EdgeData[], edge: EdgeData | EdgeData[]) {
   const deletions: EdgeData[] = !Array.isArray(edge) ? [edge] : edge;
   const edgeIds = deletions.map((e) => e.id);
   return edges.filter((e) => !edgeIds.includes(e.id));
+}
+
+/**
+ * Create an edge given 2 nodes.
+ */
+export function createEdgeFromNodes(fromNode: NodeData, toNode: NodeData) {
+  return {
+    id: `${fromNode.id}-${toNode.id}`,
+    from: fromNode.id,
+    to: toNode.id,
+    parent: toNode.parent
+  };
 }
 
 /**
@@ -155,14 +174,7 @@ export function addNodeAndEdge(
     edges: [
       ...edges,
       ...(toNode
-        ? [
-          {
-            id: `${toNode.id}-${node.id}`,
-            from: toNode.id,
-            to: node.id,
-            parent: node.parent
-          }
-        ]
+        ? [createEdgeFromNodes(toNode, node)]
         : [])
     ]
   };

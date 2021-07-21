@@ -17,3 +17,7 @@
   -ms-user-select: none;
   user-select: none;
 }
+
+.dragNode {
+  pointer-events: none;
+}

@@ -167,6 +167,58 @@ const newEdges = removeEdge(
 setEdges(newEdges);
 ```
 
+### Remove Edges from Node
+The `removeEdgesFromNode` function simplifies removing all
+edges from a node.
+
+The signature for this looks like:
+
+```js
+removeEdgesFromNode(
+  nodeId: string,
+  edges: EdgeData[]
+) => EdgeData[]
+```
+
+Below is an example usage:
+
+```js
+import { removeEdgesFromNode } from 'reaflow';
+
+const newEdges = removeEdgesFromNode(
+  node.id,
+  edges
+);
+
+setEdges(newEdges);
+```
+
+### Create Edge from Nodes
+The `createEdgeFromNodes` function simplifies creating an
+edge between two nodes.
+
+The signature for this looks like:
+
+```js
+createEdgeFromNodes(
+  fromNode: NodeData,
+  toNode: NodeData
+) => EdgeData
+```
+
+Below is an example usage:
+
+```js
+import { createEdgeFromNodes } from 'reaflow';
+
+const newEdge = createEdgeFromNodes(
+  fromNode,
+  toNode
+);
+
+setEdges([...edges, newEdge]);
+```
+
 ## Graph
 
 ### Detecting Circulars
