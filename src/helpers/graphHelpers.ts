@@ -84,3 +84,26 @@ export const getParentsForNodeId = (
 
   return result;
 };
+
+/**
+ * Get edge data given a node.
+ */
+ export function getEdgesByNode(edges: EdgeData[], node: NodeData) {
+  const to = [];
+  const from = [];
+
+  for (const edge of edges) {
+    if (edge.to === node.id) {
+      to.push(edge);
+    }
+    if (edge.from === node.id) {
+      from.push(edge);
+    }
+  }
+
+  return {
+    to,
+    from,
+    all: [...to, ...from]
+  };
+}
