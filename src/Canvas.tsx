@@ -371,8 +371,6 @@ const InternalCanvas: FC<CanvasProps & { ref?: Ref<CanvasRef> }> = forwardRef(
                 id={`${id}-node-drag`}
                 animated={animated}
                 className={css.dragNode}
-                height={50}
-                width={50}
                 disabled
                 x={dragCoords[0].endPoint.x}
                 y={dragCoords[0].endPoint.y}
