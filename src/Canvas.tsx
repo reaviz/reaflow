@@ -364,18 +364,6 @@ const InternalCanvas: FC<CanvasProps & { ref?: Ref<CanvasRef> }> = forwardRef(
                 sections={dragCoords}
               />
             )}
-            {dragCoords !== null && dragNode && !readonly && (
-              <CloneElement<NodeProps>
-                element={dragNode}
-                {...dragNodeData}
-                id={`${id}-node-drag`}
-                animated={animated}
-                className={css.dragNode}
-                disabled
-                x={dragCoords[0].endPoint.x}
-                y={dragCoords[0].endPoint.y}
-              />
-            )}
             {layout?.children?.map(({ children, ports, ...n }) => (
               <Fragment key={n.id}>
                 {ports?.length > 0 && (
@@ -398,6 +386,20 @@ const InternalCanvas: FC<CanvasProps & { ref?: Ref<CanvasRef> }> = forwardRef(
                 )}
               </Fragment>
             ))}
+            {dragCoords !== null && dragNode && !readonly && (
+              <CloneElement<NodeProps>
+                {...dragNodeData}
+                element={dragNode}
+                height={dragNode.props.height || dragNodeData.height}
+                width={dragNode.props.width || dragNodeData.width}
+                id={`${id}-node-drag`}
+                animated={animated}
+                className={css.dragNode}
+                disabled
+                x={dragCoords[0].endPoint.x}
+                y={dragCoords[0].endPoint.y}
+              />
+            )}
           </motion.g>
         </svg>
       </div>
