@@ -197,7 +197,6 @@ export const NodeRearranging = () => {
     }
   ]);
 
-  const [droppable, setDroppable] = useState<boolean>(false);
   const [enteredNode, setEnteredNode] = useState<NodeData | null>(null);
 
   return (
@@ -214,28 +213,31 @@ export const NodeRearranging = () => {
             onDragEnd={(_event, _coords, node) => {
               console.log('Entered Node:', enteredNode);
               console.log('Node to Move:', node);
-
-              if (
-                droppable &&
-                enteredNode &&
-                enteredNode.id !== node.id &&
-                !hasLink(edges, enteredNode, node)
-              ) {
-                const newEdges = edges.filter(e => e.to !== node.id);
-
-                setEdges([
-                  ...newEdges,
-                  createEdgeFromNodes(enteredNode, node)
-                ]);
-              }
             }}
           />
         }
         dragNode={<Node />}
         dragEdge={null}
+        onNodeLinkCheck={(from: NodeData, to: NodeData) => {
+          if (from.id === to.id) {
+            return false;
+          }
+
+          if (hasLink(edges, from, to)) {
+            return false;
+          }
+
+          return true;
+        }}
+        onNodeLink={(from, to) => {
+          const newEdges = edges.filter(e => e.to !== from.id);
+
+          setEdges([
+            ...newEdges,
+            createEdgeFromNodes(to, from)
+          ]);
+        }}
         onCanvasClick={event => console.log('Canvas Clicked', event)}
-        onMouseEnter={() => setDroppable(true)}
-        onMouseLeave={() => setDroppable(false)}
         onLayoutChange={layout => console.log('Layout', layout)}
       />
     </div>
@@ -298,7 +300,6 @@ export const NodeRearrangingUpsert = () => {
     }
   ]);
 
-  const [droppable, setDroppable] = useState<boolean>(false);
   const [enteredNode, setEnteredNode] = useState<NodeData | null>(null);
 
   return (
@@ -315,32 +316,35 @@ export const NodeRearrangingUpsert = () => {
             onDragEnd={(_event, _coords, node) => {
               console.log('Entered Node:', enteredNode);
               console.log('Node to Move:', node);
-
-              if (
-                droppable &&
-                enteredNode &&
-                enteredNode.id !== node.id &&
-                !hasLink(edges, enteredNode, node)
-              ) {
-                const result = removeAndUpsertNodes(
-                  nodes,
-                  edges,
-                  node
-                );
-
-                setEdges([
-                  ...result.edges,
-                  createEdgeFromNodes(enteredNode, node)
-                ]);
-              }
             }}
           />
         }
         dragNode={<Node />}
         dragEdge={null}
+        onNodeLinkCheck={(from: NodeData, to: NodeData) => {
+          if (from.id === to.id) {
+            return false;
+          }
+
+          if (hasLink(edges, from, to)) {
+            return false;
+          }
+
+          return true;
+        }}
+        onNodeLink={(from, to) => {
+          const result = removeAndUpsertNodes(
+            nodes,
+            edges,
+            from
+          );
+
+          setEdges([
+            ...result.edges,
+            createEdgeFromNodes(to, from)
+          ]);
+        }}
         onCanvasClick={event => console.log('Canvas Clicked', event)}
-        onMouseEnter={() => setDroppable(true)}
-        onMouseLeave={() => setDroppable(false)}
         onLayoutChange={layout => console.log('Layout', layout)}
       />
     </div>
@@ -390,7 +394,6 @@ export const NodePortRearranging = () => {
   ]);
 
   const [dragType, setDragType] = useState<null | 'port' | 'node'>(null);
-  const [droppable, setDroppable] = useState<boolean>(false);
   const [enteredNode, setEnteredNode] = useState<NodeData | null>(null);
 
   return (
@@ -410,30 +413,6 @@ export const NodePortRearranging = () => {
             }}
             onDragEnd={(_event, _coords, node) => {
               console.log('Drag End', dragType, enteredNode, node);
-
-              if (droppable && enteredNode && enteredNode.id !== node.id) {
-                if (dragType === 'node') {
-                  if (!hasLink(edges, enteredNode, node)) {
-                    // TODO: Need to make handle ports
-                    const result = removeAndUpsertNodes(
-                      nodes,
-                      edges,
-                      node
-                    );
-
-                    setEdges([
-                      ...result.edges,
-                      makeFakeEdgeWithPorts(enteredNode.id, node.id)
-                    ]);
-                  }
-                } else if (dragType === 'port') {
-                  setEdges([
-                    ...edges,
-                    makeFakeEdgeWithPorts(node.id, enteredNode.id)
-                  ]);
-                }
-              }
-
               setDragType(null);
             }}
             port={
@@ -446,11 +425,40 @@ export const NodePortRearranging = () => {
             }
           />
         }
+        onNodeLinkCheck={(from: NodeData, to: NodeData) => {
+          if (from.id === to.id) {
+            return false;
+          }
+
+          if (hasLink(edges, from, to)) {
+            return false;
+          }
+
+          return true;
+        }}
+        onNodeLink={(from, to) => {
+          if (dragType === 'node') {
+            // TODO: Need to make handle ports
+            const result = removeAndUpsertNodes(
+              nodes,
+              edges,
+              from
+            );
+
+            setEdges([
+              ...result.edges,
+              makeFakeEdgeWithPorts(to.id, from.id)
+            ]);
+          } else if (dragType === 'port') {
+            setEdges([
+              ...edges,
+              makeFakeEdgeWithPorts(from.id, to.id)
+            ]);
+          }
+        }}
         dragNode={dragType === 'node' ? <Node /> : null}
         dragEdge={dragType === 'port' ? <Edge add={null} /> : null}
         onCanvasClick={(event) => console.log('Canvas Clicked', event)}
-        onMouseEnter={() => setDroppable(true)}
-        onMouseLeave={() => setDroppable(false)}
         onLayoutChange={layout => console.log('Layout', layout)}
       />
     </div>
