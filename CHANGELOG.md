@@ -2,6 +2,7 @@
 - [feature] Node now has `dragType` which indicates if u can drag a node from the port, node, or port when multi-node only.
 - [feature] new helper function: `getEdgesByNode`
 - [feature] added demo for node + port dragging
+- [feature] added `dragCursor` for custom cursors on node dragging
 
 # 3.2.0 - 7/21/21
 - [feature] ability to drag nodes to different positions
