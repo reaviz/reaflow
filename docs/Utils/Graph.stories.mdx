@@ -1,0 +1,103 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Docs/Utils/Graph" />
+
+# Graph Utils
+
+## Detecting Circulars
+The `detectCircular` function helps you determine if
+the source node will create a circular link if connected
+to the target node.
+
+The signature for this looks like:
+
+```js
+detectCircular(
+  nodes: NodeData[],
+  edges: EdgeData[],
+  fromNode: NodeData,
+  toNode: NodeData
+) => boolean;
+```
+
+Below is an example usage:
+
+```js
+import { detectCircular } from 'reaflow';
+
+const has = detectCircular(nodes, edges, fromNode, toNode);
+if (!has) {
+  // Do something
+}
+```
+
+## Parent Node Traversal
+The `getParentsForNodeId` function helps you find all the
+parent nodes for a given node id.
+
+The signature for this looks like:
+
+```js
+getParentsForNodeId(
+  nodes: NodeData[],
+  edges: EdgeData[],
+  nodeId: string
+) => NodeData[];
+```
+
+Below is an example usage:
+
+```js
+import { getParentsForNodeId } from 'reaflow';
+
+const nodes = getParentsForNodeId(nodes, edges, node.id);
+```
+
+## Has Link
+The `hasLink` function helps you determine if
+the source node already has a link to the target node.
+
+The signature for this looks like:
+
+```js
+hasLink(
+  edges: EdgeData[],
+  fromNode: NodeData,
+  toNode: NodeData
+) => boolean;
+```
+
+Below is an example usage:
+
+```js
+import { hasLink } from 'reaflow';
+
+const has = hasLink(edges, fromNode, toNode);
+if (!has) {
+  // Do something
+}
+```
+
+## Get Edges Given a Node
+Similar to `hasLink` the `getEdgesByNode` function will
+return all the edges given a node.
+
+The signature looks like this:
+
+```js
+getEdgesByNode(
+  edges: EdgeData[],
+  node: NodeData,
+) => { all: EdgeData[], to: EdgeData[], from: EdgeData[] }
+```
+
+Below is an example usage:
+
+```js
+import { getEdgesByNode } from 'reaflow';
+
+const { all, to, from } = getEdgesByNode(edges, node);
+if (!all.length) {
+  // Do something
+}
+```

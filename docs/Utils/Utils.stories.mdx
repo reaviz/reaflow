@@ -1,26 +1,10 @@
 import { Meta } from '@storybook/addon-docs/blocks';
 
-<Meta title="Docs/Advanced/Utils" />
+<Meta title="Docs/Utils/CRUD" />
 
-# Utils
+# CRUD Utils
 
-There a variety of common interactions you want to make
-with the canvas and graph. reaflow has some helpers out of
-the box to help manage those typical operations. Those
-helpers are broken up into two categories:
-
-- CRUD - Dealing with manipulating nodes/edges
-- Graph Dealing with traversing the graph
-
-> Those helpers are very generic and meant to help people getting started, but they're not meant to cover specific use-cases.
->
-> You should copy them and adapt them to your own needs if they don't cover your needs. [See discussion](https://github.com/reaviz/reaflow/issues/47#issuecomment-775919579).
->
-> There are advanced examples in [Custom Utils](/?path=/story/docs-advanced-custom-utils--page) page.
-
-## CRUD
-
-### Upsert Node
+## Upsert Node
 The `upsertNode` function helps you insert a new
 node between two other nodes.
 
@@ -51,7 +35,7 @@ setNodes(results.nodes);
 setEdges(results.edges);
 ```
 
-### Remove Node
+## Remove Node
 The `removeNode` function helps you remove a node
 and all related edges.
 
@@ -75,7 +59,7 @@ setNodes(results.nodes);
 setEdges(results.edges);
 ```
 
-### Node Removal and Upsert
+## Node Removal and Upsert
 The `removeAndUpsertNodes` helper allows you to remove a node
 that has existing `to` and `from` edges and link the child
 edges from the node remove to the parent of the node removed.
@@ -107,7 +91,7 @@ setNodes(results.nodes);
 setEdges(results.edges);
 ```
 
-### Add Node and Optional Edge
+## Add Node and Optional Edge
 The `addNodeAndEdge` helper is a shortcut function to add a
 node to a nodes array and a optional edge.
 
@@ -141,7 +125,7 @@ setNodes(results.nodes);
 setEdges(results.edges);
 ```
 
-### Remove Edge
+## Remove Edge
 The `removeEdge` function simplifies removing a single
 or array of edges.
 
@@ -167,7 +151,7 @@ const newEdges = removeEdge(
 setEdges(newEdges);
 ```
 
-### Remove Edges from Node
+## Remove Edges from Node
 The `removeEdgesFromNode` function simplifies removing all
 edges from a node.
 
@@ -193,7 +177,7 @@ const newEdges = removeEdgesFromNode(
 setEdges(newEdges);
 ```
 
-### Create Edge from Nodes
+## Create Edge from Nodes
 The `createEdgeFromNodes` function simplifies creating an
 edge between two nodes.
 
@@ -217,104 +201,4 @@ const newEdge = createEdgeFromNodes(
 );
 
 setEdges([...edges, newEdge]);
-```
-
-## Graph
-
-### Detecting Circulars
-The `detectCircular` function helps you determine if
-the source node will create a circular link if connected
-to the target node.
-
-The signature for this looks like:
-
-```js
-detectCircular(
-  nodes: NodeData[],
-  edges: EdgeData[],
-  fromNode: NodeData,
-  toNode: NodeData
-) => boolean;
-```
-
-Below is an example usage:
-
-```js
-import { detectCircular } from 'reaflow';
-
-const has = detectCircular(nodes, edges, fromNode, toNode);
-if (!has) {
-  // Do something
-}
-```
-
-### Parent Node Traversal
-The `getParentsForNodeId` function helps you find all the
-parent nodes for a given node id.
-
-The signature for this looks like:
-
-```js
-getParentsForNodeId(
-  nodes: NodeData[],
-  edges: EdgeData[],
-  nodeId: string
-) => NodeData[];
-```
-
-Below is an example usage:
-
-```js
-import { getParentsForNodeId } from 'reaflow';
-
-const nodes = getParentsForNodeId(nodes, edges, node.id);
-```
-
-### Has Link
-The `hasLink` function helps you determine if
-the source node already has a link to the target node.
-
-The signature for this looks like:
-
-```js
-hasLink(
-  edges: EdgeData[],
-  fromNode: NodeData,
-  toNode: NodeData
-) => boolean;
-```
-
-Below is an example usage:
-
-```js
-import { hasLink } from 'reaflow';
-
-const has = hasLink(edges, fromNode, toNode);
-if (!has) {
-  // Do something
-}
-```
-
-### Get Edges Given a Node
-Similar to `hasLink` the `getEdgesByNode` function will
-return all the edges given a node.
-
-The signature looks like this:
-
-```js
-getEdgesByNode(
-  edges: EdgeData[],
-  node: NodeData,
-) => { all: EdgeData[], to: EdgeData[], from: EdgeData[] }
-```
-
-Below is an example usage:
-
-```js
-import { getEdgesByNode } from 'reaflow';
-
-const { all, to, from } = getEdgesByNode(edges, node);
-if (!all.length) {
-  // Do something
-}
 ```
