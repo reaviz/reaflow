@@ -1,3 +1,6 @@
+# 3.3.1 - 7/22/21
+- [feature] remove hardcoded height/width for dynamic cloning
+
 # 3.3.0 - 7/22/21
 - [feature] Node now has `dragType` which indicates if u can drag a node from the port, node, or port when multi-node only.
 - [feature] new helper function: `getEdgesByNode`
