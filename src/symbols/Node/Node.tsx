@@ -35,6 +35,8 @@ export interface NodeChildProps {
   edges?: EdgeData[];
 }
 
+export type NodeDragType = 'node' | 'port' | 'multiportOnly' | 'all';
+
 export type NodeChildrenAsFunction = (
   nodeChildProps: NodeChildProps
 ) => ReactNode;
@@ -58,6 +60,7 @@ export interface NodeProps extends NodeDragEvents<NodeData, PortData> {
   children?: ReactNode | NodeChildrenAsFunction;
   parent?: string;
   animated?: boolean;
+  dragType?: NodeDragType,
 
   nodes?: NodeData[];
   edges?: EdgeData[];
@@ -115,6 +118,7 @@ export const Node: FC<Partial<NodeProps>> = ({
   children,
   nodes,
   edges,
+  dragType = 'multiportOnly',
   childEdge = <Edge />,
   childNode = <Node />,
   remove = <Remove />,
@@ -145,14 +149,15 @@ export const Node: FC<Partial<NodeProps>> = ({
   const newX = x + offsetX;
   const newY = y + offsetY;
   const isLinkable = checkNodeLinkable(properties, enteredNode, canLinkNode);
-  const isMultiPort = ports?.filter((p) => !p.properties?.hidden).length > 1;
+  const isMultiPort = dragType === 'multiportOnly' &&
+    ports?.filter((p) => !p.properties?.hidden).length > 1;
 
   const bind = useNodeDrag({
     x: newX,
     y: newY,
     height,
     width,
-    disabled: disabled || isMultiPort || readonly,
+    disabled: disabled || isMultiPort || readonly || dragType === 'port',
     node: properties,
     onDrag: (...props) => {
       canvas.onDrag(...props);
