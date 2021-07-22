@@ -1,3 +1,7 @@
+# 3.3.2 - 7/22/21
+- [fix] reorder port position for drag node to be on top
+- [fix] fix height / width in drag node being lost
+
 # 3.3.1 - 7/22/21
 - [feature] remove hardcoded height/width for dynamic cloning
 

@@ -456,7 +456,7 @@ export const NodePortRearranging = () => {
             ]);
           }
         }}
-        dragNode={dragType === 'node' ? <Node /> : null}
+        dragNode={dragType === 'node' ? <Node height={25} width={25} port={null} /> : null}
         dragEdge={dragType === 'port' ? <Edge add={null} /> : null}
         onCanvasClick={(event) => console.log('Canvas Clicked', event)}
         onLayoutChange={layout => console.log('Layout', layout)}
