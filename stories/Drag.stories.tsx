@@ -42,6 +42,7 @@ export const NodeOnlyDrag = () => (
       ]}
       node={
         <Node
+          dragCursor="grab"
           dragType="all"
         />
       }
@@ -207,6 +208,7 @@ export const NodeRearranging = () => {
         node={
           <Node
             dragType="all"
+            dragCursor="grab"
             onEnter={(_event, node) => setEnteredNode(node)}
             onLeave={() => setEnteredNode(null)}
             onDragEnd={(_event, _coords, node) => {
@@ -216,6 +218,7 @@ export const NodeRearranging = () => {
               if (
                 droppable &&
                 enteredNode &&
+                enteredNode.id !== node.id &&
                 !hasLink(edges, enteredNode, node)
               ) {
                 const newEdges = edges.filter(e => e.to !== node.id);
@@ -306,6 +309,7 @@ export const NodeRearrangingUpsert = () => {
         node={
           <Node
             dragType="all"
+            dragCursor="grab"
             onEnter={(_event, node) => setEnteredNode(node)}
             onLeave={() => setEnteredNode(null)}
             onDragEnd={(_event, _coords, node) => {
@@ -315,6 +319,7 @@ export const NodeRearrangingUpsert = () => {
               if (
                 droppable &&
                 enteredNode &&
+                enteredNode.id !== node.id &&
                 !hasLink(edges, enteredNode, node)
               ) {
                 const result = removeAndUpsertNodes(
@@ -396,6 +401,7 @@ export const NodePortRearranging = () => {
         node={
           <Node
             dragType="all"
+            dragCursor={dragType === 'port' ? 'crosshair' : 'grab'}
             onEnter={(_event, node) => setEnteredNode(node)}
             onLeave={() => setEnteredNode(null)}
             onDragStart={(_event, _coords, node) => {
@@ -405,7 +411,7 @@ export const NodePortRearranging = () => {
             onDragEnd={(_event, _coords, node) => {
               console.log('Drag End', dragType, enteredNode, node);
 
-              if (droppable && enteredNode) {
+              if (droppable && enteredNode && enteredNode.id !== node.id) {
                 if (dragType === 'node') {
                   if (!hasLink(edges, enteredNode, node)) {
                     // TODO: Need to make handle ports

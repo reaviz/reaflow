@@ -80,7 +80,6 @@ export const useNodeDrag = ({
         const memo = [matrix];
 
         onDragStart({ ...state, memo }, initial, node);
-        document.body.classList.add('dragging');
 
         return memo;
       }
@@ -90,7 +89,6 @@ export const useNodeDrag = ({
       if (state.last) {
         targetRef.current = null;
         onDragEnd(state, initial, node);
-        document.body.classList.remove('dragging');
       }
     },
     {

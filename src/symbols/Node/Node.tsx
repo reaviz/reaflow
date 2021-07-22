@@ -61,6 +61,7 @@ export interface NodeProps extends NodeDragEvents<NodeData, PortData> {
   parent?: string;
   animated?: boolean;
   dragType?: NodeDragType,
+  dragCursor?: string;
 
   nodes?: NodeData[];
   edges?: EdgeData[];
@@ -119,6 +120,7 @@ export const Node: FC<Partial<NodeProps>> = ({
   nodes,
   edges,
   dragType = 'multiportOnly',
+  dragCursor = 'crosshair',
   childEdge = <Edge />,
   childNode = <Node />,
   remove = <Remove />,
@@ -162,6 +164,8 @@ export const Node: FC<Partial<NodeProps>> = ({
     onDrag: (...props) => {
       canvas.onDrag(...props);
       onDrag(...props);
+      document.body.classList.add('dragging');
+      document.body.style.cursor = dragCursor;
     },
     onDragStart: (...props) => {
       canvas.onDragStart(...props);
@@ -172,6 +176,8 @@ export const Node: FC<Partial<NodeProps>> = ({
       canvas.onDragEnd(...props);
       onDragEnd(...props);
       setDragging(false);
+      document.body.classList.remove('dragging');
+      document.body.style.cursor = 'auto';
     }
   });
 
@@ -353,6 +359,8 @@ export const Node: FC<Partial<NodeProps>> = ({
                 animated={animated}
                 children={element.props.children}
                 childNode={childNode}
+                dragCursor={dragCursor}
+                dragType={dragType}
                 childEdge={childEdge}
                 onDragStart={onDragStart}
                 onDrag={onDrag}
