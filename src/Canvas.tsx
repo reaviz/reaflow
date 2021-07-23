@@ -266,11 +266,13 @@ const InternalCanvas: FC<CanvasProps & { ref?: Ref<CanvasRef> }> = forwardRef(
       }
     }, [layout, xy]);
 
-    const dragNodeData = useMemo(() =>
-      rest.dragNode
-        ? layout?.children?.find(c => c.id === rest.dragNode.id)
-        : null,
-    [layout?.children, rest.dragNode]);
+    const dragNodeData = useMemo(
+      () =>
+        rest.dragNode
+          ? layout?.children?.find((c) => c.id === rest.dragNode.id)
+          : null,
+      [layout?.children, rest.dragNode]
+    );
 
     return (
       <div
@@ -390,8 +392,8 @@ const InternalCanvas: FC<CanvasProps & { ref?: Ref<CanvasRef> }> = forwardRef(
               <CloneElement<NodeProps>
                 {...dragNodeData}
                 element={dragNode}
-                height={dragNode.props.height || dragNodeData.height}
-                width={dragNode.props.width || dragNodeData.width}
+                height={dragNode?.props?.height || dragNodeData?.height}
+                width={dragNode?.props?.width || dragNodeData?.width}
                 id={`${id}-node-drag`}
                 animated={animated}
                 className={css.dragNode}
