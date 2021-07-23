@@ -191,7 +191,7 @@ export const LinkingNodeRestrictions = () => {
       <Canvas
         nodes={nodes}
         edges={edges}
-        onNodeLinkCheck={(from: NodeData, to: NodeData) => {
+        onNodeLinkCheck={(_event, from: NodeData, to: NodeData) => {
           if (from.id === to.id || to.id === '3') {
             return false;
           }
@@ -206,7 +206,7 @@ export const LinkingNodeRestrictions = () => {
 
           return true;
         }}
-        onNodeLink={(from, to) => {
+        onNodeLink={(_event, from, to) => {
           const id = `${from.id}-${to.id}`;
 
           setEdges([
@@ -253,7 +253,7 @@ export const LinkingNodes = () => {
       <Canvas
         nodes={nodes}
         edges={edges}
-        onNodeLink={(from: NodeData, to: NodeData) => {
+        onNodeLink={(_event, from: NodeData, to: NodeData) => {
           const id = `${from.id}-${to.id}`;
 
           setEdges([

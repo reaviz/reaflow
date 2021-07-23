@@ -99,7 +99,7 @@ export const Linking = () => {
       <Canvas
         nodes={nodes}
         edges={edges}
-        onNodeLink={(from: NodeData, to: NodeData) => {
+        onNodeLink={(_event, from: NodeData, to: NodeData) => {
           const id = `${from.id}-${to.id}`;
           setEdges([
             ...edges,

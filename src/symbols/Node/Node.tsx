@@ -154,6 +154,32 @@ export const Node: FC<Partial<NodeProps>> = ({
   const isMultiPort = dragType === 'multiportOnly' &&
     ports?.filter((p) => !p.properties?.hidden).length > 1;
 
+  const getDragType = (hasPort: boolean) => {
+    let activeDragType: NodeDragType = null;
+    if (!hasPort) {
+      if (dragType === 'all' || dragType === 'node') {
+        activeDragType = 'node';
+      } else if (!isMultiPort) {
+        activeDragType = 'port';
+      }
+    } else {
+      if (dragType === 'all' || dragType === 'port' || isMultiPort) {
+        activeDragType = 'port';
+      }
+    }
+    return activeDragType;
+  };
+
+  const setDragCursor = (dragType: NodeDragType | null) => {
+    if (dragType) {
+      document.body.classList.add('dragging');
+      document.body.style.cursor = dragType === 'node' ? 'grab' : 'crosshair';
+    } else {
+      document.body.classList.remove('dragging');
+      document.body.style.cursor = 'auto';
+    }
+  };
+
   const bind = useNodeDrag({
     x: newX,
     y: newY,
@@ -164,20 +190,25 @@ export const Node: FC<Partial<NodeProps>> = ({
     onDrag: (...props) => {
       canvas.onDrag(...props);
       onDrag(...props);
-      document.body.classList.add('dragging');
-      document.body.style.cursor = dragCursor;
     },
-    onDragStart: (...props) => {
-      canvas.onDragStart(...props);
-      onDragStart(...props);
+    onDragStart: (event, coords, node, port) => {
+      // @ts-ignore
+      event.dragType = getDragType(false);
+      // @ts-ignore
+      setDragCursor(event.dragType);
+
+      canvas.onDragStart(event, coords, node, port);
+      onDragStart(event, coords, node, port);
       setDragging(true);
     },
-    onDragEnd: (...props) => {
-      canvas.onDragEnd(...props);
-      onDragEnd(...props);
+    onDragEnd: (event, coords, node, port) => {
+      // @ts-ignore
+      event.dragType = getDragType(false);
+
+      canvas.onDragEnd(event, coords, node, port);
+      onDragEnd(event, coords, node, port);
       setDragging(false);
-      document.body.classList.remove('dragging');
-      document.body.style.cursor = 'auto';
+      setDragCursor(null);
     }
   });
 
@@ -292,6 +323,11 @@ export const Node: FC<Partial<NodeProps>> = ({
               initial: Position,
               data: PortData
             ) => {
+              // @ts-ignore
+              event.dragType = getDragType(true);
+              // @ts-ignore
+              setDragCursor(event.dragType);
+
               canvas.onDragStart(event, initial, properties, data);
               onDragStart(event, initial, properties, data);
               setDragging(true);
@@ -305,6 +341,10 @@ export const Node: FC<Partial<NodeProps>> = ({
               initial: Position,
               data: PortData
             ) => {
+              // @ts-ignore
+              event.dragType = getDragType(true);
+              setDragCursor(null);
+
               canvas.onDragEnd(event, initial, properties, data);
               onDragEnd(event, initial, properties, data);
               setDragging(false);

@@ -56,9 +56,9 @@ export const useEdgeDrag = ({
     ]);
   };
 
-  const onDragEnd = () => {
+  const onDragEnd = (event: DragEvent) => {
     if (dragNode && enteredNode && canLinkNode) {
-      onNodeLink(dragNode, enteredNode, dragPort);
+      onNodeLink(event, dragNode, enteredNode, dragPort);
     }
 
     setDragNode(null);
@@ -68,13 +68,13 @@ export const useEdgeDrag = ({
   };
 
   const onEnter = (
-    _event: React.MouseEvent<SVGGElement, MouseEvent>,
+    event: React.MouseEvent<SVGGElement, MouseEvent>,
     node: NodeData
   ) => {
     setEnteredNode(node);
 
     if (dragNode && node) {
-      const canLink = onNodeLinkCheck(dragNode, node, dragPort);
+      const canLink = onNodeLinkCheck(event, dragNode, node, dragPort);
       const result =
         (canLink === undefined || canLink) && dragNode.parent === node.parent;
 

@@ -395,7 +395,7 @@ export const LinkingPortRestrictions = () => {
       <Canvas
         nodes={nodes}
         edges={edges}
-        onNodeLinkCheck={(from: NodeData, to: NodeData, port: PortData) => {
+        onNodeLinkCheck={(_event, from: NodeData, to: NodeData, port: PortData) => {
           if (from.id === to.id || to.id === '1') {
             return false;
           }
@@ -406,7 +406,7 @@ export const LinkingPortRestrictions = () => {
 
           return true;
         }}
-        onNodeLink={(from: NodeData, to: NodeData, port: PortData) => {
+        onNodeLink={(_event, from: NodeData, to: NodeData, port: PortData) => {
           const id = `${from.id}-${to.id}`;
 
           setEdges([

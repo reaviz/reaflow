@@ -7,10 +7,11 @@ import React, {
   useLayoutEffect,
   useRef,
   Fragment,
-  useMemo
+  useMemo,
+  useState
 } from 'react';
 import { useId, CloneElement } from 'rdk';
-import { Node, NodeProps } from './symbols/Node';
+import { Node, NodeDragType, NodeProps } from './symbols/Node';
 import { Edge, EdgeProps } from './symbols/Edge';
 import {
   ElkRoot,
@@ -101,6 +102,7 @@ export interface CanvasContainerProps extends CanvasProps {
    * Callback to check if a node is linkable or not.
    */
   onNodeLink?: (
+    event: any,
     fromNode: NodeData,
     toNode: NodeData,
     fromPort?: PortData
@@ -110,6 +112,7 @@ export interface CanvasContainerProps extends CanvasProps {
    * Callback when a node is linked.
    */
   onNodeLinkCheck?: (
+    event: any,
     fromNode: NodeData,
     toNode: NodeData,
     fromPort?: PortData
@@ -216,7 +219,7 @@ const InternalCanvas: FC<CanvasProps & { ref?: Ref<CanvasRef> }> = forwardRef(
       arrow = <MarkerArrow />,
       node = <Node />,
       edge = <Edge />,
-      dragNode = null,
+      dragNode = <Node />,
       dragEdge = <Edge add={null} />,
       onMouseEnter = () => undefined,
       onMouseLeave = () => undefined,
@@ -242,6 +245,7 @@ const InternalCanvas: FC<CanvasProps & { ref?: Ref<CanvasRef> }> = forwardRef(
       fitCanvas,
       ...rest
     } = useCanvas();
+    const [dragType, setDragType] = useState<null | NodeDragType>(null);
 
     useImperativeHandle(ref, () => ({
       ...rest,
@@ -342,6 +346,10 @@ const InternalCanvas: FC<CanvasProps & { ref?: Ref<CanvasRef> }> = forwardRef(
                   childEdge={edge}
                   childNode={node}
                   {...n}
+                  onDragStart={event => {
+                    // @ts-ignore
+                    setDragType(event.dragType);
+                  }}
                   id={`${id}-node-${n.id}`}
                 />
               );
@@ -358,7 +366,7 @@ const InternalCanvas: FC<CanvasProps & { ref?: Ref<CanvasRef> }> = forwardRef(
                 />
               );
             })}
-            {dragCoords !== null && dragEdge && !readonly && (
+            {dragCoords !== null && dragEdge && dragType === 'port' && !readonly && (
               <CloneElement<EdgeProps>
                 element={dragEdge}
                 id={`${id}-edge-drag`}
@@ -388,7 +396,7 @@ const InternalCanvas: FC<CanvasProps & { ref?: Ref<CanvasRef> }> = forwardRef(
                 )}
               </Fragment>
             ))}
-            {dragCoords !== null && dragNode && !readonly && (
+            {dragCoords !== null && dragNode && dragType === 'node' && !readonly && (
               <CloneElement<NodeProps>
                 {...dragNodeData}
                 element={dragNode}

@@ -46,7 +46,6 @@ export const NodeOnlyDrag = () => (
           dragType="all"
         />
       }
-      onLayoutChange={layout => console.log('Layout', layout)}
     />
   </div>
 );
@@ -74,7 +73,6 @@ export const PortOnlyDrag = () => (
           dragType="port"
         />
       }
-      onLayoutChange={layout => console.log('Layout', layout)}
     />
   </div>
 );
@@ -100,12 +98,7 @@ export const MultiPortOnlyDrag = () => (
           to: '2'
         }
       ]}
-      node={
-        <Node
-          dragType="multiportOnly"
-        />
-      }
-      onLayoutChange={layout => console.log('Layout', layout)}
+      node={<Node dragType="multiportOnly" />}
     />
   </div>
 );
@@ -136,7 +129,6 @@ export const AllDrag = () => (
           dragType="all"
         />
       }
-      onLayoutChange={layout => console.log('Layout', layout)}
     />
   </div>
 );
@@ -197,28 +189,13 @@ export const NodeRearranging = () => {
     }
   ]);
 
-  const [enteredNode, setEnteredNode] = useState<NodeData | null>(null);
-
   return (
     <div style={{ position: 'absolute', top: 0, bottom: 0, left: 0, right: 0 }}>
       <Canvas
         nodes={nodes}
         edges={edges}
-        node={
-          <Node
-            dragType="all"
-            dragCursor="grab"
-            onEnter={(_event, node) => setEnteredNode(node)}
-            onLeave={() => setEnteredNode(null)}
-            onDragEnd={(_event, _coords, node) => {
-              console.log('Entered Node:', enteredNode);
-              console.log('Node to Move:', node);
-            }}
-          />
-        }
-        dragNode={<Node />}
-        dragEdge={null}
-        onNodeLinkCheck={(from: NodeData, to: NodeData) => {
+        node={<Node dragType="node" />}
+        onNodeLinkCheck={(_event, from: NodeData, to: NodeData) => {
           if (from.id === to.id) {
             return false;
           }
@@ -229,7 +206,7 @@ export const NodeRearranging = () => {
 
           return true;
         }}
-        onNodeLink={(from, to) => {
+        onNodeLink={(_event, from, to) => {
           const newEdges = edges.filter(e => e.to !== from.id);
 
           setEdges([
@@ -237,8 +214,6 @@ export const NodeRearranging = () => {
             createEdgeFromNodes(to, from)
           ]);
         }}
-        onCanvasClick={event => console.log('Canvas Clicked', event)}
-        onLayoutChange={layout => console.log('Layout', layout)}
       />
     </div>
   );
@@ -300,28 +275,13 @@ export const NodeRearrangingUpsert = () => {
     }
   ]);
 
-  const [enteredNode, setEnteredNode] = useState<NodeData | null>(null);
-
   return (
     <div style={{ position: 'absolute', top: 0, bottom: 0, left: 0, right: 0 }}>
       <Canvas
         nodes={nodes}
         edges={edges}
-        node={
-          <Node
-            dragType="all"
-            dragCursor="grab"
-            onEnter={(_event, node) => setEnteredNode(node)}
-            onLeave={() => setEnteredNode(null)}
-            onDragEnd={(_event, _coords, node) => {
-              console.log('Entered Node:', enteredNode);
-              console.log('Node to Move:', node);
-            }}
-          />
-        }
-        dragNode={<Node />}
-        dragEdge={null}
-        onNodeLinkCheck={(from: NodeData, to: NodeData) => {
+        node={<Node dragType="node" />}
+        onNodeLinkCheck={(_event, from: NodeData, to: NodeData) => {
           if (from.id === to.id) {
             return false;
           }
@@ -332,7 +292,7 @@ export const NodeRearrangingUpsert = () => {
 
           return true;
         }}
-        onNodeLink={(from, to) => {
+        onNodeLink={(_event, from, to) => {
           const result = removeAndUpsertNodes(
             nodes,
             edges,
@@ -344,8 +304,6 @@ export const NodeRearrangingUpsert = () => {
             createEdgeFromNodes(to, from)
           ]);
         }}
-        onCanvasClick={event => console.log('Canvas Clicked', event)}
-        onLayoutChange={layout => console.log('Layout', layout)}
       />
     </div>
   );
@@ -393,39 +351,13 @@ export const NodePortRearranging = () => {
     makeFakeEdgeWithPorts('5', '6')
   ]);
 
-  const [dragType, setDragType] = useState<null | 'port' | 'node'>(null);
-  const [enteredNode, setEnteredNode] = useState<NodeData | null>(null);
-
   return (
     <div style={{ position: 'absolute', top: 0, bottom: 0, left: 0, right: 0 }}>
       <Canvas
         nodes={nodes}
         edges={edges}
-        node={
-          <Node
-            dragType="all"
-            dragCursor={dragType === 'port' ? 'crosshair' : 'grab'}
-            onEnter={(_event, node) => setEnteredNode(node)}
-            onLeave={() => setEnteredNode(null)}
-            onDragStart={(_event, _coords, node) => {
-              console.log('Dragging Node:', node);
-              setDragType('node');
-            }}
-            onDragEnd={(_event, _coords, node) => {
-              console.log('Drag End', dragType, enteredNode, node);
-              setDragType(null);
-            }}
-            port={
-              <Port
-                onDragStart={(_event, _coords, node) => {
-                  console.log('Dragging Port:', node);
-                  setDragType('port');
-                }}
-              />
-            }
-          />
-        }
-        onNodeLinkCheck={(from: NodeData, to: NodeData) => {
+        node={<Node dragType="all" />}
+        onNodeLinkCheck={(_event, from: NodeData, to: NodeData) => {
           if (from.id === to.id) {
             return false;
           }
@@ -436,8 +368,8 @@ export const NodePortRearranging = () => {
 
           return true;
         }}
-        onNodeLink={(from, to) => {
-          if (dragType === 'node') {
+        onNodeLink={(event, from, to) => {
+          if (event.dragType === 'node') {
             // TODO: Need to make handle ports
             const result = removeAndUpsertNodes(
               nodes,
@@ -449,17 +381,13 @@ export const NodePortRearranging = () => {
               ...result.edges,
               makeFakeEdgeWithPorts(to.id, from.id)
             ]);
-          } else if (dragType === 'port') {
+          } else if (event.dragType === 'port') {
             setEdges([
               ...edges,
               makeFakeEdgeWithPorts(from.id, to.id)
             ]);
           }
         }}
-        dragNode={dragType === 'node' ? <Node height={25} width={25} port={null} /> : null}
-        dragEdge={dragType === 'port' ? <Edge add={null} /> : null}
-        onCanvasClick={(event) => console.log('Canvas Clicked', event)}
-        onLayoutChange={layout => console.log('Layout', layout)}
       />
     </div>
   );

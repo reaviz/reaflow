@@ -34,10 +34,10 @@ export default () => {
     <Canvas
       nodes={nodes}
       edges={edges}
-      onNodeLinkCheck={(from: NodeData, to: NodeData) => {
+      onNodeLinkCheck={(event, from: NodeData, to: NodeData) => {
         return !hasLink(edges, from, to);
       }}
-      onNodeLink={(from, to) => {
+      onNodeLink={(event, from, to) => {
         const id = `${from.id}-${to.id}`;
 
         setEdges([

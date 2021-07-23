@@ -17,11 +17,13 @@ export const CanvasContext = createContext<CanvasProviderValue>({} as any);
 
 export interface CanvasProviderProps {
   onNodeLink?: (
+    event: any,
     fromNode: NodeData,
     toNode: NodeData,
     fromPort?: PortData
   ) => void;
   onNodeLinkCheck?: (
+    event: any,
     fromNode: NodeData,
     toNode: NodeData,
     fromPort?: PortData
