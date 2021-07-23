@@ -274,13 +274,23 @@ const InternalCanvas: FC<CanvasProps & { ref?: Ref<CanvasRef> }> = forwardRef(
       }
     }, [layout, xy]);
 
-    const dragNodeData = useMemo(
-      () =>
-        rest.dragNode
-          ? layout?.children?.find((c) => c.id === rest.dragNode.id)
-          : null,
-      [layout?.children, rest.dragNode]
-    );
+    const dragNodeData = useMemo(() => {
+      if (!rest.dragNode) {
+        return null;
+      }
+
+      const { parent } = rest.dragNode;
+      if (!parent) {
+        return layout?.children?.find((c) => c.id === rest.dragNode.id);
+      }
+
+      const parentNode = layout?.children?.find((c) => c.id === parent);
+      if (parentNode?.children) {
+        return parentNode.children.find((c) => c.id === rest.dragNode.id);
+      }
+
+      return null;
+    }, [layout?.children, rest.dragNode]);
 
     return (
       <div

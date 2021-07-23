@@ -393,6 +393,102 @@ export const NodePortRearranging = () => {
   );
 };
 
+export const NestedNodeRearranging = () => {
+  const [nodes, setNodes] = useState<NodeData[]>([
+    {
+      id: '1',
+      text: '1'
+    },
+    {
+      id: '2'
+    },
+    {
+      id: '2-1-1',
+      text: '2 > 1.1',
+      parent: '2'
+    },
+    {
+      id: '2-1-2',
+      text: '2 > 1.2',
+      parent: '2'
+    },
+    {
+      id: '2-1-3',
+      text: '2 > 1.3',
+      parent: '2'
+    },
+    {
+      id: '2-1-4',
+      text: '2 > 1.4',
+      parent: '2'
+    },
+    {
+      id: '3',
+      text: '3'
+    }
+  ]);
+
+  const [edges, setEdges] = useState<EdgeData[]>([
+    {
+      id: '1-2',
+      from: '1',
+      to: '2'
+    },
+    {
+      id: '2-1-1>2-1-2',
+      from: '2-1-1',
+      to: '2-1-2',
+      parent: '2'
+    },
+    {
+      id: '2-1-1>2-1-3',
+      from: '2-1-1',
+      to: '2-1-3',
+      parent: '2'
+    },
+    {
+      id: '2-1-3>2-1-4',
+      from: '2-1-3',
+      to: '2-1-4',
+      parent: '2'
+    },
+    {
+      id: '2-3',
+      from: '2',
+      to: '3'
+    }
+  ]);
+
+  return (
+    <div style={{ position: 'absolute', top: 0, bottom: 0, left: 0, right: 0 }}>
+      <Canvas
+        nodes={nodes}
+        edges={edges}
+        node={<Node dragType="node" />}
+        onNodeLinkCheck={(_event, from: NodeData, to: NodeData) => {
+          if (from.id === to.id) {
+            return false;
+          }
+
+          if (hasLink(edges, from, to)) {
+            return false;
+          }
+
+          return true;
+        }}
+        onNodeLink={(_event, from, to) => {
+          const newEdges = edges.filter(e => e.to !== from.id);
+
+          setEdges([
+            ...newEdges,
+            createEdgeFromNodes(to, from)
+          ]);
+        }}
+      />
+    </div>
+  );
+};
+
 const makeFakePorts: any = (id: string) => ([
   {
     id: `${id}-from`,
