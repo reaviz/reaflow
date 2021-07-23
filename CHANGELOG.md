@@ -1,3 +1,8 @@
+# 4.0.0 - 7/23/21
+- [BREAKING] `onNodeLink` and `onNodeLinkCheck` now pass `event` as the first argument!
+- [feature] Improve drag DX
+- [fix] fix port not getting drag cursor
+
 # 3.3.4 - 7/23/21
 - [fix] improve safety check for node linking
 
