@@ -163,12 +163,16 @@ export interface CanvasProps {
   /**
    * Element of the drag edge.
    */
-  dragEdge?: ReactElement<EdgeProps, typeof Edge>;
+  dragEdge?:
+    | ReactElement<EdgeProps, typeof Edge>
+    | ((edge: EdgeProps) => ReactElement<NodeProps, typeof Edge>);
 
   /**
    * Element of the drag node.
    */
-  dragNode?: ReactElement<NodeProps, typeof Node>;
+  dragNode?:
+    | ReactElement<NodeProps, typeof Node>
+    | ((node: NodeProps) => ReactElement<NodeProps, typeof Node>);
 
   /**
    * Arrow shown on the edges.
@@ -346,7 +350,7 @@ const InternalCanvas: FC<CanvasProps & { ref?: Ref<CanvasRef> }> = forwardRef(
                   childEdge={edge}
                   childNode={node}
                   {...n}
-                  onDragStart={event => {
+                  onDragStart={(event) => {
                     // @ts-ignore
                     setDragType(event.dragType);
                   }}
@@ -366,7 +370,10 @@ const InternalCanvas: FC<CanvasProps & { ref?: Ref<CanvasRef> }> = forwardRef(
                 />
               );
             })}
-            {dragCoords !== null && dragEdge && dragType === 'port' && !readonly && (
+            {dragCoords !== null &&
+              dragEdge &&
+              dragType === 'port' &&
+              !readonly && (
               <CloneElement<EdgeProps>
                 element={dragEdge}
                 id={`${id}-edge-drag`}
@@ -396,7 +403,10 @@ const InternalCanvas: FC<CanvasProps & { ref?: Ref<CanvasRef> }> = forwardRef(
                 )}
               </Fragment>
             ))}
-            {dragCoords !== null && dragNode && dragType === 'node' && !readonly && (
+            {dragCoords !== null &&
+              dragNode &&
+              dragType === 'node' &&
+              !readonly && (
               <CloneElement<NodeProps>
                 {...dragNodeData}
                 element={dragNode}
