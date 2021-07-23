@@ -15,6 +15,10 @@ export function checkNodeLinkable(
     return null;
   }
 
+  if (!enteredNode || !curNode) {
+    return false;
+  }
+
   // TODO: Revisit how to do self-linking better...
   if (canLinkNode === false && enteredNode.id === curNode.id) {
     return false;
@@ -51,8 +55,5 @@ export function getCoords({
   const tx = (containerWidth - layout.width * zoom) / 2 + offsetX + left;
   const ty = (containerHeight - layout.height * zoom) / 2 + offsetY + top;
 
-  return new Matrix2D()
-    .translate(tx, ty)
-    .scale(zoom)
-    .inverse();
+  return new Matrix2D().translate(tx, ty).scale(zoom).inverse();
 }
