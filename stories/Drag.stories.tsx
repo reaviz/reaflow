@@ -477,10 +477,25 @@ export const NestedNodeRearranging = () => {
           return true;
         }}
         onNodeLink={(_event, from, to) => {
-          const newEdges = edges.filter(e => e.to !== from.id);
+          const result = removeAndUpsertNodes(
+            nodes,
+            edges,
+            from
+          );
+
+          // Update parents
+          if ((from.parent || to.parent) && from.parent !== to.parent) {
+            const newNodes = nodes.map(n => (
+              n.id === from.id
+                ? { ...n, parent: to.parent }
+                : { ...n }
+            ));
+            from.parent = to.parent;
+            setNodes(newNodes);
+          }
 
           setEdges([
-            ...newEdges,
+            ...result.edges,
             createEdgeFromNodes(to, from)
           ]);
         }}
