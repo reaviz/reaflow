@@ -1,3 +1,6 @@
+# 3.3.4 - 7/23/21
+- [fix] improve safety check for node linking
+
 # 3.3.3 - 7/23/21
 - [fix] fix height null errors
 
