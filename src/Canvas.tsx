@@ -285,33 +285,38 @@ const InternalCanvas: FC<CanvasProps & { ref?: Ref<CanvasRef> }> = forwardRef(
       }
     }, [layout, xy]);
 
-    const createDragNodeChildren = (children: any) => {
-      if (!children || !Array.isArray(children)) {
-        return [];
-      }
+    const createDragNodeChildren = useCallback(
+      (children: any) => {
+        if (!children || !Array.isArray(children)) {
+          return [];
+        }
 
-      return children.map(({ children, ...n }) => {
-        const element =
-          typeof dragNode === 'function' ? dragNode(n as NodeProps) : dragNode;
-        return (
-          <CloneElement<NodeProps>
-            key={`${id}-node-${n.id}-node-drag`}
-            element={element}
-            disabled
-            children={element.props.children}
-            animated={animated}
-            nodes={children}
-            childEdge={edge}
-            childNode={dragNode}
-            {...n}
-            onDragStart={event => {
-              setDragType(event.dragType);
-            }}
-            id={`${id}-node-${n.id}-node-drag`}
-          />
-        );
-      });
-    };
+        return children.map(({ children, ...n }) => {
+          const element =
+            typeof dragNode === 'function'
+              ? dragNode(n as NodeProps)
+              : dragNode;
+          return (
+            <CloneElement<NodeProps>
+              key={`${id}-node-${n.id}-node-drag`}
+              element={element}
+              disabled
+              children={element.props.children}
+              animated={animated}
+              nodes={children}
+              childEdge={edge}
+              childNode={dragNode}
+              {...n}
+              onDragStart={event => {
+                setDragType(event.dragType);
+              }}
+              id={`${id}-node-${n.id}-node-drag`}
+            />
+          );
+        });
+      },
+      [animated, dragNode, edge, id]
+    );
 
     useEffect(() => {
       if (dragNodeData.children) {
