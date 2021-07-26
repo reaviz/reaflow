@@ -38,7 +38,6 @@ export const useEdgeDrag = ({
     node: NodeData,
     port?: PortData
   ) => {
-    // @ts-ignore
     setDragType(state.dragType);
     setDragNode(node);
     setDragPort(port);

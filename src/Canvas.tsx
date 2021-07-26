@@ -308,7 +308,6 @@ const InternalCanvas: FC<CanvasProps & { ref?: Ref<CanvasRef> }> = forwardRef(
               childNode={dragNode}
               {...n}
               onDragStart={(event) => {
-                // @ts-ignore
                 setDragType(event.dragType);
               }}
               id={`${id}-node-${n.id}-node-drag`}
@@ -397,7 +396,6 @@ const InternalCanvas: FC<CanvasProps & { ref?: Ref<CanvasRef> }> = forwardRef(
                   childNode={node}
                   {...n}
                   onDragStart={(event) => {
-                    // @ts-ignore
                     setDragType(event.dragType);
                   }}
                   id={`${id}-node-${n.id}`}
