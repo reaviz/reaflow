@@ -97,6 +97,9 @@ export function findNestedNode(
   return {};
 }
 
+/**
+ * Return the layout node that is currently being dragged on the Canvas
+ */
 export function getDragNodeData(
   dragNode: NodeData,
   children: any[] = []
@@ -107,12 +110,8 @@ export function getDragNodeData(
 
   const { parent } = dragNode;
   if (!parent) {
-    const foundNode = children?.find(n => n.id === dragNode.id);
-
-    return foundNode || {};
+    return children?.find(n => n.id === dragNode.id) || {};
   }
 
-  const foundNode = findNestedNode(dragNode.id, children, parent);
-
-  return foundNode;
+  return findNestedNode(dragNode.id, children, parent);
 }

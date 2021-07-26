@@ -3,7 +3,7 @@ import { EdgeSections } from '../symbols/Edge';
 import { NodeData, PortData } from '../types';
 import { DragEvent, NodeDragEvents, Position } from './useNodeDrag';
 import { Point2D } from 'kld-affine';
-import { NodeDragType } from 'symbols/Node';
+import { NodeDragType } from '../symbols/Node';
 
 export interface EdgeDragResult extends NodeDragEvents {
   dragCoords: EdgeSections[] | null;

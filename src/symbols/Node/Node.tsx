@@ -4,7 +4,6 @@ import React, {
   ReactElement,
   ReactNode,
   useEffect,
-  useMemo,
   useState
 } from 'react';
 import { motion, useAnimation } from 'framer-motion';
@@ -155,7 +154,7 @@ export const Node: FC<Partial<NodeProps>> = ({
   const isLinkable = checkNodeLinkable(properties, enteredNode, canLinkNode);
   const isMultiPort =
     dragType === 'multiportOnly' &&
-    ports?.filter((p) => !p.properties?.hidden).length > 1;
+    ports?.filter(p => !p.properties?.hidden).length > 1;
 
   const getDragType = (hasPort: boolean) => {
     let activeDragType: NodeDragType = null;
@@ -247,25 +246,25 @@ export const Node: FC<Partial<NodeProps>> = ({
       <motion.rect
         {...bind()}
         tabIndex={-1}
-        onKeyDown={(event) => {
+        onKeyDown={event => {
           event.preventDefault();
           onKeyDown(event, properties);
         }}
-        onClick={(event) => {
+        onClick={event => {
           event.preventDefault();
           event.stopPropagation();
           onClick(event, properties);
         }}
-        onTouchStart={(event) => {
+        onTouchStart={event => {
           event.preventDefault();
           event.stopPropagation();
         }}
-        onMouseEnter={(event) => {
+        onMouseEnter={event => {
           event.stopPropagation();
           canvas.onEnter(event, properties);
           onEnter(event, properties);
         }}
-        onMouseLeave={(event) => {
+        onMouseLeave={event => {
           event.stopPropagation();
           canvas.onLeave(event, properties);
           onLeave(event, properties);
@@ -313,7 +312,7 @@ export const Node: FC<Partial<NodeProps>> = ({
         ))}
       {port &&
         ports?.length > 0 &&
-        ports.map((p) => (
+        ports.map(p => (
           <CloneElement<PortProps>
             element={port}
             key={p.id}
