@@ -149,13 +149,13 @@ export const Node: FC<Partial<NodeProps>> = ({
   const isActive = selections?.length
     ? selections.includes(properties.id)
     : null;
+  const isNodeDrag = id.includes('node-drag');
   const newX = x + offsetX;
   const newY = y + offsetY;
   const isLinkable = checkNodeLinkable(properties, enteredNode, canLinkNode);
   const isMultiPort =
     dragType === 'multiportOnly' &&
     ports?.filter((p) => !p.properties?.hidden).length > 1;
-  const isNodeDrag = useMemo(() => id.includes('node-drag'), [id]);
 
   const getDragType = (hasPort: boolean) => {
     let activeDragType: NodeDragType = null;

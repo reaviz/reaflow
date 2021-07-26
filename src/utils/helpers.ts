@@ -71,20 +71,20 @@ export function findNestedNode(
     return;
   }
 
-  let foundNode = children.find((c) => c.id === nodeId);
+  let foundNode = children.find((n) => n.id === nodeId);
   if (foundNode) {
     return foundNode;
   }
 
   if (parentId) {
-    const parentNode = children.find((c) => c.id === parentId);
+    const parentNode = children.find((n) => n.id === parentId);
     if (parentNode?.children) {
       return findNestedNode(nodeId, parentNode.children, parentId);
     }
   }
 
   // Check for nested children
-  const nodesWithChildren = children.filter((c) => c.children);
+  const nodesWithChildren = children.filter((n) => n.children);
   // Iterate over all nested nodes and check if any of them contain the node
   for (const n of nodesWithChildren) {
     foundNode = findNestedNode(nodeId, n.children, parentId);

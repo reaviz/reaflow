@@ -284,17 +284,19 @@ const InternalCanvas: FC<CanvasProps & { ref?: Ref<CanvasRef> }> = forwardRef(
 
         return children.map(({ children, ...n }) => {
           const element =
-            typeof node === 'function' ? node(n as NodeProps) : node;
+            typeof dragNode === 'function'
+              ? dragNode(n as NodeProps)
+              : dragNode;
           return (
             <CloneElement<NodeProps>
-              key={`${n.id}-node-drag`}
+              key={`${id}-node-${n.id}-node-drag`}
               element={element}
               disabled
               children={element.props.children}
               animated={animated}
               nodes={children}
               childEdge={edge}
-              childNode={node}
+              childNode={dragNode}
               {...n}
               onDragStart={(event) => {
                 // @ts-ignore
@@ -305,7 +307,7 @@ const InternalCanvas: FC<CanvasProps & { ref?: Ref<CanvasRef> }> = forwardRef(
           );
         });
       },
-      [animated, edge, id, node]
+      [animated, dragNode, edge, id]
     );
 
     const dragNodeData = useMemo(() => {
@@ -316,15 +318,15 @@ const InternalCanvas: FC<CanvasProps & { ref?: Ref<CanvasRef> }> = forwardRef(
       const { parent } = rest.dragNode;
       if (!parent) {
         const foundNode = layout?.children?.find(
-          (c) => c.id === rest.dragNode.id
+          (n) => n.id === rest.dragNode.id
         );
-        if (foundNode && foundNode.children) {
+        if (foundNode?.children) {
           const nodeCopy = { ...foundNode };
           // Node children is expecting a list of React Elements, need to create a list of elements
           nodeCopy.children = createDragNodeChildren(nodeCopy.children);
-          // nodeCopy.children = nodeCopy.children.map(n => ({ ...n, id: `${n.id}-node-drag` }));
           return nodeCopy;
         }
+
         return foundNode;
       }
 
@@ -333,11 +335,10 @@ const InternalCanvas: FC<CanvasProps & { ref?: Ref<CanvasRef> }> = forwardRef(
         layout?.children,
         parent
       );
-      if (foundNode && foundNode.children) {
+      if (foundNode?.children) {
         const nodeCopy = { ...foundNode };
         // Node children is expecting a list of React Elements, need to create a list of elements
         nodeCopy.children = createDragNodeChildren(nodeCopy.children);
-        // nodeCopy.children = nodeCopy.children.map(n => ({ ...n, id: `${n.id}-node-drag` }));
         return nodeCopy;
       }
 
