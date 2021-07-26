@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Canvas } from '../src/Canvas';
-import { Node, Edge, MarkerArrow, Port, Icon, Arrow, Label, Remove, Add } from '../src/symbols';
+import { Node, Edge, MarkerArrow, Port, Icon, Arrow, Label, Remove, Add, NodeProps } from '../src/symbols';
 import { EdgeData, NodeData } from '../src/types';
 import { createEdgeFromNodes, hasLink, removeAndUpsertNodes } from '../src/helpers';
 
@@ -465,6 +465,7 @@ export const NestedNodeRearranging = () => {
         nodes={nodes}
         edges={edges}
         node={<Node dragType="node" />}
+        dragNode={(node: NodeProps) => (<Node {...node} dragType="node" />)}
         onNodeLinkCheck={(_event, from: NodeData, to: NodeData) => {
           if (from.id === to.id) {
             return false;
