@@ -166,9 +166,7 @@ export interface CanvasProps {
   /**
    * Element of the drag edge.
    */
-  dragEdge?:
-    | ReactElement<EdgeProps, typeof Edge>
-    | ((edge: EdgeProps) => ReactElement<NodeProps, typeof Edge>);
+  dragEdge?: ReactElement<EdgeProps, typeof Edge>;
 
   /**
    * Element of the drag node.
