@@ -8,7 +8,8 @@ import React, {
   useRef,
   Fragment,
   useMemo,
-  useState
+  useState,
+  useCallback
 } from 'react';
 import { useId, CloneElement } from 'rdk';
 import { Node, NodeDragType, NodeProps } from './symbols/Node';
@@ -23,6 +24,7 @@ import { MarkerArrow, MarkerArrowProps } from './symbols/Arrow';
 import { EdgeData, NodeData, PortData } from './types';
 import classNames from 'classnames';
 import { CanvasProvider, useCanvas } from './utils/CanvasProvider';
+import { findNestedNode } from './utils/helpers';
 import { motion } from 'framer-motion';
 import { ZoomResult } from './utils/useZoom';
 import css from './Canvas.module.css';
@@ -274,6 +276,38 @@ const InternalCanvas: FC<CanvasProps & { ref?: Ref<CanvasRef> }> = forwardRef(
       }
     }, [layout, xy]);
 
+    const createDragNodeChildren = useCallback(
+      (children: any) => {
+        if (!children || !Array.isArray(children)) {
+          return [];
+        }
+
+        return children.map(({ children, ...n }) => {
+          const element =
+            typeof node === 'function' ? node(n as NodeProps) : node;
+          return (
+            <CloneElement<NodeProps>
+              key={`${n.id}-node-drag`}
+              element={element}
+              disabled
+              children={element.props.children}
+              animated={animated}
+              nodes={children}
+              childEdge={edge}
+              childNode={node}
+              {...n}
+              onDragStart={(event) => {
+                // @ts-ignore
+                setDragType(event.dragType);
+              }}
+              id={`${id}-node-${n.id}-node-drag`}
+            />
+          );
+        });
+      },
+      [animated, edge, id, node]
+    );
+
     const dragNodeData = useMemo(() => {
       if (!rest.dragNode) {
         return null;
@@ -281,16 +315,34 @@ const InternalCanvas: FC<CanvasProps & { ref?: Ref<CanvasRef> }> = forwardRef(
 
       const { parent } = rest.dragNode;
       if (!parent) {
-        return layout?.children?.find((c) => c.id === rest.dragNode.id);
+        const foundNode = layout?.children?.find(
+          (c) => c.id === rest.dragNode.id
+        );
+        if (foundNode && foundNode.children) {
+          const nodeCopy = { ...foundNode };
+          // Node children is expecting a list of React Elements, need to create a list of elements
+          nodeCopy.children = createDragNodeChildren(nodeCopy.children);
+          // nodeCopy.children = nodeCopy.children.map(n => ({ ...n, id: `${n.id}-node-drag` }));
+          return nodeCopy;
+        }
+        return foundNode;
       }
 
-      const parentNode = layout?.children?.find((c) => c.id === parent);
-      if (parentNode?.children) {
-        return parentNode.children.find((c) => c.id === rest.dragNode.id);
+      const foundNode = findNestedNode(
+        rest.dragNode.id,
+        layout?.children,
+        parent
+      );
+      if (foundNode && foundNode.children) {
+        const nodeCopy = { ...foundNode };
+        // Node children is expecting a list of React Elements, need to create a list of elements
+        nodeCopy.children = createDragNodeChildren(nodeCopy.children);
+        // nodeCopy.children = nodeCopy.children.map(n => ({ ...n, id: `${n.id}-node-drag` }));
+        return nodeCopy;
       }
 
-      return null;
-    }, [layout?.children, rest.dragNode]);
+      return foundNode;
+    }, [createDragNodeChildren, layout?.children, rest.dragNode]);
 
     return (
       <div

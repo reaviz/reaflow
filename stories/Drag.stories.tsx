@@ -470,6 +470,10 @@ export const NestedNodeRearranging = () => {
             return false;
           }
 
+          if (from.id === to.parent) {
+            return false;
+          }
+
           if (hasLink(edges, from, to)) {
             return false;
           }
