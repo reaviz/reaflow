@@ -455,10 +455,16 @@ const InternalCanvas: FC<CanvasProps & { ref?: Ref<CanvasRef> }> = forwardRef(
                 {...dragNodeDataWithChildren}
                 element={dragNode}
                 height={
-                  dragNode?.props?.height || dragNodeDataWithChildren?.height
+                  typeof dragNode === 'function'
+                    ? dragNodeDataWithChildren?.height
+                    : dragNode?.props?.height ||
+                        dragNodeDataWithChildren?.height
                 }
                 width={
-                  dragNode?.props?.width || dragNodeDataWithChildren?.width
+                  typeof dragNode === 'function'
+                    ? dragNodeDataWithChildren?.width
+                    : dragNode?.props?.width ||
+                        dragNodeDataWithChildren?.width
                 }
                 id={`${id}-node-drag`}
                 animated={animated}
