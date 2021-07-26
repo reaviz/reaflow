@@ -279,6 +279,10 @@ const InternalCanvas: FC<CanvasProps & { ref?: Ref<CanvasRef> }> = forwardRef(
     const [dragNodeDataWithChildren, setDragNodeDataWithChildren] = useState<{
       [key: string]: any;
     }>(dragNodeData);
+    const [draggingNode, setDraggingNode] = useState<ReactElement<
+      NodeProps,
+      typeof Node
+    > | null>(null);
     useLayoutEffect(() => {
       if (!mount.current && layout !== null && xy[0] > 0 && xy[1] > 0) {
         mount.current = true;
@@ -319,13 +323,23 @@ const InternalCanvas: FC<CanvasProps & { ref?: Ref<CanvasRef> }> = forwardRef(
     );
 
     useEffect(() => {
-      if (dragNodeData.children) {
+      if (dragNodeData) {
+        const nodeDataProps = findNestedNode(dragNodeData.id, layout?.children);
+        if (nodeDataProps) {
+          const element =
+            typeof dragNode === 'function'
+              ? dragNode(nodeDataProps as NodeProps)
+              : dragNode;
+          setDraggingNode(element);
+        }
+      }
+      if (dragNodeData?.children) {
         const nodeCopy = { ...dragNodeData };
         // Node children is expecting a list of React Elements, need to create a list of elements
         nodeCopy.children = createDragNodeChildren(nodeCopy.children);
         setDragNodeDataWithChildren(nodeCopy);
       }
-    }, [createDragNodeChildren, dragNodeData]);
+    }, [createDragNodeChildren, dragNode, dragNodeData, layout?.children]);
 
     return (
       <div
@@ -448,23 +462,19 @@ const InternalCanvas: FC<CanvasProps & { ref?: Ref<CanvasRef> }> = forwardRef(
               </Fragment>
             ))}
             {dragCoords !== null &&
-              dragNode &&
+              draggingNode &&
               dragType === 'node' &&
               !readonly && (
               <CloneElement<NodeProps>
                 {...dragNodeDataWithChildren}
-                element={dragNode}
+                element={draggingNode}
                 height={
-                  typeof dragNode === 'function'
-                    ? dragNodeDataWithChildren?.height
-                    : dragNode?.props?.height ||
-                        dragNodeDataWithChildren?.height
+                  draggingNode?.props?.height ||
+                    dragNodeDataWithChildren?.height
                 }
                 width={
-                  typeof dragNode === 'function'
-                    ? dragNodeDataWithChildren?.width
-                    : dragNode?.props?.width ||
-                        dragNodeDataWithChildren?.width
+                  draggingNode?.props?.width ||
+                    dragNodeDataWithChildren?.width
                 }
                 id={`${id}-node-drag`}
                 animated={animated}
