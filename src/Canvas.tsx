@@ -8,7 +8,9 @@ import React, {
   useRef,
   Fragment,
   useMemo,
-  useState
+  useState,
+  useCallback,
+  useEffect
 } from 'react';
 import { useId, CloneElement } from 'rdk';
 import { Node, NodeDragType, NodeProps } from './symbols/Node';
@@ -23,6 +25,7 @@ import { MarkerArrow, MarkerArrowProps } from './symbols/Arrow';
 import { EdgeData, NodeData, PortData } from './types';
 import classNames from 'classnames';
 import { CanvasProvider, useCanvas } from './utils/CanvasProvider';
+import { findNestedNode, getDragNodeData } from './utils/helpers';
 import { motion } from 'framer-motion';
 import { ZoomResult } from './utils/useZoom';
 import css from './Canvas.module.css';
@@ -163,12 +166,16 @@ export interface CanvasProps {
   /**
    * Element of the drag edge.
    */
-  dragEdge?: ReactElement<EdgeProps, typeof Edge>;
+  dragEdge?:
+    | ReactElement<EdgeProps, typeof Edge>
+    | ((edge: EdgeProps) => ReactElement<NodeProps, typeof Edge>);
 
   /**
    * Element of the drag node.
    */
-  dragNode?: ReactElement<NodeProps, typeof Node>;
+  dragNode?:
+    | ReactElement<NodeProps, typeof Node>
+    | ((node: NodeProps) => ReactElement<NodeProps, typeof Node>);
 
   /**
    * Arrow shown on the edges.
@@ -231,6 +238,7 @@ const InternalCanvas: FC<CanvasProps & { ref?: Ref<CanvasRef> }> = forwardRef(
     const {
       pannable,
       dragCoords,
+      dragNode: canvasDragNode,
       layout,
       containerRef,
       svgRef,
@@ -264,19 +272,60 @@ const InternalCanvas: FC<CanvasProps & { ref?: Ref<CanvasRef> }> = forwardRef(
     }));
 
     const mount = useRef<boolean>(false);
+    const dragNodeData = useMemo(
+      () => getDragNodeData(canvasDragNode, layout?.children),
+      [canvasDragNode, layout?.children]
+    );
+    const [dragNodeDataWithChildren, setDragNodeDataWithChildren] = useState<{
+      [key: string]: any;
+    }>(dragNodeData);
     useLayoutEffect(() => {
       if (!mount.current && layout !== null && xy[0] > 0 && xy[1] > 0) {
         mount.current = true;
       }
     }, [layout, xy]);
 
-    const dragNodeData = useMemo(
-      () =>
-        rest.dragNode
-          ? layout?.children?.find((c) => c.id === rest.dragNode.id)
-          : null,
-      [layout?.children, rest.dragNode]
+    const createDragNodeChildren = useCallback(
+      (children: any) => {
+        if (!children || !Array.isArray(children)) {
+          return [];
+        }
+
+        return children.map(({ children, ...n }) => {
+          const element =
+            typeof dragNode === 'function'
+              ? dragNode(n as NodeProps)
+              : dragNode;
+          return (
+            <CloneElement<NodeProps>
+              key={`${id}-node-${n.id}-node-drag`}
+              element={element}
+              disabled
+              children={element.props.children}
+              animated={animated}
+              nodes={children}
+              childEdge={edge}
+              childNode={dragNode}
+              {...n}
+              onDragStart={event => {
+                setDragType(event.dragType);
+              }}
+              id={`${id}-node-${n.id}-node-drag`}
+            />
+          );
+        });
+      },
+      [animated, dragNode, edge, id]
     );
+
+    useEffect(() => {
+      if (dragNodeData.children) {
+        const nodeCopy = { ...dragNodeData };
+        // Node children is expecting a list of React Elements, need to create a list of elements
+        nodeCopy.children = createDragNodeChildren(nodeCopy.children);
+        setDragNodeDataWithChildren(nodeCopy);
+      }
+    }, [createDragNodeChildren, dragNodeData]);
 
     return (
       <div
@@ -347,14 +396,13 @@ const InternalCanvas: FC<CanvasProps & { ref?: Ref<CanvasRef> }> = forwardRef(
                   childNode={node}
                   {...n}
                   onDragStart={event => {
-                    // @ts-ignore
                     setDragType(event.dragType);
                   }}
                   id={`${id}-node-${n.id}`}
                 />
               );
             })}
-            {layout?.edges?.map((e) => {
+            {layout?.edges?.map(e => {
               const element = typeof edge === 'function' ? edge(e) : edge;
               return (
                 <CloneElement<EdgeProps>
@@ -366,7 +414,10 @@ const InternalCanvas: FC<CanvasProps & { ref?: Ref<CanvasRef> }> = forwardRef(
                 />
               );
             })}
-            {dragCoords !== null && dragEdge && dragType === 'port' && !readonly && (
+            {dragCoords !== null &&
+              dragEdge &&
+              dragType === 'port' &&
+              !readonly && (
               <CloneElement<EdgeProps>
                 element={dragEdge}
                 id={`${id}-edge-drag`}
@@ -396,12 +447,25 @@ const InternalCanvas: FC<CanvasProps & { ref?: Ref<CanvasRef> }> = forwardRef(
                 )}
               </Fragment>
             ))}
-            {dragCoords !== null && dragNode && dragType === 'node' && !readonly && (
+            {dragCoords !== null &&
+              dragNode &&
+              dragType === 'node' &&
+              !readonly && (
               <CloneElement<NodeProps>
-                {...dragNodeData}
+                {...dragNodeDataWithChildren}
                 element={dragNode}
-                height={dragNode?.props?.height || dragNodeData?.height}
-                width={dragNode?.props?.width || dragNodeData?.width}
+                height={
+                  typeof dragNode === 'function'
+                    ? dragNodeDataWithChildren?.height
+                    : dragNode?.props?.height ||
+                        dragNodeDataWithChildren?.height
+                }
+                width={
+                  typeof dragNode === 'function'
+                    ? dragNodeDataWithChildren?.width
+                    : dragNode?.props?.width ||
+                        dragNodeDataWithChildren?.width
+                }
                 id={`${id}-node-drag`}
                 animated={animated}
                 className={css.dragNode}

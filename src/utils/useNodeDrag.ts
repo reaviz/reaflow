@@ -1,11 +1,12 @@
 import { useRef } from 'react';
 import { useDrag } from 'react-use-gesture';
 import { State } from 'react-use-gesture/dist/types';
+import { NodeDragType } from 'symbols';
 import { NodeData } from '../types';
 import { useCanvas } from './CanvasProvider';
 import { getCoords } from './helpers';
 
-export type DragEvent = State['drag'];
+export type DragEvent = State['drag'] & { dragType?: NodeDragType };
 export type Position = [number, number];
 
 export interface NodeDragEvents<T = any, TT = any | undefined> {

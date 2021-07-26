@@ -29,6 +29,7 @@ module.exports = {
       'error',
       2
     ],
+    'arrow-parens': ['error', 'as-needed'],
     'react/display-name': [0],
     'react/prop-types': [0],
     'react/no-children-prop': [0],

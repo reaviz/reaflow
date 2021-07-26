@@ -57,3 +57,61 @@ export function getCoords({
 
   return new Matrix2D().translate(tx, ty).scale(zoom).inverse();
 }
+
+/**
+ * Given a nodeId to find, a list of nodes to check against, and an optional parentId of the node
+ * find the node from the list of nodes
+ */
+export function findNestedNode(
+  nodeId: string,
+  children: any[],
+  parentId?: string
+): { [key: string]: any } {
+  if (!nodeId || !children) {
+    return {};
+  }
+
+  const foundNode = children.find(n => n.id === nodeId);
+  if (foundNode) {
+    return foundNode;
+  }
+
+  if (parentId) {
+    const parentNode = children.find(n => n.id === parentId);
+    if (parentNode?.children) {
+      return findNestedNode(nodeId, parentNode.children, parentId);
+    }
+  }
+
+  // Check for nested children
+  const nodesWithChildren = children.filter(n => n.children);
+  // Iterate over all nested nodes and check if any of them contain the node
+  for (const n of nodesWithChildren) {
+    const foundChild = findNestedNode(nodeId, n.children, parentId);
+
+    if (foundChild) {
+      return foundChild;
+    }
+  }
+
+  return {};
+}
+
+/**
+ * Return the layout node that is currently being dragged on the Canvas
+ */
+export function getDragNodeData(
+  dragNode: NodeData,
+  children: any[] = []
+): { [key: string]: any } {
+  if (!dragNode) {
+    return {};
+  }
+
+  const { parent } = dragNode;
+  if (!parent) {
+    return children?.find(n => n.id === dragNode.id) || {};
+  }
+
+  return findNestedNode(dragNode.id, children, parent);
+}

@@ -60,7 +60,7 @@ export interface NodeProps extends NodeDragEvents<NodeData, PortData> {
   children?: ReactNode | NodeChildrenAsFunction;
   parent?: string;
   animated?: boolean;
-  dragType?: NodeDragType,
+  dragType?: NodeDragType;
   dragCursor?: string;
 
   nodes?: NodeData[];
@@ -148,11 +148,13 @@ export const Node: FC<Partial<NodeProps>> = ({
   const isActive = selections?.length
     ? selections.includes(properties.id)
     : null;
+  const isNodeDrag = id.includes('node-drag');
   const newX = x + offsetX;
   const newY = y + offsetY;
   const isLinkable = checkNodeLinkable(properties, enteredNode, canLinkNode);
-  const isMultiPort = dragType === 'multiportOnly' &&
-    ports?.filter((p) => !p.properties?.hidden).length > 1;
+  const isMultiPort =
+    dragType === 'multiportOnly' &&
+    ports?.filter(p => !p.properties?.hidden).length > 1;
 
   const getDragType = (hasPort: boolean) => {
     let activeDragType: NodeDragType = null;
@@ -244,25 +246,25 @@ export const Node: FC<Partial<NodeProps>> = ({
       <motion.rect
         {...bind()}
         tabIndex={-1}
-        onKeyDown={(event) => {
+        onKeyDown={event => {
           event.preventDefault();
           onKeyDown(event, properties);
         }}
-        onClick={(event) => {
+        onClick={event => {
           event.preventDefault();
           event.stopPropagation();
           onClick(event, properties);
         }}
-        onTouchStart={(event) => {
+        onTouchStart={event => {
           event.preventDefault();
           event.stopPropagation();
         }}
-        onMouseEnter={(event) => {
+        onMouseEnter={event => {
           event.stopPropagation();
           canvas.onEnter(event, properties);
           onEnter(event, properties);
         }}
-        onMouseLeave={(event) => {
+        onMouseLeave={event => {
           event.stopPropagation();
           canvas.onLeave(event, properties);
           onLeave(event, properties);
@@ -270,7 +272,7 @@ export const Node: FC<Partial<NodeProps>> = ({
         className={classNames(css.rect, className, properties?.className, {
           [css.active]: isActive,
           [css.disabled]: disabled || properties?.disabled,
-          [css.unlinkable]: isLinkable === false,
+          [css.unlinkable]: isLinkable === false && !isNodeDrag,
           [css.dragging]: dragging,
           [css.children]: nodes?.length > 0,
           [css.deleteHovered]: deleteHovered,
@@ -310,7 +312,7 @@ export const Node: FC<Partial<NodeProps>> = ({
         ))}
       {port &&
         ports?.length > 0 &&
-        ports.map((p) => (
+        ports.map(p => (
           <CloneElement<PortProps>
             element={port}
             key={p.id}
