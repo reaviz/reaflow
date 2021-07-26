@@ -66,12 +66,12 @@ export function findNestedNode(
   nodeId: string,
   children: any[],
   parentId?: string
-) {
+): { [key: string]: any } {
   if (!nodeId || !children) {
-    return;
+    return {};
   }
 
-  let foundNode = children.find((n) => n.id === nodeId);
+  const foundNode = children.find((n) => n.id === nodeId);
   if (foundNode) {
     return foundNode;
   }
@@ -87,12 +87,32 @@ export function findNestedNode(
   const nodesWithChildren = children.filter((n) => n.children);
   // Iterate over all nested nodes and check if any of them contain the node
   for (const n of nodesWithChildren) {
-    foundNode = findNestedNode(nodeId, n.children, parentId);
+    const foundChild = findNestedNode(nodeId, n.children, parentId);
 
-    if (foundNode) {
-      return foundNode;
+    if (foundChild) {
+      return foundChild;
     }
   }
 
-  return null;
+  return {};
+}
+
+export function getDragNodeData(
+  dragNode: NodeData,
+  children: any[] = []
+): { [key: string]: any } {
+  if (!dragNode) {
+    return {};
+  }
+
+  const { parent } = dragNode;
+  if (!parent) {
+    const foundNode = children?.find((n) => n.id === dragNode.id);
+
+    return foundNode || {};
+  }
+
+  const foundNode = findNestedNode(dragNode.id, children, parent);
+
+  return foundNode;
 }
