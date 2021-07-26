@@ -1,3 +1,6 @@
+# 4.1.0 - 7/26/21
+- [feature] Update drag re-arrange to support nested items
+
 # 4.0.0 - 7/23/21
 - [BREAKING] `onNodeLink` and `onNodeLinkCheck` now pass `event` as the first argument!
 - [feature] Improve drag DX
