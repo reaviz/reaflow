@@ -4,6 +4,7 @@ import React, {
   ReactElement,
   ReactNode,
   useEffect,
+  useMemo,
   useState
 } from 'react';
 import { motion, useAnimation } from 'framer-motion';
@@ -60,7 +61,7 @@ export interface NodeProps extends NodeDragEvents<NodeData, PortData> {
   children?: ReactNode | NodeChildrenAsFunction;
   parent?: string;
   animated?: boolean;
-  dragType?: NodeDragType,
+  dragType?: NodeDragType;
   dragCursor?: string;
 
   nodes?: NodeData[];
@@ -151,8 +152,10 @@ export const Node: FC<Partial<NodeProps>> = ({
   const newX = x + offsetX;
   const newY = y + offsetY;
   const isLinkable = checkNodeLinkable(properties, enteredNode, canLinkNode);
-  const isMultiPort = dragType === 'multiportOnly' &&
+  const isMultiPort =
+    dragType === 'multiportOnly' &&
     ports?.filter((p) => !p.properties?.hidden).length > 1;
+  const isNodeDrag = useMemo(() => id.includes('node-drag'), [id]);
 
   const getDragType = (hasPort: boolean) => {
     let activeDragType: NodeDragType = null;
@@ -270,7 +273,7 @@ export const Node: FC<Partial<NodeProps>> = ({
         className={classNames(css.rect, className, properties?.className, {
           [css.active]: isActive,
           [css.disabled]: disabled || properties?.disabled,
-          [css.unlinkable]: isLinkable === false,
+          [css.unlinkable]: isLinkable === false && !isNodeDrag,
           [css.dragging]: dragging,
           [css.children]: nodes?.length > 0,
           [css.deleteHovered]: deleteHovered,
