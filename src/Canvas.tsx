@@ -334,7 +334,7 @@ const InternalCanvas: FC<CanvasProps & { ref?: Ref<CanvasRef> }> = forwardRef(
         nodeCopy.children = createDragNodeChildren(nodeCopy.children);
         setDragNodeDataWithChildren(nodeCopy);
       }
-    }, [createDragNodeChildren, dragNode, dragNodeData, layout?.children]);
+    }, [createDragNodeChildren, dragNodeData, layout?.children]);
 
     return (
       <div
