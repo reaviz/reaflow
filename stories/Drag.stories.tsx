@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Canvas } from '../src/Canvas';
-import { Node, Edge, MarkerArrow, Port, Icon, Arrow, Label, Remove, Add, NodeProps } from '../src/symbols';
+import { Node, Edge, MarkerArrow, Port, Icon, Arrow, Label, Remove, Add } from '../src/symbols';
 import { EdgeData, NodeData } from '../src/types';
 import { createEdgeFromNodes, hasLink, removeAndUpsertNodes } from '../src/helpers';
 
