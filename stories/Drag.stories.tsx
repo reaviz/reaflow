@@ -465,7 +465,6 @@ export const NestedNodeRearranging = () => {
         nodes={nodes}
         edges={edges}
         node={<Node dragType="node" />}
-        dragNode={(node: NodeProps) => (<Node {...node} dragType="node" />)}
         onNodeLinkCheck={(_event, from: NodeData, to: NodeData) => {
           if (from.id === to.id) {
             return false;
