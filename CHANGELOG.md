@@ -1,3 +1,6 @@
+# 4.1.1 - 7/27/21
+- [fix] fix drag node edge callback
+
 # 4.1.0 - 7/26/21
 - [feature] Update drag re-arrange to support nested items
 
