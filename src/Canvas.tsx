@@ -25,7 +25,7 @@ import { MarkerArrow, MarkerArrowProps } from './symbols/Arrow';
 import { EdgeData, NodeData, PortData } from './types';
 import classNames from 'classnames';
 import { CanvasProvider, useCanvas } from './utils/CanvasProvider';
-import { findNestedNode, getDragNodeData } from './utils/helpers';
+import { getDragNodeData } from './utils/helpers';
 import { motion } from 'framer-motion';
 import { ZoomResult } from './utils/useZoom';
 import css from './Canvas.module.css';
@@ -166,9 +166,7 @@ export interface CanvasProps {
   /**
    * Element of the drag edge.
    */
-  dragEdge?:
-    | ReactElement<EdgeProps, typeof Edge>
-    | ((edge: EdgeProps) => ReactElement<NodeProps, typeof Edge>);
+  dragEdge?: ReactElement<EdgeProps, typeof Edge>;
 
   /**
    * Element of the drag node.
@@ -279,6 +277,13 @@ const InternalCanvas: FC<CanvasProps & { ref?: Ref<CanvasRef> }> = forwardRef(
     const [dragNodeDataWithChildren, setDragNodeDataWithChildren] = useState<{
       [key: string]: any;
     }>(dragNodeData);
+    const dragNodeElement = useMemo(
+      () =>
+        typeof dragNode === 'function'
+          ? dragNode(dragNodeData as NodeProps)
+          : dragNode,
+      [dragNode, dragNodeData]
+    );
     useLayoutEffect(() => {
       if (!mount.current && layout !== null && xy[0] > 0 && xy[1] > 0) {
         mount.current = true;
@@ -304,7 +309,7 @@ const InternalCanvas: FC<CanvasProps & { ref?: Ref<CanvasRef> }> = forwardRef(
               children={element.props.children}
               animated={animated}
               nodes={children}
-              childEdge={edge}
+              childEdge={dragEdge}
               childNode={dragNode}
               {...n}
               onDragStart={event => {
@@ -315,17 +320,21 @@ const InternalCanvas: FC<CanvasProps & { ref?: Ref<CanvasRef> }> = forwardRef(
           );
         });
       },
-      [animated, dragNode, edge, id]
+      // Passing in dragEdge (JSX) will cause the function to be recalculated constantly,
+      // triggering the below useEffect. Since dragEdge and dragNode are passed in props
+      // on Canvas, they are unlikely to change and can be ignored
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+      [animated, id]
     );
 
     useEffect(() => {
-      if (dragNodeData.children) {
+      if (dragNodeData && Object.keys(dragNodeData).length > 0) {
         const nodeCopy = { ...dragNodeData };
         // Node children is expecting a list of React Elements, need to create a list of elements
         nodeCopy.children = createDragNodeChildren(nodeCopy.children);
         setDragNodeDataWithChildren(nodeCopy);
       }
-    }, [createDragNodeChildren, dragNodeData]);
+    }, [createDragNodeChildren, dragNode, dragNodeData, layout?.children]);
 
     return (
       <div
@@ -448,23 +457,19 @@ const InternalCanvas: FC<CanvasProps & { ref?: Ref<CanvasRef> }> = forwardRef(
               </Fragment>
             ))}
             {dragCoords !== null &&
-              dragNode &&
+              dragNodeDataWithChildren &&
               dragType === 'node' &&
               !readonly && (
               <CloneElement<NodeProps>
                 {...dragNodeDataWithChildren}
-                element={dragNode}
+                element={dragNodeElement}
                 height={
-                  typeof dragNode === 'function'
-                    ? dragNodeDataWithChildren?.height
-                    : dragNode?.props?.height ||
-                        dragNodeDataWithChildren?.height
+                  dragNodeDataWithChildren?.props?.height ||
+                    dragNodeDataWithChildren?.height
                 }
                 width={
-                  typeof dragNode === 'function'
-                    ? dragNodeDataWithChildren?.width
-                    : dragNode?.props?.width ||
-                        dragNodeDataWithChildren?.width
+                  dragNodeDataWithChildren?.props?.width ||
+                    dragNodeDataWithChildren?.width
                 }
                 id={`${id}-node-drag`}
                 animated={animated}
