@@ -1,3 +1,6 @@
+# 4.1.2 - 7/27/21
+- [fix] remove unneeded dependency 
+
 # 4.1.1 - 7/27/21
 - [fix] fix drag node edge callback
 
