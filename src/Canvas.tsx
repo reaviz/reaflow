@@ -277,6 +277,13 @@ const InternalCanvas: FC<CanvasProps & { ref?: Ref<CanvasRef> }> = forwardRef(
     const [dragNodeDataWithChildren, setDragNodeDataWithChildren] = useState<{
       [key: string]: any;
     }>(dragNodeData);
+    const dragNodeElement = useMemo(
+      () =>
+        typeof dragNode === 'function'
+          ? dragNode(dragNodeData as NodeProps)
+          : dragNode,
+      [dragNode, dragNodeData]
+    );
     useLayoutEffect(() => {
       if (!mount.current && layout !== null && xy[0] > 0 && xy[1] > 0) {
         mount.current = true;
@@ -322,15 +329,9 @@ const InternalCanvas: FC<CanvasProps & { ref?: Ref<CanvasRef> }> = forwardRef(
 
     useEffect(() => {
       if (dragNodeData && Object.keys(dragNodeData).length > 0) {
-        // Generate the JSX node element based on the dragNodeData
-        const element =
-          typeof dragNode === 'function'
-            ? dragNode(dragNodeData as NodeProps)
-            : dragNode;
         const nodeCopy = { ...dragNodeData };
         // Node children is expecting a list of React Elements, need to create a list of elements
         nodeCopy.children = createDragNodeChildren(nodeCopy.children);
-        nodeCopy.element = element;
         setDragNodeDataWithChildren(nodeCopy);
       }
     }, [createDragNodeChildren, dragNode, dragNodeData, layout?.children]);
@@ -461,7 +462,7 @@ const InternalCanvas: FC<CanvasProps & { ref?: Ref<CanvasRef> }> = forwardRef(
               !readonly && (
               <CloneElement<NodeProps>
                 {...dragNodeDataWithChildren}
-                element={dragNodeDataWithChildren.element}
+                element={dragNodeElement}
                 height={
                   dragNodeDataWithChildren?.props?.height ||
                     dragNodeDataWithChildren?.height
