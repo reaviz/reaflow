@@ -25,7 +25,7 @@ import { MarkerArrow, MarkerArrowProps } from './symbols/Arrow';
 import { EdgeData, NodeData, PortData } from './types';
 import classNames from 'classnames';
 import { CanvasProvider, useCanvas } from './utils/CanvasProvider';
-import { findNestedNode, getDragNodeData } from './utils/helpers';
+import { getDragNodeData } from './utils/helpers';
 import { motion } from 'framer-motion';
 import { ZoomResult } from './utils/useZoom';
 import css from './Canvas.module.css';
@@ -277,10 +277,6 @@ const InternalCanvas: FC<CanvasProps & { ref?: Ref<CanvasRef> }> = forwardRef(
     const [dragNodeDataWithChildren, setDragNodeDataWithChildren] = useState<{
       [key: string]: any;
     }>(dragNodeData);
-    const [draggingNode, setDraggingNode] = useState<ReactElement<
-      NodeProps,
-      typeof Node
-    > | null>(null);
     useLayoutEffect(() => {
       if (!mount.current && layout !== null && xy[0] > 0 && xy[1] > 0) {
         mount.current = true;
@@ -306,7 +302,7 @@ const InternalCanvas: FC<CanvasProps & { ref?: Ref<CanvasRef> }> = forwardRef(
               children={element.props.children}
               animated={animated}
               nodes={children}
-              childEdge={edge}
+              childEdge={dragEdge}
               childNode={dragNode}
               {...n}
               onDragStart={event => {
@@ -317,24 +313,24 @@ const InternalCanvas: FC<CanvasProps & { ref?: Ref<CanvasRef> }> = forwardRef(
           );
         });
       },
-      [animated, dragNode, edge, id]
+      // Passing in dragEdge (JSX) will cause the function to be recalculated constantly,
+      // triggering the below useEffect. Since dragEdge and dragNode are passed in props
+      // on Canvas, they are unlikely to change and can be ignored
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+      [animated, id]
     );
 
     useEffect(() => {
-      if (dragNodeData) {
-        const nodeDataProps = findNestedNode(dragNodeData.id, layout?.children);
-        if (nodeDataProps) {
-          const element =
-            typeof dragNode === 'function'
-              ? dragNode(nodeDataProps as NodeProps)
-              : dragNode;
-          setDraggingNode(element);
-        }
-      }
-      if (dragNodeData?.children) {
+      if (dragNodeData && Object.keys(dragNodeData).length > 0) {
+        // Generate the JSX node element based on the dragNodeData
+        const element =
+          typeof dragNode === 'function'
+            ? dragNode(dragNodeData as NodeProps)
+            : dragNode;
         const nodeCopy = { ...dragNodeData };
         // Node children is expecting a list of React Elements, need to create a list of elements
         nodeCopy.children = createDragNodeChildren(nodeCopy.children);
+        nodeCopy.element = element;
         setDragNodeDataWithChildren(nodeCopy);
       }
     }, [createDragNodeChildren, dragNode, dragNodeData, layout?.children]);
@@ -460,18 +456,18 @@ const InternalCanvas: FC<CanvasProps & { ref?: Ref<CanvasRef> }> = forwardRef(
               </Fragment>
             ))}
             {dragCoords !== null &&
-              draggingNode &&
+              dragNodeDataWithChildren &&
               dragType === 'node' &&
               !readonly && (
               <CloneElement<NodeProps>
                 {...dragNodeDataWithChildren}
-                element={draggingNode}
+                element={dragNodeDataWithChildren.element}
                 height={
-                  draggingNode?.props?.height ||
+                  dragNodeDataWithChildren?.props?.height ||
                     dragNodeDataWithChildren?.height
                 }
                 width={
-                  draggingNode?.props?.width ||
+                  dragNodeDataWithChildren?.props?.width ||
                     dragNodeDataWithChildren?.width
                 }
                 id={`${id}-node-drag`}
