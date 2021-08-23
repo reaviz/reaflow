@@ -1,3 +1,6 @@
+# 4.2.0 - 8/23/21
+- [feature] add ability to disable hotkeys
+
 # 4.1.2 - 7/27/21
 - [fix] remove unneeded dependency 
 
