@@ -474,7 +474,7 @@ export const NestedNodeRearranging = () => {
             return false;
           }
 
-          if (hasLink(edges, from, to)) {
+          if (hasLink(edges, to, from)) {
             return false;
           }
 
