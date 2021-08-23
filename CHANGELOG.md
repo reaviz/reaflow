@@ -1,3 +1,6 @@
+# 4.2.1 - 8/23/21
+- [chore] upgrade reakeys
+
 # 4.2.0 - 8/23/21
 - [feature] add ability to disable hotkeys
 
