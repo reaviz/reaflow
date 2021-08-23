@@ -3,6 +3,8 @@ import { useHotkeys } from 'reakeys';
 import { EdgeData, NodeData } from '../types';
 import { removeNode } from './crudHelpers';
 
+export type HotkeyTypes = 'selectAll' | 'deselect' | 'delete';
+
 export interface SelectionProps {
   /**
    * Current selections.
@@ -25,6 +27,11 @@ export interface SelectionProps {
    * Disabled or not.
    */
   disabled?: boolean;
+
+  /**
+   * Hotkey types
+   */
+  hotkeys?: HotkeyTypes[];
 
   /**
    * On selection change.
@@ -91,6 +98,7 @@ export const useSelection = ({
   selections = [],
   nodes = [],
   edges = [],
+  hotkeys = ['selectAll', 'deselect', 'delete'],
   disabled,
   onSelection,
   onDataChange
@@ -115,7 +123,7 @@ export const useSelection = ({
     if (!disabled) {
       const has = internalSelections.includes(item);
       if (has) {
-        const next = internalSelections.filter((i) => i !== item);
+        const next = internalSelections.filter(i => i !== item);
         onSelection?.(next);
         setInternalSelections(next);
       }
@@ -151,7 +159,7 @@ export const useSelection = ({
     setMetaKeyDown(false);
   };
 
-  const onKeyDown = (event) => {
+  const onKeyDown = event => {
     event.preventDefault();
     setMetaKeyDown(event.metaKey || event.ctrlKey);
   };
@@ -165,13 +173,14 @@ export const useSelection = ({
     {
       name: 'Select All',
       keys: 'mod+a',
+      disabled: !hotkeys.includes('selectAll'),
       category: 'Canvas',
       description: 'Select all nodes and edges',
-      callback: (event) => {
+      callback: event => {
         event.preventDefault();
 
         if (!disabled) {
-          const next = nodes.map((n) => n.id);
+          const next = nodes.map(n => n.id);
           onDataChange?.(nodes, edges);
           onSelection?.(next);
           setInternalSelections(next);
@@ -181,9 +190,10 @@ export const useSelection = ({
     {
       name: 'Delete Selections',
       category: 'Canvas',
+      disabled: !hotkeys.includes('delete'),
       description: 'Delete selected nodes and edges',
       keys: 'backspace',
-      callback: (event) => {
+      callback: event => {
         if (!disabled) {
           event.preventDefault();
           const result = removeNode(nodes, edges, internalSelections);
@@ -196,9 +206,10 @@ export const useSelection = ({
     {
       name: 'Deselect Selections',
       category: 'Canvas',
+      disabled: !hotkeys.includes('deselect'),
       description: 'Deselect selected nodes and edges',
       keys: 'escape',
-      callback: (event) => {
+      callback: event => {
         if (!disabled) {
           event.preventDefault();
           onSelection?.([]);
