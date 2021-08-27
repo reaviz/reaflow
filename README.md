@@ -21,6 +21,9 @@
   <a href="https://discord.gg/tt8wGExq35">
     <img src="https://img.shields.io/discord/773948315037073409?label=discord">
   </a>
+  <a href="https://opencollective.com/reaviz">
+    <img alt="Open Collective backers and sponsors" src="https://img.shields.io/opencollective/all/reaviz?label=backers">
+  </a>
 </p>
 
 ---
@@ -30,9 +33,20 @@ visualizations with total customizability.
 
 ## 🚀 Quick Links
 
-- :point_right: Checkout the [**docs and demos**](https://reaflow.dev)
-- :newspaper: Learn about updates from the [Changelog](CHANGELOG.md)
+- Checkout the [**docs and demos**](https://reaflow.dev)
 - Explore the library on [Chroma](https://www.chromatic.com/library?appId=5f99ba42fe88ac0022fd1147)
+- Learn about updates from the [Changelog](CHANGELOG.md)
+
+## ✨ Features
+
+- Complex automatic layout leveraging ELKJS
+- Easy Node/Edge/Port customizations
+- Zooming / Panning / Centering controls
+- Drag and drop Node/Port connecting and rearranging
+- Nesting of Nodes/Edges
+- Proximity based Node linking helper
+- Node/Edge selection helper
+- Undo/Redo helper
 
 ## 📦 Usage
 
