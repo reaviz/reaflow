@@ -1,3 +1,6 @@
+# 4.2.2 - 9/8/21
+- [chore] upgrade deps
+
 # 4.2.1 - 8/23/21
 - [chore] upgrade reakeys
 

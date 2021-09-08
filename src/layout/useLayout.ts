@@ -90,6 +90,8 @@ export interface LayoutResult {
    * Fit the canvas to the viewport.
    */
   fitCanvas?: () => void;
+
+  observe: (el: HTMLDivElement) => void;
 }
 
 export const useLayout = ({
@@ -107,7 +109,8 @@ export const useLayout = ({
   onLayoutChange
 }: LayoutProps) => {
   const scrolled = useRef<boolean>(false);
-  const { ref, width, height } = useDimensions<HTMLDivElement>();
+  const ref = useRef<HTMLDivElement>();
+  const { observe, width, height } = useDimensions<HTMLDivElement>();
   const [layout, setLayout] = useState<ElkRoot | null>(null);
   const [xy, setXY] = useState<[number, number]>([0, 0]);
   const [scrollXY, setScrollXY] = useState<[number, number]>([0, 0]);
@@ -121,13 +124,13 @@ export const useLayout = ({
     });
 
     promise
-      .then((result) => {
+      .then(result => {
         if (!isEqual(layout, result)) {
           setLayout(result);
           onLayoutChange(result);
         }
       })
-      .catch((err) => {
+      .catch(err => {
         if (err.name !== 'CancelError') {
           console.error('Layout Error:', err);
         }
@@ -222,6 +225,7 @@ export const useLayout = ({
 
   return {
     xy,
+    observe,
     containerRef: ref,
     canvasHeight,
     canvasWidth,

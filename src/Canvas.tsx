@@ -245,6 +245,7 @@ const InternalCanvas: FC<CanvasProps & { ref?: Ref<CanvasRef> }> = forwardRef(
       xy,
       zoom,
       setZoom,
+      observe,
       zoomIn,
       zoomOut,
       centerCanvas,
@@ -255,6 +256,7 @@ const InternalCanvas: FC<CanvasProps & { ref?: Ref<CanvasRef> }> = forwardRef(
 
     useImperativeHandle(ref, () => ({
       ...rest,
+      observe,
       zoom,
       xy,
       layout,
@@ -342,7 +344,14 @@ const InternalCanvas: FC<CanvasProps & { ref?: Ref<CanvasRef> }> = forwardRef(
         className={classNames(css.container, className, {
           [css.pannable]: pannable
         })}
-        ref={containerRef}
+        ref={el => {
+          // Really not a fan of this API change...
+          // https://github.com/wellyshen/react-cool-dimensions#how-to-share-a-ref
+          observe(el);
+
+          // @ts-ignore
+          containerRef.current = el;
+        }}
         onMouseEnter={onMouseEnter}
         onMouseLeave={onMouseLeave}
       >
