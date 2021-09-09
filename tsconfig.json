@@ -1,11 +1,11 @@
 {
   "compilerOptions": {
-    "target": "ES2015",
-    "module": "esnext",
+    "target": "ESNext",
+    "module": "ESNext",
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "jsx": "react-jsx",
     "moduleResolution": "node",
-    "lib": ["es2017", "dom"],
     "typeRoots": ["./types", "./node_modules/@types"],
-    "jsx": "react",
     "baseUrl": "./src",
     "allowSyntheticDefaultImports": true,
     "declaration": true,

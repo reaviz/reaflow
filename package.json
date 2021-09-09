@@ -5,7 +5,7 @@
   "scripts": {
     "build": "rollup -c",
     "build:watch": "rollup -c -w",
-    "test": "jest --env=jsdom",
+    "test": "jest",
     "prettier": "prettier --loglevel warn --write 'src/**/*.{ts,tsx,js,jsx}'",
     "lint": "eslint --ext js,ts,tsx",
     "lint:fix": "eslint --ext js,ts,tsx --fix src",
@@ -63,6 +63,7 @@
   },
   "devDependencies": {
     "@mdx-js/react": "1.6.22",
+    "@juggle/resize-observer": "^3.3.1",
     "@storybook/addon-docs": "^6.3.8",
     "@storybook/addon-essentials": "^6.3.8",
     "@storybook/addon-storysource": "^6.3.8",
@@ -116,7 +117,7 @@
       "<rootDir>/node_modules/"
     ],
     "transform": {
-      ".(ts|tsx)": "ts-jest"
+      "^.+\\.(js|jsx|mjs|cjs|ts|tsx)$": "ts-jest"
     },
     "testMatch": [
       "<rootDir>/src/**/*.(spec|test).ts?(x)"
@@ -138,6 +139,9 @@
       "tsx",
       "js",
       "json"
+    ],
+    "setupFilesAfterEnv": [
+      "./test/mockEnv.ts"
     ]
   },
   "lint-staged": {
