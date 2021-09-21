@@ -1,3 +1,6 @@
+# 4.2.3 - 9/21/21
+- [chore] upgrade deps
+
 # 4.2.2 - 9/8/21
 - [chore] upgrade deps
 
