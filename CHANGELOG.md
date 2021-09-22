@@ -1,3 +1,6 @@
+# 4.2.5 - 9/22/21
+- [chore] upgrade rdk for ghost dom issues
+
 # 4.2.4 - 9/21/21
 - [chore] upgrade rdk for ghost dom issues
 
