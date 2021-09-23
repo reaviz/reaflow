@@ -84,12 +84,14 @@ export function findNestedNode(
   }
 
   // Check for nested children
-  const nodesWithChildren = children.filter(n => n.children);
+  const nodesWithChildren = children.filter(
+    n => n.children && n.children.length > 0
+  );
   // Iterate over all nested nodes and check if any of them contain the node
   for (const n of nodesWithChildren) {
     const foundChild = findNestedNode(nodeId, n.children, parentId);
 
-    if (foundChild) {
+    if (foundChild && Object.keys(foundChild).length > 0) {
       return foundChild;
     }
   }

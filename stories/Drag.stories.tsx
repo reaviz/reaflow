@@ -423,6 +423,15 @@ export const NestedNodeRearranging = () => {
       parent: '2'
     },
     {
+      id: '2-2-1',
+      parent: '2'
+    },
+    {
+      id: '2-2-1-1',
+      text: '2 > 2.1 > 1.1',
+      parent: '2-2-1'
+    },
+    {
       id: '3',
       text: '3'
     }
@@ -444,6 +453,12 @@ export const NestedNodeRearranging = () => {
       id: '2-1-1>2-1-3',
       from: '2-1-1',
       to: '2-1-3',
+      parent: '2'
+    },
+    {
+      id: '2-1-2>2-2-1',
+      from: '2-1-2',
+      to: '2-2-1',
       parent: '2'
     },
     {
