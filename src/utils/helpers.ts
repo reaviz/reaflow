@@ -91,7 +91,7 @@ export function findNestedNode(
   for (const n of nodesWithChildren) {
     const foundChild = findNestedNode(nodeId, n.children, parentId);
 
-    if (foundChild && Object.keys(foundChild).length > 0) {
+    if (foundChild && Object.keys(foundChild).length) {
       return foundChild;
     }
   }
