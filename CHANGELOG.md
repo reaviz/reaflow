@@ -1,3 +1,6 @@
+# 4.2.6 - 9/27/21
+- [fix] #105 handle nested nested
+
 # 4.2.5 - 9/22/21
 - [chore] upgrade rdk for ghost dom issues
 
