@@ -5,8 +5,7 @@
   shape-rendering: geometricPrecision;
   stroke-width: 1pt;
 
-  &:not(.selectionDisabled),
-  &:not(.disabled) {
+  &:not(.selectionDisabled):not(.disabled) {
     cursor: pointer;
 
     &:hover {
