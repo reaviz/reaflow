@@ -3,8 +3,7 @@
     pointer-events: none;
   }
 
-  &:not(.selectionDisabled),
-  &:not(.disabled) {
+  &:not(.selectionDisabled):not(.disabled) {
     &:hover {
       .path {
         stroke: #a5a9e2;
