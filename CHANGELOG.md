@@ -1,3 +1,6 @@
+# 4.2.7 - 10/20/21
+- [fix] #109 css not rule applied to multiple classes
+
 # 4.2.6 - 9/27/21
 - [fix] #105 handle nested nested
 
