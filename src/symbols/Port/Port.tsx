@@ -146,19 +146,25 @@ export const Port = forwardRef(
           x={newX - 7}
           y={newY - 7}
           className={classNames(css.clicker, { [css.disabled]: isDisabled })}
-          onMouseEnter={(event) => {
+          onMouseEnter={event => {
             event.stopPropagation();
-            setIsHovered(true);
-            onEnter(event, properties);
+            if (!isDisabled) {
+              setIsHovered(true);
+              onEnter(event, properties);
+            }
           }}
-          onMouseLeave={(event) => {
+          onMouseLeave={event => {
             event.stopPropagation();
-            setIsHovered(false);
-            onLeave(event, properties);
+            if (!isDisabled) {
+              setIsHovered(false);
+              onLeave(event, properties);
+            }
           }}
-          onClick={(event) => {
+          onClick={event => {
             event.stopPropagation();
-            onClick(event, properties);
+            if (!isDisabled) {
+              onClick(event, properties);
+            }
           }}
         />
         <motion.rect

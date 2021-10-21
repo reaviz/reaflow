@@ -155,6 +155,7 @@ export const Node: FC<Partial<NodeProps>> = ({
   const isMultiPort =
     dragType === 'multiportOnly' &&
     ports?.filter(p => !p.properties?.hidden).length > 1;
+  const isDisabled = disabled || properties?.disabled;
 
   const getDragType = (hasPort: boolean) => {
     let activeDragType: NodeDragType = null;
@@ -187,30 +188,36 @@ export const Node: FC<Partial<NodeProps>> = ({
     y: newY,
     height,
     width,
-    disabled: disabled || isMultiPort || readonly || dragType === 'port',
+    disabled: isDisabled || isMultiPort || readonly || dragType === 'port',
     node: properties,
     onDrag: (...props) => {
-      canvas.onDrag(...props);
-      onDrag(...props);
+      if (!isDisabled) {
+        canvas.onDrag(...props);
+        onDrag(...props);
+      }
     },
     onDragStart: (event, coords, node, port) => {
-      // @ts-ignore
-      event.dragType = getDragType(false);
-      // @ts-ignore
-      setDragCursor(event.dragType);
+      if (!isDisabled) {
+        // @ts-ignore
+        event.dragType = getDragType(false);
+        // @ts-ignore
+        setDragCursor(event.dragType);
 
-      canvas.onDragStart(event, coords, node, port);
-      onDragStart(event, coords, node, port);
-      setDragging(true);
+        canvas.onDragStart(event, coords, node, port);
+        onDragStart(event, coords, node, port);
+        setDragging(true);
+      }
     },
     onDragEnd: (event, coords, node, port) => {
-      // @ts-ignore
-      event.dragType = getDragType(false);
+      if (!isDisabled) {
+        // @ts-ignore
+        event.dragType = getDragType(false);
 
-      canvas.onDragEnd(event, coords, node, port);
-      onDragEnd(event, coords, node, port);
-      setDragging(false);
-      setDragCursor(null);
+        canvas.onDragEnd(event, coords, node, port);
+        onDragEnd(event, coords, node, port);
+        setDragging(false);
+        setDragCursor(null);
+      }
     }
   });
 
@@ -248,12 +255,16 @@ export const Node: FC<Partial<NodeProps>> = ({
         tabIndex={-1}
         onKeyDown={event => {
           event.preventDefault();
-          onKeyDown(event, properties);
+          if (!isDisabled) {
+            onKeyDown(event, properties);
+          }
         }}
         onClick={event => {
           event.preventDefault();
           event.stopPropagation();
-          onClick(event, properties);
+          if (!isDisabled) {
+            onClick(event, properties);
+          }
         }}
         onTouchStart={event => {
           event.preventDefault();
@@ -262,16 +273,20 @@ export const Node: FC<Partial<NodeProps>> = ({
         onMouseEnter={event => {
           event.stopPropagation();
           canvas.onEnter(event, properties);
-          onEnter(event, properties);
+          if (!isDisabled) {
+            onEnter(event, properties);
+          }
         }}
         onMouseLeave={event => {
           event.stopPropagation();
           canvas.onLeave(event, properties);
-          onLeave(event, properties);
+          if (!isDisabled) {
+            onLeave(event, properties);
+          }
         }}
         className={classNames(css.rect, className, properties?.className, {
           [css.active]: isActive,
-          [css.disabled]: disabled || properties?.disabled,
+          [css.disabled]: isDisabled,
           [css.unlinkable]: isLinkable === false && !isNodeDrag,
           [css.dragging]: dragging,
           [css.children]: nodes?.length > 0,
@@ -317,7 +332,7 @@ export const Node: FC<Partial<NodeProps>> = ({
             element={port}
             key={p.id}
             active={!isMultiPort && dragging}
-            disabled={disabled}
+            disabled={isDisabled}
             offsetX={newX}
             offsetY={newY}
             onDragStart={(
@@ -325,37 +340,43 @@ export const Node: FC<Partial<NodeProps>> = ({
               initial: Position,
               data: PortData
             ) => {
-              // @ts-ignore
-              event.dragType = getDragType(true);
-              // @ts-ignore
-              setDragCursor(event.dragType);
+              if (!isDisabled) {
+                // @ts-ignore
+                event.dragType = getDragType(true);
+                // @ts-ignore
+                setDragCursor(event.dragType);
 
-              canvas.onDragStart(event, initial, properties, data);
-              onDragStart(event, initial, properties, data);
-              setDragging(true);
+                canvas.onDragStart(event, initial, properties, data);
+                onDragStart(event, initial, properties, data);
+                setDragging(true);
+              }
             }}
             onDrag={(event: DragEvent, initial: Position, data: PortData) => {
-              canvas.onDrag(event, initial, properties, data);
-              onDrag(event, initial, properties, data);
+              if (!isDisabled) {
+                canvas.onDrag(event, initial, properties, data);
+                onDrag(event, initial, properties, data);
+              }
             }}
             onDragEnd={(
               event: DragEvent,
               initial: Position,
               data: PortData
             ) => {
-              // @ts-ignore
-              event.dragType = getDragType(true);
-              setDragCursor(null);
+              if (!isDisabled) {
+                // @ts-ignore
+                event.dragType = getDragType(true);
+                setDragCursor(null);
 
-              canvas.onDragEnd(event, initial, properties, data);
-              onDragEnd(event, initial, properties, data);
-              setDragging(false);
+                canvas.onDragEnd(event, initial, properties, data);
+                onDragEnd(event, initial, properties, data);
+                setDragging(false);
+              }
             }}
             {...(p as PortProps)}
             id={`${id}-port-${p.id}`}
           />
         ))}
-      {!disabled && isActive && !readonly && remove && (
+      {!isDisabled && isActive && !readonly && remove && (
         <CloneElement<RemoveProps>
           element={remove}
           y={height / 2}
@@ -380,7 +401,7 @@ export const Node: FC<Partial<NodeProps>> = ({
                 key={e.id}
                 element={element}
                 id={`${id}-edge-${e.id}`}
-                disabled={disabled}
+                disabled={isDisabled}
                 {...e}
               />
             );
@@ -394,7 +415,7 @@ export const Node: FC<Partial<NodeProps>> = ({
                 key={n.id}
                 element={element}
                 id={`${id}-node-${n.id}`}
-                disabled={disabled}
+                disabled={isDisabled}
                 nodes={children}
                 offsetX={newX}
                 offsetY={newY}
