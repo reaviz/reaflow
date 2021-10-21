@@ -1,3 +1,6 @@
+# 4.2.8 - 10/20/21
+- [fix] prevent parent events on disabled entities #112
+
 # 4.2.7 - 10/20/21
 - [fix] #109 css not rule applied to multiple classes
 
