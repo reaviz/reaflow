@@ -112,6 +112,7 @@ export const Edge: FC<Partial<EdgeProps>> = ({
   const isActive: boolean = selections?.length
     ? selections.includes(properties?.id)
     : false;
+  const isDisabled = disabled || properties?.disabled;
 
   // The "d" attribute defines a path to be drawn. See https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/d
   const d = useMemo(() => {
@@ -167,7 +168,7 @@ export const Edge: FC<Partial<EdgeProps>> = ({
   return (
     <g
       className={classNames(css.edge, {
-        [css.disabled]: disabled || properties?.disabled,
+        [css.disabled]: isDisabled,
         [css.selectionDisabled]: properties?.selectionDisabled
       })}
     >
@@ -185,23 +186,31 @@ export const Edge: FC<Partial<EdgeProps>> = ({
         className={css.clicker}
         d={d}
         tabIndex={-1}
-        onClick={(event) => {
+        onClick={event => {
           event.preventDefault();
           event.stopPropagation();
-          onClick(event, properties);
+          if (!isDisabled) {
+            onClick(event, properties);
+          }
         }}
-        onKeyDown={(event) => {
+        onKeyDown={event => {
           event.preventDefault();
           event.stopPropagation();
-          onKeyDown(event, properties);
+          if (!isDisabled) {
+            onKeyDown(event, properties);
+          }
         }}
-        onMouseEnter={(event) => {
+        onMouseEnter={event => {
           event.stopPropagation();
-          onEnter(event, properties);
+          if (!isDisabled) {
+            onEnter(event, properties);
+          }
         }}
-        onMouseLeave={(event) => {
+        onMouseLeave={event => {
           event.stopPropagation();
-          onLeave(event, properties);
+          if (!isDisabled) {
+            onLeave(event, properties);
+          }
         }}
       />
       {children && (
@@ -219,7 +228,7 @@ export const Edge: FC<Partial<EdgeProps>> = ({
             {...(l as LabelProps)}
           />
         ))}
-      {!disabled && center && !readonly && remove && (
+      {!isDisabled && center && !readonly && remove && (
         <CloneElement<RemoveProps>
           element={remove}
           {...center}
@@ -236,11 +245,11 @@ export const Edge: FC<Partial<EdgeProps>> = ({
           onLeave={() => setDeleteHovered(false)}
         />
       )}
-      {!disabled && center && !readonly && add && (
+      {!isDisabled && center && !readonly && add && (
         <CloneElement<AddProps>
           element={add}
           {...center}
-          onClick={(event) => {
+          onClick={event => {
             event.preventDefault();
             event.stopPropagation();
             onAdd(event, properties);

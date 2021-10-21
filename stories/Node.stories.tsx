@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { NodeData } from '../src/types';
 import { Canvas } from '../src/Canvas';
-import { Node, Edge, MarkerArrow, Port, Icon, Arrow, Label, Remove, Add } from '../src/symbols';
+import { Node, Edge, MarkerArrow, Port, Icon, Arrow, Label, Remove, Add, NodeProps } from '../src/symbols';
 import { detectCircular, hasLink } from '../src/helpers';
 
 export default {
@@ -47,6 +47,16 @@ export const Disabled = () => (
         }
       ]}
       onLayoutChange={layout => console.log('Layout', layout)}
+      node={(node: NodeProps) => (
+        <Node
+          {...node}
+          dragCursor="grab"
+          dragType="all"
+          onClick={() => {
+            console.log('click');
+          }}
+        />
+      )}
     />
   </div>
 );
