@@ -510,3 +510,136 @@ export const LongLabels = () => (
     />
   </div>
 );
+
+export const NotDraggable = () => (
+  <div style={{ position: 'absolute', top: 0, bottom: 0, left: 0, right: 0 }}>
+    <Canvas
+      nodes={[
+        {
+          id: '1',
+          text: '1'
+        },
+        {
+          id: '2',
+          text: '2'
+        },
+        {
+          id: '3',
+          text: '3'
+        }
+      ]}
+      edges={[
+        {
+          id: '1-2',
+          from: '1',
+          to: '2'
+        }
+      ]}
+      onLayoutChange={layout => console.log('Layout', layout)}
+      node={(node: NodeProps) => (
+        <Node
+          {...node}
+          dragCursor="grab"
+          dragType="all"
+          draggable={false}
+          onClick={() => {
+            console.log('click');
+          }}
+        />
+      )}
+    />
+  </div>
+);
+
+export const NotLinkable = () => {
+  const [nodes] = useState<any[]>([
+    {
+      id: '1',
+      text: 'Node 1'
+    },
+    {
+      id: '2',
+      text: 'Node 2'
+    },
+    {
+      id: '3',
+      text: 'Node 3'
+    }
+  ]);
+
+  const [edges, setEdges] = useState<any[]>([
+    {
+      id: '1-2',
+      from: '1',
+      to: '2'
+    }
+  ]);
+
+  return (
+    <div style={{ position: 'absolute', top: 0, bottom: 0, left: 0, right: 0 }}>
+      <Canvas
+        nodes={nodes}
+        edges={edges}
+        node={(node: NodeProps) => (
+          <Node
+            {...node}
+            linkable={false}
+          />
+        )}
+        onNodeLink={(_event, from: NodeData, to: NodeData) => {
+          const id = `${from.id}-${to.id}`;
+
+          setEdges([
+            ...edges,
+            {
+              id,
+              from: from.id,
+              to: to.id
+            }
+          ]);
+        }}
+        onLayoutChange={layout => console.log('Layout', layout)}
+      />
+    </div>
+  );
+};
+
+export const NotSelectable = () => (
+  <div style={{ position: 'absolute', top: 0, bottom: 0, left: 0, right: 0 }}>
+    <Canvas
+      nodes={[
+        {
+          id: '1',
+          text: '1'
+        },
+        {
+          id: '2',
+          text: '2',
+          selectionDisabled: true
+        },
+        {
+          id: '3',
+          text: '3'
+        }
+      ]}
+      edges={[
+        {
+          id: '1-2',
+          from: '1',
+          to: '2'
+        }
+      ]}
+      onLayoutChange={layout => console.log('Layout', layout)}
+      node={(node: NodeProps) => (
+        <Node
+          {...node}
+          dragCursor="grab"
+          dragType="all"
+          onClick={() => {
+            console.log('click');
+          }}
+        />
+      )}
+    />
+  </div>
+);

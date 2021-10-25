@@ -60,6 +60,10 @@ export interface NodeProps extends NodeDragEvents<NodeData, PortData> {
   children?: ReactNode | NodeChildrenAsFunction;
   parent?: string;
   animated?: boolean;
+  draggable?: boolean;
+  linkable?: boolean;
+  selectable?: boolean;
+  removable?: boolean;
   dragType?: NodeDragType;
   dragCursor?: string;
 
@@ -119,6 +123,10 @@ export const Node: FC<Partial<NodeProps>> = ({
   children,
   nodes,
   edges,
+  draggable = true,
+  linkable = true,
+  selectable = true,
+  removable = true,
   dragType = 'multiportOnly',
   dragCursor = 'crosshair',
   childEdge = <Edge />,
@@ -156,6 +164,10 @@ export const Node: FC<Partial<NodeProps>> = ({
     dragType === 'multiportOnly' &&
     ports?.filter(p => !p.properties?.hidden).length > 1;
   const isDisabled = disabled || properties?.disabled;
+  const canDrag = ['port', 'multiportOnly'].includes(dragType)
+    ? linkable
+    : draggable;
+  const canSelect = selectable && !properties?.selectionDisabled;
 
   const getDragType = (hasPort: boolean) => {
     let activeDragType: NodeDragType = null;
@@ -188,16 +200,17 @@ export const Node: FC<Partial<NodeProps>> = ({
     y: newY,
     height,
     width,
-    disabled: isDisabled || isMultiPort || readonly || dragType === 'port',
+    disabled:
+      isDisabled || isMultiPort || readonly || !canDrag || dragType === 'port',
     node: properties,
     onDrag: (...props) => {
-      if (!isDisabled) {
+      if (!isDisabled && canDrag) {
         canvas.onDrag(...props);
         onDrag(...props);
       }
     },
     onDragStart: (event, coords, node, port) => {
-      if (!isDisabled) {
+      if (!isDisabled && canDrag) {
         // @ts-ignore
         event.dragType = getDragType(false);
         // @ts-ignore
@@ -209,7 +222,7 @@ export const Node: FC<Partial<NodeProps>> = ({
       }
     },
     onDragEnd: (event, coords, node, port) => {
-      if (!isDisabled) {
+      if (!isDisabled && canDrag) {
         // @ts-ignore
         event.dragType = getDragType(false);
 
@@ -262,7 +275,7 @@ export const Node: FC<Partial<NodeProps>> = ({
         onClick={event => {
           event.preventDefault();
           event.stopPropagation();
-          if (!isDisabled) {
+          if (!isDisabled && canSelect) {
             onClick(event, properties);
           }
         }}
@@ -291,7 +304,7 @@ export const Node: FC<Partial<NodeProps>> = ({
           [css.dragging]: dragging,
           [css.children]: nodes?.length > 0,
           [css.deleteHovered]: deleteHovered,
-          [css.selectionDisabled]: properties?.selectionDisabled
+          [css.selectionDisabled]: !canSelect
         })}
         style={style}
         height={height}
@@ -332,7 +345,7 @@ export const Node: FC<Partial<NodeProps>> = ({
             element={port}
             key={p.id}
             active={!isMultiPort && dragging}
-            disabled={isDisabled}
+            disabled={isDisabled || !linkable}
             offsetX={newX}
             offsetY={newY}
             onDragStart={(
@@ -340,7 +353,7 @@ export const Node: FC<Partial<NodeProps>> = ({
               initial: Position,
               data: PortData
             ) => {
-              if (!isDisabled) {
+              if (!isDisabled && linkable) {
                 // @ts-ignore
                 event.dragType = getDragType(true);
                 // @ts-ignore
@@ -352,7 +365,7 @@ export const Node: FC<Partial<NodeProps>> = ({
               }
             }}
             onDrag={(event: DragEvent, initial: Position, data: PortData) => {
-              if (!isDisabled) {
+              if (!isDisabled && linkable) {
                 canvas.onDrag(event, initial, properties, data);
                 onDrag(event, initial, properties, data);
               }
@@ -362,7 +375,7 @@ export const Node: FC<Partial<NodeProps>> = ({
               initial: Position,
               data: PortData
             ) => {
-              if (!isDisabled) {
+              if (!isDisabled && linkable) {
                 // @ts-ignore
                 event.dragType = getDragType(true);
                 setDragCursor(null);
@@ -376,7 +389,7 @@ export const Node: FC<Partial<NodeProps>> = ({
             id={`${id}-port-${p.id}`}
           />
         ))}
-      {!isDisabled && isActive && !readonly && remove && (
+      {!isDisabled && isActive && !readonly && remove && removable && (
         <CloneElement<RemoveProps>
           element={remove}
           y={height / 2}
@@ -425,6 +438,10 @@ export const Node: FC<Partial<NodeProps>> = ({
                 dragCursor={dragCursor}
                 dragType={dragType}
                 childEdge={childEdge}
+                draggable={draggable}
+                linkable={linkable}
+                selectable={selectable}
+                removable={removable}
                 onDragStart={onDragStart}
                 onDrag={onDrag}
                 onDragEnd={onDragEnd}

@@ -49,6 +49,9 @@ export type EdgeChildrenAsFunction = (
 export interface EdgeProps {
   id: string;
   disabled?: boolean;
+  removable?: boolean;
+  selectable?: boolean;
+  upsertable?: boolean;
   source: string;
   sourcePort: string;
   target: string;
@@ -93,6 +96,9 @@ export const Edge: FC<Partial<EdgeProps>> = ({
   labels,
   className,
   disabled,
+  removable = true,
+  selectable = true,
+  upsertable = true,
   style,
   children,
   add = <Add />,
@@ -113,6 +119,7 @@ export const Edge: FC<Partial<EdgeProps>> = ({
     ? selections.includes(properties?.id)
     : false;
   const isDisabled = disabled || properties?.disabled;
+  const canSelect = selectable && !properties.selectionDisabled;
 
   // The "d" attribute defines a path to be drawn. See https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/d
   const d = useMemo(() => {
@@ -169,7 +176,7 @@ export const Edge: FC<Partial<EdgeProps>> = ({
     <g
       className={classNames(css.edge, {
         [css.disabled]: isDisabled,
-        [css.selectionDisabled]: properties?.selectionDisabled
+        [css.selectionDisabled]: !canSelect
       })}
     >
       <path
@@ -189,7 +196,7 @@ export const Edge: FC<Partial<EdgeProps>> = ({
         onClick={event => {
           event.preventDefault();
           event.stopPropagation();
-          if (!isDisabled) {
+          if (!isDisabled && canSelect) {
             onClick(event, properties);
           }
         }}
@@ -228,7 +235,7 @@ export const Edge: FC<Partial<EdgeProps>> = ({
             {...(l as LabelProps)}
           />
         ))}
-      {!isDisabled && center && !readonly && remove && (
+      {!isDisabled && center && !readonly && remove && removable && (
         <CloneElement<RemoveProps>
           element={remove}
           {...center}
@@ -245,7 +252,7 @@ export const Edge: FC<Partial<EdgeProps>> = ({
           onLeave={() => setDeleteHovered(false)}
         />
       )}
-      {!isDisabled && center && !readonly && add && (
+      {!isDisabled && center && !readonly && add && upsertable && (
         <CloneElement<AddProps>
           element={add}
           {...center}
