@@ -1,3 +1,6 @@
+# 4.2.9 - 10/25/21
+- [enhancement] add more control for nodes and edges #113
+
 # 4.2.8 - 10/20/21
 - [fix] prevent parent events on disabled entities #112
 
