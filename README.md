@@ -93,9 +93,14 @@ export default () => (
 );
 ```
 
-## 🔭 Contributing
+## 🔭 Development
 
-See [Contributing](https://reaflow.dev/?path=/story/docs-contributing--page)
+If you want to run reaflow locally, its super easy!
+
+- Clone the repo
+- `yarn install`
+- `yarn start`
+- Browser opens to Storybook page
 
 ## ❤️ Contributors
 
