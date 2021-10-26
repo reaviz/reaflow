@@ -96,3 +96,9 @@ export default () => (
 ## 🔭 Contributing
 
 See [Contributing](https://reaflow.dev/?path=/story/docs-contributing--page)
+
+## ❤️ Contributors
+
+Thanks to all our contributors!
+
+<a href="https://github.com/reaviz/reaviz/graphs/contributors"><img src="https://opencollective.com/reaviz/contributors.svg?width=890" /></a>
