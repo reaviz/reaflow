@@ -1,3 +1,6 @@
+# 4.2.10 - 10/27/21
+- [fix] Fix crash on undefined Edge properties #116
+
 # 4.2.9 - 10/25/21
 - [enhancement] add more control for nodes and edges #113
 
