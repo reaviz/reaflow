@@ -119,7 +119,7 @@ export const Edge: FC<Partial<EdgeProps>> = ({
     ? selections.includes(properties?.id)
     : false;
   const isDisabled = disabled || properties?.disabled;
-  const canSelect = selectable && !properties.selectionDisabled;
+  const canSelect = selectable && !properties?.selectionDisabled;
 
   // The "d" attribute defines a path to be drawn. See https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/d
   const d = useMemo(() => {
