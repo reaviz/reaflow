@@ -1,6 +1,16 @@
 import React, { useState } from 'react';
 import { Canvas } from '../src/Canvas';
-import { Node, Edge, MarkerArrow, Port, Icon, Arrow, Label, Remove, Add, NodeProps, EdgeProps } from '../src/symbols';
+import {
+  Node,
+  Edge,
+  MarkerArrow,
+  Port,
+  Icon,
+  Arrow,
+  Label,
+  Remove,
+  Add
+} from '../src/symbols';
 import { UndoRedoEvent, useUndo } from '../src/helpers';
 
 export default {
@@ -48,13 +58,15 @@ export const Simple = () => {
     }
   ]);
 
-  const { undo, redo, canUndo, canRedo } = useUndo({
+  const { undo, redo, canUndo, canRedo, history, clear, count } = useUndo({
     nodes,
     edges,
     onUndoRedo: (state: UndoRedoEvent) => {
       console.log('Undo / Redo', state);
-      setEdges(state.edges);
-      setNodes(state.nodes);
+      if (state.type !== 'clear') {
+        setEdges(state.edges);
+        setNodes(state.nodes);
+      }
     }
   });
 
@@ -89,6 +101,25 @@ export const Simple = () => {
         disabled={!canRedo}
       >
         Redo
+      </button>
+      <button
+        style={{ position: 'absolute', top: 10, left: 220, zIndex: 999 }}
+        onClick={() => console.log(history())}
+      >
+        Print history
+      </button>
+      <button
+        style={{ position: 'absolute', top: 10, left: 320, zIndex: 999 }}
+        onClick={() => console.log(count())}
+        disabled={!count()}
+      >
+        Print count
+      </button>
+      <button
+        style={{ position: 'absolute', top: 10, left: 410, zIndex: 999 }}
+        onClick={() => clear(nodes, edges)}
+      >
+        Clear history
       </button>
       <Canvas
         nodes={nodes}

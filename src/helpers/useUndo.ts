@@ -80,7 +80,7 @@ export interface UndoResult {
   /**
    * Clear state.
    */
-  clear: () => void;
+  clear: (nodes: NodeData[], edges: EdgeData[]) => void;
 
   /**
    * Get history of state.
@@ -131,7 +131,7 @@ export const useUndo = ({
   }, [nodes, edges]);
 
   const undo = useCallback(() => {
-    manager.current.undo((state) => {
+    manager.current.undo(state => {
       const nextUndo = manager.current.canUndo();
       const nextRedo = manager.current.canRedo();
       setCanUndo(nextUndo);
@@ -147,7 +147,7 @@ export const useUndo = ({
   }, []);
 
   const redo = useCallback(() => {
-    manager.current.redo((state) => {
+    manager.current.redo(state => {
       const nextUndo = manager.current.canUndo();
       const nextRedo = manager.current.canRedo();
       setCanUndo(nextUndo);
@@ -162,7 +162,7 @@ export const useUndo = ({
     });
   }, []);
 
-  const clear = useCallback(() => {
+  const clear = useCallback((nodes, edges) => {
     manager.current.clear();
     setCanUndo(false);
     setCanRedo(false);
@@ -172,6 +172,11 @@ export const useUndo = ({
       canUndo: false,
       canRedo: false
     });
+
+    manager.current.save({
+      nodes,
+      edges
+    });
   }, []);
 
   useHotkeys([
@@ -180,7 +185,7 @@ export const useUndo = ({
       keys: 'mod+z',
       category: 'Canvas',
       description: 'Undo changes',
-      callback: (event) => {
+      callback: event => {
         event.preventDefault();
         if (!disabled && canUndo) {
           undo();
@@ -192,7 +197,7 @@ export const useUndo = ({
       keys: 'mod+shift+z',
       category: 'Canvas',
       description: 'Redo changes',
-      callback: (event) => {
+      callback: event => {
         event.preventDefault();
         if (!disabled && canRedo) {
           redo();
@@ -204,8 +209,8 @@ export const useUndo = ({
   return {
     canUndo,
     canRedo,
-    count: manager.current.count,
-    history: manager.current.history,
+    count: () => manager.current.count(),
+    history: () => manager.current.history(),
     clear,
     redo,
     undo
