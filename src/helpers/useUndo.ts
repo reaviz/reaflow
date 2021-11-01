@@ -162,7 +162,7 @@ export const useUndo = ({
     });
   }, []);
 
-  const clear = useCallback((nodes, edges) => {
+  const clear = useCallback((nodes: NodeData[], edges: EdgeData[]) => {
     manager.current.clear();
     setCanUndo(false);
     setCanRedo(false);
