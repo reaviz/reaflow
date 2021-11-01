@@ -1,3 +1,6 @@
+# 4.2.11 - 11/1/21
+- [fix] fix useUndo functions(count, history, clear) #117
+
 # 4.2.10 - 10/27/21
 - [fix] Fix crash on undefined Edge properties #116
 
