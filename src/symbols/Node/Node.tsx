@@ -144,7 +144,7 @@ export const Node: FC<Partial<NodeProps>> = ({
   onEnter = () => undefined,
   onLeave = () => undefined
 }) => {
-  const nodeRef = useRef<SVGRectElement>(null);
+  const nodeRef = useRef<SVGRectElement | null>(null);
   const controls = useAnimation();
   const { canLinkNode, enteredNode, selections, readonly, ...canvas } =
     useCanvas();
