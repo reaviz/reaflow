@@ -4,6 +4,7 @@ import React, {
   ReactElement,
   ReactNode,
   useEffect,
+  useRef,
   useState
 } from 'react';
 import { motion, useAnimation } from 'framer-motion';
@@ -143,14 +144,10 @@ export const Node: FC<Partial<NodeProps>> = ({
   onEnter = () => undefined,
   onLeave = () => undefined
 }) => {
+  const nodeRef = useRef<SVGRectElement | null>(null);
   const controls = useAnimation();
-  const {
-    canLinkNode,
-    enteredNode,
-    selections,
-    readonly,
-    ...canvas
-  } = useCanvas();
+  const { canLinkNode, enteredNode, selections, readonly, ...canvas } =
+    useCanvas();
   const [deleteHovered, setDeleteHovered] = useState<boolean>(false);
   const [dragging, setDragging] = useState<boolean>(false);
   const isActive = selections?.length
@@ -225,6 +222,8 @@ export const Node: FC<Partial<NodeProps>> = ({
       if (!isDisabled && canDrag) {
         // @ts-ignore
         event.dragType = getDragType(false);
+        // @ts-ignore
+        event.srcElement = nodeRef.current;
 
         canvas.onDragEnd(event, coords, node, port);
         onDragEnd(event, coords, node, port);
@@ -265,6 +264,7 @@ export const Node: FC<Partial<NodeProps>> = ({
     >
       <motion.rect
         {...bind()}
+        ref={nodeRef}
         tabIndex={-1}
         onKeyDown={event => {
           event.preventDefault();
