@@ -1,3 +1,6 @@
+# 4.2.12 - 11/23/21
+- [fix] Pass Node ref to event at srcElement prop #125
+
 # 4.2.11 - 11/1/21
 - [fix] fix useUndo functions(count, history, clear) #117
 
