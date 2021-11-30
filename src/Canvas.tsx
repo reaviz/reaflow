@@ -402,21 +402,13 @@ const InternalCanvas: FC<CanvasProps & { ref?: Ref<CanvasRef> }> = forwardRef(
           >
             {layout?.children?.map(({ children, ...n }) => {
               const element = typeof node === 'function' ? node(n) : node;
-              const elementDisabled =
-                element.props?.disabled != null
-                  ? element.props.disabled
-                  : disabled;
-              const elementAnimated =
-                element.props?.animated != null
-                  ? element.props.animated
-                  : animated;
               return (
                 <CloneElement<NodeProps>
                   key={n.id}
                   element={element}
-                  disabled={elementDisabled}
+                  disabled={element.props.disabled != null}
                   children={element.props.children}
-                  animated={elementAnimated}
+                  animated={animated}
                   nodes={children}
                   childEdge={edge}
                   childNode={node}
