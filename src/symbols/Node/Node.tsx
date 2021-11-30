@@ -165,7 +165,6 @@ export const Node: FC<Partial<NodeProps>> = ({
     ? linkable
     : draggable;
   const canSelect = selectable && !properties?.selectionDisabled;
-  console.log(id, draggable, canDrag);
 
   const getDragType = (hasPort: boolean) => {
     let activeDragType: NodeDragType = null;
