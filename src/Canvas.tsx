@@ -402,13 +402,21 @@ const InternalCanvas: FC<CanvasProps & { ref?: Ref<CanvasRef> }> = forwardRef(
           >
             {layout?.children?.map(({ children, ...n }) => {
               const element = typeof node === 'function' ? node(n) : node;
+              const elementDisabled =
+                element.props?.disabled != null
+                  ? element.props.disabled
+                  : disabled;
+              const elementAnimated =
+                element.props?.animated != null
+                  ? element.props.animated
+                  : animated;
               return (
                 <CloneElement<NodeProps>
                   key={n.id}
                   element={element}
-                  disabled={disabled}
+                  disabled={elementDisabled}
                   children={element.props.children}
-                  animated={animated}
+                  animated={elementAnimated}
                   nodes={children}
                   childEdge={edge}
                   childNode={node}
@@ -495,56 +503,55 @@ const InternalCanvas: FC<CanvasProps & { ref?: Ref<CanvasRef> }> = forwardRef(
   }
 );
 
-export const Canvas: FC<
-  CanvasContainerProps & { ref?: Ref<CanvasRef> }
-> = forwardRef(
-  (
-    {
-      selections = [],
-      readonly = false,
-      fit = false,
-      nodes = [],
-      edges = [],
-      maxHeight = 2000,
-      maxWidth = 2000,
-      direction = 'DOWN',
-      pannable = true,
-      zoom = 1,
-      center = true,
-      zoomable = true,
-      minZoom = -0.5,
-      maxZoom = 1,
-      onNodeLink = () => undefined,
-      onNodeLinkCheck = () => undefined,
-      onLayoutChange = () => undefined,
-      onZoomChange = () => undefined,
-      layoutOptions,
-      ...rest
-    },
-    ref: Ref<CanvasRef>
-  ) => (
-    <CanvasProvider
-      layoutOptions={layoutOptions}
-      nodes={nodes}
-      edges={edges}
-      zoom={zoom}
-      center={center}
-      minZoom={minZoom}
-      maxZoom={maxZoom}
-      fit={fit}
-      maxHeight={maxHeight}
-      maxWidth={maxWidth}
-      direction={direction}
-      pannable={pannable}
-      zoomable={zoomable}
-      readonly={readonly}
-      onLayoutChange={onLayoutChange}
-      selections={selections}
-      onZoomChange={onZoomChange}
-      onNodeLink={onNodeLink}
-      onNodeLinkCheck={onNodeLinkCheck}
-    >
-      <InternalCanvas ref={ref} {...rest} />
-    </CanvasProvider>
-  )
-);
+export const Canvas: FC<CanvasContainerProps & { ref?: Ref<CanvasRef> }> =
+  forwardRef(
+    (
+      {
+        selections = [],
+        readonly = false,
+        fit = false,
+        nodes = [],
+        edges = [],
+        maxHeight = 2000,
+        maxWidth = 2000,
+        direction = 'DOWN',
+        pannable = true,
+        zoom = 1,
+        center = true,
+        zoomable = true,
+        minZoom = -0.5,
+        maxZoom = 1,
+        onNodeLink = () => undefined,
+        onNodeLinkCheck = () => undefined,
+        onLayoutChange = () => undefined,
+        onZoomChange = () => undefined,
+        layoutOptions,
+        ...rest
+      },
+      ref: Ref<CanvasRef>
+    ) => (
+      <CanvasProvider
+        layoutOptions={layoutOptions}
+        nodes={nodes}
+        edges={edges}
+        zoom={zoom}
+        center={center}
+        minZoom={minZoom}
+        maxZoom={maxZoom}
+        fit={fit}
+        maxHeight={maxHeight}
+        maxWidth={maxWidth}
+        direction={direction}
+        pannable={pannable}
+        zoomable={zoomable}
+        readonly={readonly}
+        onLayoutChange={onLayoutChange}
+        selections={selections}
+        onZoomChange={onZoomChange}
+        onNodeLink={onNodeLink}
+        onNodeLinkCheck={onNodeLinkCheck}
+      >
+        <InternalCanvas ref={ref} {...rest} />
+      </CanvasProvider>
+    )
+  );
