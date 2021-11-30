@@ -406,7 +406,7 @@ const InternalCanvas: FC<CanvasProps & { ref?: Ref<CanvasRef> }> = forwardRef(
                 <CloneElement<NodeProps>
                   key={n.id}
                   element={element}
-                  disabled={element.props.disabled != null}
+                  disabled={disabled}
                   children={element.props.children}
                   animated={animated}
                   nodes={children}
