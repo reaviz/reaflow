@@ -423,25 +423,49 @@ export const Node: FC<Partial<NodeProps>> = ({
           nodes.map(({ children, ...n }: any) => {
             const element =
               typeof childNode === 'function' ? childNode(n) : childNode;
+            const elementDisabled =
+              element.props?.disabled != null
+                ? element.props.disabled
+                : disabled;
+            const elementAnimated =
+              element.props?.animated != null
+                ? element.props.animated
+                : animated;
+            const elementDraggable =
+              element.props?.draggable != null
+                ? element.props.draggable
+                : draggable;
+            const elementLinkable =
+              element.props?.linkable != null
+                ? element.props.linkable
+                : linkable;
+            const elementSelectable =
+              element.props?.selectable != null
+                ? element.props.selectable
+                : selectable;
+            const elementRemovable =
+              element.props?.removable != null
+                ? element.props.removable
+                : removable;
             return (
               <CloneElement<NodeProps>
                 key={n.id}
                 element={element}
                 id={`${id}-node-${n.id}`}
-                disabled={isDisabled}
+                disabled={elementDisabled}
                 nodes={children}
                 offsetX={newX}
                 offsetY={newY}
-                animated={animated}
+                animated={elementAnimated}
                 children={element.props.children}
                 childNode={childNode}
                 dragCursor={dragCursor}
                 dragType={dragType}
                 childEdge={childEdge}
-                draggable={draggable}
-                linkable={linkable}
-                selectable={selectable}
-                removable={removable}
+                draggable={elementDraggable}
+                linkable={elementLinkable}
+                selectable={elementSelectable}
+                removable={elementRemovable}
                 onDragStart={onDragStart}
                 onDrag={onDrag}
                 onDragEnd={onDragEnd}
