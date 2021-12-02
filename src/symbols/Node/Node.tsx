@@ -76,19 +76,27 @@ export interface NodeProps extends NodeDragEvents<NodeData, PortData> {
     node: NodeData
   ) => void;
 
-  onClick?: (
-    event: React.MouseEvent<SVGGElement, MouseEvent>,
-    data: NodeData
-  ) => void;
-  onKeyDown?: (event: React.KeyboardEvent<SVGGElement>, data: NodeData) => void;
-  onEnter?: (
-    event: React.MouseEvent<SVGGElement, MouseEvent>,
-    node: NodeData
-  ) => void;
-  onLeave?: (
-    event: React.MouseEvent<SVGGElement, MouseEvent>,
-    node: NodeData
-  ) => void;
+  onClick?:
+    | ((
+        event: React.MouseEvent<SVGGElement, MouseEvent>,
+        data: NodeData
+      ) => void)
+    | null;
+  onKeyDown?:
+    | ((event: React.KeyboardEvent<SVGGElement>, data: NodeData) => void)
+    | null;
+  onEnter?:
+    | ((
+        event: React.MouseEvent<SVGGElement, MouseEvent>,
+        node: NodeData
+      ) => void)
+    | null;
+  onLeave?:
+    | ((
+        event: React.MouseEvent<SVGGElement, MouseEvent>,
+        node: NodeData
+      ) => void)
+    | null;
 
   childNode?:
     | ReactElement<NodeProps, typeof Node>
@@ -139,10 +147,10 @@ export const Node: FC<Partial<NodeProps>> = ({
   onDrag = () => undefined,
   onDragStart = () => undefined,
   onDragEnd = () => undefined,
-  onClick = () => undefined,
-  onKeyDown = () => undefined,
-  onEnter = () => undefined,
-  onLeave = () => undefined
+  onClick = null,
+  onKeyDown = null,
+  onEnter = null,
+  onLeave = null
 }) => {
   const nodeRef = useRef<SVGRectElement | null>(null);
   const controls = useAnimation();
@@ -266,37 +274,49 @@ export const Node: FC<Partial<NodeProps>> = ({
         {...bind()}
         ref={nodeRef}
         tabIndex={-1}
-        onKeyDown={event => {
-          event.preventDefault();
-          if (!isDisabled) {
-            onKeyDown(event, properties);
-          }
-        }}
-        onClick={event => {
-          event.preventDefault();
-          event.stopPropagation();
-          if (!isDisabled && canSelect) {
-            onClick(event, properties);
-          }
-        }}
+        onKeyDown={
+          onKeyDown &&
+          (event => {
+            event.preventDefault();
+            if (!isDisabled) {
+              onKeyDown(event, properties);
+            }
+          })
+        }
+        onClick={
+          onClick &&
+          (event => {
+            event.preventDefault();
+            event.stopPropagation();
+            if (!isDisabled && canSelect) {
+              onClick(event, properties);
+            }
+          })
+        }
         onTouchStart={event => {
           event.preventDefault();
           event.stopPropagation();
         }}
-        onMouseEnter={event => {
-          event.stopPropagation();
-          canvas.onEnter(event, properties);
-          if (!isDisabled) {
-            onEnter(event, properties);
-          }
-        }}
-        onMouseLeave={event => {
-          event.stopPropagation();
-          canvas.onLeave(event, properties);
-          if (!isDisabled) {
-            onLeave(event, properties);
-          }
-        }}
+        onMouseEnter={
+          onEnter &&
+          (event => {
+            event.stopPropagation();
+            canvas.onEnter(event, properties);
+            if (!isDisabled) {
+              onEnter(event, properties);
+            }
+          })
+        }
+        onMouseLeave={
+          onLeave &&
+          (event => {
+            event.stopPropagation();
+            canvas.onLeave(event, properties);
+            if (!isDisabled) {
+              onLeave(event, properties);
+            }
+          })
+        }
         className={classNames(css.rect, className, properties?.className, {
           [css.active]: isActive,
           [css.disabled]: isDisabled,
