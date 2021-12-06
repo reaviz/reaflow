@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Canvas, CanvasRef } from '../src/Canvas';
 import { createEdgeFromNodes, detectCircular, hasLink } from '../src/helpers';
 import { Node, Edge, MarkerArrow, Port, Icon, Label, Remove, Add, NodeProps, EdgeProps, Arrow } from '../src/symbols';
@@ -677,33 +677,31 @@ export const ManyNodes = () => {
     }
   ]);
 
-  const onDragStart = useMemo(() => null, []);
-
   return (
     <div style={{ position: 'absolute', top: 0, bottom: 0, left: 0, right: 0 }}>
       <Canvas
         nodes={nodes}
         edges={edges}
-        // onMouseEnter={() => undefined}
-        // onMouseLeave={() => undefined}
-        // onCanvasClick={() => undefined}
+        onMouseEnter={() => undefined}
+        onMouseLeave={() => undefined}
+        onCanvasClick={() => undefined}
         dragNode={null}
         dragEdge={null}
-        // arrow={<Arrow />}
+        arrow={<Arrow />}
         node={
           <Node
             dragType="node"
-            // remove={<Remove />}
-            // port={<Port />}
-            // label={<Label />}
-            // onRemove={() => undefined}
-            // onDrag={() => undefined}
-            // onDragStart={onDragStart}
-            // onDragEnd={() => undefined}
-            // onLeave={() => undefined}
-            // onEnter={() => undefined}
-            // onKeyDown={() => undefined}
-            // onClick={() => undefined}
+            remove={<Remove />}
+            port={<Port />}
+            label={<Label />}
+            onRemove={() => undefined}
+            onDrag={() => undefined}
+            onDragStart={() => undefined}
+            onDragEnd={() => undefined}
+            onLeave={() => undefined}
+            onEnter={() => undefined}
+            onKeyDown={() => undefined}
+            onClick={() => undefined}
           />
         }
         edge={<Edge />}
