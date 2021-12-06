@@ -1,3 +1,6 @@
+# 4.2.13 - 12/2/21
+- [fix] fix unnecessary re-renders #127
+
 # 4.2.12 - 11/23/21
 - [fix] Pass Node ref to event at srcElement prop #125
 
