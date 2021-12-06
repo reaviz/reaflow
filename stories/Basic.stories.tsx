@@ -694,14 +694,6 @@ export const ManyNodes = () => {
             remove={<Remove />}
             port={<Port />}
             label={<Label />}
-            onRemove={() => undefined}
-            onDrag={() => undefined}
-            onDragStart={() => undefined}
-            onDragEnd={() => undefined}
-            onLeave={() => undefined}
-            onEnter={() => undefined}
-            onKeyDown={() => undefined}
-            onClick={() => undefined}
           />
         }
         edge={<Edge />}
