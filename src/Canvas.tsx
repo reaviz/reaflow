@@ -166,14 +166,18 @@ export interface CanvasProps {
   /**
    * Element of the drag edge.
    */
-  dragEdge?: ReactElement<EdgeProps, typeof Edge>;
+  dragEdge?:
+    | ReactElement<EdgeProps, typeof Edge>
+    | ((edge: EdgeProps) => ReactElement<EdgeProps, typeof Edge>)
+    | null;
 
   /**
    * Element of the drag node.
    */
   dragNode?:
     | ReactElement<NodeProps, typeof Node>
-    | ((node: NodeProps) => ReactElement<NodeProps, typeof Node>);
+    | ((node: NodeProps) => ReactElement<NodeProps, typeof Node>)
+    | null;
 
   /**
    * Arrow shown on the edges.
@@ -292,6 +296,10 @@ const InternalCanvas: FC<CanvasProps & { ref?: Ref<CanvasRef> }> = forwardRef(
       }
     }, [layout, xy]);
 
+    const onDragStart = useCallback(event => {
+      setDragType(event.dragType);
+    }, []);
+
     const createDragNodeChildren = useCallback(
       (children: any) => {
         if (!children || !Array.isArray(children)) {
@@ -314,9 +322,7 @@ const InternalCanvas: FC<CanvasProps & { ref?: Ref<CanvasRef> }> = forwardRef(
               childEdge={dragEdge}
               childNode={dragNode}
               {...n}
-              onDragStart={event => {
-                setDragType(event.dragType);
-              }}
+              onDragStart={onDragStart}
               id={`${id}-node-${n.id}-node-drag`}
             />
           );
@@ -413,9 +419,7 @@ const InternalCanvas: FC<CanvasProps & { ref?: Ref<CanvasRef> }> = forwardRef(
                   childEdge={edge}
                   childNode={node}
                   {...n}
-                  onDragStart={event => {
-                    setDragType(event.dragType);
-                  }}
+                  onDragStart={onDragStart}
                   id={`${id}-node-${n.id}`}
                 />
               );

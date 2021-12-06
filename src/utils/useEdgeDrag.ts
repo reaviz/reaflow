@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { EdgeSections } from '../symbols/Edge';
 import { NodeData, PortData } from '../types';
 import { DragEvent, NodeDragEvents, Position } from './useNodeDrag';
@@ -32,64 +32,69 @@ export const useEdgeDrag = ({
   const [dragCoords, setDragCoords] = useState<EdgeSections[] | null>(null);
   const [canLinkNode, setCanLinkNode] = useState<boolean | null>(null);
 
-  const onDragStart = (
-    state: DragEvent,
-    _initial: Position,
-    node: NodeData,
-    port?: PortData
-  ) => {
-    setDragType(state.dragType);
-    setDragNode(node);
-    setDragPort(port);
-  };
+  const onDragStart = useCallback(
+    (state: DragEvent, _initial: Position, node: NodeData, port?: PortData) => {
+      setDragType(state.dragType);
+      setDragNode(node);
+      setDragPort(port);
+    },
+    []
+  );
 
-  const onDrag = (
-    { memo: [matrix], xy: [x, y] }: DragEvent,
-    [ix, iy]: Position
-  ) => {
-    const endPoint = new Point2D(x, y).transform(matrix);
-    setDragCoords([
-      {
-        startPoint: {
-          x: ix,
-          y: iy
-        },
-        endPoint
+  const onDrag = useCallback(
+    ({ memo: [matrix], xy: [x, y] }: DragEvent, [ix, iy]: Position) => {
+      const endPoint = new Point2D(x, y).transform(matrix);
+      setDragCoords([
+        {
+          startPoint: {
+            x: ix,
+            y: iy
+          },
+          endPoint
+        }
+      ]);
+    },
+    []
+  );
+
+  const onDragEnd = useCallback(
+    (event: DragEvent) => {
+      if (dragNode && enteredNode && canLinkNode) {
+        onNodeLink(event, dragNode, enteredNode, dragPort);
       }
-    ]);
-  };
 
-  const onDragEnd = (event: DragEvent) => {
-    if (dragNode && enteredNode && canLinkNode) {
-      onNodeLink(event, dragNode, enteredNode, dragPort);
-    }
+      setDragNode(null);
+      setDragPort(null);
+      setEnteredNode(null);
+      setDragCoords(null);
+    },
+    [canLinkNode, dragNode, dragPort, enteredNode, onNodeLink]
+  );
 
-    setDragNode(null);
-    setDragPort(null);
-    setEnteredNode(null);
-    setDragCoords(null);
-  };
+  const onEnter = useCallback(
+    (event: React.MouseEvent<SVGGElement, MouseEvent>, node: NodeData) => {
+      if (dragNode && node) {
+        setEnteredNode(node);
+        const canLink = onNodeLinkCheck(event, dragNode, node, dragPort);
+        const result =
+          (canLink === undefined || canLink) &&
+          (dragNode.parent === node.parent || dragType === 'node');
 
-  const onEnter = (
-    event: React.MouseEvent<SVGGElement, MouseEvent>,
-    node: NodeData
-  ) => {
-    setEnteredNode(node);
+        setCanLinkNode(result);
+      }
+    },
+    [dragNode, dragPort, dragType, onNodeLinkCheck]
+  );
 
-    if (dragNode && node) {
-      const canLink = onNodeLinkCheck(event, dragNode, node, dragPort);
-      const result =
-        (canLink === undefined || canLink) &&
-        (dragNode.parent === node.parent || dragType === 'node');
-
-      setCanLinkNode(result);
-    }
-  };
-
-  const onLeave = () => {
-    setEnteredNode(null);
-    setCanLinkNode(null);
-  };
+  const onLeave = useCallback(
+    (event: React.MouseEvent<SVGGElement, MouseEvent>, node: NodeData) => {
+      if (dragNode && node) {
+        setEnteredNode(null);
+        setCanLinkNode(null);
+      }
+    },
+    [dragNode]
+  );
 
   return {
     dragCoords,

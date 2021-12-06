@@ -57,7 +57,7 @@ export const useNodeDrag = ({
   } = useCanvas();
 
   const bind = useDrag(
-    (state) => {
+    state => {
       if (state.event.type === 'pointerdown') {
         targetRef.current = state.event.currentTarget;
       }

@@ -1,4 +1,4 @@
-import { RefObject, useRef, useState } from 'react';
+import { RefObject, useCallback, useRef, useState } from 'react';
 import { useGesture } from 'react-use-gesture';
 
 const limit = (scale: number, min: number, max: number) =>
@@ -66,19 +66,22 @@ export const useZoom = ({
     }
   );
 
-  const setZoom = (f: number) => {
-    const next = limit(f, minZoom, maxZoom);
-    setFactor(next);
-    onZoomChange(next + 1);
-  };
+  const setZoom = useCallback(
+    (f: number) => {
+      const next = limit(f, minZoom, maxZoom);
+      setFactor(next);
+      onZoomChange(next + 1);
+    },
+    [maxZoom, minZoom, onZoomChange]
+  );
 
-  const zoomIn = () => {
+  const zoomIn = useCallback(() => {
     setZoom(factor + 0.1);
-  };
+  }, [factor, setZoom]);
 
-  const zoomOut = () => {
+  const zoomOut = useCallback(() => {
     setZoom(factor - 0.1);
-  };
+  }, [factor, setZoom]);
 
   return {
     svgRef,

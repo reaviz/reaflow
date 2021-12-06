@@ -43,7 +43,7 @@ export const NodeOnlyDrag = () => (
       node={
         <Node
           dragCursor="grab"
-          dragType="all"
+          dragType="node"
         />
       }
     />
