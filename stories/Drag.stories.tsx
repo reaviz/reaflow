@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Canvas } from '../src/Canvas';
-import { Node, Edge, MarkerArrow, Port, Icon, Arrow, Label, Remove, Add } from '../src/symbols';
+import { Node, Edge, MarkerArrow, Port, Icon, Arrow, Label, Remove, Add, NodeProps } from '../src/symbols';
 import { EdgeData, NodeData } from '../src/types';
 import { createEdgeFromNodes, hasLink, removeAndUpsertNodes } from '../src/helpers';
 
@@ -479,7 +479,18 @@ export const NestedNodeRearranging = () => {
       <Canvas
         nodes={nodes}
         edges={edges}
-        node={<Node dragType="node" />}
+        node={(node: NodeProps) => {
+          // Prevent parent nodes with large number of children from dragging, but allow children to drag
+          const children = nodes.filter(n => n.parent && n.parent === node.id);
+          const notDraggable = children.length > 3;
+          return (
+            <Node
+              {...node}
+              dragType="node"
+              draggable={!notDraggable}
+            />
+          );
+        }}
         onNodeLinkCheck={(_event, from: NodeData, to: NodeData) => {
           if (from.id === to.id) {
             return false;
