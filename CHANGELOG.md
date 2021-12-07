@@ -1,3 +1,6 @@
+# 4.2.14 - 12/6/21
+- [fix] Improve performance and add memorization #130
+
 # 4.2.13 - 12/2/21
 - [fix] fix unnecessary re-renders #127
 
