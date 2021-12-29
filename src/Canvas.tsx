@@ -431,6 +431,7 @@ const InternalCanvas: FC<CanvasProps & { ref?: Ref<CanvasRef> }> = forwardRef(
                   key={e.id}
                   element={element}
                   disabled={disabled}
+                  children={element.props.children}
                   {...e}
                   id={`${id}-edge-${e.id}`}
                 />
