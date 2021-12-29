@@ -1,3 +1,6 @@
+# 4.2.15 - 12/28/21
+- [fix] Pass children to edge cloned element #136
+
 # 4.2.14 - 12/6/21
 - [fix] Improve performance and add memorization #130
 
