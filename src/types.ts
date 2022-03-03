@@ -134,9 +134,14 @@ export interface EdgeData<T = any> {
   data?: T;
 
   /**
-   * CSS Classname for the edge.
+   * CSS class name for the edge ("path" element).
    */
   className?: string;
+
+  /**
+   * CSS class name for the edge (main "g" element).
+   */
+  mainClassName?: string;
 
   /**
    * Optional arrow head type.
