@@ -23,22 +23,22 @@
       cursor: pointer;
     }
   }
+}
 
-  .path {
-    fill: transparent;
-    stroke: #485a74;
-    pointer-events: none;
-    shape-rendering: geometricPrecision;
-    stroke-width: 1pt;
-  }
+.path {
+  fill: transparent;
+  stroke: #485a74;
+  pointer-events: none;
+  shape-rendering: geometricPrecision;
+  stroke-width: 1pt;
+}
 
-  .clicker {
-    fill: none;
-    stroke: transparent;
-    stroke-width: 15px;
+.clicker {
+  fill: none;
+  stroke: transparent;
+  stroke-width: 15px;
 
-    &:focus {
-      outline: none;
-    }
+  &:focus {
+    outline: none;
   }
 }
