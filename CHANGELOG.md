@@ -1,3 +1,6 @@
+# 4.2.16 - 2/3/22
+- [fix] improve edge custom styling #143
+
 # 4.2.15 - 12/28/21
 - [fix] Pass children to edge cloned element #136
 
