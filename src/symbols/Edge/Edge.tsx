@@ -62,7 +62,7 @@ export interface EdgeProps {
   sections: EdgeSections[];
   labels?: LabelProps[];
   className?: string;
-  mainClassName?: string;
+  containerClassName?: string;
 
   add: ReactElement<AddProps, typeof Add>;
   label: ReactElement<LabelProps, typeof Label>;
@@ -96,7 +96,7 @@ export const Edge: FC<Partial<EdgeProps>> = ({
   properties,
   labels,
   className,
-  mainClassName,
+  containerClassName,
   disabled,
   removable = true,
   selectable = true,
@@ -176,7 +176,7 @@ export const Edge: FC<Partial<EdgeProps>> = ({
 
   return (
     <g
-      className={classNames(css.edge, mainClassName, {
+      className={classNames(css.edge, containerClassName, {
         [css.disabled]: isDisabled,
         [css.selectionDisabled]: !canSelect
       })}

@@ -141,7 +141,7 @@ export interface EdgeData<T = any> {
   /**
    * CSS class name for the edge (main "g" element).
    */
-  mainClassName?: string;
+  containerClassName?: string;
 
   /**
    * Optional arrow head type.
