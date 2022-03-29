@@ -242,8 +242,9 @@ function mapNode(nodes: NodeData[], edges: EdgeData[], node: NodeData) {
   };
 }
 
-function mapEdge(edge: EdgeData) {
+function mapEdge({ data, ...edge }: EdgeData) {
   const labelDim = measureText(edge.text);
+  const validEdgeData = data ? { data } : {};
 
   return {
     id: edge.id,
@@ -252,6 +253,7 @@ function mapEdge(edge: EdgeData) {
     properties: {
       ...edge
     },
+    ...validEdgeData,
     sourcePort: edge.fromPort,
     targetPort: edge.toPort,
     labels: edge.text
