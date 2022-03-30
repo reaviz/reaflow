@@ -1,3 +1,6 @@
+# 4.2.16 - 3/30/22
+- [fix] Fix data attribute in edge #149
+
 # 4.2.16 - 2/3/22
 - [fix] improve edge custom styling #143
 
