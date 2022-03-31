@@ -477,6 +477,10 @@ export const Node: FC<Partial<NodeProps>> = ({
                 id={`${id}-edge-${e.id}`}
                 disabled={isDisabled}
                 {...e}
+                properties={{
+                  ...e.properties,
+                  ...(e.data ? { data: e.data } : {})
+                }}
               />
             );
           })}
