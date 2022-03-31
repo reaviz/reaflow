@@ -1,3 +1,6 @@
+# 4.2.17 - 3/31/22
+- [fix] Fixes missing data in nested edges #150
+
 # 4.2.16 - 3/30/22
 - [fix] Fix data attribute in edge #149
 
