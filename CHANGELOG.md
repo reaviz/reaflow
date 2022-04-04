@@ -1,3 +1,6 @@
+# 5.0.1 - 4/4/22
+- [fix] Edge labels extra data #151
+
 # 5.0.0 - 4/4/22
 - [chore] upgrade react
 - [chore] upgrade framer-motion
