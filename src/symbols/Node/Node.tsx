@@ -8,7 +8,7 @@ import React, {
   useRef,
   useState
 } from 'react';
-import { motion, useAnimation } from 'framer-motion';
+import { motion, useAnimation } from 'framer-motion/dist/framer-motion';
 import { Port, PortProps } from '../Port';
 import { Label, LabelProps } from '../Label';
 import { EdgeData, NodeData, PortData } from '../../types';

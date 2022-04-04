@@ -3,14 +3,7 @@ module.exports = {
     'browser': true,
     'es2021': true
   },
-  'extends': [
-    'eslint:recommended',
-    'plugin:react/recommended',
-    'prettier',
-    'prettier/react',
-    'plugin:react-hooks/recommended'
-    // 'plugin:@typescript-eslint/recommended'
-  ],
+  'extends': ["eslint:recommended", "plugin:react/recommended", "prettier", "prettier/react", "plugin:react-hooks/recommended", "plugin:storybook/recommended"],
   'parser': '@typescript-eslint/parser',
   'parserOptions': {
     'ecmaFeatures': {
@@ -19,31 +12,16 @@ module.exports = {
     'ecmaVersion': 12,
     'sourceType': 'module'
   },
-  'plugins': [
-    'react',
-    '@typescript-eslint'
-  ],
+  'plugins': ['react', '@typescript-eslint'],
   'rules': {
     'no-unused-vars': [0],
-    'indent': [
-      'error',
-      2
-    ],
+    'indent': ['error', 2],
     'arrow-parens': ['error', 'as-needed'],
     'react/display-name': [0],
     'react/prop-types': [0],
     'react/no-children-prop': [0],
-    'linebreak-style': [
-      'error',
-      'unix'
-    ],
-    'quotes': [
-      'error',
-      'single'
-    ],
-    'semi': [
-      'error',
-      'always'
-    ]
+    'linebreak-style': ['error', 'unix'],
+    'quotes': ['error', 'single'],
+    'semi': ['error', 'always']
   }
 };

@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 import classNames from 'classnames';
-import { motion } from 'framer-motion';
+import { motion } from 'framer-motion/dist/framer-motion';
 import css from './Add.module.css';
 
 export interface AddProps {
@@ -44,7 +44,7 @@ export const Add: FC<Partial<AddProps>> = ({
         height={size * 2}
         width={size * 2}
         className={css.drop}
-        onClick={(event) => {
+        onClick={event => {
           event.preventDefault();
           event.stopPropagation();
           onClick(event);

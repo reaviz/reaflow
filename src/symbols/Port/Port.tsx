@@ -1,5 +1,5 @@
 import React, { forwardRef, Fragment, ReactNode, Ref, useState } from 'react';
-import { motion } from 'framer-motion';
+import { motion } from 'framer-motion/dist/framer-motion';
 import { PortData } from '../../types';
 import {
   NodeDragEvents,

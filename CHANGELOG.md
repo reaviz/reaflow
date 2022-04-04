@@ -1,3 +1,7 @@
+# 5.0.0 - 4/4/22
+- [chore] upgrade react
+- [chore] upgrade framer-motion
+
 # 4.2.17 - 3/31/22
 - [fix] Fixes missing data in nested edges #150
 
