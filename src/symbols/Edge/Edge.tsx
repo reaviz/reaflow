@@ -234,7 +234,7 @@ export const Edge: FC<Partial<EdgeProps>> = ({
           <CloneElement<LabelProps>
             element={label}
             key={index}
-            edgeProps={edgeChildProps}
+            edgeChildProps={edgeChildProps}
             {...(l as LabelProps)}
           />
         ))}
