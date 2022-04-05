@@ -1,6 +1,6 @@
 import React, { FC, useState } from 'react';
 import classNames from 'classnames';
-import { motion } from 'framer-motion/dist/framer-motion';
+import { motion } from 'framer-motion';
 import css from './Remove.module.css';
 
 export interface RemoveProps {
