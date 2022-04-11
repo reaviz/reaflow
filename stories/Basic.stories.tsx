@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { Canvas, CanvasRef } from '../src/Canvas';
 import { createEdgeFromNodes, detectCircular, hasLink } from '../src/helpers';
 import { Node, Edge, MarkerArrow, Port, Icon, Label, Remove, Add, NodeProps, EdgeProps, Arrow } from '../src/symbols';
-import { EdgeData, NodeData } from '../src/types';
+import { CanvasPosition, EdgeData, NodeData } from '../src/types';
 
 export default {
   title: 'Demos/Basic',
@@ -190,7 +190,7 @@ export const Refs = () => {
     <div style={{ position: 'absolute', top: 0, bottom: 0, left: 0, right: 0 }}>
       <button
         style={{ position: 'absolute', top: 10, left: 10, zIndex: 999 }}
-        onClick={() => ref.current?.centerCanvas()}
+        onClick={() => ref.current?.positionCanvas(CanvasPosition.CENTER)}
       >
         Center
       </button>

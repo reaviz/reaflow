@@ -1,5 +1,13 @@
 import { ElkNodeLayoutOptions } from './layout';
 
+export enum CanvasPosition {
+  CENTER = 'center',
+  TOP = 'top',
+  LEFT = 'left',
+  RIGHT = 'right',
+  BOTTOM = 'bottom'
+}
+
 export interface NodeData<T = any> {
   /**
    * Unique ID for the node.
