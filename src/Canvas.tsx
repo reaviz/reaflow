@@ -22,7 +22,7 @@ import {
   ElkCanvasLayoutOptions
 } from './layout';
 import { MarkerArrow, MarkerArrowProps } from './symbols/Arrow';
-import { EdgeData, NodeData, PortData } from './types';
+import { CanvasPosition, EdgeData, NodeData, PortData } from './types';
 import classNames from 'classnames';
 import { CanvasProvider, useCanvas } from './utils/CanvasProvider';
 import { getDragNodeData } from './utils/helpers';
@@ -62,9 +62,9 @@ export interface CanvasContainerProps extends CanvasProps {
   zoomable?: boolean;
 
   /**
-   * Center the canvas on load or not.
+   * Where to position the canvas on load (if at all)
    */
-  center?: boolean;
+  defaultPosition?: CanvasPosition;
 
   /**
    * Fit the canvas on load.
@@ -252,7 +252,7 @@ const InternalCanvas: FC<CanvasProps & { ref?: Ref<CanvasRef> }> = forwardRef(
       observe,
       zoomIn,
       zoomOut,
-      centerCanvas,
+      positionCanvas,
       fitCanvas,
       ...rest
     } = useCanvas();
@@ -268,7 +268,7 @@ const InternalCanvas: FC<CanvasProps & { ref?: Ref<CanvasRef> }> = forwardRef(
       containerRef,
       canvasWidth,
       svgRef,
-      centerCanvas,
+      positionCanvas,
       setZoom,
       zoomIn,
       zoomOut,
@@ -518,7 +518,7 @@ export const Canvas: FC<CanvasContainerProps & { ref?: Ref<CanvasRef> }> =
         direction = 'DOWN',
         pannable = true,
         zoom = 1,
-        center = true,
+        defaultPosition = CanvasPosition.CENTER,
         zoomable = true,
         minZoom = -0.5,
         maxZoom = 1,
@@ -536,7 +536,7 @@ export const Canvas: FC<CanvasContainerProps & { ref?: Ref<CanvasRef> }> =
         nodes={nodes}
         edges={edges}
         zoom={zoom}
-        center={center}
+        defaultPosition={defaultPosition}
         minZoom={minZoom}
         maxZoom={maxZoom}
         fit={fit}
