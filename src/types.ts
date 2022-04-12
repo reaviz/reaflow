@@ -8,6 +8,14 @@ export enum CanvasPosition {
   BOTTOM = 'bottom'
 }
 
+export enum CanvasElement {
+  NODES = 'nodes',
+  EDGES = 'edges',
+  PORTS = 'ports',
+  DRAG_EDGE = 'dragEdge',
+  DRAG_NODE = 'dragNode'
+}
+
 export interface NodeData<T = any> {
   /**
    * Unique ID for the node.

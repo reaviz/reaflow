@@ -22,7 +22,13 @@ import {
   ElkCanvasLayoutOptions
 } from './layout';
 import { MarkerArrow, MarkerArrowProps } from './symbols/Arrow';
-import { CanvasPosition, EdgeData, NodeData, PortData } from './types';
+import {
+  CanvasElement,
+  CanvasPosition,
+  EdgeData,
+  NodeData,
+  PortData
+} from './types';
 import classNames from 'classnames';
 import { CanvasProvider, useCanvas } from './utils/CanvasProvider';
 import { getDragNodeData } from './utils/helpers';
@@ -199,6 +205,11 @@ export interface CanvasProps {
     | ((edge: EdgeProps) => ReactElement<NodeProps, typeof Edge>);
 
   /**
+   * Order in which to render canvas elements, default: ['nodes', 'edges', 'dragEdge', 'ports', 'dragNode']
+   */
+  elementOrder?: CanvasElement[];
+
+  /**
    * When the canvas had a mouse enter.
    */
   onMouseEnter?: (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
@@ -230,6 +241,13 @@ const InternalCanvas: FC<CanvasProps & { ref?: Ref<CanvasRef> }> = forwardRef(
       edge = <Edge />,
       dragNode = <Node />,
       dragEdge = <Edge add={null} />,
+      elementOrder = [
+        CanvasElement.NODES,
+        CanvasElement.EDGES,
+        CanvasElement.DRAG_EDGE,
+        CanvasElement.PORTS,
+        CanvasElement.DRAG_NODE
+      ],
       onMouseEnter = () => undefined,
       onMouseLeave = () => undefined,
       onCanvasClick = () => undefined
@@ -406,97 +424,114 @@ const InternalCanvas: FC<CanvasProps & { ref?: Ref<CanvasRef> }> = forwardRef(
                 }
             }}
           >
-            {layout?.children?.map(({ children, ...n }) => {
-              const element = typeof node === 'function' ? node(n) : node;
-              return (
-                <CloneElement<NodeProps>
-                  key={n.id}
-                  element={element}
-                  disabled={disabled}
-                  children={element.props.children}
-                  animated={animated}
-                  nodes={children}
-                  childEdge={edge}
-                  childNode={node}
-                  {...n}
-                  onDragStart={onDragStart}
-                  id={`${id}-node-${n.id}`}
-                />
-              );
+            {elementOrder.map(el => {
+              switch (el) {
+              case CanvasElement.NODES:
+                return layout?.children?.map(({ children, ...n }) => {
+                  const element = typeof node === 'function' ? node(n) : node;
+                  return (
+                    <CloneElement<NodeProps>
+                      key={n.id}
+                      element={element}
+                      disabled={disabled}
+                      children={element.props.children}
+                      animated={animated}
+                      nodes={children}
+                      childEdge={edge}
+                      childNode={node}
+                      {...n}
+                      onDragStart={onDragStart}
+                      id={`${id}-node-${n.id}`}
+                    />
+                  );
+                });
+              case CanvasElement.EDGES:
+                return layout?.edges?.map(e => {
+                  const element = typeof edge === 'function' ? edge(e) : edge;
+                  return (
+                    <CloneElement<EdgeProps>
+                      key={e.id}
+                      element={element}
+                      disabled={disabled}
+                      children={element.props.children}
+                      {...e}
+                      properties={{
+                        ...e.properties,
+                        ...(e.data ? { data: e.data } : {})
+                      }}
+                      id={`${id}-edge-${e.id}`}
+                    />
+                  );
+                });
+              case CanvasElement.PORTS:
+                return layout?.children?.map(({ children, ports, ...n }) => (
+                  <Fragment key={n.id}>
+                    {ports?.length > 0 && (
+                      <motion.g
+                        key={n.id}
+                        animate={{
+                          translateX: n.x,
+                          translateY: n.y,
+                          transition: { duration: 0 }
+                        }}
+                      >
+                        {ports.map((port, index) => (
+                          <use
+                            key={index}
+                            xlinkHref={`#${id}-node-${n.id}-port-${port.id}`}
+                            style={{ pointerEvents: 'none' }}
+                          />
+                        ))}
+                      </motion.g>
+                    )}
+                  </Fragment>
+                ));
+              case CanvasElement.DRAG_EDGE:
+                if (
+                  dragCoords !== null &&
+                    dragEdge &&
+                    dragType === 'port' &&
+                    !readonly
+                )
+                  return (
+                    <CloneElement<EdgeProps>
+                      element={dragEdge}
+                      id={`${id}-edge-drag`}
+                      disabled
+                      sections={dragCoords}
+                    />
+                  );
+                break;
+              case CanvasElement.DRAG_NODE:
+                if (
+                  dragCoords !== null &&
+                    dragNodeDataWithChildren &&
+                    dragType === 'node' &&
+                    !readonly
+                )
+                  return (
+                    <CloneElement<NodeProps>
+                      {...dragNodeDataWithChildren}
+                      element={dragNodeElement}
+                      height={
+                        dragNodeDataWithChildren?.props?.height ||
+                          dragNodeDataWithChildren?.height
+                      }
+                      width={
+                        dragNodeDataWithChildren?.props?.width ||
+                          dragNodeDataWithChildren?.width
+                      }
+                      id={`${id}-node-drag`}
+                      animated={animated}
+                      className={css.dragNode}
+                      disabled
+                      x={dragCoords[0].endPoint.x}
+                      y={dragCoords[0].endPoint.y}
+                    />
+                  );
+                break;
+              }
             })}
-            {layout?.edges?.map(e => {
-              const element = typeof edge === 'function' ? edge(e) : edge;
-              return (
-                <CloneElement<EdgeProps>
-                  key={e.id}
-                  element={element}
-                  disabled={disabled}
-                  children={element.props.children}
-                  {...e}
-                  properties={{
-                    ...e.properties,
-                    ...(e.data ? { data: e.data } : {})
-                  }}
-                  id={`${id}-edge-${e.id}`}
-                />
-              );
-            })}
-            {dragCoords !== null &&
-              dragEdge &&
-              dragType === 'port' &&
-              !readonly && (
-              <CloneElement<EdgeProps>
-                element={dragEdge}
-                id={`${id}-edge-drag`}
-                disabled
-                sections={dragCoords}
-              />
-            )}
-            {layout?.children?.map(({ children, ports, ...n }) => (
-              <Fragment key={n.id}>
-                {ports?.length > 0 && (
-                  <motion.g
-                    key={n.id}
-                    animate={{
-                      translateX: n.x,
-                      translateY: n.y,
-                      transition: { duration: 0 }
-                    }}
-                  >
-                    {ports.map((port, index) => (
-                      <use
-                        key={index}
-                        xlinkHref={`#${id}-node-${n.id}-port-${port.id}`}
-                        style={{ pointerEvents: 'none' }}
-                      />
-                    ))}
-                  </motion.g>
-                )}
-              </Fragment>
-            ))}
-            {dragCoords !== null &&
-              dragNodeDataWithChildren &&
-              dragType === 'node' &&
-              !readonly && (
-              <CloneElement<NodeProps>
-                {...dragNodeDataWithChildren}
-                element={dragNodeElement}
-                height={
-                  dragNodeDataWithChildren?.props?.height ||
-                    dragNodeDataWithChildren?.height
-                }
-                width={
-                  dragNodeDataWithChildren?.props?.width ||
-                    dragNodeDataWithChildren?.width
-                }
-                id={`${id}-node-drag`}
-                animated={animated}
-                className={css.dragNode}
-                disabled
-                x={dragCoords[0].endPoint.x}
-                y={dragCoords[0].endPoint.y}
-              />
-            )}
           </motion.g>
         </svg>
       </div>
