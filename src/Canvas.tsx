@@ -182,7 +182,7 @@ export interface CanvasProps {
   /**
    * Arrow shown on the edges.
    */
-  arrow?: ReactElement<MarkerArrowProps, typeof MarkerArrow>;
+  arrow?: ReactElement<MarkerArrowProps, typeof MarkerArrow> | null;
 
   /**
    * Node or node callback to return element.
