@@ -1,3 +1,6 @@
+# 5.0.5 - 5/10/22
+- [chore] bump rdk
+
 # 5.0.4
 - [fix] Change center and centerCanvas to defaultPosition and positionCanvas for more flexible placement options #154
 
