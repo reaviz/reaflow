@@ -94,7 +94,7 @@ export interface EdgeProps {
 
 export const Edge: FC<Partial<EdgeProps>> = ({
   sections,
-  interpolation = 'curved',
+  interpolation,
   properties,
   labels,
   className,
@@ -274,4 +274,8 @@ export const Edge: FC<Partial<EdgeProps>> = ({
       )}
     </g>
   );
+};
+          
+Edge.defaultProps = {
+  interpolation: 'curved'
 };
