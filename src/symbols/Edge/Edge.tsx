@@ -60,6 +60,7 @@ export interface EdgeProps {
   style?: any;
   children?: ReactNode | EdgeChildrenAsFunction;
   sections: EdgeSections[];
+  interpolation: 'linear' | 'curved' | Function;
   labels?: LabelProps[];
   className?: string;
   containerClassName?: string;
@@ -93,6 +94,7 @@ export interface EdgeProps {
 
 export const Edge: FC<Partial<EdgeProps>> = ({
   sections,
+  interpolation,
   properties,
   labels,
   className,
@@ -134,17 +136,21 @@ export const Edge: FC<Partial<EdgeProps>> = ({
     if (sections[0].bendPoints) {
       const points: any[] = sections
         ? [
-          sections[0].startPoint,
-          ...(sections[0].bendPoints || ([] as any)),
-          sections[0].endPoint
-        ]
+            sections[0].startPoint,
+            ...(sections[0].bendPoints || ([] as any)),
+            sections[0].endPoint
+          ]
         : [];
 
-      const pathFn = line()
+      let pathFn: any = line()
         .x((d: any) => d.x)
-        .y((d: any) => d.y)
-        .curve(curveBundle.beta(1));
-
+        .y((d: any) => d.y);
+      if (interpolation !== 'linear') {
+        pathFn =
+          interpolation === 'curved'
+            ? pathFn.curve(curveBundle.beta(1))
+            : interpolation;
+      }
       return pathFn(points);
     } else {
       return getBezierPath({
@@ -268,4 +274,8 @@ export const Edge: FC<Partial<EdgeProps>> = ({
       )}
     </g>
   );
+};
+          
+Edge.defaultProps = {
+  interpolation: 'curved'
 };
