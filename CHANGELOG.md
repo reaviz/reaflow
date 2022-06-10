@@ -1,3 +1,6 @@
+# 5.0.6 - 6/10/22
+- [improvement] Added interpolation props to Edge #166
+
 # 5.0.5 - 5/10/22
 - [chore] bump rdk
 
