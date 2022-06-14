@@ -21,10 +21,12 @@ export const Label: FC<Partial<LabelProps>> = ({
   className,
   originalText
 }) => (
-  <g transform={`translate(${x}, ${y})`}>
+  <>
     <title>{originalText}</title>
-    <text className={classNames(css.text, className)} style={style}>
-      {text}
-    </text>
-  </g>
+    <g transform={`translate(${x}, ${y})`}>
+      <text className={classNames(css.text, className)} style={style}>
+        {text}
+      </text>
+    </g>
+  </>
 );
