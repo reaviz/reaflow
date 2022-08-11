@@ -43,7 +43,8 @@ export type NodeChildrenAsFunction = (
   nodeChildProps: NodeChildProps
 ) => ReactNode;
 
-export interface NodeProps extends NodeDragEvents<NodeData, PortData> {
+export interface NodeProps<T = any>
+  extends NodeDragEvents<NodeData<T>, PortData> {
   id: string;
   height: number;
   width: number;
@@ -56,7 +57,7 @@ export interface NodeProps extends NodeDragEvents<NodeData, PortData> {
   disabled?: boolean;
   ports?: PortProps[];
   labels?: LabelProps[];
-  properties: any;
+  properties: NodeData<T>;
   className?: string;
   style?: any;
   children?: ReactNode | NodeChildrenAsFunction;
