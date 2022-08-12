@@ -108,7 +108,8 @@ export interface CanvasContainerProps extends CanvasProps {
     event: any,
     fromNode: NodeData,
     toNode: NodeData,
-    fromPort?: PortData
+    fromPort?: PortData,
+    toPort?: PortData
   ) => void;
 
   /**
@@ -118,7 +119,8 @@ export interface CanvasContainerProps extends CanvasProps {
     event: any,
     fromNode: NodeData,
     toNode: NodeData,
-    fromPort?: PortData
+    fromPort?: PortData,
+    toPort?: PortData
   ) => undefined | boolean;
 
   /**

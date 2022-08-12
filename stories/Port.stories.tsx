@@ -104,6 +104,60 @@ export const Simple = () => (
   </div>
 );
 
+export const LinkingPortToPort = () => (
+  <div style={{ position: 'absolute', top: 0, bottom: 0, left: 0, right: 0 }}>
+    <Canvas
+      nodes={[
+        {
+          id: '1',
+          text: 'Node 1',
+          ports: [
+            {
+              id: '1-from',
+              width: 10,
+              height: 10,
+              side: 'SOUTH'
+            },
+            {
+              id: '1-to',
+              width: 10,
+              height: 10,
+              side: 'NORTH'
+            }
+          ]
+        },
+        {
+          id: '2',
+          text: 'Node 2',
+          ports: [
+            {
+              id: '2-from',
+              width: 10,
+              height: 10,
+              side: 'SOUTH'
+            },
+            {
+              id: '2-to',
+              width: 10,
+              height: 10,
+              side: 'NORTH'
+            }
+          ]
+        }
+      ]}
+      edges={[]}
+      node={<Node dragType="port" />}
+      onNodeLinkCheck={(_e, _fromNode, _toNode, _fromPort, toPort) => {
+        // Only allow port to port dragging
+        return toPort !== undefined;
+      }}
+      onNodeLink={(_e, fromNode, toNode, fromPort, toPort) => {
+        alert(`${fromNode.id}.${fromPort.side} -> ${toNode.id}.${toPort.side}`);
+      }}
+    />
+  </div>
+);
+
 export const Disabled = () => (
   <div style={{ position: 'absolute', top: 0, bottom: 0, left: 0, right: 0 }}>
     <Canvas
@@ -395,7 +449,12 @@ export const LinkingPortRestrictions = () => {
       <Canvas
         nodes={nodes}
         edges={edges}
-        onNodeLinkCheck={(_event, from: NodeData, to: NodeData, port: PortData) => {
+        onNodeLinkCheck={(
+          _event,
+          from: NodeData,
+          to: NodeData,
+          port: PortData
+        ) => {
           if (from.id === to.id || to.id === '1') {
             return false;
           }

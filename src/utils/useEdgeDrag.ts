@@ -11,13 +11,16 @@ export interface EdgeDragResult extends NodeDragEvents {
   dragNode: NodeData | null;
   dragPort: PortData | null;
   enteredNode: NodeData | null;
+  enteredPort: PortData | null;
   onEnter?: (
     event: React.MouseEvent<SVGGElement, MouseEvent>,
-    data: NodeData | PortData
+    nodeData: NodeData,
+    portData?: PortData
   ) => void;
   onLeave?: (
     event: React.MouseEvent<SVGGElement, MouseEvent>,
-    data: NodeData | PortData
+    nodeData: NodeData,
+    portData?: PortData
   ) => void;
 }
 
@@ -29,6 +32,7 @@ export const useEdgeDrag = ({
   const [dragPort, setDragPort] = useState<PortData | null>(null);
   const [dragType, setDragType] = useState<NodeDragType | null>(null);
   const [enteredNode, setEnteredNode] = useState<NodeData | null>(null);
+  const [enteredPort, setEnteredPort] = useState<PortData | null>(null);
   const [dragCoords, setDragCoords] = useState<EdgeSections[] | null>(null);
   const [canLinkNode, setCanLinkNode] = useState<boolean | null>(null);
 
@@ -60,22 +64,29 @@ export const useEdgeDrag = ({
   const onDragEnd = useCallback(
     (event: DragEvent) => {
       if (dragNode && enteredNode && canLinkNode) {
-        onNodeLink(event, dragNode, enteredNode, dragPort);
+        onNodeLink(event, dragNode, enteredNode, dragPort, enteredPort);
       }
 
       setDragNode(null);
       setDragPort(null);
       setEnteredNode(null);
+      setEnteredPort(null);
       setDragCoords(null);
     },
-    [canLinkNode, dragNode, dragPort, enteredNode, onNodeLink]
+    [canLinkNode, dragNode, dragPort, enteredNode, enteredPort, onNodeLink]
   );
 
   const onEnter = useCallback(
-    (event: React.MouseEvent<SVGGElement, MouseEvent>, node: NodeData) => {
+    (
+      event: React.MouseEvent<SVGGElement, MouseEvent>,
+      node: NodeData,
+      port?: PortData
+    ) => {
+      console.log(node, port, 'NODDDE entre');
       if (dragNode && node) {
         setEnteredNode(node);
-        const canLink = onNodeLinkCheck(event, dragNode, node, dragPort);
+        setEnteredPort(port);
+        const canLink = onNodeLinkCheck(event, dragNode, node, dragPort, port);
         const result =
           (canLink === undefined || canLink) &&
           (dragNode.parent === node.parent || dragType === 'node');
@@ -87,13 +98,22 @@ export const useEdgeDrag = ({
   );
 
   const onLeave = useCallback(
-    (event: React.MouseEvent<SVGGElement, MouseEvent>, node: NodeData) => {
+    (
+      event: React.MouseEvent<SVGGElement, MouseEvent>,
+      node: NodeData,
+      port?: PortData
+    ) => {
       if (dragNode && node) {
         setEnteredNode(null);
         setCanLinkNode(null);
       }
+
+      if (dragPort && port) {
+        setEnteredPort(null);
+        setCanLinkNode(null);
+      }
     },
-    [dragNode]
+    [dragNode, dragPort]
   );
 
   return {
@@ -102,6 +122,7 @@ export const useEdgeDrag = ({
     dragNode,
     dragPort,
     enteredNode,
+    enteredPort,
     onDragStart,
     onDrag,
     onDragEnd,

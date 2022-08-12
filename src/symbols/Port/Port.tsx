@@ -89,7 +89,7 @@ export const Port = forwardRef(
     }: Partial<PortProps>,
     ref: Ref<SVGRectElement>
   ) => {
-    const { readonly } = useCanvas();
+    const { readonly, ...canvas } = useCanvas();
     const [isDragging, setIsDragging] = useState<boolean>(false);
     const [isHovered, setIsHovered] = useState<boolean>(false);
     const newX = x - properties.width / 2;

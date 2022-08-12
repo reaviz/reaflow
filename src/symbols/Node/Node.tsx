@@ -316,6 +316,22 @@ export const Node: FC<Partial<NodeProps>> = ({
     [canvas, isDisabled, onLeave, properties]
   );
 
+  const onPortEnterCallback = useCallback(
+    (event, port: PortData) => {
+      event.stopPropagation();
+      canvas.onEnter(event, properties, port);
+    },
+    [canvas, properties]
+  );
+
+  const onPortLeaveCallback = useCallback(
+    (event, port: PortData) => {
+      event.stopPropagation();
+      canvas.onLeave(event, properties, port);
+    },
+    [canvas, properties]
+  );
+
   const onDragStartCallback = useCallback(
     (event: DragEvent, initial: Position, data: PortData) => {
       if (!isDisabled && linkable) {
@@ -447,6 +463,8 @@ export const Node: FC<Partial<NodeProps>> = ({
             onDragStart={onDragStartCallback}
             onDrag={onDragCallback}
             onDragEnd={onDragEndCallback}
+            onEnter={onPortEnterCallback}
+            onLeave={onPortLeaveCallback}
             {...(p as PortProps)}
             id={`${id}-port-${p.id}`}
           />
