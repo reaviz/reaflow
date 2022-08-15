@@ -82,7 +82,6 @@ export const useEdgeDrag = ({
       node: NodeData,
       port?: PortData
     ) => {
-      console.log(node, port, 'NODDDE entre');
       if (dragNode && node) {
         setEnteredNode(node);
         setEnteredPort(port);
