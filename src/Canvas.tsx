@@ -254,6 +254,7 @@ const InternalCanvas: FC<CanvasProps & { ref?: Ref<CanvasRef> }> = forwardRef(
       zoomOut,
       positionCanvas,
       fitCanvas,
+      setScrollXY,
       ...rest
     } = useCanvas();
     const [dragType, setDragType] = useState<null | NodeDragType>(null);
@@ -272,7 +273,8 @@ const InternalCanvas: FC<CanvasProps & { ref?: Ref<CanvasRef> }> = forwardRef(
       setZoom,
       zoomIn,
       zoomOut,
-      fitCanvas
+      fitCanvas,
+      setScrollXY
     }));
 
     const mount = useRef<boolean>(false);

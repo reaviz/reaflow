@@ -91,6 +91,11 @@ export interface LayoutResult {
    */
   fitCanvas?: () => void;
 
+  /**
+   * Scroll to X/Y
+   */
+  setScrollXY?: (xy: [number, number]) => void;
+
   observe: (el: HTMLDivElement) => void;
 }
 
@@ -272,6 +277,7 @@ export const useLayout = ({
     layout,
     scrollXY,
     positionCanvas,
-    fitCanvas
+    fitCanvas,
+    setScrollXY
   } as LayoutResult;
 };
