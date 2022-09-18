@@ -1,6 +1,6 @@
 {
   "name": "reaflow",
-  "version": "5.0.6",
+  "version": "5.0.7",
   "description": "Node-based Visualizations for React",
   "scripts": {
     "build": "rollup -c",
@@ -44,7 +44,7 @@
     "calculate-size": "^1.1.1",
     "classnames": "^2.3.1",
     "d3-shape": "^3.0.1",
-    "elkjs": "^0.7.1",
+    "elkjs": "^0.8.2",
     "ellipsize": "^0.2.0",
     "framer-motion": "^6.2.8",
     "kld-affine": "^2.1.1",
