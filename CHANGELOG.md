@@ -1,3 +1,7 @@
+# 5.0.7 - 9/19/22
+- [improvement] Feature/expose useScrollXY function #180
+- [chore] bump elkjs #181
+
 # 5.0.6 - 6/10/22
 - [improvement] Added interpolation props to Edge #166
 
