@@ -1,3 +1,6 @@
+# 5.1.0 - 11/21/22
+- [chore] upgrade deps
+
 # 5.0.7 - 9/19/22
 - [improvement] Feature/expose useScrollXY function #180
 - [chore] bump elkjs #181
