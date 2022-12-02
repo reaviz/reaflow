@@ -1,3 +1,6 @@
+# 5.1.1 - 12/2/22
+- [fix] Fix getCoords when non-center position is used #179
+
 # 5.1.0 - 11/21/22
 - [chore] upgrade deps
 
