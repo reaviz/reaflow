@@ -213,7 +213,13 @@ export const useProximity = ({
     const ref = canvasRef.current;
 
     // @ts-ignore
-    setMatrix(getCoords(ref));
+    setMatrix(
+      getCoords({
+        containerRef: ref.containerRef,
+        zoom: ref.zoom,
+        layoutXY: ref.xy
+      })
+    );
     setPoints(buildPoints(ref.layout.children));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [disabled]);
@@ -224,17 +230,11 @@ export const useProximity = ({
         return;
       }
 
-      const {
-        onMatchChange,
-        onIntersects,
-        onDistanceChange
-      } = eventRefs.current;
+      const { onMatchChange, onIntersects, onDistanceChange } =
+        eventRefs.current;
 
-      const {
-        intersectedNodeId,
-        foundNodeId,
-        foundDist
-      } = findNodeIntersection(event, matrix, points, minDistance);
+      const { intersectedNodeId, foundNodeId, foundDist } =
+        findNodeIntersection(event, matrix, points, minDistance);
       const nextDist = foundDist !== minDistance ? foundDist : null;
 
       if (foundNodeId !== lastMatchRef.current) {
