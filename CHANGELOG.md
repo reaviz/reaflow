@@ -1,3 +1,6 @@
+# 5.1.2 - 1/9/23
+- [fix] update useProximity getCoords call #199
+
 # 5.1.1 - 12/2/22
 - [fix] Fix getCoords when non-center position is used #179
 
