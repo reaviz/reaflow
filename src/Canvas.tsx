@@ -102,7 +102,7 @@ export interface CanvasContainerProps extends CanvasProps {
   layoutOptions?: ElkCanvasLayoutOptions;
 
   /**
-   * Callback to check if a node is linkable or not.
+   * Callback when a node is linked.
    */
   onNodeLink?: (
     event: any,
@@ -112,7 +112,7 @@ export interface CanvasContainerProps extends CanvasProps {
   ) => void;
 
   /**
-   * Callback when a node is linked.
+   * Callback to check if a node is linkable or not.
    */
   onNodeLinkCheck?: (
     event: any,
