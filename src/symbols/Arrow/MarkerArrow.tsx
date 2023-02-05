@@ -7,17 +7,18 @@ export interface MarkerArrowProps {
   size?: number;
   style?: any;
   className?: string;
+  markerEndId?: string;
 }
 
 const MarkerArrowBase: FC<Partial<MarkerArrowProps>> = ({
   size = 8,
   className,
   style,
-  id
+  markerEndId
 }) => (
   <marker
-    id={id}
-    key={id}
+    id={markerEndId}
+    key={markerEndId}
     viewBox={`0 -${size / 2} ${size} ${size}`}
     refX={`${size}`}
     markerWidth={`${size}`}
@@ -34,7 +35,7 @@ export const MarkerArrow: FC<Partial<MarkerArrowProps>> = ({
   style
 }) => (
   <MarkerArrowBase
-    id="end-arrow"
+    markerEndId="end-arrow"
     size={size}
     className={className}
     style={style}
@@ -47,7 +48,7 @@ export const MarkerArrowHover: FC<Partial<MarkerArrowProps>> = ({
   style
 }) => (
   <MarkerArrowBase
-    id="end-arrow-hover"
+    markerEndId="end-arrow-hover"
     size={size}
     className={classNames(css['arrow__hover'], className)}
     style={style}
@@ -58,7 +59,7 @@ export const MarkerArrowActive: FC<Partial<MarkerArrowProps>> = ({
   size = 8
 }) => (
   <MarkerArrowBase
-    id="end-arrow-hover-active"
+    markerEndId="end-arrow-hover-active"
     size={size}
     className={classNames(css['arrow__hover--active'])}
   />
@@ -68,7 +69,7 @@ export const MarkerArrowDelete: FC<Partial<MarkerArrowProps>> = ({
   size = 8
 }) => (
   <MarkerArrowBase
-    id="end-arrow-hover-delete"
+    markerEndId="end-arrow-hover-delete"
     size={size}
     className={classNames(css['arrow__hover--delete'])}
   />
