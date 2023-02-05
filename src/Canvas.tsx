@@ -21,7 +21,13 @@ import {
   LayoutResult,
   ElkCanvasLayoutOptions
 } from './layout';
-import { MarkerArrow, MarkerArrowProps } from './symbols/Arrow';
+import {
+  MarkerArrow,
+  MarkerArrowActive,
+  MarkerArrowDelete,
+  MarkerArrowHover,
+  MarkerArrowProps
+} from './symbols/Arrow';
 import { CanvasPosition, EdgeData, NodeData, PortData } from './types';
 import classNames from 'classnames';
 import { CanvasProvider, useCanvas } from './utils/CanvasProvider';
@@ -185,6 +191,11 @@ export interface CanvasProps {
   arrow?: ReactElement<MarkerArrowProps, typeof MarkerArrow> | null;
 
   /**
+   * Arrow shown on a hovered edges.
+   */
+  arrowHover?: ReactElement<MarkerArrowProps, typeof MarkerArrow> | null;
+
+  /**
    * Node or node callback to return element.
    */
   node?:
@@ -226,6 +237,7 @@ const InternalCanvas: FC<CanvasProps & { ref?: Ref<CanvasRef> }> = forwardRef(
       disabled = false,
       animated = true,
       arrow = <MarkerArrow />,
+      arrowHover = <MarkerArrowHover />,
       node = <Node />,
       edge = <Edge />,
       dragNode = <Node />,
@@ -371,12 +383,30 @@ const InternalCanvas: FC<CanvasProps & { ref?: Ref<CanvasRef> }> = forwardRef(
           width={canvasWidth}
           onClick={onCanvasClick}
         >
-          {arrow !== null && (
+          {arrow !== null && arrowHover !== null && (
             <defs>
-              <CloneElement<MarkerArrowProps>
-                element={arrow}
-                {...(arrow as MarkerArrowProps)}
-              />
+              <React.Fragment key={`${id}-arrow`}>
+                <CloneElement<MarkerArrowProps>
+                  element={arrow}
+                  {...(arrow as MarkerArrowProps)}
+                />
+              </React.Fragment>
+              <React.Fragment key={`${id}-arrow-hover`}>
+                <CloneElement<MarkerArrowProps>
+                  element={arrowHover}
+                  {...(arrowHover as MarkerArrowProps)}
+                />
+              </React.Fragment>
+              <React.Fragment key={`${id}-arrow-hover-active`}>
+                <CloneElement<MarkerArrowProps>
+                  element={<MarkerArrowActive />}
+                />
+              </React.Fragment>
+              <React.Fragment key={`${id}-arrow-hover-delete`}>
+                <CloneElement<MarkerArrowProps>
+                  element={<MarkerArrowDelete />}
+                />
+              </React.Fragment>
             </defs>
           )}
           <motion.g

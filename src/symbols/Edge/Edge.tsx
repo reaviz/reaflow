@@ -136,10 +136,10 @@ export const Edge: FC<Partial<EdgeProps>> = ({
     if (sections[0].bendPoints) {
       const points: any[] = sections
         ? [
-            sections[0].startPoint,
-            ...(sections[0].bendPoints || ([] as any)),
-            sections[0].endPoint
-          ]
+          sections[0].startPoint,
+          ...(sections[0].bendPoints || ([] as any)),
+          sections[0].endPoint
+        ]
         : [];
 
       let pathFn: any = line()
@@ -195,7 +195,6 @@ export const Edge: FC<Partial<EdgeProps>> = ({
           [css.deleteHovered]: deleteHovered
         })}
         d={d}
-        markerEnd="url(#end-arrow)"
       />
       <path
         className={css.clicker}
@@ -275,7 +274,7 @@ export const Edge: FC<Partial<EdgeProps>> = ({
     </g>
   );
 };
-          
+
 Edge.defaultProps = {
   interpolation: 'curved'
 };

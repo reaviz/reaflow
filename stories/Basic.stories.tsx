@@ -688,6 +688,7 @@ export const ManyNodes = () => {
         dragNode={null}
         dragEdge={null}
         arrow={<Arrow />}
+        arrowHover={<Arrow />}
         node={
           <Node
             dragType="node"

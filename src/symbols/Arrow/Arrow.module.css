@@ -3,3 +3,15 @@
   shape-rendering: geometricPrecision;
   fill: #485a74;
 }
+
+.arrow__hover {
+  fill: #a5a9e2;
+}
+
+.arrow__hover--active {
+  fill: #46fecb;
+}
+
+.arrow__hover--delete {
+  fill: #ff005d;
+}

@@ -6,13 +6,16 @@
   &:not(.selectionDisabled):not(.disabled) {
     &:hover {
       .path {
+        marker-end: url(#end-arrow-hover);
         stroke: #a5a9e2;
 
         &.active {
+          marker-end: url(#end-arrow-hover-active);
           stroke: #46fecb;
         }
 
         &.deleteHovered {
+          marker-end: url(#end-arrow-hover-delete);
           stroke: #ff005d;
           stroke-dasharray: 4 2;
         }
@@ -27,6 +30,7 @@
 
 .path {
   fill: transparent;
+  marker-end: url(#end-arrow);
   stroke: #485a74;
   pointer-events: none;
   shape-rendering: geometricPrecision;
