@@ -385,28 +385,28 @@ const InternalCanvas: FC<CanvasProps & { ref?: Ref<CanvasRef> }> = forwardRef(
         >
           {arrow !== null && arrowHover !== null && (
             <defs>
-              <React.Fragment key={`${id}-arrow`}>
+              <Fragment key={`${id}-arrow`}>
                 <CloneElement<MarkerArrowProps>
                   element={arrow}
                   {...(arrow as MarkerArrowProps)}
                 />
-              </React.Fragment>
-              <React.Fragment key={`${id}-arrow-hover`}>
+              </Fragment>
+              <Fragment key={`${id}-arrow-hover`}>
                 <CloneElement<MarkerArrowProps>
                   element={arrowHover}
                   {...(arrowHover as MarkerArrowProps)}
                 />
-              </React.Fragment>
-              <React.Fragment key={`${id}-arrow-hover-active`}>
+              </Fragment>
+              <Fragment key={`${id}-arrow-hover-active`}>
                 <CloneElement<MarkerArrowProps>
                   element={<MarkerArrowActive />}
                 />
-              </React.Fragment>
-              <React.Fragment key={`${id}-arrow-hover-delete`}>
+              </Fragment>
+              <Fragment key={`${id}-arrow-hover-delete`}>
                 <CloneElement<MarkerArrowProps>
                   element={<MarkerArrowDelete />}
                 />
-              </React.Fragment>
+              </Fragment>
             </defs>
           )}
           <motion.g
