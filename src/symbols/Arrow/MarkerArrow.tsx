@@ -50,7 +50,7 @@ export const MarkerArrowHover: FC<Partial<MarkerArrowProps>> = ({
   <MarkerArrowBase
     markerEndId="end-arrow-hover"
     size={size}
-    className={classNames(css['arrow__hover'], className)}
+    className={classNames(css.arrowHover, className)}
     style={style}
   />
 );
@@ -61,7 +61,7 @@ export const MarkerArrowActive: FC<Partial<MarkerArrowProps>> = ({
   <MarkerArrowBase
     markerEndId="end-arrow-hover-active"
     size={size}
-    className={classNames(css['arrow__hover--active'])}
+    className={classNames(css.arrowHoverActive)}
   />
 );
 
@@ -71,6 +71,6 @@ export const MarkerArrowDelete: FC<Partial<MarkerArrowProps>> = ({
   <MarkerArrowBase
     markerEndId="end-arrow-hover-delete"
     size={size}
-    className={classNames(css['arrow__hover--delete'])}
+    className={classNames(css.arrowHoverDelete)}
   />
 );

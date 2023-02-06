@@ -4,14 +4,14 @@
   fill: #485a74;
 }
 
-.arrow__hover {
+.arrowHover {
   fill: #a5a9e2;
 }
 
-.arrow__hover--active {
+.arrowHoverActive {
   fill: #46fecb;
 }
 
-.arrow__hover--delete {
+.arrowHoverDelete {
   fill: #ff005d;
 }
