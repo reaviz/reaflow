@@ -165,7 +165,7 @@ export const Node: FC<Partial<NodeProps>> = ({
   const newY = y + offsetY;
   const isMultiPort =
     dragType === 'multiportOnly' &&
-    ports?.filter(p => !p.properties?.hidden).length > 1;
+    ports?.filter((p) => !p.properties?.hidden).length > 1;
   const isDisabled = disabled || properties?.disabled;
   const canDrag = ['port', 'multiportOnly'].includes(dragType)
     ? linkable
@@ -269,7 +269,7 @@ export const Node: FC<Partial<NodeProps>> = ({
   };
 
   const onClickCallback = useCallback(
-    event => {
+    (event) => {
       event.preventDefault();
       event.stopPropagation();
       if (!isDisabled && canSelect) {
@@ -280,7 +280,7 @@ export const Node: FC<Partial<NodeProps>> = ({
   );
 
   const onKeyDownCallback = useCallback(
-    event => {
+    (event) => {
       event.preventDefault();
       if (!isDisabled) {
         onKeyDown?.(event, properties);
@@ -289,13 +289,13 @@ export const Node: FC<Partial<NodeProps>> = ({
     [isDisabled, onKeyDown, properties]
   );
 
-  const onTouchStartCallback = useCallback(event => {
+  const onTouchStartCallback = useCallback((event) => {
     event.preventDefault();
     event.stopPropagation();
   }, []);
 
   const onMouseEnterCallback = useCallback(
-    event => {
+    (event) => {
       event.stopPropagation();
       canvas.onEnter(event, properties);
       if (!isDisabled) {
@@ -306,7 +306,7 @@ export const Node: FC<Partial<NodeProps>> = ({
   );
 
   const onMouseLeaveCallback = useCallback(
-    event => {
+    (event) => {
       event.stopPropagation();
       canvas.onLeave(event, properties);
       if (!isDisabled) {
@@ -436,7 +436,7 @@ export const Node: FC<Partial<NodeProps>> = ({
         ))}
       {port &&
         ports?.length > 0 &&
-        ports.map(p => (
+        ports.map((p) => (
           <CloneElement<PortProps>
             element={port}
             key={p.id}

@@ -136,10 +136,10 @@ export const Edge: FC<Partial<EdgeProps>> = ({
     if (sections[0].bendPoints) {
       const points: any[] = sections
         ? [
-            sections[0].startPoint,
-            ...(sections[0].bendPoints || ([] as any)),
-            sections[0].endPoint
-          ]
+          sections[0].startPoint,
+          ...(sections[0].bendPoints || ([] as any)),
+          sections[0].endPoint
+        ]
         : [];
 
       let pathFn: any = line()
@@ -160,7 +160,7 @@ export const Edge: FC<Partial<EdgeProps>> = ({
         targetY: sections[0].endPoint.y
       });
     }
-  }, [sections]);
+  }, [interpolation, sections]);
 
   useEffect(() => {
     if (sections?.length > 0) {
@@ -201,27 +201,27 @@ export const Edge: FC<Partial<EdgeProps>> = ({
         className={css.clicker}
         d={d}
         tabIndex={-1}
-        onClick={event => {
+        onClick={(event) => {
           event.preventDefault();
           event.stopPropagation();
           if (!isDisabled && canSelect) {
             onClick(event, properties);
           }
         }}
-        onKeyDown={event => {
+        onKeyDown={(event) => {
           event.preventDefault();
           event.stopPropagation();
           if (!isDisabled) {
             onKeyDown(event, properties);
           }
         }}
-        onMouseEnter={event => {
+        onMouseEnter={(event) => {
           event.stopPropagation();
           if (!isDisabled) {
             onEnter(event, properties);
           }
         }}
-        onMouseLeave={event => {
+        onMouseLeave={(event) => {
           event.stopPropagation();
           if (!isDisabled) {
             onLeave(event, properties);
@@ -265,7 +265,7 @@ export const Edge: FC<Partial<EdgeProps>> = ({
         <CloneElement<AddProps>
           element={add}
           {...center}
-          onClick={event => {
+          onClick={(event) => {
             event.preventDefault();
             event.stopPropagation();
             onAdd(event, properties);
@@ -275,7 +275,7 @@ export const Edge: FC<Partial<EdgeProps>> = ({
     </g>
   );
 };
-          
+
 Edge.defaultProps = {
   interpolation: 'curved'
 };

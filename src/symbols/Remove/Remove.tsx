@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react';
+import React, { FC } from 'react';
 import classNames from 'classnames';
 import { motion } from 'framer-motion';
 import css from './Remove.module.css';
@@ -46,7 +46,7 @@ export const Remove: FC<Partial<RemoveProps>> = ({
         className={css.drop}
         onMouseEnter={onEnter}
         onMouseLeave={onLeave}
-        onClick={event => {
+        onClick={(event) => {
           event.preventDefault();
           event.stopPropagation();
           onClick(event);

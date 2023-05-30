@@ -224,17 +224,11 @@ export const useProximity = ({
         return;
       }
 
-      const {
-        onMatchChange,
-        onIntersects,
-        onDistanceChange
-      } = eventRefs.current;
+      const { onMatchChange, onIntersects, onDistanceChange } =
+        eventRefs.current;
 
-      const {
-        intersectedNodeId,
-        foundNodeId,
-        foundDist
-      } = findNodeIntersection(event, matrix, points, minDistance);
+      const { intersectedNodeId, foundNodeId, foundDist } =
+        findNodeIntersection(event, matrix, points, minDistance);
       const nextDist = foundDist !== minDistance ? foundDist : null;
 
       if (foundNodeId !== lastMatchRef.current) {

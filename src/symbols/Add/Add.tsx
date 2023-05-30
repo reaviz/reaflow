@@ -44,7 +44,7 @@ export const Add: FC<Partial<AddProps>> = ({
         height={size * 2}
         width={size * 2}
         className={css.drop}
-        onClick={event => {
+        onClick={(event) => {
           event.preventDefault();
           event.stopPropagation();
           onClick(event);
