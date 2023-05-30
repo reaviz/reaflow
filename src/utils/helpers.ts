@@ -1,6 +1,5 @@
 import { RefObject } from 'react';
 import { NodeData } from '../types';
-import { ElkRoot } from '../layout';
 import { Matrix2D } from 'kld-affine';
 
 /**
@@ -25,10 +24,7 @@ export function checkNodeLinkable(
 
 export interface CoordProps {
   zoom: number;
-  scrollXY: [number, number];
-  layout: ElkRoot;
-  containerWidth: number;
-  containerHeight: number;
+  layoutXY: [number, number];
   containerRef: RefObject<HTMLDivElement | null>;
 }
 
@@ -36,20 +32,10 @@ export interface CoordProps {
  * Given various dimensions and positions, create a matrix
  * used for determining position.
  */
-export function getCoords({
-  zoom,
-  scrollXY,
-  layout,
-  containerWidth,
-  containerHeight,
-  containerRef
-}: CoordProps) {
+export function getCoords({ zoom, layoutXY, containerRef }: CoordProps) {
   const { top, left } = containerRef.current.getBoundingClientRect();
-  const offsetX = scrollXY[0] - containerRef.current.scrollLeft;
-  const offsetY = scrollXY[1] - containerRef.current.scrollTop;
-
-  const tx = (containerWidth - layout.width * zoom) / 2 + offsetX + left;
-  const ty = (containerHeight - layout.height * zoom) / 2 + offsetY + top;
+  const tx = layoutXY[0] - containerRef.current.scrollLeft + left;
+  const ty = layoutXY[1] - containerRef.current.scrollTop + top;
 
   return new Matrix2D().translate(tx, ty).scale(zoom).inverse();
 }

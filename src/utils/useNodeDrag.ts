@@ -47,14 +47,7 @@ export const useNodeDrag = ({
 }: NodeDragProps) => {
   const initial: Position = [width / 2 + x, height + y];
   const targetRef = useRef<EventTarget | null>(null);
-  const {
-    zoom,
-    scrollXY,
-    layout,
-    containerWidth,
-    containerRef,
-    containerHeight
-  } = useCanvas();
+  const { zoom, xy, containerRef } = useCanvas();
 
   const bind = useDrag(
     (state) => {
@@ -70,10 +63,7 @@ export const useNodeDrag = ({
         const matrix = getCoords({
           containerRef,
           zoom,
-          layout,
-          scrollXY,
-          containerHeight,
-          containerWidth
+          layoutXY: xy
         });
 
         // memo will hold the difference between the

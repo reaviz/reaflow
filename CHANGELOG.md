@@ -1,3 +1,12 @@
+# 5.1.2 - 1/9/23
+- [fix] update useProximity getCoords call #199
+
+# 5.1.1 - 12/2/22
+- [fix] Fix getCoords when non-center position is used #179
+
+# 5.1.0 - 11/21/22
+- [chore] upgrade deps
+
 # 5.0.7 - 9/19/22
 - [improvement] Feature/expose useScrollXY function #180
 - [chore] bump elkjs #181

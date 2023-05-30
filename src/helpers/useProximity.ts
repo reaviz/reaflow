@@ -213,7 +213,13 @@ export const useProximity = ({
     const ref = canvasRef.current;
 
     // @ts-ignore
-    setMatrix(getCoords(ref));
+    setMatrix(
+      getCoords({
+        containerRef: ref.containerRef,
+        zoom: ref.zoom,
+        layoutXY: ref.xy
+      })
+    );
     setPoints(buildPoints(ref.layout.children));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [disabled]);
