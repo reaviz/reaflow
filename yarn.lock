@@ -2235,6 +2235,48 @@
   resolved "https://registry.yarnpkg.com/@mdx-js/util/-/util-1.6.22.tgz#219dfd89ae5b97a8801f015323ffa4b62f45718b"
   integrity sha512-H1rQc1ZOHANWBvPcW+JpGwr+juXSxM8Q8YCkm3GhZd8REu1fHR3z99CErO1p9pkcfcxZnMdIZdIsXkOHY0NilA==
 
+"@microsoft/api-extractor-model@7.27.1":
+  version "7.27.1"
+  resolved "https://registry.yarnpkg.com/@microsoft/api-extractor-model/-/api-extractor-model-7.27.1.tgz#06a1ba273f1a4b23fe080ba14b80d2e5346abd4f"
+  integrity sha512-WgmuQwElTuRLATQxCx+pqk5FtUeRX3FW8WDo7tSDmrN/7+XAggeVg5t8ItiJt688jEdbiPvagZlvjAcJMpXspg==
+  dependencies:
+    "@microsoft/tsdoc" "0.14.2"
+    "@microsoft/tsdoc-config" "~0.16.1"
+    "@rushstack/node-core-library" "3.59.2"
+
+"@microsoft/api-extractor@^7.34.4":
+  version "7.35.1"
+  resolved "https://registry.yarnpkg.com/@microsoft/api-extractor/-/api-extractor-7.35.1.tgz#5ae8694ceccd31e117606be9c0093d11bdb10d32"
+  integrity sha512-xGVf1lKCYKEyJsspLzQjo4Oo6PGDPH95Z5/te75xQWpcRHcfemb6zTSPtiFeVDHkg9Tan5HW2QXGLwQRkW199w==
+  dependencies:
+    "@microsoft/api-extractor-model" "7.27.1"
+    "@microsoft/tsdoc" "0.14.2"
+    "@microsoft/tsdoc-config" "~0.16.1"
+    "@rushstack/node-core-library" "3.59.2"
+    "@rushstack/rig-package" "0.3.19"
+    "@rushstack/ts-command-line" "4.13.3"
+    colors "~1.2.1"
+    lodash "~4.17.15"
+    resolve "~1.22.1"
+    semver "~7.3.0"
+    source-map "~0.6.1"
+    typescript "~5.0.4"
+
+"@microsoft/tsdoc-config@~0.16.1":
+  version "0.16.2"
+  resolved "https://registry.yarnpkg.com/@microsoft/tsdoc-config/-/tsdoc-config-0.16.2.tgz#b786bb4ead00d54f53839a458ce626c8548d3adf"
+  integrity sha512-OGiIzzoBLgWWR0UdRJX98oYO+XKGf7tiK4Zk6tQ/E4IJqGCe7dvkTvgDZV5cFJUzLGDOjeAXrnZoA6QkVySuxw==
+  dependencies:
+    "@microsoft/tsdoc" "0.14.2"
+    ajv "~6.12.6"
+    jju "~1.4.0"
+    resolve "~1.19.0"
+
+"@microsoft/tsdoc@0.14.2":
+  version "0.14.2"
+  resolved "https://registry.yarnpkg.com/@microsoft/tsdoc/-/tsdoc-0.14.2.tgz#c3ec604a0b54b9a9b87e9735dfc59e1a5da6a5fb"
+  integrity sha512-9b8mPpKrfeGRuhFH5iO1iwCLeIIsV6+H1sRfxbkoGXIyQE2BTsPd9zqSqQJ+pv5sJ/hT5M1zvOFL02MnEezFug==
+
 "@motionone/animation@^10.13.1":
   version "10.14.0"
   resolved "https://registry.yarnpkg.com/@motionone/animation/-/animation-10.14.0.tgz#2f2a3517183bb58d82e389aac777fe0850079de6"
@@ -5128,17 +5170,7 @@ camelcase@^6.2.0:
   resolved "https://registry.yarnpkg.com/camelcase/-/camelcase-6.3.0.tgz#5685b95eb209ac9c0c177467778c9c84df58ba9a"
   integrity sha512-Gmy6FhYlCY7uOElZUSbxo2UCDH8owEk996gkbrpsgGtrJLM3J7jGxl9Ic7Qwwj4ivOE5AWZWRMecDdF7hqGjFA==
 
-caniuse-api@^3.0.0:
-  version "3.0.0"
-  resolved "https://registry.yarnpkg.com/caniuse-api/-/caniuse-api-3.0.0.tgz#5e4d90e2274961d46291997df599e3ed008ee4c0"
-  integrity sha512-bsTwuIg/BZZK/vreVTYYbSWoe2F+71P7K5QGEX+pT250DZbfU1MQ5prOKpPR+LL6uWKK3KMwMCAS74QB3Um1uw==
-  dependencies:
-    browserslist "^4.0.0"
-    caniuse-lite "^1.0.0"
-    lodash.memoize "^4.1.2"
-    lodash.uniq "^4.5.0"
-
-caniuse-lite@^1.0.0, caniuse-lite@^1.0.30000981, caniuse-lite@^1.0.30001109, caniuse-lite@^1.0.30001165, caniuse-lite@^1.0.30001208:
+caniuse-lite@^1.0.30000981, caniuse-lite@^1.0.30001109, caniuse-lite@^1.0.30001165, caniuse-lite@^1.0.30001208:
   version "1.0.30001435"
   resolved "https://registry.npmjs.org/caniuse-lite/-/caniuse-lite-1.0.30001435.tgz"
   integrity sha512-kdCkUTjR+v4YAJelyiDTqiu82BDr4W4CP5sgTA0ZBmqn30XfS2ZghPLMowik9TPhS+psWJiUNxsqLyurDbmutA==
