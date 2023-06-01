@@ -1,4 +1,5 @@
-import { Meta, Story } from '@storybook/addon-docs/blocks';
+import { Canvas, Meta } from '@storybook/addon-docs';
+import * as BasicStories from '../../stories/Basic.stories';
 
 <Meta title="Docs/Advanced/Styling" />
 
@@ -11,9 +12,7 @@ to them to allow for custom styling. Below is an example of some of the possibil
 you can achieve.
 
 <br />
-<div style={{ height: 500, width: 700, position: 'relative', margin: '0 auto', background: 'white' }}>
-  <Story id="demos-basic--styling" />
-</div>
+<Canvas of={BasicStories.Styling}/>
 <br />
 
 In the above example, we override the `node`, `edge` and `arrow` properties

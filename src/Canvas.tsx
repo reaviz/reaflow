@@ -229,7 +229,7 @@ const InternalCanvas: FC<CanvasProps & { ref?: Ref<CanvasRef> }> = forwardRef(
       node = <Node />,
       edge = <Edge />,
       dragNode = <Node />,
-      dragEdge = <Edge add={null} />,
+      dragEdge = <Edge />,
       onMouseEnter = () => undefined,
       onMouseLeave = () => undefined,
       onCanvasClick = () => undefined
