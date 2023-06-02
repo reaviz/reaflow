@@ -1,3 +1,6 @@
+# 5.2.0 - 5/2/23
+- [chore] update build
+
 # 5.1.2 - 1/9/23
 - [fix] update useProximity getCoords call #199
 
