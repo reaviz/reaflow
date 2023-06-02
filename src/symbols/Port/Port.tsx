@@ -146,21 +146,21 @@ export const Port = forwardRef(
           x={newX - 7}
           y={newY - 7}
           className={classNames(css.clicker, { [css.disabled]: isDisabled })}
-          onMouseEnter={event => {
+          onMouseEnter={(event) => {
             event.stopPropagation();
             if (!isDisabled) {
               setIsHovered(true);
               onEnter(event, properties);
             }
           }}
-          onMouseLeave={event => {
+          onMouseLeave={(event) => {
             event.stopPropagation();
             if (!isDisabled) {
               setIsHovered(false);
               onLeave(event, properties);
             }
           }}
-          onClick={event => {
+          onClick={(event) => {
             event.stopPropagation();
             if (!isDisabled) {
               onClick(event, properties);

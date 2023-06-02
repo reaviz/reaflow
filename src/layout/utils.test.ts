@@ -1,5 +1,4 @@
 import { parsePadding } from './utils';
-jest.disableAutomock();
 
 test('should set all sides to input number, when a number is provided', () => {
   const expectedPadding = {

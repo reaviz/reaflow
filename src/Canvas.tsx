@@ -229,7 +229,7 @@ const InternalCanvas: FC<CanvasProps & { ref?: Ref<CanvasRef> }> = forwardRef(
       node = <Node />,
       edge = <Edge />,
       dragNode = <Node />,
-      dragEdge = <Edge add={null} />,
+      dragEdge = <Edge />,
       onMouseEnter = () => undefined,
       onMouseLeave = () => undefined,
       onCanvasClick = () => undefined
@@ -298,7 +298,7 @@ const InternalCanvas: FC<CanvasProps & { ref?: Ref<CanvasRef> }> = forwardRef(
       }
     }, [layout, xy]);
 
-    const onDragStart = useCallback(event => {
+    const onDragStart = useCallback((event) => {
       setDragType(event.dragType);
     }, []);
 
@@ -352,7 +352,7 @@ const InternalCanvas: FC<CanvasProps & { ref?: Ref<CanvasRef> }> = forwardRef(
         className={classNames(css.container, className, {
           [css.pannable]: pannable
         })}
-        ref={el => {
+        ref={(el) => {
           // Really not a fan of this API change...
           // https://github.com/wellyshen/react-cool-dimensions#how-to-share-a-ref
           observe(el);
@@ -426,7 +426,7 @@ const InternalCanvas: FC<CanvasProps & { ref?: Ref<CanvasRef> }> = forwardRef(
                 />
               );
             })}
-            {layout?.edges?.map(e => {
+            {layout?.edges?.map((e) => {
               const element = typeof edge === 'function' ? edge(e) : edge;
               return (
                 <CloneElement<EdgeProps>

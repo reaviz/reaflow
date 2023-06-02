@@ -131,7 +131,7 @@ export const useUndo = ({
   }, [nodes, edges]);
 
   const undo = useCallback(() => {
-    manager.current.undo(state => {
+    manager.current.undo((state) => {
       const nextUndo = manager.current.canUndo();
       const nextRedo = manager.current.canRedo();
       setCanUndo(nextUndo);
@@ -147,7 +147,7 @@ export const useUndo = ({
   }, []);
 
   const redo = useCallback(() => {
-    manager.current.redo(state => {
+    manager.current.redo((state) => {
       const nextUndo = manager.current.canUndo();
       const nextRedo = manager.current.canRedo();
       setCanUndo(nextUndo);
@@ -185,7 +185,7 @@ export const useUndo = ({
       keys: 'mod+z',
       category: 'Canvas',
       description: 'Undo changes',
-      callback: event => {
+      callback: (event) => {
         event.preventDefault();
         if (!disabled && canUndo) {
           undo();
@@ -197,7 +197,7 @@ export const useUndo = ({
       keys: 'mod+shift+z',
       category: 'Canvas',
       description: 'Redo changes',
-      callback: event => {
+      callback: (event) => {
         event.preventDefault();
         if (!disabled && canRedo) {
           redo();

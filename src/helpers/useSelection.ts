@@ -103,9 +103,8 @@ export const useSelection = ({
   onSelection,
   onDataChange
 }: SelectionProps): SelectionResult => {
-  const [internalSelections, setInternalSelections] = useState<string[]>(
-    selections
-  );
+  const [internalSelections, setInternalSelections] =
+    useState<string[]>(selections);
   const [metaKeyDown, setMetaKeyDown] = useState<boolean>(false);
 
   const addSelection = (item: string) => {
@@ -123,7 +122,7 @@ export const useSelection = ({
     if (!disabled) {
       const has = internalSelections.includes(item);
       if (has) {
-        const next = internalSelections.filter(i => i !== item);
+        const next = internalSelections.filter((i) => i !== item);
         onSelection?.(next);
         setInternalSelections(next);
       }
@@ -159,7 +158,7 @@ export const useSelection = ({
     setMetaKeyDown(false);
   };
 
-  const onKeyDown = event => {
+  const onKeyDown = (event) => {
     event.preventDefault();
     setMetaKeyDown(event.metaKey || event.ctrlKey);
   };
@@ -176,11 +175,11 @@ export const useSelection = ({
       disabled: !hotkeys.includes('selectAll'),
       category: 'Canvas',
       description: 'Select all nodes and edges',
-      callback: event => {
+      callback: (event) => {
         event.preventDefault();
 
         if (!disabled) {
-          const next = nodes.map(n => n.id);
+          const next = nodes.map((n) => n.id);
           onDataChange?.(nodes, edges);
           onSelection?.(next);
           setInternalSelections(next);
@@ -193,7 +192,7 @@ export const useSelection = ({
       disabled: !hotkeys.includes('delete'),
       description: 'Delete selected nodes and edges',
       keys: 'backspace',
-      callback: event => {
+      callback: (event) => {
         if (!disabled) {
           event.preventDefault();
           const result = removeNode(nodes, edges, internalSelections);
@@ -209,7 +208,7 @@ export const useSelection = ({
       disabled: !hotkeys.includes('deselect'),
       description: 'Deselect selected nodes and edges',
       keys: 'escape',
-      callback: event => {
+      callback: (event) => {
         if (!disabled) {
           event.preventDefault();
           onSelection?.([]);

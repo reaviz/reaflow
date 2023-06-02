@@ -1,4 +1,4 @@
-import { EdgeData, NodeData, PortData } from '../types';
+import { EdgeData, NodeData } from '../types';
 
 /**
  * Helper function to determine if edge already has a link.
@@ -88,7 +88,7 @@ export const getParentsForNodeId = (
 /**
  * Get edge data given a node.
  */
- export function getEdgesByNode(edges: EdgeData[], node: NodeData) {
+export function getEdgesByNode(edges: EdgeData[], node: NodeData) {
   const to = [];
   const from = [];
 

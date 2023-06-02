@@ -3,7 +3,14 @@ module.exports = {
     'browser': true,
     'es2021': true
   },
-  'extends': ["eslint:recommended", "plugin:react/recommended", "prettier", "prettier/react", "plugin:react-hooks/recommended", "plugin:storybook/recommended"],
+  'extends': [
+    'eslint:recommended',
+    'plugin:react/recommended',
+    'prettier',
+    'prettier/react',
+    'plugin:react-hooks/recommended',
+    'plugin:storybook/recommended'
+  ],
   'parser': '@typescript-eslint/parser',
   'parserOptions': {
     'ecmaFeatures': {
@@ -16,7 +23,6 @@ module.exports = {
   'rules': {
     'no-unused-vars': [0],
     'indent': ['error', 2],
-    'arrow-parens': ['error', 'as-needed'],
     'react/display-name': [0],
     'react/prop-types': [0],
     'react/no-children-prop': [0],

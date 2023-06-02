@@ -21,7 +21,7 @@ export default {
 };
 
 export const Simple = () => (
-  <div style={{ position: 'absolute', top: 0, bottom: 0, left: 0, right: 0 }}>
+  <div style={{ height: 500 }}>
     <Canvas
       nodes={[
         {
@@ -296,7 +296,7 @@ export const Events = () => (
 );
 
 export const Styling = () => (
-  <div style={{ border: 'solid 1px #12131e', position: 'absolute', top: 0, bottom: 0, left: 0, right: 0 }}>
+  <div style={{ border: 'solid 1px #12131e', height: 500, width: 700 }}>
     <style>
       {`
         body #root > div {

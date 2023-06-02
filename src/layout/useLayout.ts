@@ -129,13 +129,13 @@ export const useLayout = ({
     });
 
     promise
-      .then(result => {
+      .then((result) => {
         if (!isEqual(layout, result)) {
           setLayout(result);
           onLayoutChange(result);
         }
       })
-      .catch(err => {
+      .catch((err) => {
         if (err.name !== 'CancelError') {
           console.error('Layout Error:', err);
         }

@@ -19,11 +19,7 @@ export function checkNodeLinkable(
   }
 
   // TODO: Revisit how to do self-linking better...
-  if (canLinkNode === false && enteredNode.id === curNode.id) {
-    return false;
-  }
-
-  return true;
+  return !(canLinkNode === false && enteredNode.id === curNode.id);
 }
 
 export interface CoordProps {
@@ -57,20 +53,20 @@ export function findNestedNode(
     return {};
   }
 
-  const foundNode = children.find(n => n.id === nodeId);
+  const foundNode = children.find((n) => n.id === nodeId);
   if (foundNode) {
     return foundNode;
   }
 
   if (parentId) {
-    const parentNode = children.find(n => n.id === parentId);
+    const parentNode = children.find((n) => n.id === parentId);
     if (parentNode?.children) {
       return findNestedNode(nodeId, parentNode.children, parentId);
     }
   }
 
   // Check for nested children
-  const nodesWithChildren = children.filter(n => n.children?.length);
+  const nodesWithChildren = children.filter((n) => n.children?.length);
   // Iterate over all nested nodes and check if any of them contain the node
   for (const n of nodesWithChildren) {
     const foundChild = findNestedNode(nodeId, n.children, parentId);
@@ -96,7 +92,7 @@ export function getDragNodeData(
 
   const { parent } = dragNode;
   if (!parent) {
-    return children?.find(n => n.id === dragNode.id) || {};
+    return children?.find((n) => n.id === dragNode.id) || {};
   }
 
   return findNestedNode(dragNode.id, children, parent);

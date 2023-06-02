@@ -9,7 +9,7 @@ export function upsertNode(
   edge: EdgeData,
   newNode: NodeData
 ) {
-  const oldEdgeIndex = edges.findIndex(e => e.id === edge.id);
+  const oldEdgeIndex = edges.findIndex((e) => e.id === edge.id);
   const edgeBeforeNewNode = {
     ...edge,
     id: `${edge.from}-${newNode.id}`,
@@ -136,7 +136,7 @@ export function removeNode(
  * Helper function to remove a node's related edges.
  */
 export function removeEdgesFromNode(nodeId: string, edges: EdgeData[]) {
-  return edges.filter(edge => !(edge.to === nodeId || edge.from === nodeId));
+  return edges.filter((edge) => !(edge.to === nodeId || edge.from === nodeId));
 }
 
 /**
@@ -171,11 +171,6 @@ export function addNodeAndEdge(
 ) {
   return {
     nodes: [...nodes, node],
-    edges: [
-      ...edges,
-      ...(toNode
-        ? [createEdgeFromNodes(toNode, node)]
-        : [])
-    ]
+    edges: [...edges, ...(toNode ? [createEdgeFromNodes(toNode, node)] : [])]
   };
 }

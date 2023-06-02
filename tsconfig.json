@@ -5,7 +5,6 @@
     "lib": ["dom", "dom.iterable", "esnext"],
     "jsx": "react-jsx",
     "moduleResolution": "node",
-    "typeRoots": ["./types", "./node_modules/@types"],
     "baseUrl": "./src",
     "allowSyntheticDefaultImports": true,
     "declaration": true,
@@ -26,9 +25,10 @@
     "suppressImplicitAnyIndexErrors": true,
     "suppressExcessPropertyErrors": true,
     "experimentalDecorators": true,
-    "emitDecoratorMetadata": true
+    "emitDecoratorMetadata": true,
+    "ignoreDeprecations": "5.0"
   },
   "types": ["node"],
-  "include": ["src/**/*", "types/*"],
+  "include": ["src/**/*"],
   "exclude": ["node_modules", "dist"]
 }
