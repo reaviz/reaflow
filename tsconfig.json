@@ -2,6 +2,10 @@
   "compilerOptions": {
     "target": "ES2015",
     "module": "ESNext",
+    "types": [
+      "vite/client",
+      "vitest/globals"
+    ],
     "lib": ["dom", "dom.iterable", "esnext"],
     "jsx": "react-jsx",
     "moduleResolution": "node",
@@ -30,5 +34,9 @@
   },
   "types": ["node"],
   "include": ["src/**/*"],
-  "exclude": ["node_modules", "dist"]
+  "exclude": [
+    "node_modules",
+    "dist",
+    "storybook-static"
+  ]
 }

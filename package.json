@@ -47,6 +47,7 @@
   },
   "homepage": "https://github.com/reaviz/reaflow#readme",
   "dependencies": {
+    "@juggle/resize-observer": "^3.3.1",
     "calculate-size": "^1.1.1",
     "classnames": "^2.3.1",
     "d3-shape": "^3.0.1",
@@ -57,7 +58,6 @@
     "kld-intersections": "^0.7.0",
     "p-cancelable": "^3.0.0",
     "rdk": "^6.5.0",
-    "@juggle/resize-observer": "^3.3.1",
     "react-cool-dimensions": "^2.0.7",
     "react-fast-compare": "^3.2.2",
     "react-use-gesture": "^8.0.1",
@@ -93,6 +93,7 @@
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-storybook": "^0.6.12",
     "husky": "^8.0.0",
+    "jsdom": "^22.1.0",
     "lint-staged": "^13.2.2",
     "postcss-nested": "^6.0.1",
     "postcss-preset-env": "^8.4.2",
