@@ -16,16 +16,19 @@
     "prepare": "husky install"
   },
   "type": "module",
-  "source": "src/index.ts",
   "types": "dist/index.d.ts",
-  "main": "./dist/reaflow.umd.cjs",
-  "module": "./dist/reaflow.js",
+  "main": "./dist/index.umd.cjs",
+  "module": "./dist/index.js",
+  "source": "src/index.ts",
   "exports": {
     ".": {
-      "import": "./dist/reaflow.js",
-      "require": "./dist/reaflow.umd.cjs"
+      "import": "./dist/index.js",
+      "require": "./dist/index.umd.cjs",
+      "types": "./dist/index.d.ts"
     }
   },
+  "browser": "dist/index.js",
+  "typings": "dist/index.d.ts",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/reaviz/reaflow.git"
@@ -69,25 +72,25 @@
     "react-dom": ">=16"
   },
   "devDependencies": {
-    "@storybook/addon-docs": "^7.0.18",
-    "@storybook/addon-essentials": "7.0.18",
-    "@storybook/addon-mdx-gfm": "7.0.18",
-    "@storybook/addon-storysource": "^7.0.18",
-    "@storybook/addons": "7.0.18",
-    "@storybook/react": "7.0.18",
-    "@storybook/react-vite": "^7.0.18",
-    "@storybook/theming": "7.0.18",
+    "@storybook/addon-docs": "^7.0.20",
+    "@storybook/addon-essentials": "7.0.20",
+    "@storybook/addon-mdx-gfm": "7.0.20",
+    "@storybook/addon-storysource": "^7.0.20",
+    "@storybook/addons": "7.0.20",
+    "@storybook/react": "7.0.20",
+    "@storybook/react-vite": "^7.0.20",
+    "@storybook/theming": "7.0.20",
     "@testing-library/react": "^12.1.0",
     "@types/classnames": "^2.3.1",
     "@types/d3-shape": "^3.1.1",
-    "@types/react": "^18.2.8",
-    "@types/react-dom": "^18.2.4",
-    "@typescript-eslint/eslint-plugin": "^5.59.8",
-    "@typescript-eslint/parser": "^5.59.8",
+    "@types/react": "^18.2.12",
+    "@types/react-dom": "^18.2.5",
+    "@typescript-eslint/eslint-plugin": "^5.59.11",
+    "@typescript-eslint/parser": "^5.59.11",
     "@vitejs/plugin-react": "^4.0.0",
     "autoprefixer": "^10.4.14",
-    "chromatic": "6.18.0",
-    "eslint": "^8.41.0",
+    "chromatic": "6.19.7",
+    "eslint": "^8.42.0",
     "eslint-config-prettier": "^8.8.0",
     "eslint-plugin-react": "^7.32.2",
     "eslint-plugin-react-hooks": "^4.6.0",
@@ -96,13 +99,13 @@
     "jsdom": "^22.1.0",
     "lint-staged": "^13.2.2",
     "postcss-nested": "^6.0.1",
-    "postcss-preset-env": "^8.4.2",
+    "postcss-preset-env": "^8.5.0",
     "prettier": "^2.8.8",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-zoom-pan-pinch": "^1.6.1",
     "rollup-plugin-peer-deps-external": "2.2.4",
-    "storybook": "7.0.18",
+    "storybook": "7.0.20",
     "typescript": "^4.9.5",
     "vite": "^4.3.9",
     "vite-plugin-checker": "^0.6.0",
@@ -110,7 +113,7 @@
     "vite-plugin-dts": "^2.3.0",
     "vite-plugin-svgr": "^3.2.0",
     "vite-tsconfig-paths": "^4.2.0",
-    "vitest": "^0.31.4"
+    "vitest": "^0.32.0"
   },
   "lint-staged": {
     "src/**/*.{js,jsx,ts,tsx}": [

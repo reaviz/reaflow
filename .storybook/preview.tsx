@@ -5,6 +5,7 @@ export const parameters = {
   docs: {
     theme
   },
+  controls: { hideNoControlsWarning: true },
   actions: { argTypesRegex: '^on.*' },
   options: {
     storySort: {

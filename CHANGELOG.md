@@ -1,3 +1,6 @@
+# 5.2.1 - 6/14/23
+- [chore] improve exports
+
 # 5.2.0 - 5/2/23
 - [chore] update build
 
