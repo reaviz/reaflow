@@ -1,5 +1,5 @@
 <div align="center">
-  <h1>🕸 reaflow</h1>
+  <img width="650" src="docs/assets/logo-light.png">
   <br />
   Node-based Visualizations for React
   <br /><br />
