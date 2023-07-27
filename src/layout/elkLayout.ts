@@ -38,13 +38,7 @@ export interface ElkNodeLayoutOptions {
   /**
    * @see https://www.eclipse.org/elk/reference/options/org-eclipse-elk-portConstraints.html
    */
-  portConstraints:
-    | 'UNDEFINED'
-    | 'FREE'
-    | 'FIXED_SIDE'
-    | 'FIXED_ORDER'
-    | 'FIXED_RATIO'
-    | 'FIXED_POS';
+  portConstraints: 'UNDEFINED' | 'FREE' | 'FIXED_SIDE' | 'FIXED_ORDER' | 'FIXED_RATIO' | 'FIXED_POS';
 }
 
 /**
@@ -83,6 +77,16 @@ const defaultLayoutOptions: ElkCanvasLayoutOptions = {
    * @see https://www.eclipse.org/elk/reference/options/org-eclipse-elk-direction.html
    */
   'elk.direction': 'DOWN',
+
+  /**
+   * The node order given by the model does not change to produce a better layout.
+   * E.g. if node A is before node B in the model this is not changed during crossing minimization.
+   * This assumes that the node model order is already respected before crossing minimization. This
+   * can be achieved by setting considerModelOrder.strategy to NODES_AND_EDGES.
+   *
+   * @see https://eclipse.dev/elk/reference/options/org-eclipse-elk-layered-crossingMinimization-forceNodeModelOrder.html
+   */
+  'layered.crossingMinimization.forceNodeModelOrder': 'true',
 
   /**
    * Strategy for node layering.
@@ -184,23 +188,11 @@ const defaultLayoutOptions: ElkCanvasLayoutOptions = {
 };
 
 function mapNode(nodes: NodeData[], edges: EdgeData[], node: NodeData) {
-  const {
-    text,
-    width,
-    height,
-    labelHeight,
-    labelWidth,
-    nodePadding,
-    originalText
-  } = formatText(node);
+  const { text, width, height, labelHeight, labelWidth, nodePadding, originalText } = formatText(node);
 
-  const children = nodes
-    .filter((n) => n.parent === node.id)
-    .map((n) => mapNode(nodes, edges, n));
+  const children = nodes.filter((n) => n.parent === node.id).map((n) => mapNode(nodes, edges, n));
 
-  const childEdges = edges
-    .filter((e) => e.parent === node.id)
-    .map((e) => mapEdge(e));
+  const childEdges = edges.filter((e) => e.parent === node.id).map((e) => mapEdge(e));
 
   const nodeLayoutOptions: ElkNodeLayoutOptions = {
     'elk.padding': `[left=${nodePadding.left}, top=${nodePadding.top}, right=${nodePadding.right}, bottom=${nodePadding.bottom}]`,
@@ -324,11 +316,7 @@ function postProcessNode(nodes: any[]): any[] {
   return nodes;
 }
 
-export const elkLayout = (
-  nodes: NodeData[],
-  edges: EdgeData[],
-  options: ElkCanvasLayoutOptions
-) => {
+export const elkLayout = (nodes: NodeData[], edges: EdgeData[], options: ElkCanvasLayoutOptions) => {
   const graph = new ELK();
   const layoutOptions: ElkCanvasLayoutOptions = {
     ...defaultLayoutOptions,
