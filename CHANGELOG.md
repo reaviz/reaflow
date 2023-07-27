@@ -1,3 +1,7 @@
+# 5.2.2 - 7/27/23
+- [fix] fix node ordering bug
+- [chore] upgrade deps
+
 # 5.2.1 - 6/14/23
 - [chore] improve exports
 
