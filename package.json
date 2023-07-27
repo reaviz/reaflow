@@ -103,7 +103,7 @@
     "prettier": "^3.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-zoom-pan-pinch": "^1.6.1",
+    "react-zoom-pan-pinch": "^3.1.0",
     "rollup-plugin-peer-deps-external": "2.2.4",
     "storybook": "7.1.1",
     "typescript": "^4.9.5",
