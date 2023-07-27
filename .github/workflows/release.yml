@@ -24,13 +24,13 @@ jobs:
         uses: bahmutov/npm-install@v1
 
       - name: Build Storybook
-        run: yarn build-storybook
+        run: npm run build-storybook
 
       - name: Publish Chromatic
-        run: yarn chromatic
+        run: npm run chromatic
 
       - name: Copy Domain
-        run: yarn copy
+        run: npm run copy
 
       - name: Publish Storybook to GH Pages
         if: success()

@@ -26,10 +26,10 @@ jobs:
         uses: bahmutov/npm-install@v1
 
       - name: Lint
-        run: yarn lint
+        run: npm run lint
 
       - name: Build Prod
-        run: yarn build
+        run: npm run build
 
       - name: Build Storybook
-        run: yarn build-storybook
+        run: npm run build-storybook

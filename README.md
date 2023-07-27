@@ -100,8 +100,8 @@ export default () => (
 If you want to run reaflow locally, its super easy!
 
 - Clone the repo
-- `yarn install`
-- `yarn start`
+- `npm i`
+- `npm start`
 - Browser opens to Storybook page
 
 ## ❤️ Contributors
