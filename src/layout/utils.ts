@@ -12,8 +12,7 @@ export function measureText(text: string) {
   let result = { height: 0, width: 0 };
 
   if (text) {
-    // @ts-ignore
-    result = calculateSize.default(text, {
+    result = calculateSize(text, {
       font: 'Arial, sans-serif',
       fontSize: '14px'
     });
