@@ -1,3 +1,6 @@
+# 5.2.4 - 8/23/23
+- [fix] Attempt to fix webpack error issue
+
 # 5.2.3 - 8/22/23
 - [fix] Fix webpack error #229
 
