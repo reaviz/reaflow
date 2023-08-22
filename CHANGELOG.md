@@ -1,3 +1,6 @@
+# 5.2.3 - 8/22/23
+- [fix] Fix webpack error #229
+
 # 5.2.2 - 7/27/23
 - [fix] fix node ordering bug
 - [chore] upgrade deps
