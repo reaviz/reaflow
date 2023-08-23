@@ -1,7 +1,10 @@
-# 5.2.4 - 8/23/23
+# 5.2.5 - 8/23/22
+- [fix] calculateSize fn #231
+
+# 5.2.4 - 8/22/23
 - [fix] Attempt to fix webpack error issue
 
-# 5.2.3 - 8/22/23
+# 5.2.3 - 8/21/23
 - [fix] Fix webpack error #229
 
 # 5.2.2 - 7/27/23
