@@ -12,9 +12,9 @@ export function measureText(text: string) {
   let result = { height: 0, width: 0 };
 
   if (text) {
-    // @ts-ignore
     // Reference: https://github.com/reaviz/reaflow/pull/229
-    const fn = calculateSize || calculateSize.default;
+    // @ts-ignore
+    const fn = typeof calculateSize === 'function' ? calculateSize : calculateSize.default;
     result = fn(text, {
       font: 'Arial, sans-serif',
       fontSize: '14px'
