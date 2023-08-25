@@ -1,3 +1,6 @@
+# 5.2.6 - 8/25/22
+- [fix] fix node title showing when no content to show
+
 # 5.2.5 - 8/23/22
 - [fix] calculateSize fn #231
 
