@@ -13,20 +13,16 @@ export interface LabelProps {
   originalText?: string;
 }
 
-export const Label: FC<Partial<LabelProps>> = ({
-  text,
-  x,
-  y,
-  style,
-  className,
-  originalText
-}) => (
-  <>
-    <title>{originalText}</title>
-    <g transform={`translate(${x}, ${y})`}>
-      <text className={classNames(css.text, className)} style={style}>
-        {text}
-      </text>
-    </g>
-  </>
-);
+export const Label: FC<Partial<LabelProps>> = ({ text, x, y, style, className, originalText }) => {
+  const isString = typeof originalText === 'string';
+  return (
+    <>
+      {isString && <title>{originalText}</title>}
+      <g transform={`translate(${x}, ${y})`}>
+        <text className={classNames(css.text, className)} style={style}>
+          {text}
+        </text>
+      </g>
+    </>
+  );
+};
