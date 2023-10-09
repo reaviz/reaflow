@@ -1,5 +1,5 @@
 import { EdgeData, NodeData } from '../types';
-import ELK, { ElkNode } from 'elkjs/lib/elk.bundled';
+import ELK, { ElkNode } from 'elkjs/lib/elk.bundled.js';
 import PCancelable from 'p-cancelable';
 import { formatText, measureText } from './utils';
 
