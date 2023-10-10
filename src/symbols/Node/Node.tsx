@@ -12,7 +12,6 @@ import { motion, useAnimation } from 'framer-motion';
 import { Port, PortProps } from '../Port';
 import { Label, LabelProps } from '../Label';
 import { EdgeData, NodeData, PortData } from '../../types';
-import { CloneElement } from 'rdk';
 import { Icon, IconProps } from '../Icon';
 import classNames from 'classnames';
 import { Remove, RemoveProps } from '../Remove';
@@ -24,6 +23,7 @@ import {
 } from '../../utils/useNodeDrag';
 import { Edge, EdgeProps } from '../Edge';
 import { useCanvas } from '../../utils/CanvasProvider';
+import { CloneElement } from '../../utils/CloneElement';
 import { checkNodeLinkable } from '../../utils/helpers';
 import css from './Node.module.css';
 

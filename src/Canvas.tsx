@@ -12,7 +12,7 @@ import React, {
   useCallback,
   useEffect
 } from 'react';
-import { useId, CloneElement } from 'rdk';
+import { useId } from '@reach/auto-id';
 import { Node, NodeDragType, NodeProps } from './symbols/Node';
 import { Edge, EdgeProps } from './symbols/Edge';
 import {
@@ -25,6 +25,7 @@ import { MarkerArrow, MarkerArrowProps } from './symbols/Arrow';
 import { CanvasPosition, EdgeData, NodeData, PortData } from './types';
 import classNames from 'classnames';
 import { CanvasProvider, useCanvas } from './utils/CanvasProvider';
+import { CloneElement } from './utils/CloneElement';
 import { getDragNodeData } from './utils/helpers';
 import { motion } from 'framer-motion';
 import { ZoomResult } from './utils/useZoom';

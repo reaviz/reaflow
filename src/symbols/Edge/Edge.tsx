@@ -11,13 +11,13 @@ import React, {
 } from 'react';
 import { EdgeData } from '../../types';
 import { Label, LabelProps } from '../Label';
-import { CloneElement } from 'rdk';
 import classNames from 'classnames';
 import { CenterCoords, getBezierPath, getPathCenter } from './utils';
 import { curveBundle, line } from 'd3-shape';
 import { Remove, RemoveProps } from '../Remove';
 import { Add, AddProps } from '../Add';
 import { useCanvas } from '../../utils/CanvasProvider';
+import { CloneElement } from '../../utils/CloneElement';
 import css from './Edge.module.css';
 
 export interface EdgeSections {
