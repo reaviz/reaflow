@@ -149,12 +149,13 @@ export const Simple = () => {
         <Canvas
           nodes={nodes}
           edges={edges}
-          node={
+          node={props => (
             <Node
+              {...props}
               onEnter={(event, node) => setEnteredNode(node)}
               onLeave={(event, node) => setEnteredNode(null)}
             />
-          }
+          )}
           onMouseEnter={() => setDroppable(true)}
           onMouseLeave={() => setDroppable(false)}
           onLayoutChange={layout => console.log('Layout', layout)}

@@ -45,9 +45,10 @@ export const Adding = () => {
       <Canvas
         nodes={nodes}
         edges={edges}
-        edge={
+        edge={props => (
           <Edge
-            add={<Add hidden={false} />}
+            {...props}
+            add={props => <Add {...props} hidden={false} />}
             onAdd={(event, edge) => {
               const id = `node-${Math.random()}`;
               const newNode = {
@@ -60,7 +61,7 @@ export const Adding = () => {
               setEdges(results.edges);
             }}
           />
-        }
+        )}
         onLayoutChange={layout => console.log('Layout', layout)}
       />
     </div>
@@ -92,9 +93,10 @@ export const NotUpsertable = () => {
       <Canvas
         nodes={nodes}
         edges={edges}
-        edge={
+        edge={props => (
           <Edge
-            add={<Add hidden={false} />}
+            {...props}
+            add={props => <Add {...props} hidden={false} />}
             upsertable={false}
             onAdd={(event, edge) => {
               const id = `node-${Math.random()}`;
@@ -108,7 +110,7 @@ export const NotUpsertable = () => {
               setEdges(results.edges);
             }}
           />
-        }
+        )}
         onLayoutChange={layout => console.log('Layout', layout)}
       />
     </div>
@@ -140,11 +142,12 @@ export const NotSelectable = () => {
       <Canvas
         nodes={nodes}
         edges={edges}
-        edge={
+        edge={props => (
           <Edge
+            {...props}
             selectable={false}
           />
-        }
+        )}
         onLayoutChange={layout => console.log('Layout', layout)}
       />
     </div>
@@ -186,8 +189,9 @@ export const Removeable = () => {
         nodes={nodes}
         edges={edges}
         selections={selections}
-        node={
+        node={props => (
           <Node
+            {...props}
             onClick={(event, node) => {
               console.log('Selecting Node', event, node);
               setSelections([node.id]);
@@ -200,9 +204,10 @@ export const Removeable = () => {
               setSelections([]);
             }}
           />
-        }
-        edge={
+        )}
+        edge={props => (
           <Edge
+            {...props}
             onClick={(event, edge) => {
               console.log('Selecting Edge', event, edge);
               setSelections([edge.id]);
@@ -213,7 +218,7 @@ export const Removeable = () => {
               setSelections([]);
             }}
           />
-        }
+        )}
         onCanvasClick={(event) => {
           console.log('Canvas Clicked', event);
           setSelections([]);
@@ -259,8 +264,9 @@ export const NotRemoveable = () => {
         nodes={nodes}
         edges={edges}
         selections={selections}
-        node={
+        node={props => (
           <Node
+            {...props}
             removable={false}
             onClick={(event, node) => {
               console.log('Selecting Node', event, node);
@@ -274,9 +280,10 @@ export const NotRemoveable = () => {
               setSelections([]);
             }}
           />
-        }
-        edge={
+        )}
+        edge={props => (
           <Edge
+            {...props}
             removable={false}
             onClick={(event, edge) => {
               console.log('Selecting Edge', event, edge);
@@ -288,7 +295,7 @@ export const NotRemoveable = () => {
               setSelections([]);
             }}
           />
-        }
+        )}
         onCanvasClick={(event) => {
           console.log('Canvas Clicked', event);
           setSelections([]);

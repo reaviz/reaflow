@@ -7,7 +7,7 @@ export interface MarkerArrowProps {
   className?: string;
 }
 
-export const MarkerArrow: FC<Partial<MarkerArrowProps>> = ({
+export const MarkerArrow: FC<MarkerArrowProps> = ({
   size = 8,
   className,
   style

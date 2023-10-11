@@ -17,7 +17,6 @@ import { curveBundle, line } from 'd3-shape';
 import { Remove, RemoveProps } from '../Remove';
 import { Add, AddProps } from '../Add';
 import { useCanvas } from '../../utils/CanvasProvider';
-import { CloneElement } from '../../utils/CloneElement';
 import css from './Edge.module.css';
 
 export interface EdgeSections {
@@ -65,9 +64,9 @@ export interface EdgeProps {
   className?: string;
   containerClassName?: string;
 
-  add: ReactElement<AddProps, typeof Add>;
-  label: ReactElement<LabelProps, typeof Label>;
-  remove: ReactElement<RemoveProps, typeof Remove>;
+  add?: (props: AddProps) => ReactElement<AddProps, typeof Add>;
+  label?: (props: LabelProps) => ReactElement<LabelProps, typeof Label>;
+  remove?: (props: RemoveProps) => ReactElement<RemoveProps, typeof Remove>;
 
   onClick?: (
     event: React.MouseEvent<SVGGElement, MouseEvent>,
@@ -92,7 +91,7 @@ export interface EdgeProps {
   ) => void;
 }
 
-export const Edge: FC<Partial<EdgeProps>> = ({
+export const Edge: FC<EdgeProps> = ({
   sections,
   interpolation,
   properties,
@@ -105,9 +104,9 @@ export const Edge: FC<Partial<EdgeProps>> = ({
   upsertable = true,
   style,
   children,
-  add = <Add />,
-  remove = <Remove />,
-  label = <Label />,
+  add = props => <Add {...props}/>,
+  remove = props => <Remove {...props}/>,
+  label = props => <Label {...props}/>,
   onClick = () => undefined,
   onKeyDown = () => undefined,
   onEnter = () => undefined,
@@ -235,43 +234,35 @@ export const Edge: FC<Partial<EdgeProps>> = ({
             : children}
         </Fragment>
       )}
-      {labels?.length > 0 &&
+      {labels?.length > 0 && label &&
         labels.map((l, index) => (
-          <CloneElement<LabelProps>
-            element={label}
-            key={index}
-            edgeChildProps={edgeChildProps}
-            {...(l as LabelProps)}
-          />
+          <Fragment key={index}>
+            {label({
+              edgeChildProps,
+              ...l
+            })}
+          </Fragment>
         ))}
-      {!isDisabled && center && !readonly && remove && removable && (
-        <CloneElement<RemoveProps>
-          element={remove}
-          {...center}
-          hidden={
-            remove.props.hidden !== undefined ? remove.props.hidden : !isActive
-          }
-          onClick={(event: React.MouseEvent<SVGGElement, MouseEvent>) => {
-            event.preventDefault();
-            event.stopPropagation();
-            onRemove(event, properties);
-            setDeleteHovered(false);
-          }}
-          onEnter={() => setDeleteHovered(true)}
-          onLeave={() => setDeleteHovered(false)}
-        />
-      )}
-      {!isDisabled && center && !readonly && add && upsertable && (
-        <CloneElement<AddProps>
-          element={add}
-          {...center}
-          onClick={(event) => {
-            event.preventDefault();
-            event.stopPropagation();
-            onAdd(event, properties);
-          }}
-        />
-      )}
+      {!isDisabled && center && !readonly && remove && removable && remove({
+        ...center,
+        hidden: !isActive,
+        onClick: (event: React.MouseEvent<SVGGElement, MouseEvent>) => {
+          event.preventDefault();
+          event.stopPropagation();
+          onRemove(event, properties);
+          setDeleteHovered(false);
+        },
+        onEnter: () => setDeleteHovered(true),
+        onLeave: () => setDeleteHovered(false)
+      })}
+      {!isDisabled && center && !readonly && add && upsertable && add({
+        ...center,
+        onClick: (event) => {
+          event.preventDefault();
+          event.stopPropagation();
+          onAdd(event, properties);
+        }
+      })}
     </g>
   );
 };

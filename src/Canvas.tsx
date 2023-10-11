@@ -25,7 +25,6 @@ import { MarkerArrow, MarkerArrowProps } from './symbols/Arrow';
 import { CanvasPosition, EdgeData, NodeData, PortData } from './types';
 import classNames from 'classnames';
 import { CanvasProvider, useCanvas } from './utils/CanvasProvider';
-import { CloneElement } from './utils/CloneElement';
 import { getDragNodeData } from './utils/helpers';
 import { motion } from 'framer-motion';
 import { ZoomResult } from './utils/useZoom';
@@ -168,7 +167,6 @@ export interface CanvasProps {
    * Element of the drag edge.
    */
   dragEdge?:
-    | ReactElement<EdgeProps, typeof Edge>
     | ((edge: EdgeProps) => ReactElement<EdgeProps, typeof Edge>)
     | null;
 
@@ -176,28 +174,25 @@ export interface CanvasProps {
    * Element of the drag node.
    */
   dragNode?:
-    | ReactElement<NodeProps, typeof Node>
     | ((node: NodeProps) => ReactElement<NodeProps, typeof Node>)
     | null;
 
   /**
    * Arrow shown on the edges.
    */
-  arrow?: ReactElement<MarkerArrowProps, typeof MarkerArrow> | null;
+  arrow?:
+    | ((props: MarkerArrowProps) => ReactElement<MarkerArrowProps, typeof MarkerArrow>)
+    | null;
 
   /**
    * Node or node callback to return element.
    */
-  node?:
-    | ReactElement<NodeProps, typeof Node>
-    | ((node: NodeProps) => ReactElement<NodeProps, typeof Node>);
+  node?: (node: NodeProps) => ReactElement<NodeProps, typeof Node>;
 
   /**
    * Edge or edge callback to return element.
    */
-  edge?:
-    | ReactElement<EdgeProps, typeof Edge>
-    | ((edge: EdgeProps) => ReactElement<NodeProps, typeof Edge>);
+  edge?: (edge: EdgeProps) => ReactElement<EdgeProps, typeof Edge>;
 
   /**
    * When the canvas had a mouse enter.
@@ -226,11 +221,11 @@ const InternalCanvas: FC<CanvasProps & { ref?: Ref<CanvasRef> }> = forwardRef(
       readonly,
       disabled = false,
       animated = true,
-      arrow = <MarkerArrow />,
-      node = <Node />,
-      edge = <Edge />,
-      dragNode = <Node />,
-      dragEdge = <Edge />,
+      arrow = props => <MarkerArrow {...props}/>,
+      node = props => <Node {...props}/>,
+      edge = props => <Edge {...props}/>,
+      dragNode = props => <Node {...props}/>,
+      dragEdge = props => <Edge {...props}/>,
       onMouseEnter = () => undefined,
       onMouseLeave = () => undefined,
       onCanvasClick = () => undefined
@@ -286,13 +281,6 @@ const InternalCanvas: FC<CanvasProps & { ref?: Ref<CanvasRef> }> = forwardRef(
     const [dragNodeDataWithChildren, setDragNodeDataWithChildren] = useState<{
       [key: string]: any;
     }>(dragNodeData);
-    const dragNodeElement = useMemo(
-      () =>
-        typeof dragNode === 'function'
-          ? dragNode(dragNodeData as NodeProps)
-          : dragNode,
-      [dragNode, dragNodeData]
-    );
     useLayoutEffect(() => {
       if (!mount.current && layout !== null && xy[0] > 0 && xy[1] > 0) {
         mount.current = true;
@@ -309,27 +297,20 @@ const InternalCanvas: FC<CanvasProps & { ref?: Ref<CanvasRef> }> = forwardRef(
           return [];
         }
 
-        return children.map(({ children, ...n }) => {
-          const element =
-            typeof dragNode === 'function'
-              ? dragNode(n as NodeProps)
-              : dragNode;
-          return (
-            <CloneElement<NodeProps>
-              key={`${id}-node-${n.id}-node-drag`}
-              element={element}
-              disabled
-              children={element.props.children}
-              animated={animated}
-              nodes={children}
-              childEdge={dragEdge}
-              childNode={dragNode}
-              {...n}
-              onDragStart={onDragStart}
-              id={`${id}-node-${n.id}-node-drag`}
-            />
-          );
-        });
+        return children.map(({ children, ...n }) => (
+          <Fragment key={`${id}-node-${n.id}-node-drag`}>
+            {dragNode({
+              disabled: true,
+              animated: animated,
+              nodes: children,
+              childEdge: dragEdge,
+              childNode: dragNode,
+              ...n,
+              onDragStart: onDragStart,
+              id: `${id}-node-${n.id}-node-drag`,
+            })}
+          </Fragment>
+        ));
       },
       // Passing in dragEdge (JSX) will cause the function to be recalculated constantly,
       // triggering the below useEffect. Since dragEdge and dragNode are passed in props
@@ -374,10 +355,7 @@ const InternalCanvas: FC<CanvasProps & { ref?: Ref<CanvasRef> }> = forwardRef(
         >
           {arrow !== null && (
             <defs>
-              <CloneElement<MarkerArrowProps>
-                element={arrow}
-                {...(arrow as MarkerArrowProps)}
-              />
+              {arrow({})}
             </defs>
           )}
           <motion.g
@@ -409,52 +387,43 @@ const InternalCanvas: FC<CanvasProps & { ref?: Ref<CanvasRef> }> = forwardRef(
                 }
             }}
           >
-            {layout?.children?.map(({ children, ...n }) => {
-              const element = typeof node === 'function' ? node(n) : node;
-              return (
-                <CloneElement<NodeProps>
-                  key={n.id}
-                  element={element}
-                  disabled={disabled}
-                  children={element.props.children}
-                  animated={animated}
-                  nodes={children}
-                  childEdge={edge}
-                  childNode={node}
-                  {...n}
-                  onDragStart={onDragStart}
-                  id={`${id}-node-${n.id}`}
-                />
-              );
-            })}
-            {layout?.edges?.map((e) => {
-              const element = typeof edge === 'function' ? edge(e) : edge;
-              return (
-                <CloneElement<EdgeProps>
-                  key={e.id}
-                  element={element}
-                  disabled={disabled}
-                  children={element.props.children}
-                  {...e}
-                  properties={{
+            {node && layout?.children?.map(({ children, ...n }) => (
+              <Fragment key={n.id}>
+                {node({
+                  disabled: disabled,
+                  animated: animated,
+                  nodes: children,
+                  childEdge: edge,
+                  childNode: node,
+                  ...n,
+                  onDragStart: onDragStart,
+                  id: `${id}-node-${n.id}`,
+                })}
+              </Fragment>
+            ))}
+            {edge && layout?.edges?.map((e) => (
+              <Fragment key={e.id}>
+                {edge({
+                  disabled: disabled,
+                  ...e,
+                  properties: {
                     ...e.properties,
                     ...(e.data ? { data: e.data } : {})
-                  }}
-                  id={`${id}-edge-${e.id}`}
-                />
-              );
-            })}
+                  },
+                  id: `${id}-edge-${e.id}`,
+                })}
+              </Fragment>
+            ))}
             {dragCoords !== null &&
               dragEdge &&
               dragType === 'port' &&
-              !readonly && (
-              <CloneElement<EdgeProps>
-                element={dragEdge}
-                id={`${id}-edge-drag`}
-                disabled
-                sections={dragCoords}
-              />
-            )}
+              !readonly &&
+              dragEdge({
+                id: `${id}-edge-drag`,
+                disabled: true,
+                sections: dragCoords
+              })
+            }
             {layout?.children?.map(({ children, ports, ...n }) => (
               <Fragment key={n.id}>
                 {ports?.length > 0 && (
@@ -480,26 +449,20 @@ const InternalCanvas: FC<CanvasProps & { ref?: Ref<CanvasRef> }> = forwardRef(
             {dragCoords !== null &&
               dragNodeDataWithChildren &&
               dragType === 'node' &&
-              !readonly && (
-              <CloneElement<NodeProps>
-                {...dragNodeDataWithChildren}
-                element={dragNodeElement}
-                height={
-                  dragNodeDataWithChildren?.props?.height ||
-                    dragNodeDataWithChildren?.height
-                }
-                width={
-                  dragNodeDataWithChildren?.props?.width ||
-                    dragNodeDataWithChildren?.width
-                }
-                id={`${id}-node-drag`}
-                animated={animated}
-                className={css.dragNode}
-                disabled
-                x={dragCoords[0].endPoint.x}
-                y={dragCoords[0].endPoint.y}
-              />
-            )}
+              !readonly &&
+              dragNode &&
+              dragNode({
+                ...dragNodeDataWithChildren,
+                height: dragNodeDataWithChildren?.props?.height || dragNodeDataWithChildren?.height,
+                width: dragNodeDataWithChildren?.props?.width || dragNodeDataWithChildren?.width,
+                id: `${id}-node-drag`,
+                animated: animated,
+                className: css.dragNode,
+                disabled: true,
+                x: dragCoords[0].endPoint.x,
+                y: dragCoords[0].endPoint.y,
+              })
+            }
           </motion.g>
         </svg>
       </div>

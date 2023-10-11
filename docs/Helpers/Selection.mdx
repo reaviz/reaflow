@@ -161,8 +161,9 @@ Once defined you can pass these onto the canvas like:
   nodes={nodes}
   edges={edges}
   selections={selections}
-  node={
+  node={props => (
     <Node
+      {...props}
       onClick={onClick}
       onKeyDown={onKeyDown}
       onRemove={(event, node) => {
@@ -172,12 +173,13 @@ Once defined you can pass these onto the canvas like:
         clearSelections();
       }}
     />
-  }
-  edge={
+  )}
+  edge={props => (
     <Edge
+      {...props}
       onClick={onClick}
     />
-  }
+  )}
   onCanvasClick={onCanvasClick}
 />
 ```
@@ -223,22 +225,24 @@ thing with the manual selection state.
   nodes={nodes}
   edges={edges}
   selections={selections}
-  node={
+  node={props => (
     <Node
+      {...props}
       onClick={(event, node) => {
         console.log('Selecting Node', event, node);
         setSelections([node.id]);
       }}
     />
-  }
-  edge={
+  )}
+  edge={props => (
     <Edge
+      {...props}
       onClick={(event, edge) => {
         console.log('Selecting Edge', event, edge);
         setSelections([edge.id]);
       }}
     />
-  }
+  )}
   onCanvasClick={(event) => {
     console.log('Canvas Clicked', event);
     setSelections([]);

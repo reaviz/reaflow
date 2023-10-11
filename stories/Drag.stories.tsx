@@ -40,12 +40,13 @@ export const NodeOnlyDrag = () => (
           to: '2'
         }
       ]}
-      node={
+      node={props => (
         <Node
+          {...props}
           dragCursor="grab"
           dragType="node"
         />
-      }
+      )}
     />
   </div>
 );
@@ -68,11 +69,12 @@ export const PortOnlyDrag = () => (
       edges={[
         makeFakeEdgeWithPorts('1', '2'),
       ]}
-      node={
+      node={props => (
         <Node
+          {...props}
           dragType="port"
         />
-      }
+      )}
     />
   </div>
 );
@@ -98,7 +100,7 @@ export const MultiPortOnlyDrag = () => (
           to: '2'
         }
       ]}
-      node={<Node dragType="multiportOnly" />}
+      node={props => <Node {...props} dragType="multiportOnly" />}
     />
   </div>
 );
@@ -124,11 +126,12 @@ export const AllDrag = () => (
           to: '2'
         }
       ]}
-      node={
+      node={props => (
         <Node
+          {...props}
           dragType="all"
         />
-      }
+      )}
     />
   </div>
 );
@@ -194,7 +197,7 @@ export const NodeRearranging = () => {
       <Canvas
         nodes={nodes}
         edges={edges}
-        node={<Node dragType="node" />}
+        node={props => <Node {...props} dragType="node" />}
         onNodeLinkCheck={(_event, from: NodeData, to: NodeData) => {
           if (from.id === to.id) {
             return false;
@@ -280,7 +283,7 @@ export const NodeRearrangingUpsert = () => {
       <Canvas
         nodes={nodes}
         edges={edges}
-        node={<Node dragType="node" />}
+        node={props => <Node {...props} dragType="node" />}
         onNodeLinkCheck={(_event, from: NodeData, to: NodeData) => {
           if (from.id === to.id) {
             return false;
@@ -356,7 +359,7 @@ export const NodePortRearranging = () => {
       <Canvas
         nodes={nodes}
         edges={edges}
-        node={<Node dragType="all" />}
+        node={props => <Node {...props} dragType="all" />}
         onNodeLinkCheck={(_event, from: NodeData, to: NodeData) => {
           if (from.id === to.id) {
             return false;

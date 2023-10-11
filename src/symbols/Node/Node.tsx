@@ -23,7 +23,6 @@ import {
 } from '../../utils/useNodeDrag';
 import { Edge, EdgeProps } from '../Edge';
 import { useCanvas } from '../../utils/CanvasProvider';
-import { CloneElement } from '../../utils/CloneElement';
 import { checkNodeLinkable } from '../../utils/helpers';
 import css from './Node.module.css';
 
@@ -95,21 +94,17 @@ export interface NodeProps<T = any>
     node: NodeData
   ) => void;
 
-  childNode?:
-    | ReactElement<NodeProps, typeof Node>
-    | ((node: NodeProps) => ReactElement<NodeProps, typeof Node>);
+  childNode?: (node: NodeProps) => ReactElement<NodeProps, typeof Node>;
 
-  childEdge?:
-    | ReactElement<EdgeProps, typeof Edge>
-    | ((edge: EdgeProps) => ReactElement<NodeProps, typeof Edge>);
+  childEdge?: (edge: EdgeProps) => ReactElement<EdgeProps, typeof Edge>;
 
-  remove: ReactElement<RemoveProps, typeof Remove>;
-  icon: ReactElement<IconProps, typeof Icon>;
-  label: ReactElement<LabelProps, typeof Label>;
-  port: ReactElement<PortProps, typeof Port>;
+  remove: (props: RemoveProps) => ReactElement<RemoveProps, typeof Remove>;
+  icon: (props: IconProps) => ReactElement<IconProps, typeof Icon>;
+  label: (props: LabelProps) => ReactElement<LabelProps, typeof Label>;
+  port: (props: PortProps) => ReactElement<PortProps, typeof Port>;
 }
 
-export const Node: FC<Partial<NodeProps>> = ({
+export const Node: FC<NodeProps> = ({
   id,
   x,
   y,
@@ -136,11 +131,11 @@ export const Node: FC<Partial<NodeProps>> = ({
   removable = true,
   dragType = 'multiportOnly',
   dragCursor = 'crosshair',
-  childEdge = <Edge />,
-  childNode = <Node />,
-  remove = <Remove />,
-  port = <Port />,
-  label = <Label />,
+  childEdge = props => <Edge {...props}/>,
+  childNode = props => <Node {...props}/>,
+  remove = props => <Remove {...props}/>,
+  port = props => <Port {...props}/>,
+  label = props => <Label {...props}/>,
   onRemove,
   onDrag,
   onDragStart,
@@ -422,128 +417,89 @@ export const Node: FC<Partial<NodeProps>> = ({
             : children}
         </Fragment>
       )}
-      {icon && properties.icon && (
-        <CloneElement<IconProps> element={icon} {...properties.icon} />
-      )}
+      {icon && properties.icon && icon(properties.icon)}
       {label &&
         labels?.length > 0 &&
         labels.map((l, index) => (
-          <CloneElement<LabelProps>
-            element={label}
-            key={index}
-            {...(l as LabelProps)}
-          />
+          <Fragment key={index}>
+            {label(l)}
+          </Fragment>
         ))}
       {port &&
         ports?.length > 0 &&
         ports.map((p) => (
-          <CloneElement<PortProps>
-            element={port}
-            key={p.id}
-            active={!isMultiPort && dragging}
-            disabled={isDisabled || !linkable}
-            offsetX={newX}
-            offsetY={newY}
-            onDragStart={onDragStartCallback}
-            onDrag={onDragCallback}
-            onDragEnd={onDragEndCallback}
-            {...(p as PortProps)}
-            id={`${id}-port-${p.id}`}
-          />
+          <Fragment key={p.id}>
+            {port({
+              active: !isMultiPort && dragging,
+              disabled: isDisabled || !linkable,
+              offsetX: newX,
+              offsetY: newY,
+              onDragStart: onDragStartCallback,
+              onDrag: onDragCallback,
+              onDragEnd: onDragEndCallback,
+              ...p,
+              id: `${id}-port-${p.id}`
+            })}
+          </Fragment>
         ))}
-      {!isDisabled && isActive && !readonly && remove && removable && (
-        <CloneElement<RemoveProps>
-          element={remove}
-          y={height / 2}
-          x={width}
-          onClick={(event: React.MouseEvent<SVGGElement, MouseEvent>) => {
-            event.preventDefault();
-            event.stopPropagation();
-            onRemove?.(event, properties);
-            setDeleteHovered(false);
-          }}
-          onEnter={() => setDeleteHovered(true)}
-          onLeave={() => setDeleteHovered(false)}
-        />
-      )}
+      {!isDisabled && isActive && !readonly && remove && removable && remove({
+        element: remove,
+        y: height / 2,
+        x: width,
+        onClick: (event: React.MouseEvent<SVGGElement, MouseEvent>) => {
+          event.preventDefault();
+          event.stopPropagation();
+          onRemove?.(event, properties);
+          setDeleteHovered(false);
+        },
+        onEnter: () => setDeleteHovered(true),
+        onLeave: () => setDeleteHovered(false)
+      })}
       <g>
-        {edges?.length > 0 &&
-          edges.map((e: any) => {
-            const element =
-              typeof childEdge === 'function' ? childEdge(e) : childEdge;
-            return (
-              <CloneElement<EdgeProps>
-                key={e.id}
-                element={element}
-                id={`${id}-edge-${e.id}`}
-                disabled={isDisabled}
-                {...e}
-                properties={{
+        {edges?.length > 0 && childEdge &&
+          edges.map((e: any) => (
+            <Fragment key={e.id}>
+              {childEdge({
+                id: `${id}-edge-${e.id}`,
+                disabled: isDisabled,
+                ...e,
+                properties: {
                   ...e.properties,
                   ...(e.data ? { data: e.data } : {})
-                }}
-              />
-            );
-          })}
-        {nodes?.length > 0 &&
-          nodes.map(({ children, ...n }: any) => {
-            const element =
-              typeof childNode === 'function' ? childNode(n) : childNode;
-            const elementDisabled =
-              element.props?.disabled != null
-                ? element.props.disabled
-                : disabled;
-            const elementAnimated =
-              element.props?.animated != null
-                ? element.props.animated
-                : animated;
-            const elementDraggable =
-              element.props?.draggable != null
-                ? element.props.draggable
-                : draggable;
-            const elementLinkable =
-              element.props?.linkable != null
-                ? element.props.linkable
-                : linkable;
-            const elementSelectable =
-              element.props?.selectable != null
-                ? element.props.selectable
-                : selectable;
-            const elementRemovable =
-              element.props?.removable != null
-                ? element.props.removable
-                : removable;
-            return (
-              <CloneElement<NodeProps>
-                key={n.id}
-                element={element}
-                id={`${id}-node-${n.id}`}
-                disabled={elementDisabled}
-                nodes={children}
-                offsetX={newX}
-                offsetY={newY}
-                animated={elementAnimated}
-                children={element.props.children}
-                childNode={childNode}
-                dragCursor={dragCursor}
-                dragType={dragType}
-                childEdge={childEdge}
-                draggable={elementDraggable}
-                linkable={elementLinkable}
-                selectable={elementSelectable}
-                removable={elementRemovable}
-                onDragStart={onDragStart}
-                onDrag={onDrag}
-                onDragEnd={onDragEnd}
-                onClick={onClick}
-                onEnter={onEnter}
-                onLeave={onLeave}
-                onKeyDown={onKeyDown}
-                onRemove={onRemove}
-                {...n}
-              />
-            );
-          })}
+                }
+              })}
+            </Fragment>
+          ))}
+        {nodes?.length > 0 && childNode &&
+          nodes.map(({ children, ...n }: any) => (
+            <Fragment key={n.id}>
+              {childNode({
+                id: `${id}-node-${n.id}`,
+                disabled: disabled,
+                nodes: children,
+                offsetX: newX,
+                offsetY: newY,
+                animated: animated,
+                childNode: childNode,
+                dragCursor: dragCursor,
+                dragType: dragType,
+                childEdge: childEdge,
+                draggable: draggable,
+                linkable: linkable,
+                selectable: selectable,
+                removable: removable,
+                onDragStart: onDragStart,
+                onDrag: onDrag,
+                onDragEnd: onDragEnd,
+                onClick: onClick,
+                onEnter: onEnter,
+                onLeave: onLeave,
+                onKeyDown: onKeyDown,
+                onRemove: onRemove,
+                ...n
+              })}
+            </Fragment>
+          ))}
       </g>
     </motion.g>
   );

@@ -105,11 +105,7 @@ export const LabelsAndIcons = () => (
           to: '3'
         }
       ]}
-      node={
-        <Node
-          icon={<Icon />}
-        />
-      }
+      node={props => <Node icon={props => <Icon {...props}/>} {...props}/>}
       onLayoutChange={layout => console.log('Layout', layout)}
     />
   </div>
@@ -162,11 +158,7 @@ export const Icons = () => (
           to: '3'
         }
       ]}
-      node={
-        <Node
-          icon={<Icon />}
-        />
-      }
+      node={props => <Node icon={props => <Icon {...props}/>} {...props}/>}
       onLayoutChange={layout => console.log('Layout', layout)}
     />
   </div>
@@ -353,8 +345,8 @@ export const ForeignObjects = () => (
           to: '2'
         }
       ]}
-      node={
-        <Node>
+      node={props => (
+        <Node {...props}>
           {event => (
             <foreignObject height={event.height} width={event.width} x={0} y={0}>
               <div style={{ padding: 10, textAlign: 'center' }}>
@@ -364,7 +356,7 @@ export const ForeignObjects = () => (
             </foreignObject>
           )}
         </Node>
-      }
+      )}
       onLayoutChange={layout => console.log('Layout', layout)}
     />
   </div>
@@ -502,11 +494,7 @@ export const LongLabels = () => (
           to: '8'
         }
       ]}
-      node={
-        <Node
-          icon={<Icon />}
-        />
-      }
+      node={props => <Node icon={props => <Icon {...props}/>} {...props}/>}
     />
   </div>
 );

@@ -3,8 +3,8 @@ import classNames from 'classnames';
 import css from './Icon.module.css';
 
 export interface IconProps {
-  x: number;
-  y: number;
+  x?: number;
+  y?: number;
   url: string;
   height: number;
   width: number;
@@ -12,7 +12,7 @@ export interface IconProps {
   className?: string;
 }
 
-export const Icon: FC<Partial<IconProps>> = ({
+export const Icon: FC<IconProps> = ({
   x,
   y,
   url,

@@ -14,7 +14,7 @@ export interface AddProps {
   onClick?: (event: React.MouseEvent<SVGGElement, MouseEvent>) => void;
 }
 
-export const Add: FC<Partial<AddProps>> = ({
+export const Add: FC<AddProps> = ({
   x,
   y,
   className,
