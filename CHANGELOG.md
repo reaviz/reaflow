@@ -1,3 +1,7 @@
+# 5.2.7 - 11/13/23
+- [improvement] center horizontal edge labels
+- [fix] fix elk.bundled webpack error
+
 # 5.2.6 - 8/25/22
 - [fix] fix node title showing when no content to show
 
