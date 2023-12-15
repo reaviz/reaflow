@@ -1,3 +1,6 @@
+# 5.2.8 - 12/15/23
+- [chore] upgrade rdk
+
 # 5.2.7 - 11/13/23
 - [improvement] center horizontal edge labels
 - [fix] fix elk.bundled webpack error
