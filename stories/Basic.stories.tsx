@@ -239,10 +239,12 @@ export const Events = () => (
           to: '2'
         }
       ]}
-      node={
+      node={props => (
         <Node
-          port={
+          {...props}
+          port={props => (
             <Port
+              {...props}
               onEnter={(event, port) => {
                 console.log('Enter Port', event, port);
               }}
@@ -250,7 +252,7 @@ export const Events = () => (
                 console.log('Leave Port', event, port);
               }}
             />
-          }
+          )}
           onEnter={(event, node) => {
             console.log('Enter Node', event, node);
           }}
@@ -267,9 +269,10 @@ export const Events = () => (
             console.log('Remove Node', event, node);
           }}
         />
-      }
-      edge={
+      )}
+      edge={props => (
         <Edge
+          {...props}
           onEnter={(event, edge) => {
             console.log('Enter Edge', event, edge);
           }}
@@ -286,7 +289,7 @@ export const Events = () => (
             console.log('Removing Edge', event, edge);
           }}
         />
-      }
+      )}
       onCanvasClick={event => {
         console.log('Canvas Clicked', event);
       }}
@@ -391,15 +394,16 @@ export const Styling = () => (
           toPort: '3-to'
         }
       ]}
-      node={
+      node={props => (
         <Node
+          {...props}
           style={{ stroke: '#1a192b', fill: 'white', strokeWidth: 1 }}
-          label={<Label style={{ fill: 'black' }} />}
-          port={<Port style={{ fill: 'blue', stroke: 'white' }} rx={10} ry={10} />}
+          label={props => <Label {...props} style={{ fill: 'black' }} />}
+          port={props => <Port {...props} style={{ fill: 'blue', stroke: 'white' }} rx={10} ry={10} />}
         />
-      }
-      arrow={<MarkerArrow style={{ fill: '#b1b1b7' }} />}
-      edge={<Edge className="edge" />}
+      )}
+      arrow={props => <MarkerArrow {...props} style={{ fill: '#b1b1b7' }} />}
+      edge={props => <Edge {...props} className="edge" />}
       onLayoutChange={layout => console.log('Layout', layout)}
     />
   </div>
@@ -687,16 +691,13 @@ export const ManyNodes = () => {
         onCanvasClick={() => undefined}
         dragNode={null}
         dragEdge={null}
-        arrow={<Arrow />}
-        node={
+        arrow={props => <Arrow {...props}/>}
+        node={props => (
           <Node
+            {...props}
             dragType="node"
-            remove={<Remove />}
-            port={<Port />}
-            label={<Label />}
           />
-        }
-        edge={<Edge />}
+        )}
         onLayoutChange={layout => console.log('Layout', layout)}
         onNodeLink={(_event, from, to) => {
           const newEdges = edges.filter(e => e.to !== from.id);

@@ -127,7 +127,7 @@ export const NestedEdges = () => {
       width: 80,
       height: 80
     }
-  }
+  };
   const nodes: NodeData[]= [
     {
       id: '1',
@@ -210,27 +210,27 @@ export const NestedEdges = () => {
   function prepareNode(node){
     const data = node.properties;
     switch (data.label){
-      case 'A':
-        return (
-          <Node style={{fill: '#1b1d3c', opacity: 0.8}}>
-            <div style={{textAlign: "center"}}>
-              <h4>{data.name}</h4>
-              <p>{data.description}</p>
-            </div>
-          </Node>
-        )
-      case 'B':
-        return (
-          <Node style={{fill: '#0e0f1f'}}>
-            <div style={{textAlign: "center"}}>
-              <h4>{data.name}</h4>
-            </div>
-          </Node>
-        )
-      default:
-        return (
-          <Node />
-        )
+    case 'A':
+      return (
+        <Node {...node} style={{fill: '#1b1d3c', opacity: 0.8}}>
+          <div style={{textAlign: 'center'}}>
+            <h4>{data.name}</h4>
+            <p>{data.description}</p>
+          </div>
+        </Node>
+      );
+    case 'B':
+      return (
+        <Node {...node} style={{fill: '#0e0f1f'}}>
+          <div style={{textAlign: 'center'}}>
+            <h4>{data.name}</h4>
+          </div>
+        </Node>
+      );
+    default:
+      return (
+        <Node {...node} />
+      );
     }
   }
 

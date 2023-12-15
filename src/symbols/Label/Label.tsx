@@ -13,7 +13,7 @@ export interface LabelProps {
   originalText?: string;
 }
 
-export const Label: FC<Partial<LabelProps>> = ({ text, x, y, style, className, originalText }) => {
+export const Label: FC<LabelProps> = ({ text, x, y, style, className, originalText }) => {
   const isString = typeof originalText === 'string';
   return (
     <>

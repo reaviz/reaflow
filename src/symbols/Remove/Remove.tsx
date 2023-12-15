@@ -14,7 +14,7 @@ export interface RemoveProps {
   onClick?: (event: React.MouseEvent<SVGGElement, MouseEvent>) => void;
 }
 
-export const Remove: FC<Partial<RemoveProps>> = ({
+export const Remove: FC<RemoveProps> = ({
   size = 15,
   className,
   hidden,

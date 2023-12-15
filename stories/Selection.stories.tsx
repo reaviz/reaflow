@@ -65,8 +65,9 @@ export const Simple = () => {
         nodes={nodes}
         edges={edges}
         selections={selections}
-        node={
+        node={props => (
           <Node
+            {...props}
             onClick={(event, node) => {
               console.log('Selecting Node', event, node);
               onClick(event, node);
@@ -82,15 +83,16 @@ export const Simple = () => {
               clearSelections();
             }}
           />
-        }
-        edge={
+        )}
+        edge={props => (
           <Edge
+            {...props}
             onClick={(event, edge) => {
               console.log('Selecting Edge', event, edge);
               onClick(event, edge);
             }}
           />
-        }
+        )}
         onCanvasClick={(event) => {
           console.log('Canvas Clicked', event);
           onCanvasClick();
@@ -151,8 +153,9 @@ export const Nested = () => {
         nodes={nodes}
         edges={edges}
         selections={selections}
-        node={
+        node={props => (
           <Node
+            {...props}
             onClick={(event, node) => {
               console.log('Selecting Node', event, node);
               onClick(event, node);
@@ -168,15 +171,16 @@ export const Nested = () => {
               clearSelections();
             }}
           />
-        }
-        edge={
+        )}
+        edge={props => (
           <Edge
+            {...props}
             onClick={(event, edge) => {
               console.log('Selecting Edge', event, edge);
               onClick(event, edge);
             }}
           />
-        }
+        )}
         onCanvasClick={(event) => {
           console.log('Canvas Clicked', event);
           onCanvasClick();
@@ -233,8 +237,9 @@ export const Defaults = () => {
         nodes={nodes}
         edges={edges}
         selections={selections}
-        node={
+        node={props => (
           <Node
+            {...props}
             onClick={(event, node) => {
               console.log('Selecting Node', event, node);
               onClick(event, node);
@@ -250,15 +255,16 @@ export const Defaults = () => {
               clearSelections();
             }}
           />
-        }
-        edge={
+        )}
+        edge={props => (
           <Edge
+            {...props}
             onClick={(event, edge) => {
               console.log('Selecting Edge', event, edge);
               onClick(event, edge);
             }}
           />
-        }
+        )}
         onCanvasClick={(event) => {
           console.log('Canvas Clicked', event);
           onCanvasClick();
@@ -302,22 +308,24 @@ export const ManualSelection = () => {
         nodes={nodes}
         edges={edges}
         selections={selections}
-        node={
+        node={props => (
           <Node
+            {...props}
             onClick={(event, node) => {
               console.log('Selecting Node', event, node);
               setSelections([...selections, node.id]);
             }}
           />
-        }
-        edge={
+        )}
+        edge={props => (
           <Edge
+            {...props}
             onClick={(event, edge) => {
               console.log('Selecting Edge', event, edge);
               setSelections([...selections, edge.id]);
             }}
           />
-        }
+        )}
         onCanvasClick={(event) => {
           console.log('Canvas Clicked', event);
           setSelections([]);

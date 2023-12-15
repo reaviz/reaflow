@@ -86,7 +86,7 @@ export const Port = forwardRef(
       onEnter = () => undefined,
       onLeave = () => undefined,
       onClick = () => undefined
-    }: Partial<PortProps>,
+    }: PortProps,
     ref: Ref<SVGRectElement>
   ) => {
     const { readonly } = useCanvas();

@@ -79,10 +79,12 @@ export const Simple = () => (
           toPort: '2-to'
         }
       ]}
-      node={
+      node={props => (
         <Node
-          port={
+          {...props}
+          port={props => (
             <Port
+              {...props}
               onClick={(e, node) => {
                 console.log('onClick port: ', node);
               }}
@@ -96,9 +98,9 @@ export const Simple = () => (
               rx={10}
               ry={10}
             />
-          }
+          )}
         />
-      }
+      )}
       onLayoutChange={(layout) => console.log('Layout', layout)}
     />
   </div>
@@ -156,10 +158,12 @@ export const Disabled = () => (
           toPort: '2-to'
         }
       ]}
-      node={
+      node={props => (
         <Node
-          port={
+          {...props}
+          port={props => (
             <Port
+              {...props}
               onClick={(e, node) => {
                 console.log('onClick port: ', node);
               }}
@@ -173,9 +177,9 @@ export const Disabled = () => (
               rx={10}
               ry={10}
             />
-          }
+          )}
         />
-      }
+      )}
       onLayoutChange={(layout) => console.log('Layout', layout)}
     />
   </div>

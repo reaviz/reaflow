@@ -1,8 +1,8 @@
 import React, { useRef, useState } from 'react';
+import { createPortal } from 'react-dom';
 import { Canvas, CanvasRef } from '../src/Canvas';
 import { Node, Edge, MarkerArrow, Port, Icon, Arrow, Label, Remove, Add } from '../src/symbols';
 import { motion, useDragControls } from 'framer-motion';
-import { Portal } from 'rdk';
 import { EdgeData, NodeData } from '../src/types';
 import { addNodeAndEdge, useProximity } from '../src/helpers';
 import classNames from 'classnames';
@@ -202,7 +202,7 @@ export const Simple = () => {
           onLayoutChange={layout => console.info('Layout', layout)}
         />
       </div>
-      <Portal>
+      {createPortal((
         <motion.div
           drag
           dragControls={dragControls}
@@ -216,7 +216,7 @@ export const Simple = () => {
             </div>
           )}
         </motion.div>
-      </Portal>
+      ), document.body)}
     </div>
   );
 };
@@ -429,7 +429,7 @@ export const Nested = () => {
           onLayoutChange={layout => console.info('Layout', layout)}
         />
       </div>
-      <Portal>
+      {createPortal((
         <motion.div
           drag
           dragControls={dragControls}
@@ -443,7 +443,7 @@ export const Nested = () => {
             </div>
           )}
         </motion.div>
-      </Portal>
+      ), document.body)}
     </div>
   );
 };
