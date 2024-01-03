@@ -1,15 +1,16 @@
 import { Meta } from '@storybook/addon-docs/blocks';
+import img from './assets/unify.png';
 
 <Meta title="Docs/Introduction" />
 
 <div style={{ margin: '0 auto', maxWidth: '600px', color: 'white', textAlign: 'center' }}>
   <img
-    style={{ width: '75%', margin: '0 auto 2em auto' }}
+    style={{ width: '75%', margin: '0 auto' }}
     src="https://github.com/reaviz/reaflow/raw/master/docs/assets/logo.png"
   />
   <br />
   Node-based Visualizations for React
-  <br /><br />
+  <br />
   <a href="https://github.com/reaviz/reaflow/workflows/build/" target="_blank">
     <img src="https://github.com/reaviz/reaflow/workflows/build/badge.svg?branch=master" />
   </a>
@@ -40,11 +41,14 @@ import { Meta } from '@storybook/addon-docs/blocks';
 
   ---
 
+  <a href="https://unifyviz.com?utm=reaflow" target="_blank" style={{ background: 'black', padding: 5, borderRadius: 5, position: 'absolute', bottom: 5, right: 5, width: 250 }}>
+    <img src={img} alt="Unify Viz" />
+    Checkout <strong>Unify Viz</strong>, our premium 300+ Figma and React chart components →
+  </a>
+
   REAFLOW is a modular diagram engine for build static or interactive editors.
   The library is feature rich and modular allowing for displaying complex
   visualizations with total customizability.
-
-  Checkout Unify Viz, our premium offering 300+ Figma and React professionally designed data visualization components.  <a href="https://unifyviz.com?utm=reaflow" target="_blank">Learn more →</a>
 
   If you are looking for network graphs, checkout [reagraph](https://reagraph.dev).
 </div>
