@@ -1,3 +1,6 @@
+# 5.2.9 - 2/28/24
+- [chore] upgrade deps
+
 # 5.2.8 - 12/15/23
 - [chore] upgrade rdk
 
