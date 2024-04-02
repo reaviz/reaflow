@@ -28,12 +28,7 @@
 
 ---
 
-REAFLOW is a modular diagram engine for building static or interactive editors. The library is feature-rich and modular allowing for displaying complex
-visualizations with total customizability.
-
-Checkout Unify Viz, our premium offering 300+ Figma and React professionally designed data visualization components. [Learn more →](https://unifyviz.com?utm=reaflow)
-
-If you are looking for network graphs, checkout [reagraph](https://reagraph.dev).
+REAFLOW is a modular diagram engine for building static or interactive editors. The library is feature-rich and modular allowing for displaying complex visualizations with total customizability.
 
 ## 🚀 Quick Links
 
