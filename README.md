@@ -38,8 +38,15 @@ If you are looking for network graphs, checkout [reagraph](https://reagraph.dev)
 ## 🚀 Quick Links
 
 - Checkout the [**docs and demos**](https://reaflow.dev)
-- Explore the library on [Chroma](https://www.chromatic.com/library?appId=5f99ba42fe88ac0022fd1147)
 - Learn about updates from the [Changelog](CHANGELOG.md)
+
+## 💎 Other Projects
+
+- [Unify Viz](https://unifyviz.com) - Premium offering 300+ Figma and React professionally designed data visualization
+components.
+- [Reagraph](https://reagraph.dev) - Open-source library for large webgl based network graphs.
+- [Reablocks](https://reablocks.dev) - Open-source component library for React based on Tailwind.
+- [Reaviz](https://reaviz.io) - Open-source library for data visulizations for React. 
 
 ## ✨ Features
 
