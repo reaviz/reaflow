@@ -37,11 +37,11 @@ REAFLOW is a modular diagram engine for building static or interactive editors. 
 
 ## 💎 Other Projects
 
-- [Unify Viz](https://unifyviz.com) - Premium offering 300+ Figma and React professionally designed data visualization
+- [Unify Viz](https://unifyviz.com?utm=reaflow) - Premium offering 300+ Figma and React professionally designed data visualization
 components.
-- [Reagraph](https://reagraph.dev) - Open-source library for large webgl based network graphs.
-- [Reablocks](https://reablocks.dev) - Open-source component library for React based on Tailwind.
-- [Reaviz](https://reaviz.io) - Open-source library for data visulizations for React. 
+- [Reagraph](https://reagraph.dev?utm=reaflow) - Open-source library for large webgl based network graphs.
+- [Reablocks](https://reablocks.dev?utm=reaflow) - Open-source component library for React based on Tailwind.
+- [Reaviz](https://reaviz.io?utm=reaflow) - Open-source library for data visulizations for React. 
 
 ## ✨ Features
 
