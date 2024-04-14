@@ -1,3 +1,6 @@
+# 5.2.10 - 4/14/24
+- [chore] migrate from rdk to reablocks
+
 # 5.2.9 - 2/28/24
 - [chore] upgrade deps
 

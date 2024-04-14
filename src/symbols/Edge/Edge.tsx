@@ -1,17 +1,7 @@
-import React, {
-  FC,
-  Fragment,
-  MutableRefObject,
-  ReactElement,
-  ReactNode,
-  useEffect,
-  useMemo,
-  useRef,
-  useState
-} from 'react';
+import React, { FC, Fragment, MutableRefObject, ReactElement, ReactNode, useEffect, useMemo, useRef, useState } from 'react';
 import { EdgeData } from '../../types';
 import { Label, LabelProps } from '../Label';
-import { CloneElement } from 'rdk';
+import { CloneElement } from 'reablocks';
 import classNames from 'classnames';
 import { CenterCoords, getBezierPath, getPathCenter } from './utils';
 import { curveBundle, line } from 'd3-shape';
@@ -42,9 +32,7 @@ export interface EdgeChildProps {
   center: CenterCoords | null;
 }
 
-export type EdgeChildrenAsFunction = (
-  edgeChildProps: EdgeChildProps
-) => ReactNode;
+export type EdgeChildrenAsFunction = (edgeChildProps: EdgeChildProps) => ReactNode;
 
 export interface EdgeProps {
   id: string;
@@ -69,59 +57,20 @@ export interface EdgeProps {
   label: ReactElement<LabelProps, typeof Label>;
   remove: ReactElement<RemoveProps, typeof Remove>;
 
-  onClick?: (
-    event: React.MouseEvent<SVGGElement, MouseEvent>,
-    data: EdgeData
-  ) => void;
+  onClick?: (event: React.MouseEvent<SVGGElement, MouseEvent>, data: EdgeData) => void;
   onKeyDown?: (event: React.KeyboardEvent<SVGGElement>, data: EdgeData) => void;
-  onEnter?: (
-    event: React.MouseEvent<SVGGElement, MouseEvent>,
-    node: EdgeData
-  ) => void;
-  onLeave?: (
-    event: React.MouseEvent<SVGGElement, MouseEvent>,
-    node: EdgeData
-  ) => void;
-  onRemove?: (
-    event: React.MouseEvent<SVGGElement, MouseEvent>,
-    edge: EdgeData
-  ) => void;
-  onAdd?: (
-    event: React.MouseEvent<SVGGElement, MouseEvent>,
-    edge: EdgeData
-  ) => void;
+  onEnter?: (event: React.MouseEvent<SVGGElement, MouseEvent>, node: EdgeData) => void;
+  onLeave?: (event: React.MouseEvent<SVGGElement, MouseEvent>, node: EdgeData) => void;
+  onRemove?: (event: React.MouseEvent<SVGGElement, MouseEvent>, edge: EdgeData) => void;
+  onAdd?: (event: React.MouseEvent<SVGGElement, MouseEvent>, edge: EdgeData) => void;
 }
 
-export const Edge: FC<Partial<EdgeProps>> = ({
-  sections,
-  interpolation,
-  properties,
-  labels,
-  className,
-  containerClassName,
-  disabled,
-  removable = true,
-  selectable = true,
-  upsertable = true,
-  style,
-  children,
-  add = <Add />,
-  remove = <Remove />,
-  label = <Label />,
-  onClick = () => undefined,
-  onKeyDown = () => undefined,
-  onEnter = () => undefined,
-  onLeave = () => undefined,
-  onRemove = () => undefined,
-  onAdd = () => undefined
-}) => {
+export const Edge: FC<Partial<EdgeProps>> = ({ sections, interpolation, properties, labels, className, containerClassName, disabled, removable = true, selectable = true, upsertable = true, style, children, add = <Add />, remove = <Remove />, label = <Label />, onClick = () => undefined, onKeyDown = () => undefined, onEnter = () => undefined, onLeave = () => undefined, onRemove = () => undefined, onAdd = () => undefined }) => {
   const pathRef = useRef<SVGPathElement | null>(null);
   const [deleteHovered, setDeleteHovered] = useState<boolean>(false);
   const [center, setCenter] = useState<CenterCoords | null>(null);
   const { selections, readonly } = useCanvas();
-  const isActive: boolean = selections?.length
-    ? selections.includes(properties?.id)
-    : false;
+  const isActive: boolean = selections?.length ? selections.includes(properties?.id) : false;
   const isDisabled = disabled || properties?.disabled;
   const canSelect = selectable && !properties?.selectionDisabled;
 
@@ -134,22 +83,13 @@ export const Edge: FC<Partial<EdgeProps>> = ({
     // Handle bend points that elk gives
     // us separately from drag points
     if (sections[0].bendPoints) {
-      const points: any[] = sections
-        ? [
-          sections[0].startPoint,
-          ...(sections[0].bendPoints || ([] as any)),
-          sections[0].endPoint
-        ]
-        : [];
+      const points: any[] = sections ? [sections[0].startPoint, ...(sections[0].bendPoints || ([] as any)), sections[0].endPoint] : [];
 
       let pathFn: any = line()
         .x((d: any) => d.x)
         .y((d: any) => d.y);
       if (interpolation !== 'linear') {
-        pathFn =
-          interpolation === 'curved'
-            ? pathFn.curve(curveBundle.beta(1))
-            : interpolation;
+        pathFn = interpolation === 'curved' ? pathFn.curve(curveBundle.beta(1)) : interpolation;
       }
       return pathFn(points);
     } else {
@@ -164,13 +104,7 @@ export const Edge: FC<Partial<EdgeProps>> = ({
 
   useEffect(() => {
     if (sections?.length > 0) {
-      setCenter(
-        getPathCenter(
-          pathRef.current,
-          sections[0].startPoint,
-          sections[0].endPoint
-        )
-      );
+      setCenter(getPathCenter(pathRef.current, sections[0].startPoint, sections[0].endPoint));
     }
   }, [sections]);
 
@@ -228,29 +162,13 @@ export const Edge: FC<Partial<EdgeProps>> = ({
           }
         }}
       />
-      {children && (
-        <Fragment>
-          {typeof children === 'function'
-            ? (children as EdgeChildrenAsFunction)(edgeChildProps)
-            : children}
-        </Fragment>
-      )}
-      {labels?.length > 0 &&
-        labels.map((l, index) => (
-          <CloneElement<LabelProps>
-            element={label}
-            key={index}
-            edgeChildProps={edgeChildProps}
-            {...(l as LabelProps)}
-          />
-        ))}
+      {children && <Fragment>{typeof children === 'function' ? (children as EdgeChildrenAsFunction)(edgeChildProps) : children}</Fragment>}
+      {labels?.length > 0 && labels.map((l, index) => <CloneElement<LabelProps> element={label} key={index} edgeChildProps={edgeChildProps} {...(l as LabelProps)} />)}
       {!isDisabled && center && !readonly && remove && removable && (
         <CloneElement<RemoveProps>
           element={remove}
           {...center}
-          hidden={
-            remove.props.hidden !== undefined ? remove.props.hidden : !isActive
-          }
+          hidden={remove.props.hidden !== undefined ? remove.props.hidden : !isActive}
           onClick={(event: React.MouseEvent<SVGGElement, MouseEvent>) => {
             event.preventDefault();
             event.stopPropagation();

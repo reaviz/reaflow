@@ -2,7 +2,7 @@ import React, { useRef, useState } from 'react';
 import { Canvas, CanvasRef } from '../src/Canvas';
 import { Node, Edge, MarkerArrow, Port, Icon, Arrow, Label, Remove, Add } from '../src/symbols';
 import { motion, useDragControls } from 'framer-motion';
-import { Portal } from 'rdk';
+import { Portal } from 'reablocks';
 import { EdgeData, NodeData } from '../src/types';
 import { addNodeAndEdge, useProximity } from '../src/helpers';
 import classNames from 'classnames';
