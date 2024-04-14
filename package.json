@@ -6,8 +6,6 @@
     "build": "vite build --mode library",
     "build:watch": "vite build --watch --mode library",
     "build-storybook": "storybook build",
-    "chromatic": "npx chromatic --project-token ugo6c655mvm --auto-accept-changes",
-    "copy": "cp CNAME storybook-static/",
     "prettier": "prettier --loglevel warn --write 'src/**/*.{ts,tsx,js,jsx}'",
     "lint": "eslint --ext js,ts,tsx",
     "lint:fix": "eslint --ext js,ts,tsx --fix src",
