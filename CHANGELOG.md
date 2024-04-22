@@ -1,3 +1,6 @@
+# 5.2.11 - 4/22/24
+- [fix] Update reablocks
+
 # 5.2.10 - 4/14/24
 - [chore] migrate from rdk to reablocks
 
