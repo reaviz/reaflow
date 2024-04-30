@@ -1,3 +1,6 @@
+# 5.2.12 - 4/30/24
+- [fix] Update reakeys + reablocks
+  
 # 5.2.11 - 4/22/24
 - [fix] Update reablocks
 
