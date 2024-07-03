@@ -20,3 +20,12 @@
 .dragNode {
   pointer-events: none;
 }
+
+.hideScrollbars {
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* Internet Explorer 10+ */
+}
+
+.hideScrollbars::-webkit-scrollbar {
+  display: none; /* WebKit */
+}

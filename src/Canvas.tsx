@@ -300,7 +300,8 @@ const InternalCanvas: FC<CanvasProps & { ref?: Ref<CanvasRef> }> = forwardRef(({
     <div
       style={{ height, width }}
       className={classNames(css.container, className, {
-        [css.pannable]: pannable
+        [css.pannable]: pannable,
+        [css.hideScrollbars]: panType === 'drag'
       })}
       ref={(el) => {
         // Really not a fan of this API change...
