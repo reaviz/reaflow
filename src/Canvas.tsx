@@ -274,6 +274,28 @@ const InternalCanvas: FC<CanvasProps & { ref?: Ref<CanvasRef> }> = forwardRef(({
     }
   }, [createDragNodeChildren, dragNodeData, layout?.children]);
 
+  useEffect(() => {
+    const zoomOnWheelScroll = (e: WheelEvent) => {
+      e.preventDefault();
+      if (e.deltaY > 0) {
+        zoomOut();
+      } else {
+        zoomIn();
+      }
+    };
+
+    // only zoom with the scroll wheel when the pan type is drag
+    if (containerRef.current && panType === 'drag') {
+      containerRef.current.addEventListener('wheel', zoomOnWheelScroll, { passive: false });
+    }
+
+    return () => {
+      if (containerRef.current) {
+        containerRef.current.removeEventListener('wheel', zoomOnWheelScroll);
+      }
+    };
+  }, [panType, containerRef, zoomIn, zoomOut]);
+
   return (
     <div
       style={{ height, width }}
