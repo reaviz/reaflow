@@ -1,7 +1,6 @@
 import React, { useRef, useState } from 'react';
 import { Canvas, CanvasRef } from '../src/Canvas';
 import { Node, Edge, MarkerArrow, Port, Icon, Arrow, Label, Remove, Add } from '../src/symbols';
-import { TransformWrapper, TransformComponent } from 'react-zoom-pan-pinch';
 import { CanvasPosition } from '../src/types';
 
 export default {
@@ -263,56 +262,6 @@ export const Zoom = () => {
         onLayoutChange={layout => console.log('Layout', layout)}
       />
     </div>
-  );
-};
-
-export const ZoomExternal = () => {
-  const ref = useRef<CanvasRef | null>(null);
-
-  return (
-    <TransformWrapper
-      wheel={{step: 40}}
-      options={{
-        maxScale: 4,
-        limitToBounds: false,
-      }}
-    >
-      <TransformComponent>
-          <Canvas
-            ref={ref}
-            zoomable={false}
-            maxWidth={800}
-            maxHeight={800}
-            fit={true}
-            nodes={[
-              {
-                id: '1',
-                text: 'Node 1'
-              },
-              {
-                id: '2',
-                text: 'Node 2'
-              },
-              {
-                id: '3',
-                text: 'Node 3'
-              }
-            ]}
-            edges={[
-              {
-                id: '1-2',
-                from: '1',
-                to: '2'
-              },
-              {
-                id: '1-3',
-                from: '1',
-                to: '3'
-              }
-            ]}
-          />
-      </TransformComponent>
-   </TransformWrapper>
   );
 };
 
