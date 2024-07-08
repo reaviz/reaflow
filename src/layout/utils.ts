@@ -128,11 +128,69 @@ export const findNode = (nodes: LayoutNodeData[], nodeId: string): any | undefin
  * @param node - The node to search through
  * @returns The number of children
  */
-export const findChildCount = (node: LayoutNodeData): number => {
-  return node.children.reduce((acc, child) => {
-    if (child.children) {
-      return acc + 1 + findChildCount(child);
-    }
-    return acc + 1;
-  }, 0);
+export const getChildCount = (node: LayoutNodeData): number => {
+  return (
+    node.children?.reduce((acc, child) => {
+      if (child.children) {
+        return acc + 1 + getChildCount(child);
+      }
+      return acc + 1;
+    }, 0) ?? 0
+  );
+};
+
+/**
+ * Calculates the zoom for a node when fitting it to the viewport
+ * @param node - The node to calculate the zoom for
+ * @param viewportWidth - The width of the viewport
+ * @param viewportHeight - The height of the viewport
+ * @param maxViewportCoverage - The maximum percentage of the viewport that the node will take up
+ * @param minViewportCoverage - The minimum percentage of the viewport that the node will take up
+ * @returns The zoom
+ */
+export const calculateZoom = ({ node, viewportWidth, viewportHeight, maxViewportCoverage = 0.9, minViewportCoverage = 0.2 }: { node: LayoutNodeData; viewportWidth: number; viewportHeight: number; maxViewportCoverage?: number; minViewportCoverage?: number }) => {
+  const childCount = getChildCount(node);
+
+  // viewport coverage is the percentage of the viewport that the node will take up
+  // nodes with more children look better when they take up more of the viewport
+  const viewportCoverage = Math.min(maxViewportCoverage, Math.max(minViewportCoverage, minViewportCoverage + childCount * 0.1));
+
+  const updatedHorizontalZoom = (viewportCoverage * viewportWidth) / node.width;
+  const updatedVerticalZoom = (viewportCoverage * viewportHeight) / node.height;
+  const updatedZoom = Math.min(updatedHorizontalZoom, updatedVerticalZoom);
+
+  return updatedZoom - 1;
+};
+
+/**
+ * Calculates the scroll position for the canvas when fitting a node to the viewport - assumes the chart is centered
+ * @param node - The node to calculate the zoom and position for
+ * @param viewportWidth - The width of the viewport
+ * @param viewportHeight - The height of the viewport
+ * @param canvasWidth - The width of the canvas
+ * @param canvasHeight - The height of the canvas
+ * @param chartWidth - The width of the chart
+ * @param chartHeight - The height of the chart
+ * @param zoom - The zoom level of the canvas
+ * @returns The scroll position
+ */
+export const calculateScrollPosition = ({ node, viewportWidth, viewportHeight, canvasWidth, canvasHeight, chartWidth, chartHeight, zoom }: { node: LayoutNodeData; viewportWidth: number; viewportHeight: number; canvasWidth: number; canvasHeight: number; chartWidth: number; chartHeight: number; zoom: number }): [number, number] => {
+  // get updated node dimensions because they change based on the zoom level
+  const updatedNodeWidth = node.width * zoom;
+  const updatedNodeHeight = node.height * zoom;
+
+  // the chart is centered so we can assume the x and y positions
+  const chartPosition = {
+    x: (canvasWidth - chartWidth * zoom) / 2,
+    y: (canvasHeight - chartHeight * zoom) / 2
+  };
+
+  const nodeCenterXPosition = chartPosition.x + node.x * zoom + updatedNodeWidth / 2;
+  const nodeCenterYPosition = chartPosition.y + node.y * zoom + updatedNodeHeight / 2;
+
+  // scroll to the spot that centers the node in the viewport
+  const scrollX = nodeCenterXPosition - viewportWidth / 2;
+  const scrollY = nodeCenterYPosition - viewportHeight / 2;
+
+  return [scrollX, scrollY];
 };

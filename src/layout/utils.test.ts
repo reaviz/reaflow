@@ -1,4 +1,4 @@
-import { parsePadding, findNode, findChildCount } from './utils';
+import { parsePadding, findNode, getChildCount, calculateZoom, calculateScrollPosition } from './utils';
 
 test('should set all sides to input number, when a number is provided', () => {
   const expectedPadding = {
@@ -50,7 +50,7 @@ test('should find a node by id', () => {
   expect(node).toEqual({ x: 0, y: 0, id: '4', children: [] });
 });
 
-test('should find the number of children a node has', () => {
+test('should get the number of children a node has', () => {
   const node = {
     x: 0,
     y: 0,
@@ -60,7 +60,28 @@ test('should find the number of children a node has', () => {
       { x: 0, y: 0, id: '2', children: [{ x: 0, y: 0, id: '3', children: [] }] }
     ]
   };
-  const count = findChildCount(node);
+  const count = getChildCount(node);
 
   expect(count).toEqual(3);
+});
+
+test('should calculate the zoom for a node', () => {
+  const node = { width: 100, height: 100, x: 0, y: 0, id: '1' };
+  const zoom = calculateZoom({ node, viewportWidth: 1000, viewportHeight: 1000, minViewportCoverage: 0.2, maxViewportCoverage: 0.9 });
+
+  expect(zoom).toEqual(1);
+});
+
+test('should calculate the zoom for a node with many children', () => {
+  const node = { width: 100, height: 100, x: 0, y: 0, id: '0', children: [{ x: 0, y: 0, id: '1', children: [{ x: 0, y: 0, id: '2', children: [{ x: 0, y: 0, id: '3', children: [] }] }] }] };
+  const zoom = calculateZoom({ node, viewportWidth: 1000, viewportHeight: 1000, minViewportCoverage: 0.2, maxViewportCoverage: 0.9 });
+
+  expect(zoom).toEqual(4);
+});
+
+test('should calculate the scroll position for a node', () => {
+  const node = { width: 100, height: 100, x: 0, y: 0, id: '0' };
+  const scrollPosition = calculateScrollPosition({ node, viewportWidth: 1000, viewportHeight: 1000, canvasWidth: 2000, canvasHeight: 2000, chartWidth: 500, chartHeight: 500, zoom: 1 });
+
+  expect(scrollPosition).toEqual([300, 300]);
 });

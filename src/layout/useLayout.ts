@@ -3,7 +3,7 @@ import useDimensions from 'react-cool-dimensions';
 import isEqual from 'react-fast-compare';
 import { CanvasPosition, EdgeData, NodeData } from '../types';
 import { CanvasDirection, ElkCanvasLayoutOptions, elkLayout } from './elkLayout';
-import { findChildCount, findNode } from './utils';
+import { calculateScrollPosition, calculateZoom, findNode } from './utils';
 
 export interface ElkRoot {
   x?: number;
@@ -220,43 +220,16 @@ export const useLayout = ({ maxWidth, maxHeight, nodes = [], edges = [], fit, pa
     (nodeId: string, animated = true) => {
       if (layout && layout.children) {
         const node = findNode(layout.children, nodeId);
-        const childCount = findChildCount(node);
 
         if (node) {
           // center the chart
           positionVector(CanvasPosition.CENTER);
 
-          const maxViewportCoverage = 0.9;
-          const minViewportCoverage = 0.2;
+          const updatedZoom = calculateZoom({ node, viewportWidth: width, viewportHeight: height, maxViewportCoverage: 0.9, minViewportCoverage: 0.2 });
+          const scrollPosition = calculateScrollPosition({ node, viewportWidth: width, viewportHeight: height, canvasWidth, canvasHeight, chartWidth: layout.width, chartHeight: layout.height, zoom: updatedZoom });
 
-          // viewport coverage is the percentage of the viewport that the node will take up
-          // nodes with more children look better when they take up more of the viewport
-          const viewportCoverage = Math.min(maxViewportCoverage, Math.max(minViewportCoverage, minViewportCoverage + childCount * 0.1));
-
-          const updatedHorizontalZoom = (viewportCoverage * width) / node.width;
-          const updatedVerticalZoom = (viewportCoverage * height) / node.height;
-          const updatedZoom = Math.min(updatedHorizontalZoom, updatedVerticalZoom);
-
-          setZoom(updatedZoom - 1);
-
-          // get updated node dimensions because they change based on the zoom level
-          const updatedNodeWidth = node.width * updatedZoom;
-          const updatedNodeHeight = node.height * updatedZoom;
-
-          // the chart is centered so we can assume the x and y positions
-          const chartPosition = {
-            x: (canvasWidth - layout.width * updatedZoom) / 2,
-            y: (canvasHeight - layout.height * updatedZoom) / 2
-          };
-
-          const nodeCenterXPosition = chartPosition.x + node.x * updatedZoom + updatedNodeWidth / 2;
-          const nodeCenterYPosition = chartPosition.y + node.y * updatedZoom + updatedNodeHeight / 2;
-
-          // scroll to the spot that centers the node in the viewport
-          const scrollX = nodeCenterXPosition - width / 2;
-          const scrollY = nodeCenterYPosition - height / 2;
-
-          scrollToXY([scrollX, scrollY], animated);
+          setZoom(updatedZoom);
+          scrollToXY(scrollPosition, animated);
         }
       }
     },
