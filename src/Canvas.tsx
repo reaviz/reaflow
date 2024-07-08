@@ -221,7 +221,7 @@ const InternalCanvas: FC<CanvasProps & { ref?: Ref<CanvasRef> }> = forwardRef(({
     }
   }, [layout, xy]);
 
-  const bind = useGesture(
+  useGesture(
     {
       onDrag: ({ movement: [mx, my] }) => {
         // Update container scroll position during drag
@@ -230,16 +230,27 @@ const InternalCanvas: FC<CanvasProps & { ref?: Ref<CanvasRef> }> = forwardRef(({
           containerRef.current.scrollTop = panStartScrollPosition.current.y - my;
         }
       },
-      onDragStart: ({ event }) => {
+      onDragStart: () => {
         // Store the initial scroll position of the container when drag starts
         panStartScrollPosition.current = {
           x: containerRef.current?.scrollLeft || 0,
           y: containerRef.current?.scrollTop || 0
         };
+      },
+      onWheel: ({ event, delta, last }) => {
+        !last && event.preventDefault();
+
+        if (delta[1] > 0) {
+          zoomOut();
+        } else {
+          zoomIn();
+        }
       }
     },
     {
-      enabled: pannable && panType === 'drag'
+      enabled: pannable && panType === 'drag',
+      eventOptions: { passive: false },
+      domTarget: containerRef
     }
   );
 
@@ -274,28 +285,6 @@ const InternalCanvas: FC<CanvasProps & { ref?: Ref<CanvasRef> }> = forwardRef(({
     }
   }, [createDragNodeChildren, dragNodeData, layout?.children]);
 
-  useEffect(() => {
-    const zoomOnWheelScroll = (e: WheelEvent) => {
-      e.preventDefault();
-      if (e.deltaY > 0) {
-        zoomOut();
-      } else {
-        zoomIn();
-      }
-    };
-
-    // only zoom with the scroll wheel when the pan type is drag
-    if (containerRef.current && panType === 'drag') {
-      containerRef.current.addEventListener('wheel', zoomOnWheelScroll, { passive: false });
-    }
-
-    return () => {
-      if (containerRef.current) {
-        containerRef.current.removeEventListener('wheel', zoomOnWheelScroll);
-      }
-    };
-  }, [panType, containerRef, zoomIn, zoomOut]);
-
   return (
     <div
       style={{ height, width }}
@@ -313,7 +302,6 @@ const InternalCanvas: FC<CanvasProps & { ref?: Ref<CanvasRef> }> = forwardRef(({
       }}
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
-      {...bind()}
     >
       <svg xmlns="http://www.w3.org/2000/svg" id={id} ref={svgRef} height={canvasHeight} width={canvasWidth} onClick={onCanvasClick}>
         {arrow !== null && (
