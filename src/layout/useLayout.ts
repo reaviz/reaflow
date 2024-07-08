@@ -82,9 +82,9 @@ export interface LayoutResult {
   fitCanvas?: (animated?: boolean) => void;
 
   /**
-   * Fit a node to the viewport.
+   * Fit a group of nodes to the viewport.
    */
-  fitToNode?: (nodeId: string, animated?: boolean) => void;
+  fitNodes?: (nodeIds: string[], animated?: boolean) => void;
 
   /**
    * Scroll to X/Y
@@ -214,21 +214,21 @@ export const useLayout = ({ maxWidth, maxHeight, nodes = [], edges = [], fit, pa
   );
 
   /**
-   * This centers the chart on the canvas, zooms in to fit the specified node, and scrolls to center the node in the viewport
+   * This centers the chart on the canvas, zooms in to fit the specified nodes, and scrolls to center the nodes in the viewport
    */
-  const fitToNode = useCallback(
-    (nodeId: string, animated = true) => {
+  const fitNodes = useCallback(
+    (nodeIds: string[], animated = true) => {
       if (layout && layout.children) {
-        const node = findNode(layout.children, nodeId);
+        const nodes = nodeIds.map((nodeId) => findNode(layout.children, nodeId));
 
-        if (node) {
+        if (nodes) {
           // center the chart
           positionVector(CanvasPosition.CENTER);
 
-          const updatedZoom = calculateZoom({ node, viewportWidth: width, viewportHeight: height, maxViewportCoverage: 0.9, minViewportCoverage: 0.2 });
-          const scrollPosition = calculateScrollPosition({ node, viewportWidth: width, viewportHeight: height, canvasWidth, canvasHeight, chartWidth: layout.width, chartHeight: layout.height, zoom: updatedZoom });
+          const updatedZoom = calculateZoom({ nodes, viewportWidth: width, viewportHeight: height, maxViewportCoverage: 0.9, minViewportCoverage: 0.2 });
+          const scrollPosition = calculateScrollPosition({ nodes, viewportWidth: width, viewportHeight: height, canvasWidth, canvasHeight, chartWidth: layout.width, chartHeight: layout.height, zoom: updatedZoom });
 
-          setZoom(updatedZoom);
+          setZoom(updatedZoom - 1);
           scrollToXY(scrollPosition, animated);
         }
       }
@@ -275,7 +275,7 @@ export const useLayout = ({ maxWidth, maxHeight, nodes = [], edges = [], fit, pa
     scrollXY,
     positionCanvas,
     fitCanvas,
-    fitToNode,
+    fitNodes,
     setScrollXY: scrollToXY
   } as LayoutResult;
 };

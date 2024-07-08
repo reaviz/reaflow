@@ -65,23 +65,47 @@ test('should get the number of children a node has', () => {
   expect(count).toEqual(3);
 });
 
-test('should calculate the zoom for a node', () => {
-  const node = { width: 100, height: 100, x: 0, y: 0, id: '1' };
-  const zoom = calculateZoom({ node, viewportWidth: 1000, viewportHeight: 1000, minViewportCoverage: 0.2, maxViewportCoverage: 0.9 });
+describe('calculateZoom', () => {
+  test('should calculate the zoom for a node', () => {
+    const node = { width: 100, height: 100, x: 0, y: 0, id: '1' };
+    const zoom = calculateZoom({ nodes: [node], viewportWidth: 1000, viewportHeight: 1000, minViewportCoverage: 0.2, maxViewportCoverage: 0.9 });
 
-  expect(zoom).toEqual(1);
+    expect(zoom).toEqual(2);
+  });
+
+  test('should calculate the zoom for a node with many children', () => {
+    const node = { width: 100, height: 100, x: 0, y: 0, id: '0', children: [{ x: 0, y: 0, id: '1', children: [{ x: 0, y: 0, id: '2', children: [{ x: 0, y: 0, id: '3', children: [] }] }] }] };
+    const zoom = calculateZoom({ nodes: [node], viewportWidth: 1000, viewportHeight: 1000, minViewportCoverage: 0.2, maxViewportCoverage: 0.9 });
+
+    expect(zoom).toEqual(5);
+  });
+
+  test('should calculate the zoom for a group of nodes', () => {
+    const nodes = [
+      { width: 100, height: 100, x: 0, y: 0, id: '0' },
+      { width: 100, height: 100, x: 50, y: 50, id: '1' }
+    ];
+    const zoom = calculateZoom({ nodes, viewportWidth: 1000, viewportHeight: 1000, minViewportCoverage: 0.2, maxViewportCoverage: 0.9 });
+
+    expect(zoom).toEqual(2);
+  });
 });
 
-test('should calculate the zoom for a node with many children', () => {
-  const node = { width: 100, height: 100, x: 0, y: 0, id: '0', children: [{ x: 0, y: 0, id: '1', children: [{ x: 0, y: 0, id: '2', children: [{ x: 0, y: 0, id: '3', children: [] }] }] }] };
-  const zoom = calculateZoom({ node, viewportWidth: 1000, viewportHeight: 1000, minViewportCoverage: 0.2, maxViewportCoverage: 0.9 });
+describe('calculateScrollPosition', () => {
+  test('should calculate the scroll position for a node', () => {
+    const node = { width: 100, height: 100, x: 0, y: 0, id: '1' };
+    const scrollPosition = calculateScrollPosition({ nodes: [node], viewportWidth: 1000, viewportHeight: 1000, canvasWidth: 2000, canvasHeight: 2000, chartWidth: 500, chartHeight: 500, zoom: 1 });
 
-  expect(zoom).toEqual(4);
-});
+    expect(scrollPosition).toEqual([300, 300]);
+  });
 
-test('should calculate the scroll position for a node', () => {
-  const node = { width: 100, height: 100, x: 0, y: 0, id: '0' };
-  const scrollPosition = calculateScrollPosition({ node, viewportWidth: 1000, viewportHeight: 1000, canvasWidth: 2000, canvasHeight: 2000, chartWidth: 500, chartHeight: 500, zoom: 1 });
+  test('should calculate the scroll position for a group of nodes', () => {
+    const nodes = [
+      { width: 100, height: 100, x: 0, y: 0, id: '0' },
+      { width: 100, height: 100, x: 50, y: 50, id: '1' }
+    ];
+    const scrollPosition = calculateScrollPosition({ nodes, viewportWidth: 1000, viewportHeight: 1000, canvasWidth: 2000, canvasHeight: 2000, chartWidth: 500, chartHeight: 500, zoom: 1 });
 
-  expect(scrollPosition).toEqual([300, 300]);
+    expect(scrollPosition).toEqual([325, 325]);
+  });
 });

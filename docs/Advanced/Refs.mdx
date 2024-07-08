@@ -79,9 +79,9 @@ export interface CanvasRef {
   fitCanvas?: (animated?: boolean) => void;
 
   /**
-   * Fit a node to the viewport.
+   * Fit a group of nodes to the viewport.
    */
-  fitToNode?: (nodeId: string, animated?: boolean) => void;
+  fitNodes?: (nodeIds: string[], animated?: boolean) => void;
 
   /**
    * Scroll to X/Y
