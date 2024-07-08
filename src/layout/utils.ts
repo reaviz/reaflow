@@ -1,5 +1,5 @@
 import calculateSize from 'calculate-size';
-import { NodeData } from '../types';
+import { LayoutNodeData, NodeData } from '../types';
 import ellipsize from 'ellipsize';
 
 const MAX_CHAR_COUNT = 35;
@@ -101,3 +101,38 @@ export function formatText(node: NodeData) {
     labelWidth: labelDim.width
   };
 }
+
+/**
+ * Finds a node in a tree of nodes
+ * @param nodes - The nodes to search through
+ * @param nodeId - The id of the node to find
+ * @returns The node if found, undefined otherwise
+ */
+export const findNode = (nodes: LayoutNodeData[], nodeId: string): any | undefined => {
+  for (const node of nodes) {
+    if (node.id === nodeId) {
+      return node;
+    }
+    if (node.children) {
+      const foundNode = findNode(node.children, nodeId);
+      if (foundNode) {
+        return foundNode;
+      }
+    }
+  }
+  return undefined;
+};
+
+/**
+ * Finds the number of nested children a node has
+ * @param node - The node to search through
+ * @returns The number of children
+ */
+export const findChildCount = (node: LayoutNodeData): number => {
+  return node.children.reduce((acc, child) => {
+    if (child.children) {
+      return acc + 1 + findChildCount(child);
+    }
+    return acc + 1;
+  }, 0);
+};
