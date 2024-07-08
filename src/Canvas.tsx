@@ -1,5 +1,6 @@
 import React, { FC, ReactElement, Ref, useImperativeHandle, forwardRef, useLayoutEffect, useRef, Fragment, useMemo, useState, useCallback, useEffect } from 'react';
 import { useId, CloneElement } from 'reablocks';
+import { useGesture } from 'react-use-gesture';
 import { Node, NodeDragType, NodeProps } from './symbols/Node';
 import { Edge, EdgeProps } from './symbols/Edge';
 import { ElkRoot, CanvasDirection, LayoutResult, ElkCanvasLayoutOptions } from './layout';
@@ -37,6 +38,11 @@ export interface CanvasContainerProps extends CanvasProps {
    * Whether the canvas is pannable or not.
    */
   pannable?: boolean;
+
+  /**
+   * Type of interaction to use for panning.
+   */
+  panType?: 'scroll' | 'drag';
 
   /**
    * Whether the canvas is zoomable or not.
@@ -180,7 +186,7 @@ export type CanvasRef = LayoutResult & ZoomResult;
 
 const InternalCanvas: FC<CanvasProps & { ref?: Ref<CanvasRef> }> = forwardRef(({ className, height = '100%', width = '100%', readonly, disabled = false, animated = true, arrow = <MarkerArrow />, node = <Node />, edge = <Edge />, dragNode = <Node />, dragEdge = <Edge />, onMouseEnter = () => undefined, onMouseLeave = () => undefined, onCanvasClick = () => undefined }, ref: Ref<CanvasRef>) => {
   const id = useId();
-  const { pannable, dragCoords, dragNode: canvasDragNode, layout, containerRef, svgRef, canvasHeight, canvasWidth, xy, zoom, setZoom, observe, zoomIn, zoomOut, positionCanvas, fitCanvas, setScrollXY, ...rest } = useCanvas();
+  const { pannable, dragCoords, dragNode: canvasDragNode, layout, containerRef, svgRef, canvasHeight, canvasWidth, xy, zoom, setZoom, observe, zoomIn, zoomOut, positionCanvas, fitCanvas, setScrollXY, panType, ...rest } = useCanvas();
   const [dragType, setDragType] = useState<null | NodeDragType>(null);
 
   useImperativeHandle(ref, () => ({
@@ -202,6 +208,8 @@ const InternalCanvas: FC<CanvasProps & { ref?: Ref<CanvasRef> }> = forwardRef(({
   }));
 
   const mount = useRef<boolean>(false);
+  const panStartScrollPosition = useRef<{ x: number; y: number }>({ x: 0, y: 0 });
+
   const dragNodeData = useMemo(() => getDragNodeData(canvasDragNode, layout?.children), [canvasDragNode, layout?.children]);
   const [dragNodeDataWithChildren, setDragNodeDataWithChildren] = useState<{
     [key: string]: any;
@@ -212,6 +220,39 @@ const InternalCanvas: FC<CanvasProps & { ref?: Ref<CanvasRef> }> = forwardRef(({
       mount.current = true;
     }
   }, [layout, xy]);
+
+  useGesture(
+    {
+      onDrag: ({ movement: [mx, my] }) => {
+        // Update container scroll position during drag
+        if (containerRef.current) {
+          containerRef.current.scrollLeft = panStartScrollPosition.current.x - mx;
+          containerRef.current.scrollTop = panStartScrollPosition.current.y - my;
+        }
+      },
+      onDragStart: () => {
+        // Store the initial scroll position of the container when drag starts
+        panStartScrollPosition.current = {
+          x: containerRef.current?.scrollLeft || 0,
+          y: containerRef.current?.scrollTop || 0
+        };
+      },
+      onWheel: ({ event, delta, last }) => {
+        !last && event.preventDefault();
+
+        if (delta[1] > 0) {
+          zoomOut();
+        } else {
+          zoomIn();
+        }
+      }
+    },
+    {
+      enabled: pannable && panType === 'drag',
+      eventOptions: { passive: false },
+      domTarget: containerRef
+    }
+  );
 
   const onDragStart = useCallback((event) => {
     setDragType(event.dragType);
@@ -248,7 +289,8 @@ const InternalCanvas: FC<CanvasProps & { ref?: Ref<CanvasRef> }> = forwardRef(({
     <div
       style={{ height, width }}
       className={classNames(css.container, className, {
-        [css.pannable]: pannable
+        [css.pannable]: pannable,
+        [css.hideScrollbars]: panType === 'drag'
       })}
       ref={(el) => {
         // Really not a fan of this API change...
@@ -343,8 +385,8 @@ const InternalCanvas: FC<CanvasProps & { ref?: Ref<CanvasRef> }> = forwardRef(({
   );
 });
 
-export const Canvas: FC<CanvasContainerProps & { ref?: Ref<CanvasRef> }> = forwardRef(({ selections = [], readonly = false, fit = false, nodes = [], edges = [], maxHeight = 2000, maxWidth = 2000, direction = 'DOWN', pannable = true, zoom = 1, defaultPosition = CanvasPosition.CENTER, zoomable = true, minZoom = -0.5, maxZoom = 1, onNodeLink = () => undefined, onNodeLinkCheck = () => undefined, onLayoutChange = () => undefined, onZoomChange = () => undefined, layoutOptions, ...rest }, ref: Ref<CanvasRef>) => (
-  <CanvasProvider layoutOptions={layoutOptions} nodes={nodes} edges={edges} zoom={zoom} defaultPosition={defaultPosition} minZoom={minZoom} maxZoom={maxZoom} fit={fit} maxHeight={maxHeight} maxWidth={maxWidth} direction={direction} pannable={pannable} zoomable={zoomable} readonly={readonly} onLayoutChange={onLayoutChange} selections={selections} onZoomChange={onZoomChange} onNodeLink={onNodeLink} onNodeLinkCheck={onNodeLinkCheck}>
+export const Canvas: FC<CanvasContainerProps & { ref?: Ref<CanvasRef> }> = forwardRef(({ selections = [], readonly = false, fit = false, nodes = [], edges = [], maxHeight = 2000, maxWidth = 2000, direction = 'DOWN', pannable = true, panType = 'scroll', zoom = 1, defaultPosition = CanvasPosition.CENTER, zoomable = true, minZoom = -0.5, maxZoom = 1, onNodeLink = () => undefined, onNodeLinkCheck = () => undefined, onLayoutChange = () => undefined, onZoomChange = () => undefined, layoutOptions, ...rest }, ref: Ref<CanvasRef>) => (
+  <CanvasProvider layoutOptions={layoutOptions} nodes={nodes} edges={edges} zoom={zoom} defaultPosition={defaultPosition} minZoom={minZoom} maxZoom={maxZoom} fit={fit} maxHeight={maxHeight} maxWidth={maxWidth} direction={direction} pannable={pannable} panType={panType} zoomable={zoomable} readonly={readonly} onLayoutChange={onLayoutChange} selections={selections} onZoomChange={onZoomChange} onNodeLink={onNodeLink} onNodeLinkCheck={onNodeLinkCheck}>
     <InternalCanvas ref={ref} {...rest} />
   </CanvasProvider>
 ));
