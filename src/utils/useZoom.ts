@@ -30,12 +30,12 @@ export interface ZoomResult {
   /**
    * Zoom in on the canvas.
    */
-  zoomIn?: (zoomFactor: number) => void;
+  zoomIn?: (zoomFactor?: number) => void;
 
   /**
    * Zoom out on the canvas.
    */
-  zoomOut?: (zoomFactor: number) => void;
+  zoomOut?: (zoomFactor?: number) => void;
 }
 
 export const useZoom = ({ disabled = false, zoom = 1, minZoom = -0.5, maxZoom = 1, onZoomChange }: ZoomProps) => {
