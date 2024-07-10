@@ -84,7 +84,7 @@ export interface LayoutResult {
   /**
    * Fit a group of nodes to the viewport.
    */
-  fitNodes?: (nodeIds: string[], animated?: boolean) => void;
+  fitNodes?: (nodeIds: string | string[], animated?: boolean) => void;
 
   /**
    * Scroll to X/Y
@@ -138,21 +138,21 @@ export const useLayout = ({ maxWidth, maxHeight, nodes = [], edges = [], fit, pa
         const centerX = (canvasWidth - layout.width * zoom) / 2;
         const centerY = (canvasHeight - layout.height * zoom) / 2;
         switch (position) {
-        case CanvasPosition.CENTER:
-          setXY([centerX, centerY]);
-          break;
-        case CanvasPosition.TOP:
-          setXY([centerX, 0]);
-          break;
-        case CanvasPosition.LEFT:
-          setXY([0, centerY]);
-          break;
-        case CanvasPosition.RIGHT:
-          setXY([canvasWidth - layout.width * zoom, centerY]);
-          break;
-        case CanvasPosition.BOTTOM:
-          setXY([centerX, canvasHeight - layout.height * zoom]);
-          break;
+          case CanvasPosition.CENTER:
+            setXY([centerX, centerY]);
+            break;
+          case CanvasPosition.TOP:
+            setXY([centerX, 0]);
+            break;
+          case CanvasPosition.LEFT:
+            setXY([0, centerY]);
+            break;
+          case CanvasPosition.RIGHT:
+            setXY([canvasWidth - layout.width * zoom, centerY]);
+            break;
+          case CanvasPosition.BOTTOM:
+            setXY([centerX, canvasHeight - layout.height * zoom]);
+            break;
         }
       }
     },
@@ -165,21 +165,21 @@ export const useLayout = ({ maxWidth, maxHeight, nodes = [], edges = [], fit, pa
       const scrollCenterY = (canvasHeight - height) / 2;
       if (pannable) {
         switch (position) {
-        case CanvasPosition.CENTER:
-          scrollToXY([scrollCenterX, scrollCenterY], animated);
-          break;
-        case CanvasPosition.TOP:
-          scrollToXY([scrollCenterX, 0], animated);
-          break;
-        case CanvasPosition.LEFT:
-          scrollToXY([0, scrollCenterY], animated);
-          break;
-        case CanvasPosition.RIGHT:
-          scrollToXY([canvasWidth - width, scrollCenterY], animated);
-          break;
-        case CanvasPosition.BOTTOM:
-          scrollToXY([scrollCenterX, canvasHeight - height], animated);
-          break;
+          case CanvasPosition.CENTER:
+            scrollToXY([scrollCenterX, scrollCenterY], animated);
+            break;
+          case CanvasPosition.TOP:
+            scrollToXY([scrollCenterX, 0], animated);
+            break;
+          case CanvasPosition.LEFT:
+            scrollToXY([0, scrollCenterY], animated);
+            break;
+          case CanvasPosition.RIGHT:
+            scrollToXY([canvasWidth - width, scrollCenterY], animated);
+            break;
+          case CanvasPosition.BOTTOM:
+            scrollToXY([scrollCenterX, canvasHeight - height], animated);
+            break;
         }
       }
     },
@@ -217,9 +217,9 @@ export const useLayout = ({ maxWidth, maxHeight, nodes = [], edges = [], fit, pa
    * This centers the chart on the canvas, zooms in to fit the specified nodes, and scrolls to center the nodes in the viewport
    */
   const fitNodes = useCallback(
-    (nodeIds: string[], animated = true) => {
+    (nodeIds: string | string[], animated = true) => {
       if (layout && layout.children) {
-        const nodes = nodeIds.map((nodeId) => findNode(layout.children, nodeId));
+        const nodes = Array.isArray(nodeIds) ? nodeIds.map((nodeId) => findNode(layout.children, nodeId)) : [findNode(layout.children, nodeIds)];
 
         if (nodes) {
           // center the chart
