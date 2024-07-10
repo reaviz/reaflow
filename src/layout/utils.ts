@@ -210,6 +210,11 @@ export const calculateScrollPosition = ({ nodes, viewportWidth, viewportHeight, 
   return [scrollX, scrollY];
 };
 
+/**
+ * Calculates the bounding box of a group of nodes
+ * @param nodes - The nodes to calculate the bounding box for
+ * @returns The bounding box
+ */
 export const getNodesBoundingBox = (nodes: LayoutNodeData[]) => {
   return nodes.reduce(
     (acc, node) => ({
