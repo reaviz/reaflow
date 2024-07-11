@@ -240,10 +240,12 @@ const InternalCanvas: FC<CanvasProps & { ref?: Ref<CanvasRef> }> = forwardRef(({
       onWheel: ({ event, delta, last }) => {
         !last && event.preventDefault();
 
+        const zoomFactor = delta[1] * -0.02;
+
         if (delta[1] > 0) {
-          zoomOut();
+          zoomOut(zoomFactor);
         } else {
-          zoomIn();
+          zoomIn(zoomFactor);
         }
       }
     },

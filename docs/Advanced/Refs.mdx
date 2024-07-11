@@ -86,11 +86,11 @@ export interface CanvasRef {
   /**
    * Zoom in on the canvas.
    */
-  zoomIn?: () => void;
+  zoomIn?: (zoomFactor?: number) => void;
 
   /**
    * Zoom out on the canvas.
    */
-  zoomOut?: () => void;
+  zoomOut?: (zoomFactor?: number) => void;
 }
 ```
