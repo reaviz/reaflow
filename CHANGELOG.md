@@ -1,6 +1,13 @@
+# 5.3.0 - 7/11/24
+- [feature] Add fit to node canvas util and related improvements (#258)
+- [improvement] Improve scroll consistency on different devices (#259)
+- [chore] Upgrade deps (#257)
+- [feature] Add drag pan type (#256)
+- [docs] Update README.md
+  
 # 5.2.12 - 4/30/24
 - [fix] Update reakeys + reablocks
-  
+
 # 5.2.11 - 4/22/24
 - [fix] Update reablocks
 
