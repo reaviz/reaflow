@@ -222,11 +222,15 @@ export const Zoom = () => {
         Zoom: {zoom}<br />
         <button style={{ display: 'block', width: '100%', margin: '5px 0' }} onClick={() => ref.current.zoomIn()}>Zoom In</button>
         <button style={{ display: 'block', width: '100%', margin: '5px 0' }} onClick={() => ref.current.zoomOut()}>Zoom Out</button>
-        <button style={{ display: 'block', width: '100%' }} onClick={() => ref.current.fitCanvas()}>Fit</button>
+        <button style={{ display: 'block', width: '100%' }} onClick={() => ref.current.fitCanvas(true)}>Fit</button>
+        <button style={{ display: 'block', width: '100%' }} onClick={() => ref.current?.fitNodes('1')}>Fit to Node 1</button>
+        <button style={{ display: 'block', width: '100%' }} onClick={() => ref.current?.fitNodes('2')}>Fit to Node 2</button>
       </pre>
       <Canvas
-        maxZoom={0.2}
+        maxZoom={10}
         minZoom={-0.9}
+        maxWidth={3000}
+        maxHeight={1500}
         zoom={zoom}
         ref={ref}
         nodes={[

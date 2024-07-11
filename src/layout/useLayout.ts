@@ -1,19 +1,9 @@
-import {
-  RefObject,
-  useCallback,
-  useEffect,
-  useLayoutEffect,
-  useRef,
-  useState
-} from 'react';
-import {
-  elkLayout,
-  CanvasDirection,
-  ElkCanvasLayoutOptions
-} from './elkLayout';
+import { RefObject, useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import useDimensions from 'react-cool-dimensions';
 import isEqual from 'react-fast-compare';
 import { CanvasPosition, EdgeData, NodeData } from '../types';
+import { CanvasDirection, ElkCanvasLayoutOptions, elkLayout } from './elkLayout';
+import { calculateScrollPosition, calculateZoom, findNode } from './utils';
 
 export interface ElkRoot {
   x?: number;
@@ -84,35 +74,27 @@ export interface LayoutResult {
   /**
    * Positions the canvas to the viewport.
    */
-  positionCanvas?: (position: CanvasPosition) => void;
+  positionCanvas?: (position: CanvasPosition, animated?: boolean) => void;
 
   /**
    * Fit the canvas to the viewport.
    */
-  fitCanvas?: () => void;
+  fitCanvas?: (animated?: boolean) => void;
+
+  /**
+   * Fit a group of nodes to the viewport.
+   */
+  fitNodes?: (nodeIds: string | string[], animated?: boolean) => void;
 
   /**
    * Scroll to X/Y
    */
-  setScrollXY?: (xy: [number, number]) => void;
+  setScrollXY?: (xy: [number, number], animated?: boolean) => void;
 
   observe: (el: HTMLDivElement) => void;
 }
 
-export const useLayout = ({
-  maxWidth,
-  maxHeight,
-  nodes = [],
-  edges = [],
-  fit,
-  pannable,
-  defaultPosition,
-  direction,
-  layoutOptions = {},
-  zoom,
-  setZoom,
-  onLayoutChange
-}: LayoutProps) => {
+export const useLayout = ({ maxWidth, maxHeight, nodes = [], edges = [], fit, pannable, defaultPosition, direction, layoutOptions = {}, zoom, setZoom, onLayoutChange }: LayoutProps) => {
   const scrolled = useRef<boolean>(false);
   const ref = useRef<HTMLDivElement>();
   const { observe, width, height } = useDimensions<HTMLDivElement>();
@@ -121,6 +103,11 @@ export const useLayout = ({
   const [scrollXY, setScrollXY] = useState<[number, number]>([0, 0]);
   const canvasHeight = pannable ? maxHeight : height;
   const canvasWidth = pannable ? maxWidth : width;
+
+  const scrollToXY = (xy: [number, number], animated = false) => {
+    ref.current.scrollTo({ left: xy[0], top: xy[1], behavior: animated ? 'smooth' : 'auto' });
+    setScrollXY(xy);
+  };
 
   useEffect(() => {
     const promise = elkLayout(nodes, edges, {
@@ -151,21 +138,21 @@ export const useLayout = ({
         const centerX = (canvasWidth - layout.width * zoom) / 2;
         const centerY = (canvasHeight - layout.height * zoom) / 2;
         switch (position) {
-        case CanvasPosition.CENTER:
-          setXY([centerX, centerY]);
-          break;
-        case CanvasPosition.TOP:
-          setXY([centerX, 0]);
-          break;
-        case CanvasPosition.LEFT:
-          setXY([0, centerY]);
-          break;
-        case CanvasPosition.RIGHT:
-          setXY([canvasWidth - layout.width * zoom, centerY]);
-          break;
-        case CanvasPosition.BOTTOM:
-          setXY([centerX, canvasHeight - layout.height * zoom]);
-          break;
+          case CanvasPosition.CENTER:
+            setXY([centerX, centerY]);
+            break;
+          case CanvasPosition.TOP:
+            setXY([centerX, 0]);
+            break;
+          case CanvasPosition.LEFT:
+            setXY([0, centerY]);
+            break;
+          case CanvasPosition.RIGHT:
+            setXY([canvasWidth - layout.width * zoom, centerY]);
+            break;
+          case CanvasPosition.BOTTOM:
+            setXY([centerX, canvasHeight - layout.height * zoom]);
+            break;
         }
       }
     },
@@ -173,26 +160,26 @@ export const useLayout = ({
   );
 
   const positionScroll = useCallback(
-    (position: CanvasPosition) => {
+    (position: CanvasPosition, animated = false) => {
       const scrollCenterX = (canvasWidth - width) / 2;
       const scrollCenterY = (canvasHeight - height) / 2;
       if (pannable) {
         switch (position) {
-        case CanvasPosition.CENTER:
-          setScrollXY([scrollCenterX, scrollCenterY]);
-          break;
-        case CanvasPosition.TOP:
-          setScrollXY([scrollCenterX, 0]);
-          break;
-        case CanvasPosition.LEFT:
-          setScrollXY([0, scrollCenterY]);
-          break;
-        case CanvasPosition.RIGHT:
-          setScrollXY([canvasWidth - width, scrollCenterY]);
-          break;
-        case CanvasPosition.BOTTOM:
-          setScrollXY([scrollCenterX, canvasHeight - height]);
-          break;
+          case CanvasPosition.CENTER:
+            scrollToXY([scrollCenterX, scrollCenterY], animated);
+            break;
+          case CanvasPosition.TOP:
+            scrollToXY([scrollCenterX, 0], animated);
+            break;
+          case CanvasPosition.LEFT:
+            scrollToXY([0, scrollCenterY], animated);
+            break;
+          case CanvasPosition.RIGHT:
+            scrollToXY([canvasWidth - width, scrollCenterY], animated);
+            break;
+          case CanvasPosition.BOTTOM:
+            scrollToXY([scrollCenterX, canvasHeight - height], animated);
+            break;
         }
       }
     },
@@ -200,16 +187,12 @@ export const useLayout = ({
   );
 
   const positionCanvas = useCallback(
-    (position: CanvasPosition) => {
+    (position: CanvasPosition, animated = false) => {
       positionVector(position);
-      positionScroll(position);
+      positionScroll(position, animated);
     },
     [positionScroll, positionVector]
   );
-
-  useEffect(() => {
-    ref?.current?.scrollTo(scrollXY[0], scrollXY[1]);
-  }, [scrollXY, ref]);
 
   useEffect(() => {
     if (scrolled.current && defaultPosition) {
@@ -217,15 +200,41 @@ export const useLayout = ({
     }
   }, [positionVector, zoom, defaultPosition]);
 
-  const fitCanvas = useCallback(() => {
-    if (layout) {
-      const heightZoom = height / layout.height;
-      const widthZoom = width / layout.width;
-      const scale = Math.min(heightZoom, widthZoom, 1);
-      setZoom(scale - 1);
-      positionCanvas(CanvasPosition.CENTER);
-    }
-  }, [height, layout, width, setZoom, positionCanvas]);
+  const fitCanvas = useCallback(
+    (animated = false) => {
+      if (layout) {
+        const heightZoom = height / layout.height;
+        const widthZoom = width / layout.width;
+        const scale = Math.min(heightZoom, widthZoom, 1);
+        setZoom(scale - 1);
+        positionCanvas(CanvasPosition.CENTER, animated);
+      }
+    },
+    [height, layout, width, setZoom, positionCanvas]
+  );
+
+  /**
+   * This centers the chart on the canvas, zooms in to fit the specified nodes, and scrolls to center the nodes in the viewport
+   */
+  const fitNodes = useCallback(
+    (nodeIds: string | string[], animated = true) => {
+      if (layout && layout.children) {
+        const nodes = Array.isArray(nodeIds) ? nodeIds.map((nodeId) => findNode(layout.children, nodeId)) : [findNode(layout.children, nodeIds)];
+
+        if (nodes) {
+          // center the chart
+          positionVector(CanvasPosition.CENTER);
+
+          const updatedZoom = calculateZoom({ nodes, viewportWidth: width, viewportHeight: height, maxViewportCoverage: 0.9, minViewportCoverage: 0.2 });
+          const scrollPosition = calculateScrollPosition({ nodes, viewportWidth: width, viewportHeight: height, canvasWidth, canvasHeight, chartWidth: layout.width, chartHeight: layout.height, zoom: updatedZoom });
+
+          setZoom(updatedZoom - 1);
+          scrollToXY(scrollPosition, animated);
+        }
+      }
+    },
+    [canvasHeight, canvasWidth, height, layout, positionVector, setZoom, width]
+  );
 
   useLayoutEffect(() => {
     const scroller = ref.current;
@@ -238,19 +247,7 @@ export const useLayout = ({
 
       scrolled.current = true;
     }
-  }, [
-    canvasWidth,
-    pannable,
-    canvasHeight,
-    layout,
-    height,
-    fit,
-    width,
-    defaultPosition,
-    positionCanvas,
-    fitCanvas,
-    ref
-  ]);
+  }, [canvasWidth, pannable, canvasHeight, layout, height, fit, width, defaultPosition, positionCanvas, fitCanvas, ref]);
 
   useLayoutEffect(() => {
     function onResize() {
@@ -278,6 +275,7 @@ export const useLayout = ({
     scrollXY,
     positionCanvas,
     fitCanvas,
-    setScrollXY
+    fitNodes,
+    setScrollXY: scrollToXY
   } as LayoutResult;
 };
