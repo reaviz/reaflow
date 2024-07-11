@@ -225,7 +225,7 @@ const InternalCanvas: FC<CanvasProps & { ref?: Ref<CanvasRef> }> = forwardRef(({
     {
       onDrag: ({ movement: [mx, my] }) => {
         // Update container scroll position during drag
-        if (containerRef.current) {
+        if (containerRef.current && !canvasDragNode) {
           containerRef.current.scrollLeft = panStartScrollPosition.current.x - mx;
           containerRef.current.scrollTop = panStartScrollPosition.current.y - my;
         }
@@ -292,7 +292,7 @@ const InternalCanvas: FC<CanvasProps & { ref?: Ref<CanvasRef> }> = forwardRef(({
       style={{ height, width }}
       className={classNames(css.container, className, {
         [css.pannable]: pannable,
-        [css.hideScrollbars]: panType === 'drag'
+        [css.draggable]: panType === 'drag'
       })}
       ref={(el) => {
         // Really not a fan of this API change...
@@ -327,17 +327,17 @@ const InternalCanvas: FC<CanvasProps & { ref?: Ref<CanvasRef> }> = forwardRef(({
             scale: zoom,
             transition: animated
               ? {
-                velocity: 100,
-                translateX: { duration: mount.current ? 0.3 : 0 },
-                translateY: { duration: mount.current ? 0.3 : 0 },
-                opacity: { duration: 0.8 },
-                when: 'beforeChildren'
-              }
+                  velocity: 100,
+                  translateX: { duration: mount.current ? 0.3 : 0 },
+                  translateY: { duration: mount.current ? 0.3 : 0 },
+                  opacity: { duration: 0.8 },
+                  when: 'beforeChildren'
+                }
               : {
-                type: false,
-                duration: 0,
-                when: 'beforeChildren'
-              }
+                  type: false,
+                  duration: 0,
+                  when: 'beforeChildren'
+                }
           }}
         >
           {layout?.children?.map(({ children, ...n }) => {

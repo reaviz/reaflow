@@ -21,11 +21,16 @@
   pointer-events: none;
 }
 
-.hideScrollbars {
+.draggable {
   scrollbar-width: none; /* Firefox */
   -ms-overflow-style: none; /* Internet Explorer 10+ */
-}
+  cursor: grab;
 
-.hideScrollbars::-webkit-scrollbar {
-  display: none; /* WebKit */
+  &::-webkit-scrollbar {
+    display: none; /* WebKit */
+  }
+
+  &:active {
+    cursor: grabbing;
+  }
 }
