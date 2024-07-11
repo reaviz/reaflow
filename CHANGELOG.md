@@ -1,3 +1,6 @@
+# 5.3.1 - 7/11/24
+- [improvement] Update pan drag cursor #260
+
 # 5.3.0 - 7/11/24
 - [feature] Add fit to node canvas util and related improvements (#258)
 - [improvement] Improve scroll consistency on different devices (#259)
