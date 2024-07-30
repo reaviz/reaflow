@@ -3,6 +3,8 @@ import { Canvas, CanvasRef } from '../src/Canvas';
 import { Node, Edge, MarkerArrow, Port, Icon, Arrow, Label, Remove, Add } from '../src/symbols';
 import { CanvasPosition } from '../src/types';
 
+import demoNodes from './nodes.json';
+
 export default {
   title: 'Demos/Controls',
   component: Canvas,
@@ -49,11 +51,10 @@ export const FixedPosition = () => (
           to: '3'
         }
       ]}
-      onLayoutChange={layout => console.log('Layout', layout)}
+      onLayoutChange={(layout) => console.log('Layout', layout)}
     />
   </div>
 );
-
 
 export const Small = () => (
   <div style={{ border: 'solid 1px #12131e', height: 200, width: 200, position: 'relative' }}>
@@ -99,7 +100,7 @@ export const Small = () => (
           to: '4'
         }
       ]}
-      onLayoutChange={layout => console.log('Layout', layout)}
+      onLayoutChange={(layout) => console.log('Layout', layout)}
     />
   </div>
 );
@@ -135,7 +136,7 @@ export const NonCentered = () => (
           to: '3'
         }
       ]}
-      onLayoutChange={layout => console.log('Layout', layout)}
+      onLayoutChange={(layout) => console.log('Layout', layout)}
     />
   </div>
 );
@@ -171,11 +172,10 @@ export const TopPosition = () => (
           to: '3'
         }
       ]}
-      onLayoutChange={layout => console.log('Layout', layout)}
+      onLayoutChange={(layout) => console.log('Layout', layout)}
     />
   </div>
 );
-
 
 export const Fit = () => (
   <div style={{ position: 'absolute', top: 0, bottom: 0, left: 0, right: 0 }}>
@@ -207,7 +207,7 @@ export const Fit = () => (
           to: '3'
         }
       ]}
-      onLayoutChange={layout => console.log('Layout', layout)}
+      onLayoutChange={(layout) => console.log('Layout', layout)}
     />
   </div>
 );
@@ -219,12 +219,23 @@ export const Zoom = () => {
   return (
     <div style={{ position: 'absolute', top: 0, bottom: 0, left: 0, right: 0 }}>
       <pre style={{ zIndex: 9, position: 'absolute', bottom: 15, right: 15, background: 'rgba(0, 0, 0, .5)', padding: 20, color: 'white' }}>
-        Zoom: {zoom}<br />
-        <button style={{ display: 'block', width: '100%', margin: '5px 0' }} onClick={() => ref.current.zoomIn()}>Zoom In</button>
-        <button style={{ display: 'block', width: '100%', margin: '5px 0' }} onClick={() => ref.current.zoomOut()}>Zoom Out</button>
-        <button style={{ display: 'block', width: '100%' }} onClick={() => ref.current.fitCanvas(true)}>Fit</button>
-        <button style={{ display: 'block', width: '100%' }} onClick={() => ref.current?.fitNodes('1')}>Fit to Node 1</button>
-        <button style={{ display: 'block', width: '100%' }} onClick={() => ref.current?.fitNodes('2')}>Fit to Node 2</button>
+        Zoom: {zoom}
+        <br />
+        <button style={{ display: 'block', width: '100%', margin: '5px 0' }} onClick={() => ref.current.zoomIn()}>
+          Zoom In
+        </button>
+        <button style={{ display: 'block', width: '100%', margin: '5px 0' }} onClick={() => ref.current.zoomOut()}>
+          Zoom Out
+        </button>
+        <button style={{ display: 'block', width: '100%' }} onClick={() => ref.current.fitCanvas(true)}>
+          Fit
+        </button>
+        <button style={{ display: 'block', width: '100%' }} onClick={() => ref.current?.fitNodes('1')}>
+          Fit to Node 1
+        </button>
+        <button style={{ display: 'block', width: '100%' }} onClick={() => ref.current?.fitNodes('2')}>
+          Fit to Node 2
+        </button>
       </pre>
       <Canvas
         maxZoom={10}
@@ -259,11 +270,11 @@ export const Zoom = () => {
             to: '3'
           }
         ]}
-        onZoomChange={z => {
+        onZoomChange={(z) => {
           console.log('zooming', z);
           setZoom(z);
         }}
-        onLayoutChange={layout => console.log('Layout', layout)}
+        onLayoutChange={(layout) => console.log('Layout', layout)}
       />
     </div>
   );
@@ -271,36 +282,6 @@ export const Zoom = () => {
 
 export const DragPan = () => (
   <div style={{ position: 'absolute', top: 0, bottom: 0, left: 0, right: 0 }}>
-    <Canvas
-      fit={true}
-      panType="drag"
-      nodes={[
-        {
-          id: '1',
-          text: 'Node 1'
-        },
-        {
-          id: '2',
-          text: 'Node 2'
-        },
-        {
-          id: '3',
-          text: 'Node 3'
-        }
-      ]}
-      edges={[
-        {
-          id: '1-2',
-          from: '1',
-          to: '2'
-        },
-        {
-          id: '1-3',
-          from: '1',
-          to: '3'
-        }
-      ]}
-      onLayoutChange={(layout) => console.log('Layout', layout)}
-    />
+    <Canvas fit={true} panType="drag" minZoom={-10} maxZoom={10} maxWidth={10000} nodes={demoNodes} onLayoutChange={(layout) => console.log('Layout', layout)} />
   </div>
 );
