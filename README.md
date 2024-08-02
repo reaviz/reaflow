@@ -37,7 +37,8 @@ REAFLOW is a modular diagram engine for building static or interactive editors. 
 - [Reagraph](https://reagraph.dev?utm=reaflow) - Open-source library for large webgl based network graphs.
 - [Reablocks](https://reablocks.dev?utm=reaflow) - Open-source component library for React based on Tailwind.
 - [Reaviz](https://reaviz.dev?utm=reaflow) - Open-source library for data visulizations for React. 
-
+- [Reachat](https://reachat.dev?utm=reaflow) - Open-source library for building LLM/Chat UIs for React.
+- 
 ## ✨ Features
 
 - Complex automatic layout leveraging ELKJS
