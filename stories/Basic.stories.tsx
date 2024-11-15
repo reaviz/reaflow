@@ -3,6 +3,7 @@ import { Canvas, CanvasRef } from '../src/Canvas';
 import { createEdgeFromNodes, detectCircular, hasLink } from '../src/helpers';
 import { Node, Edge, MarkerArrow, Port, Icon, Label, Remove, Add, NodeProps, EdgeProps, Arrow } from '../src/symbols';
 import { CanvasPosition, EdgeData, NodeData } from '../src/types';
+import { Popover } from 'antd';
 
 export default {
   title: 'Demos/Basic',
@@ -166,6 +167,18 @@ export const CustomElements = () => (
           {...node}
           onClick={() => console.log(node.properties.data)}
           style={{ fill: node.properties.data?.gender === 'male' ? 'blue' : 'red' }}
+          tooltip={(props) => (
+            <Popover
+              title="Antd Popover"
+              content={
+                <>
+                  <p>this is {node.properties.text} </p>
+                </>
+              }
+            >
+              {props.children}
+            </Popover>
+          )}
         />
       )}
       edge={(edge: EdgeProps) => (

@@ -3,6 +3,7 @@ import { Canvas } from '../src/Canvas';
 import { Node, Edge, MarkerArrow, Port, Icon, Arrow, Label, Remove, Add, NodeProps } from '../src/symbols';
 import { EdgeData, NodeData } from '../src/types';
 import { createEdgeFromNodes, hasLink, removeAndUpsertNodes } from '../src/helpers';
+import { Popover } from 'antd';
 
 export default {
   title: 'Demos/Drag',
@@ -194,7 +195,24 @@ export const NodeRearranging = () => {
       <Canvas
         nodes={nodes}
         edges={edges}
-        node={<Node dragType="node" />}
+        node={
+          (node: NodeProps) => (
+            <Node
+              dragType="node"
+              tooltip={(props) => (
+                <Popover
+                  title="Antd Popover"
+                  content={
+                    <>
+                      <p>this is {node.properties.text} </p>
+                    </>
+                  }
+                >
+                  {props.children}
+                </Popover>
+              )}
+            />)
+        }
         onNodeLinkCheck={(_event, from: NodeData, to: NodeData) => {
           if (from.id === to.id) {
             return false;

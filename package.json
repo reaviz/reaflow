@@ -49,6 +49,7 @@
   "homepage": "https://github.com/reaviz/reaflow#readme",
   "dependencies": {
     "@juggle/resize-observer": "^3.4.0",
+    "antd": "^5.22.0",
     "calculate-size": "^1.1.1",
     "classnames": "^2.3.2",
     "d3-shape": "^3.0.1",
