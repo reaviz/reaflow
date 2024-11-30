@@ -3,7 +3,8 @@ import { Canvas, CanvasRef } from '../src/Canvas';
 import { createEdgeFromNodes, detectCircular, hasLink } from '../src/helpers';
 import { Node, Edge, MarkerArrow, Port, Icon, Label, Remove, Add, NodeProps, EdgeProps, Arrow } from '../src/symbols';
 import { CanvasPosition, EdgeData, NodeData } from '../src/types';
-import { Popover } from 'antd';
+import { Popover, popoverTheme, extendComponentTheme, PopoverTheme } from 'reablocks';
+import '../src/index.css';
 
 export default {
   title: 'Demos/Basic',
@@ -124,73 +125,84 @@ export const Disabled = () => (
   </div>
 );
 
-export const CustomElements = () => (
-  <div style={{ position: 'absolute', top: 0, bottom: 0, left: 0, right: 0 }}>
-    <Canvas
-      nodes={[
-        {
-          id: '2',
-          text: 'Mother',
-          data: {
-            gender: 'female'
+export const CustomElements = () => {
+
+  const customTheme = extendComponentTheme<PopoverTheme>(popoverTheme, {
+    base: 'rounded bg-success-hover text-white font-bold p-3 text-base'
+  });
+
+  return (
+    <div style={{ position: 'absolute', top: 0, bottom: 0, left: 0, right: 0 }}>
+      <Canvas
+        nodes={[
+          {
+            id: '2',
+            text: 'Mother',
+            data: {
+              gender: 'female'
+            }
+          },
+          {
+            id: '3',
+            text: 'Daughter',
+            data: {
+              gender: 'female'
+            }
+          },
+          {
+            id: '4',
+            text: 'Son',
+            data: {
+              gender: 'male'
+            }
+          },
+        ]}
+        edges={[
+          {
+            id: '2-3',
+            from: '2',
+            to: '3'
+          },
+          {
+            id: '2-4',
+            from: '2',
+            to: '4'
           }
-        },
-        {
-          id: '3',
-          text: 'Daughter',
-          data: {
-            gender: 'female'
-          }
-        },
-        {
-          id: '4',
-          text: 'Son',
-          data: {
-            gender: 'male'
-          }
-        },
-      ]}
-      edges={[
-        {
-          id: '2-3',
-          from: '2',
-          to: '3'
-        },
-        {
-          id: '2-4',
-          from: '2',
-          to: '4'
-        }
-      ]}
-      node={(node: NodeProps) => (
-        <Node
-          {...node}
-          onClick={() => console.log(node.properties.data)}
-          style={{ fill: node.properties.data?.gender === 'male' ? 'blue' : 'red' }}
-          tooltip={(props) => (
-            <Popover
-              title="Antd Popover"
-              content={
-                <>
-                  <p>this is {node.properties.text} </p>
-                </>
-              }
-            >
-              {props.children}
-            </Popover>
-          )}
-        />
-      )}
-      edge={(edge: EdgeProps) => (
-        <Edge
-          {...edge}
-          style={{ stroke: edge.id === '2-4' ? 'blue' : 'red' }}
-        />
-      )}
-      onLayoutChange={layout => console.log('Layout', layout)}
-    />
-  </div>
-);
+        ]}
+        node={(node: NodeProps) => (
+          <Node
+            {...node}
+            onClick={() => console.log(node.properties.data)}
+            style={{ fill: node.properties.data?.gender === 'male' ? 'blue' : 'red' }}
+            tooltip={(props) => (
+              <Popover
+                theme={customTheme}
+                trigger={'hover'}
+                closeOnClick={true}
+                content={
+                  <div>
+                    <h1>This is {node.properties.text}!</h1>
+                    <p>you can also use Popover from other libraries such as Antd</p>
+                  </div>
+                }
+              >
+                {props.children}
+              </Popover>
+            )}
+          />
+
+        )}
+        edge={(edge: EdgeProps) => (
+          <Edge
+            {...edge}
+            style={{ stroke: edge.id === '2-4' ? 'blue' : 'red' }}
+          />
+        )}
+        onLayoutChange={layout => console.log('Layout', layout)}
+      />
+    </div>
+  );
+};
 
 export const Refs = () => {
   const ref = useRef<CanvasRef | null>(null);
