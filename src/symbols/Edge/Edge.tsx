@@ -65,7 +65,7 @@ export interface EdgeProps {
   onAdd?: (event: React.MouseEvent<SVGGElement, MouseEvent>, edge: EdgeData) => void;
 }
 
-export const Edge: FC<Partial<EdgeProps>> = ({ sections, interpolation, properties, labels, className, containerClassName, disabled, removable = true, selectable = true, upsertable = true, style, children, add = <Add />, remove = <Remove />, label = <Label />, onClick = () => undefined, onKeyDown = () => undefined, onEnter = () => undefined, onLeave = () => undefined, onRemove = () => undefined, onAdd = () => undefined }) => {
+export const Edge: FC<Partial<EdgeProps>> = ({ sections, interpolation = 'curved', properties, labels, className, containerClassName, disabled, removable = true, selectable = true, upsertable = true, style, children, add = <Add />, remove = <Remove />, label = <Label />, onClick = () => undefined, onKeyDown = () => undefined, onEnter = () => undefined, onLeave = () => undefined, onRemove = () => undefined, onAdd = () => undefined }) => {
   const pathRef = useRef<SVGPathElement | null>(null);
   const [deleteHovered, setDeleteHovered] = useState<boolean>(false);
   const [center, setCenter] = useState<CenterCoords | null>(null);
@@ -192,8 +192,4 @@ export const Edge: FC<Partial<EdgeProps>> = ({ sections, interpolation, properti
       )}
     </g>
   );
-};
-
-Edge.defaultProps = {
-  interpolation: 'curved'
 };
