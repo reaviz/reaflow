@@ -1,3 +1,7 @@
+# 5.3.2 - 1/17/25
+- [chore] upgrade framer-motion to motion
+- [chore] upgrade reablocks
+
 # 5.3.1 - 7/11/24
 - [improvement] Update pan drag cursor #260
 

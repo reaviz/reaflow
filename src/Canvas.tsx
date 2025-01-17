@@ -9,7 +9,7 @@ import { CanvasPosition, EdgeData, NodeData, PortData } from './types';
 import classNames from 'classnames';
 import { CanvasProvider, useCanvas } from './utils/CanvasProvider';
 import { getDragNodeData } from './utils/helpers';
-import { motion } from 'framer-motion';
+import { motion } from 'motion/react';
 import { ZoomResult } from './utils/useZoom';
 import css from './Canvas.module.css';
 
@@ -327,17 +327,17 @@ const InternalCanvas: FC<CanvasProps & { ref?: Ref<CanvasRef> }> = forwardRef(({
             scale: zoom,
             transition: animated
               ? {
-                  velocity: 100,
-                  translateX: { duration: mount.current ? 0.3 : 0 },
-                  translateY: { duration: mount.current ? 0.3 : 0 },
-                  opacity: { duration: 0.8 },
-                  when: 'beforeChildren'
-                }
+                velocity: 100,
+                translateX: { duration: mount.current ? 0.3 : 0 },
+                translateY: { duration: mount.current ? 0.3 : 0 },
+                opacity: { duration: 0.8 },
+                when: 'beforeChildren'
+              }
               : {
-                  type: false,
-                  duration: 0,
-                  when: 'beforeChildren'
-                }
+                type: false,
+                duration: 0,
+                when: 'beforeChildren'
+              }
           }}
         >
           {layout?.children?.map(({ children, ...n }) => {
@@ -367,11 +367,15 @@ const InternalCanvas: FC<CanvasProps & { ref?: Ref<CanvasRef> }> = forwardRef(({
               {ports?.length > 0 && (
                 <motion.g
                   key={n.id}
+                  initial={{
+                    translateX: n.x,
+                    translateY: n.y
+                  }}
                   animate={{
                     translateX: n.x,
-                    translateY: n.y,
-                    transition: { duration: 0 }
+                    translateY: n.y
                   }}
+                  transition={{ duration: 0 }}
                 >
                   {ports.map((port, index) => (
                     <use key={index} xlinkHref={`#${id}-node-${n.id}-port-${port.id}`} style={{ pointerEvents: 'none' }} />
