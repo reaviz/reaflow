@@ -1,5 +1,5 @@
 import React, { FC, Fragment, ReactElement, ReactNode, useCallback, useEffect, useRef, useState } from 'react';
-import { motion, useAnimation } from 'framer-motion';
+import { motion, useAnimation } from 'motion/react';
 import { Port, PortProps } from '../Port';
 import { Label, LabelProps } from '../Label';
 import { EdgeData, NodeData, PortData } from '../../types';
