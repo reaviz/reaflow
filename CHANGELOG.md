@@ -1,3 +1,7 @@
+# 5.3.3 - 1/28/25
+- [chore] upgrade reakeys
+- [chore] upgrade reablocks
+
 # 5.3.2 - 1/17/25
 - [chore] upgrade framer-motion to motion
 - [chore] upgrade reablocks
