@@ -1,3 +1,6 @@
+# 5.3.4 - 2/3/25
+- [chore] upgrade reakeys & reablocks #273
+
 # 5.3.3 - 1/28/25
 - [chore] upgrade reakeys
 - [chore] upgrade reablocks
