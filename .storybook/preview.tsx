@@ -1,4 +1,14 @@
+import React from 'react';
+import { ThemeProvider, theme as reablocksTheme } from 'reablocks';
 import theme from './theme';
+
+export const decorators = [
+  Story => (
+    <ThemeProvider theme={reablocksTheme}>
+      <Story />
+    </ThemeProvider>
+  )
+]
 
 export const parameters = {
   layout: 'centered',
