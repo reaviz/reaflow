@@ -69,7 +69,7 @@ export const LabelsAndIcons = () => (
           id: '1',
           text: 'Node 1',
           icon: {
-            url: 'https://s3.amazonaws.com/img.crft.app/package-slack-logo-bw.svg',
+            url: 'https://cdn4.iconfinder.com/data/icons/logos-and-brands/512/306_Slack_logo-1024.png',
             height: 25,
             width: 25
           }
@@ -78,7 +78,7 @@ export const LabelsAndIcons = () => (
           id: '2',
           text: 'Node 2',
           icon: {
-            url: 'https://s3.amazonaws.com/img.crft.app/package-flashpoint-logo-bw.svg',
+            url: 'https://cdn4.iconfinder.com/data/icons/flat-brand-logo-2/512/adobe_flash-512.png',
             height: 25,
             width: 25
           }
@@ -87,7 +87,7 @@ export const LabelsAndIcons = () => (
           id: '3',
           text: 'Node 3',
           icon: {
-            url: 'https://s3.amazonaws.com/img.crft.app/package-twitter-logo-bw.svg',
+            url: 'https://cdn2.iconfinder.com/data/icons/social-media-2285/512/1_Twitter3_colored_svg-1024.png',
             height: 25,
             width: 25
           }
@@ -124,7 +124,7 @@ export const Icons = () => (
           height: 50,
           width: 50,
           icon: {
-            url: 'https://s3.amazonaws.com/img.crft.app/package-slack-logo-bw.svg',
+            url: 'https://cdn4.iconfinder.com/data/icons/logos-and-brands/512/306_Slack_logo-1024.png',
             height: 25,
             width: 25
           }
@@ -134,7 +134,7 @@ export const Icons = () => (
           height: 50,
           width: 50,
           icon: {
-            url: 'https://s3.amazonaws.com/img.crft.app/package-flashpoint-logo-bw.svg',
+            url: 'https://cdn4.iconfinder.com/data/icons/flat-brand-logo-2/512/adobe_flash-512.png',
             height: 25,
             width: 25
           }
@@ -144,7 +144,7 @@ export const Icons = () => (
           height: 50,
           width: 50,
           icon: {
-            url: 'https://s3.amazonaws.com/img.crft.app/package-twitter-logo-bw.svg',
+            url: 'https://cdn2.iconfinder.com/data/icons/social-media-2285/512/1_Twitter3_colored_svg-1024.png',
             height: 25,
             width: 25
           }
@@ -407,7 +407,7 @@ export const LongLabels = () => (
           id: '1',
           text: 'Node 1',
           icon: {
-            url: 'https://s3.amazonaws.com/img.crft.app/package-slack-logo-bw.svg',
+            url: 'https://cdn4.iconfinder.com/data/icons/logos-and-brands/512/306_Slack_logo-1024.png',
             height: 25,
             width: 25
           }
@@ -415,7 +415,7 @@ export const LongLabels = () => (
         {
           id: '2',
           icon: {
-            url: 'https://s3.amazonaws.com/img.crft.app/package-flashpoint-logo-bw.svg',
+            url: 'https://cdn4.iconfinder.com/data/icons/flat-brand-logo-2/512/adobe_flash-512.png',
             height: 25,
             width: 25
           }
@@ -424,7 +424,7 @@ export const LongLabels = () => (
           id: '3',
           text: 'Node 3 with a long label for testing',
           icon: {
-            url: 'https://s3.amazonaws.com/img.crft.app/package-twitter-logo-bw.svg',
+            url: 'https://cdn2.iconfinder.com/data/icons/social-media-2285/512/1_Twitter3_colored_svg-1024.png',
             height: 25,
             width: 25
           }
@@ -433,7 +433,7 @@ export const LongLabels = () => (
           id: '4',
           text: 'Node4withalongnobreakingspacelabel',
           icon: {
-            url: 'https://s3.amazonaws.com/img.crft.app/package-twitter-logo-bw.svg',
+            url: 'https://cdn2.iconfinder.com/data/icons/social-media-2285/512/1_Twitter3_colored_svg-1024.png',
             height: 25,
             width: 25
           }
@@ -451,7 +451,7 @@ export const LongLabels = () => (
           height: 70,
           width: 70,
           icon: {
-            url: 'https://s3.amazonaws.com/img.crft.app/package-slack-logo-bw.svg',
+            url: 'https://cdn4.iconfinder.com/data/icons/logos-and-brands/512/306_Slack_logo-1024.png',
             height: 42,
             width: 42
           }
@@ -459,7 +459,7 @@ export const LongLabels = () => (
         {
           id: '8',
           icon: {
-            url: 'https://s3.amazonaws.com/img.crft.app/package-slack-logo-bw.svg',
+            url: 'https://cdn4.iconfinder.com/data/icons/logos-and-brands/512/306_Slack_logo-1024.png',
             height: 42,
             width: 42
           }
