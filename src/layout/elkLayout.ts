@@ -1,5 +1,5 @@
 import { EdgeData, NodeData } from '../types';
-import ELK, { ElkNode } from 'elkjs/lib/elk.bundled.js';
+import type { ELK, ElkNode } from 'elkjs';
 import PCancelable from 'p-cancelable';
 import { formatText, measureText } from './utils';
 
@@ -321,14 +321,45 @@ function postProcessNode(nodes: any[]): any[] {
   return nodes;
 }
 
-export const elkLayout = (nodes: NodeData[], edges: EdgeData[], options: ElkCanvasLayoutOptions) => {
-  const graph = new ELK();
-  const layoutOptions: ElkCanvasLayoutOptions = {
-    ...defaultLayoutOptions,
-    ...options
-  };
+const isBrowser = typeof window !== 'undefined' && typeof Worker !== 'undefined';
+let elkInstance: ELK | null = null;
 
-  return new PCancelable<ElkNode>((resolve, reject) => {
+const getElk = async () => {
+  if (elkInstance) return elkInstance;
+
+  if (!isBrowser) {
+    const ELKModule = await import('elkjs/lib/elk.bundled.js');
+    elkInstance = new ELKModule.default({
+      algorithms: ['layered']
+    });
+
+    return elkInstance;
+  } else {
+    const ELKModule = await import('elkjs/lib/elk-api');
+    let workerPath = await import.meta.resolve('./elk-worker.min.js');
+    if (import.meta.env.DEV) {
+      workerPath = '/node_modules/elkjs/lib/elk-worker.min.js';
+    }
+
+    elkInstance = new ELKModule.default({
+      algorithms: ['layered'],
+      workerFactory: () => {
+        return new Worker(workerPath);
+      }
+    });
+
+    return elkInstance;
+  }
+};
+
+export const elkLayout = (nodes: NodeData[], edges: EdgeData[], options: ElkCanvasLayoutOptions) => {
+  return new PCancelable<ElkNode>(async (resolve, reject) => {
+    const graph = await getElk();
+    const layoutOptions: ElkCanvasLayoutOptions = {
+      ...defaultLayoutOptions,
+      ...options
+    };
+
     graph
       .layout(
         {
