@@ -5,7 +5,7 @@
   "scripts": {
     "build": "vite build --mode library",
     "build:watch": "vite build --watch --mode library",
-    "build-storybook": "storybook build",
+    "build-storybook": "storybook build && node copy-elk-storybook.js",
     "prettier": "prettier --loglevel warn --write 'src/**/*.{ts,tsx,js,jsx}'",
     "lint": "eslint --ext js,ts,tsx",
     "lint:fix": "eslint --ext js,ts,tsx --fix src",
@@ -52,11 +52,11 @@
     "calculate-size": "^1.1.1",
     "classnames": "^2.3.2",
     "d3-shape": "^3.0.1",
-    "elkjs": "^0.8.2",
+    "elkjs": "^0.10.0",
     "ellipsize": "^0.2.0",
-    "motion": "^12.4.2",
     "kld-affine": "^2.1.1",
     "kld-intersections": "^0.7.0",
+    "motion": "^12.4.2",
     "p-cancelable": "^3.0.0",
     "reablocks": "^8.7.6",
     "react-cool-dimensions": "^2.0.7",
@@ -110,7 +110,8 @@
     "vite-plugin-dts": "^3.3.1",
     "vite-plugin-svgr": "^3.2.0",
     "vite-tsconfig-paths": "^4.2.0",
-    "vitest": "^0.33.0"
+    "vitest": "^0.33.0",
+    "web-worker": "^1.5.0"
   },
   "lint-staged": {
     "src/**/*.{js,jsx,ts,tsx}": [
