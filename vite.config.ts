@@ -67,9 +67,6 @@ export default defineConfig(({ mode }) =>
               includeDependencies: true
             })
           ],
-          output: {
-            assetFileNames: 'assets/[name][extname]'
-          }
         }
       }
     }
