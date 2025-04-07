@@ -37,7 +37,8 @@ export const parameters = {
             'Selection',
             'Undo Redo',
             'Proximity'
-          ]
+          ],
+          'Support'
         ],
       ],
     },

@@ -1,7 +1,6 @@
 import React, { useRef, useState } from 'react';
 import { Canvas, CanvasRef } from '../src/Canvas';
 import { Node, Edge, MarkerArrow, Port, Icon, Arrow, Label, Remove, Add } from '../src/symbols';
-import { TransformWrapper, TransformComponent } from 'react-zoom-pan-pinch';
 import { CanvasPosition } from '../src/types';
 
 export default {
@@ -223,11 +222,15 @@ export const Zoom = () => {
         Zoom: {zoom}<br />
         <button style={{ display: 'block', width: '100%', margin: '5px 0' }} onClick={() => ref.current.zoomIn()}>Zoom In</button>
         <button style={{ display: 'block', width: '100%', margin: '5px 0' }} onClick={() => ref.current.zoomOut()}>Zoom Out</button>
-        <button style={{ display: 'block', width: '100%' }} onClick={() => ref.current.fitCanvas()}>Fit</button>
+        <button style={{ display: 'block', width: '100%' }} onClick={() => ref.current.fitCanvas(true)}>Fit</button>
+        <button style={{ display: 'block', width: '100%' }} onClick={() => ref.current?.fitNodes('1')}>Fit to Node 1</button>
+        <button style={{ display: 'block', width: '100%' }} onClick={() => ref.current?.fitNodes('2')}>Fit to Node 2</button>
       </pre>
       <Canvas
-        maxZoom={0.2}
+        maxZoom={10}
         minZoom={-0.9}
+        maxWidth={3000}
+        maxHeight={1500}
         zoom={zoom}
         ref={ref}
         nodes={[
@@ -266,52 +269,38 @@ export const Zoom = () => {
   );
 };
 
-export const ZoomExternal = () => {
-  const ref = useRef<CanvasRef | null>(null);
-
-  return (
-    <TransformWrapper
-      wheel={{step: 40}}
-      options={{
-        maxScale: 4,
-        limitToBounds: false,
-      }}
-    >
-      <TransformComponent>
-          <Canvas
-            ref={ref}
-            zoomable={false}
-            maxWidth={800}
-            maxHeight={800}
-            fit={true}
-            nodes={[
-              {
-                id: '1',
-                text: 'Node 1'
-              },
-              {
-                id: '2',
-                text: 'Node 2'
-              },
-              {
-                id: '3',
-                text: 'Node 3'
-              }
-            ]}
-            edges={[
-              {
-                id: '1-2',
-                from: '1',
-                to: '2'
-              },
-              {
-                id: '1-3',
-                from: '1',
-                to: '3'
-              }
-            ]}
-          />
-      </TransformComponent>
-   </TransformWrapper>
-  );
-};
+export const DragPan = () => (
+  <div style={{ position: 'absolute', top: 0, bottom: 0, left: 0, right: 0 }}>
+    <Canvas
+      fit={true}
+      panType="drag"
+      nodes={[
+        {
+          id: '1',
+          text: 'Node 1'
+        },
+        {
+          id: '2',
+          text: 'Node 2'
+        },
+        {
+          id: '3',
+          text: 'Node 3'
+        }
+      ]}
+      edges={[
+        {
+          id: '1-2',
+          from: '1',
+          to: '2'
+        },
+        {
+          id: '1-3',
+          from: '1',
+          to: '3'
+        }
+      ]}
+      onLayoutChange={(layout) => console.log('Layout', layout)}
+    />
+  </div>
+);

@@ -1,15 +1,16 @@
 import { Meta } from '@storybook/addon-docs/blocks';
+import img from './assets/teaser.png';
 
 <Meta title="Docs/Introduction" />
 
 <div style={{ margin: '0 auto', maxWidth: '600px', color: 'white', textAlign: 'center' }}>
   <img
-    style={{ width: '75%', margin: '0 auto 2em auto' }}
+    style={{ width: '75%', margin: '0 auto' }}
     src="https://github.com/reaviz/reaflow/raw/master/docs/assets/logo.png"
   />
   <br />
   Node-based Visualizations for React
-  <br /><br />
+  <br />
   <a href="https://github.com/reaviz/reaflow/workflows/build/" target="_blank">
     <img src="https://github.com/reaviz/reaflow/workflows/build/badge.svg?branch=master" />
   </a>
@@ -26,10 +27,6 @@ import { Meta } from '@storybook/addon-docs/blocks';
     <img src="https://badgen.now.sh/badge/license/apache2" />
   </a>
   <span>&nbsp;&nbsp;</span>
-  <a href="https://bundlephobia.com/result?p=reaflow" target="_blank">
-    <img src="https://badgen.net/bundlephobia/minzip/reaflow" />
-  </a>
-  <span>&nbsp;&nbsp;</span>
   <a href="https://discord.gg/tt8wGExq35" target="_blank">
     <img src="https://img.shields.io/discord/773948315037073409?label=discord" />
   </a>
@@ -40,9 +37,13 @@ import { Meta } from '@storybook/addon-docs/blocks';
 
   ---
 
+  <a href="https://reachat.dev?utm=reaflow" target="_blank" style={{ background: 'black', padding: 5, borderRadius: 5, position: 'absolute', bottom: 5, right: 5, width: 325 }}>
+    <img src={img} alt="reachat" />
+    Checkout <strong>reachat</strong>, Open-source UI toolkitfor building Chat Experiences in React →
+  </a>
+
   REAFLOW is a modular diagram engine for build static or interactive editors.
   The library is feature rich and modular allowing for displaying complex
   visualizations with total customizability.
 
-  If you are looking for network graphs, checkout [reagraph](https://reagraph.dev).
 </div>

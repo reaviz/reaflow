@@ -11,6 +11,7 @@ export interface CanvasProviderValue
   selections?: string[];
   readonly?: boolean;
   pannable: boolean;
+  panType: 'scroll' | 'drag'; 
 }
 
 export const CanvasContext = createContext<CanvasProviderValue>({} as any);
@@ -43,6 +44,7 @@ export const CanvasProvider = ({
   direction,
   layoutOptions,
   pannable,
+  panType,
   defaultPosition,
   zoomable,
   zoom,
@@ -67,6 +69,7 @@ export const CanvasProvider = ({
     maxWidth,
     direction,
     pannable,
+    panType,
     defaultPosition,
     fit,
     layoutOptions,
@@ -86,6 +89,7 @@ export const CanvasProvider = ({
         selections,
         readonly,
         pannable,
+        panType,
         ...layoutProps,
         ...zoomProps,
         ...dragProps

@@ -1,7 +1,53 @@
-# 5.2.4 - 8/23/23
+# 5.3.4 - 2/3/25
+- [chore] upgrade reakeys & reablocks #273
+
+# 5.3.3 - 1/28/25
+- [chore] upgrade reakeys
+- [chore] upgrade reablocks
+
+# 5.3.2 - 1/17/25
+- [chore] upgrade framer-motion to motion
+- [chore] upgrade reablocks
+
+# 5.3.1 - 7/11/24
+- [improvement] Update pan drag cursor #260
+
+# 5.3.0 - 7/11/24
+- [feature] Add fit to node canvas util and related improvements (#258)
+- [improvement] Improve scroll consistency on different devices (#259)
+- [chore] Upgrade deps (#257)
+- [feature] Add drag pan type (#256)
+- [docs] Update README.md
+  
+# 5.2.12 - 4/30/24
+- [fix] Update reakeys + reablocks
+
+# 5.2.11 - 4/22/24
+- [fix] Update reablocks
+
+# 5.2.10 - 4/14/24
+- [chore] migrate from rdk to reablocks
+
+# 5.2.9 - 2/28/24
+- [chore] upgrade deps
+
+# 5.2.8 - 12/15/23
+- [chore] upgrade rdk
+
+# 5.2.7 - 11/13/23
+- [improvement] center horizontal edge labels
+- [fix] fix elk.bundled webpack error
+
+# 5.2.6 - 8/25/22
+- [fix] fix node title showing when no content to show
+
+# 5.2.5 - 8/23/22
+- [fix] calculateSize fn #231
+
+# 5.2.4 - 8/22/23
 - [fix] Attempt to fix webpack error issue
 
-# 5.2.3 - 8/22/23
+# 5.2.3 - 8/21/23
 - [fix] Fix webpack error #229
 
 # 5.2.2 - 7/27/23

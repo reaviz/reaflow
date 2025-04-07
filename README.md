@@ -15,9 +15,6 @@
   <a href="https://github.com/reaviz/reaflow/blob/master/LICENSE">
     <img src="https://badgen.now.sh/badge/license/apache2" />
   </a>
-  <a href="https://bundlephobia.com/result?p=reaflow">
-    <img src="https://badgen.net/bundlephobia/minzip/reaflow">
-  </a>
   <a href="https://discord.gg/tt8wGExq35">
     <img src="https://img.shields.io/discord/773948315037073409?label=discord">
   </a>
@@ -28,17 +25,20 @@
 
 ---
 
-REAFLOW is a modular diagram engine for building static or interactive editors. The library is feature-rich and modular allowing for displaying complex
-visualizations with total customizability.
-
-If you are looking for network graphs, checkout [reagraph](https://reagraph.dev).
+REAFLOW is a modular diagram engine for building static or interactive editors. The library is feature-rich and modular allowing for displaying complex visualizations with total customizability.
 
 ## 🚀 Quick Links
 
 - Checkout the [**docs and demos**](https://reaflow.dev)
-- Explore the library on [Chroma](https://www.chromatic.com/library?appId=5f99ba42fe88ac0022fd1147)
 - Learn about updates from the [Changelog](CHANGELOG.md)
 
+## 💎 Other Projects
+
+- [Reagraph](https://reagraph.dev?utm=reaflow) - Open-source library for large webgl based network graphs.
+- [Reablocks](https://reablocks.dev?utm=reaflow) - Open-source component library for React based on Tailwind.
+- [Reaviz](https://reaviz.dev?utm=reaflow) - Open-source library for data visulizations for React. 
+- [Reachat](https://reachat.dev?utm=reaflow) - Open-source library for building LLM/Chat UIs for React.
+- 
 ## ✨ Features
 
 - Complex automatic layout leveraging ELKJS

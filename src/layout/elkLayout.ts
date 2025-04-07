@@ -1,5 +1,5 @@
 import { EdgeData, NodeData } from '../types';
-import ELK, { ElkNode } from 'elkjs/lib/elk.bundled';
+import ELK, { ElkNode } from 'elkjs/lib/elk.bundled.js';
 import PCancelable from 'p-cancelable';
 import { formatText, measureText } from './utils';
 
@@ -192,7 +192,7 @@ function mapNode(nodes: NodeData[], edges: EdgeData[], node: NodeData) {
 
   const children = nodes.filter((n) => n.parent === node.id).map((n) => mapNode(nodes, edges, n));
 
-  const childEdges = edges.filter((e) => e.parent === node.id).map((e) => mapEdge(e));
+  const childEdges = edges.filter((e) => e.parent === node.id).map((e) => mapEdge({ edge: e }));
 
   const nodeLayoutOptions: ElkNodeLayoutOptions = {
     'elk.padding': `[left=${nodePadding.left}, top=${nodePadding.top}, right=${nodePadding.right}, bottom=${nodePadding.bottom}]`,
@@ -234,9 +234,14 @@ function mapNode(nodes: NodeData[], edges: EdgeData[], node: NodeData) {
   };
 }
 
-function mapEdge({ data, ...edge }: EdgeData) {
+function mapEdge({ edge: { data, ...edge }, direction }: { edge: EdgeData; direction?: CanvasDirection }) {
   const labelDim = measureText(edge.text);
   const validEdgeData = data ? { data } : {};
+  let labelWidth = labelDim.width / 2;
+
+  if (direction === 'LEFT' || direction === 'RIGHT') {
+    labelWidth = labelDim.width;
+  }
 
   return {
     id: edge.id,
@@ -251,7 +256,7 @@ function mapEdge({ data, ...edge }: EdgeData) {
     labels: edge.text
       ? [
         {
-          width: labelDim.width / 2,
+          width: labelWidth,
           height: -(labelDim.height / 2),
           text: edge.text,
           layoutOptions: {
@@ -263,7 +268,7 @@ function mapEdge({ data, ...edge }: EdgeData) {
   };
 }
 
-function mapInput(nodes: NodeData[], edges: EdgeData[]) {
+function mapInput({ nodes, edges, direction }: { nodes: NodeData[]; edges: EdgeData[]; direction?: CanvasDirection }) {
   const children = [];
   const mappedEdges = [];
 
@@ -278,7 +283,7 @@ function mapInput(nodes: NodeData[], edges: EdgeData[]) {
 
   for (const edge of edges) {
     if (!edge.parent) {
-      const mappedEdge = mapEdge(edge);
+      const mappedEdge = mapEdge({ edge, direction });
       if (mappedEdge !== null) {
         mappedEdges.push(mappedEdge);
       }
@@ -328,7 +333,7 @@ export const elkLayout = (nodes: NodeData[], edges: EdgeData[], options: ElkCanv
       .layout(
         {
           id: 'root',
-          ...mapInput(nodes, edges)
+          ...mapInput({ nodes, edges, direction: layoutOptions?.['elk.direction'] })
         },
         {
           layoutOptions: layoutOptions

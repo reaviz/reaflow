@@ -69,14 +69,29 @@ export interface CanvasRef {
   containerHeight?: number;
 
   /**
-   * Center the canvas to the viewport.
+   * Positions the canvas to the viewport.
    */
-  centerCanvas?: () => void;
+  positionCanvas?: (position: CanvasPosition, animated?: boolean) => void;
 
   /**
    * Fit the canvas to the viewport.
    */
-  fitCanvas?: () => void;
+  fitCanvas?: (animated?: boolean) => void;
+
+  /**
+   * Fit a group of nodes to the viewport.
+   */
+  fitNodes?: (nodeIds: string | string[], animated?: boolean) => void;
+
+  /**
+   * Scroll to X/Y
+   */
+  setScrollXY?: (xy: [number, number], animated?: boolean) => void;
+
+ /**
+   * Factor of zoom.
+   */
+  zoom: number;
 
   /**
    * Set a zoom factor of the canvas.
@@ -86,11 +101,11 @@ export interface CanvasRef {
   /**
    * Zoom in on the canvas.
    */
-  zoomIn?: () => void;
+  zoomIn?: (zoomFactor?: number) => void;
 
   /**
    * Zoom out on the canvas.
    */
-  zoomOut?: () => void;
+  zoomOut?: (zoomFactor?: number) => void;
 }
 ```

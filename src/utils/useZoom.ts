@@ -1,8 +1,7 @@
 import { RefObject, useCallback, useRef, useState } from 'react';
 import { useGesture } from 'react-use-gesture';
 
-const limit = (scale: number, min: number, max: number) =>
-  scale < max ? (scale > min ? scale : min) : max;
+const limit = (scale: number, min: number, max: number) => (scale < max ? (scale > min ? scale : min) : max);
 
 export interface ZoomProps {
   disabled?: boolean;
@@ -31,21 +30,15 @@ export interface ZoomResult {
   /**
    * Zoom in on the canvas.
    */
-  zoomIn?: () => void;
+  zoomIn?: (zoomFactor?: number) => void;
 
   /**
    * Zoom out on the canvas.
    */
-  zoomOut?: () => void;
+  zoomOut?: (zoomFactor?: number) => void;
 }
 
-export const useZoom = ({
-  disabled = false,
-  zoom = 1,
-  minZoom = -0.5,
-  maxZoom = 1,
-  onZoomChange
-}: ZoomProps) => {
+export const useZoom = ({ disabled = false, zoom = 1, minZoom = -0.5, maxZoom = 1, onZoomChange }: ZoomProps) => {
   const [factor, setFactor] = useState<number>(zoom - 1);
   const svgRef = useRef<SVGSVGElement | null>(null);
 
@@ -75,13 +68,19 @@ export const useZoom = ({
     [maxZoom, minZoom, onZoomChange]
   );
 
-  const zoomIn = useCallback(() => {
-    setZoom(factor + 0.1);
-  }, [factor, setZoom]);
+  const zoomIn = useCallback(
+    (zoomFactor: number = 0.1) => {
+      setZoom(factor + zoomFactor);
+    },
+    [factor, setZoom]
+  );
 
-  const zoomOut = useCallback(() => {
-    setZoom(factor - 0.1);
-  }, [factor, setZoom]);
+  const zoomOut = useCallback(
+    (zoomFactor: number = -0.1) => {
+      setZoom(factor + zoomFactor);
+    },
+    [factor, setZoom]
+  );
 
   return {
     svgRef,
