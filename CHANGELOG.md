@@ -1,3 +1,7 @@
+# 5.4.0 - 4/07/25
+- [feature] elkjs use webworker when available
+- [fix] update motion and broken icons
+
 # 5.3.4 - 2/3/25
 - [chore] upgrade reakeys & reablocks #273
 

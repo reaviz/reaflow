@@ -1,6 +1,6 @@
 {
   "name": "reaflow",
-  "version": "5.3.4",
+  "version": "5.4.0",
   "description": "Node-based Visualizations for React",
   "scripts": {
     "build": "vite build --mode library",
