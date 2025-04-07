@@ -10,7 +10,6 @@ import external from 'rollup-plugin-peer-deps-external';
 import dts from 'vite-plugin-dts';
 import cssInjectedByJsPlugin from 'vite-plugin-css-injected-by-js';
 import fs from 'fs';
-import path from 'path';
 
 // Custom plugin to copy elk-worker.min.js to the output directory
 const copyElkWorker = () => {
@@ -46,7 +45,7 @@ export default defineConfig(({ mode }) =>
         checker({
           typescript: true
         }),
-        copyElkWorker() // Add the custom plugin
+        copyElkWorker()
       ],
       test: {
         globals: true,
