@@ -1,3 +1,6 @@
+# 5.4.1 - 4/8/25
+- [fix] fix: import.meta.resolve error #276
+
 # 5.4.0 - 4/07/25
 - [feature] elkjs use webworker when available
 - [fix] update motion and broken icons
