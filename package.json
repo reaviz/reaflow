@@ -5,7 +5,7 @@
   "scripts": {
     "build": "vite build --mode library",
     "build:watch": "vite build --watch --mode library",
-    "build-storybook": "storybook build && node copy-elk-storybook.js",
+    "build-storybook": "storybook build",
     "prettier": "prettier --loglevel warn --write 'src/**/*.{ts,tsx,js,jsx}'",
     "lint": "eslint --ext js,ts,tsx",
     "lint:fix": "eslint --ext js,ts,tsx --fix src",
@@ -63,7 +63,8 @@
     "react-fast-compare": "^3.2.2",
     "react-use-gesture": "^8.0.1",
     "reakeys": "^2.0.5",
-    "undoo": "^0.5.0"
+    "undoo": "^0.5.0",
+    "web-worker": "^1.5.0"
   },
   "peerDependencies": {
     "react": ">=16",
@@ -110,8 +111,7 @@
     "vite-plugin-dts": "^3.3.1",
     "vite-plugin-svgr": "^3.2.0",
     "vite-tsconfig-paths": "^4.2.0",
-    "vitest": "^0.33.0",
-    "web-worker": "^1.5.0"
+    "vitest": "^0.33.0"
   },
   "lint-staged": {
     "src/**/*.{js,jsx,ts,tsx}": [
