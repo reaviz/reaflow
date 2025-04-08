@@ -336,15 +336,12 @@ const getElk = async () => {
     return elkInstance;
   } else {
     const ELKModule = await import('elkjs/lib/elk-api');
-    let workerPath = await import.meta.resolve('./elk-worker.min.js');
-    if (import.meta.env.DEV) {
-      workerPath = '/node_modules/elkjs/lib/elk-worker.min.js';
-    }
 
     elkInstance = new ELKModule.default({
       algorithms: ['layered'],
       workerFactory: () => {
-        return new Worker(workerPath);
+        const workerUrl = new URL('elkjs/lib/elk-worker.min.js', import.meta.url).href;
+        return new Worker(workerUrl);
       }
     });
 
