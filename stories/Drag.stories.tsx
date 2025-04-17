@@ -1,8 +1,10 @@
+import { Popover } from 'reablocks';
 import React, { useState } from 'react';
 import { Canvas } from '../src/Canvas';
-import { Node, Edge, MarkerArrow, Port, Icon, Arrow, Label, Remove, Add, NodeProps } from '../src/symbols';
-import { EdgeData, NodeData } from '../src/types';
 import { createEdgeFromNodes, hasLink, removeAndUpsertNodes } from '../src/helpers';
+import { Add, Arrow, Edge, Icon, Label, MarkerArrow, Node, NodeProps, Port, Remove } from '../src/symbols';
+import { EdgeData, NodeData } from '../src/types';
+import { popoverTheme } from '../test/PopoverTheme';
 
 export default {
   title: 'Demos/Drag',
@@ -194,7 +196,28 @@ export const NodeRearranging = () => {
       <Canvas
         nodes={nodes}
         edges={edges}
-        node={<Node dragType="node" />}
+        node={
+          (node: NodeProps) => (
+            <Node
+              dragType="node"
+              tooltip={(props) => (
+                <Popover
+                  theme={popoverTheme}
+                  trigger={'hover'}
+                  closeOnClick={true}
+                  content={
+                    <div>
+                      <h1>This is {node.properties.text}!</h1>
+                      <p>you can also use Popover from other libraries such as Antd</p>
+                    </div>
+                  }
+                >
+                  {props.children}
+                </Popover>
+
+              )}
+            />)
+        }
         onNodeLinkCheck={(_event, from: NodeData, to: NodeData) => {
           if (from.id === to.id) {
             return false;
