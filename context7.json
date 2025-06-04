@@ -1,0 +1,9 @@
+{
+  "$schema": "https://context7.com/schema/context7.json",
+  "projectTitle": "Reaflow",
+  "description": "React library for building workflow editors, flow charts and diagrams. Maintained by @goodcodeus.",
+  "folders": ["docs"],
+  "excludeFolders": [],
+  "excludeFiles": [],
+  "rules": []
+}
