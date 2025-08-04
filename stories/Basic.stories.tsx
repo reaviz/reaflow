@@ -1,8 +1,11 @@
+import { Popover } from 'reablocks';
 import React, { useEffect, useRef, useState } from 'react';
 import { Canvas, CanvasRef } from '../src/Canvas';
 import { createEdgeFromNodes, detectCircular, hasLink } from '../src/helpers';
-import { Node, Edge, MarkerArrow, Port, Icon, Label, Remove, Add, NodeProps, EdgeProps, Arrow } from '../src/symbols';
+import '../src/index.css';
+import { Add, Arrow, Edge, EdgeProps, Icon, Label, MarkerArrow, Node, NodeProps, Port, Remove } from '../src/symbols';
 import { CanvasPosition, EdgeData, NodeData } from '../src/types';
+import { popoverTheme } from '../test/PopoverTheme';
 
 export default {
   title: 'Demos/Basic',
@@ -166,7 +169,23 @@ export const CustomElements = () => (
           {...node}
           onClick={() => console.log(node.properties.data)}
           style={{ fill: node.properties.data?.gender === 'male' ? 'blue' : 'red' }}
+          tooltip={(props) => (
+            <Popover
+              theme={popoverTheme}
+              trigger={'hover'}
+              closeOnClick={true}
+              content={
+                <div>
+                  <h1>This is {node.properties.text}!</h1>
+                  <p>you can also use Popover from other libraries such as Antd</p>
+                </div>
+              }
+            >
+              {props.children}
+            </Popover>
+          )}
         />
+
       )}
       edge={(edge: EdgeProps) => (
         <Edge
