@@ -1,0 +1,15 @@
+.base {
+  white-space: nowrap;
+  text-align: center;
+  will-change: transform, opacity;
+  background-color: rgb(196, 196, 196);
+  color: black;
+  border: 1px solid rgb(116, 116, 116);
+  border-radius: 0.25rem;
+  padding: 0.5rem;
+  pointer-events: none;
+
+  .disablePointer {
+    cursor: not-allowed;
+  }
+}
